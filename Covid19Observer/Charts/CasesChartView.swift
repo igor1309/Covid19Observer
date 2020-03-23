@@ -18,9 +18,9 @@ struct CasesChartView: View {
                 
                 .padding(.horizontal)
                 //  .navigationBarTitle("Confirmed Cases")
-                .navigationBarItems(trailing: Button("Done") {
-                    self.presentation.wrappedValue.dismiss()
-                })
+//                .navigationBarItems(trailing: Button("Done") {
+//                    self.presentation.wrappedValue.dismiss()
+//                })
         }
     }
 }

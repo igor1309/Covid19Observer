@@ -83,7 +83,8 @@ struct CasesOnMapView: View {
     var toolBar: some View {
         HStack {
             Group {
-                ToolBarButton(systemName: "line.horizontal.3.decrease") { self.coronaCases.isFiltered.toggle()
+                ToolBarButton(systemName: "line.horizontal.3.decrease") {
+                    self.coronaCases.isFiltered.toggle()
                 }
                 .foregroundColor(coronaCases.isFiltered ? .systemOrange : .secondary)
                 
@@ -93,9 +94,6 @@ struct CasesOnMapView: View {
                     self.showLineChart = true
                 }
                 .sheet(isPresented: $showLineChart) {
-                    //  MARK: FINISH THIS
-                    //  HeatedLineChart(series: [Int], numberOfGridLines: Int)
-                    //      .environmentObject(self.coronaCases)
                     CasesLineChartView()
                         .environmentObject(JohnsHopkinsData())
                 }
@@ -111,7 +109,9 @@ struct CasesOnMapView: View {
                 }
                 
                 Spacer()
-                
+            }
+            
+            Group {
                 ToolBarButton(systemName: "table") {
                     self.showTable = true
                 }
@@ -119,34 +119,34 @@ struct CasesOnMapView: View {
                     CasesTableView()
                         .environmentObject(self.coronaCases)
                 }
-            }
-            
-            Spacer()
-            
-            ToolBarButton(systemName: "rectangle.on.rectangle.angled") {
-                self.showDoublingTime = true
-            }
-            .sheet(isPresented: $showDoublingTime) {
-                DoublingTimeView()
-                    .environmentObject(DoublingData())
-            }
-            
-            Spacer()
-            
-            ToolBarButton(systemName: "arrow.2.circlepath.circle") {
-                self.showAlert = true
-            }
-            .actionSheet(isPresented: $showAlert) {
-                ActionSheet(title: Text("Reload".uppercased()),
-                            message: Text("Reload data? Internet connection required."),
-                            buttons: [
-                                .cancel(),
-                                .destructive(Text("Yes, reload")) {
-                                    //  MARK: FINISH THIS
-                                    self.coronaCases.casesByProvince()
-                                    print("to be done")
-                                }]
-                )
+                
+                Spacer()
+                
+                ToolBarButton(systemName: "rectangle.on.rectangle.angled") {
+                    self.showDoublingTime = true
+                }
+                .sheet(isPresented: $showDoublingTime) {
+                    DoublingTimeView()
+                        .environmentObject(Settings())
+                }
+                
+                Spacer()
+                
+                ToolBarButton(systemName: "arrow.2.circlepath.circle") {
+                    self.showAlert = true
+                }
+                .actionSheet(isPresented: $showAlert) {
+                    ActionSheet(title: Text("Reload".uppercased()),
+                                message: Text("Reload data? Internet connection required."),
+                                buttons: [
+                                    .cancel(),
+                                    .destructive(Text("Yes, reload")) {
+                                        //  MARK: FINISH THIS
+                                        self.coronaCases.casesByProvince()
+                                        print("to be done")
+                                    }]
+                    )
+                }
             }
         }
         .padding(6)
@@ -165,7 +165,36 @@ struct CasesOnMapView: View {
                 header
             }
             
-            toolBar            
+            //  toolBar
+            
+            HStack {
+                ToolBarButton(systemName: "line.horizontal.3.decrease") {
+                    self.coronaCases.isFiltered.toggle()
+                }
+                .foregroundColor(coronaCases.isFiltered ? .systemOrange : .secondary)
+                
+                Spacer()
+                
+                ToolBarButton(systemName: "arrow.2.circlepath.circle") {
+                    self.showAlert = true
+                }
+                .actionSheet(isPresented: $showAlert) {
+                    ActionSheet(title: Text("Reload".uppercased()),
+                                message: Text("Reload data? Internet connection required."),
+                                buttons: [
+                                    .cancel(),
+                                    .destructive(Text("Yes, reload")) {
+                                        //  MARK: FINISH THIS
+                                        self.coronaCases.casesByProvince()
+                                        print("to be done")
+                                    }]
+                    )
+                }
+            }
+                //            .padding(6)
+                //            .roundedBackground()
+                .padding(.horizontal)
+                .padding(.bottom, 32)
         }
     }
 }

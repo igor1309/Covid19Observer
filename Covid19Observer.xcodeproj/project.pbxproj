@@ -32,7 +32,7 @@
 		2A74F0B22428CB8400137694 /* JohnsHopkinsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0AE2428CB8400137694 /* JohnsHopkinsData.swift */; };
 		2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0AF2428CB8400137694 /* DoublingModel.swift */; };
 		2A74F0B42428CB8400137694 /* Cases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B02428CB8400137694 /* Cases.swift */; };
-		2A74F0B52428CB8400137694 /* DoublingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B12428CB8400137694 /* DoublingData.swift */; };
+		2A74F0B52428CB8400137694 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B12428CB8400137694 /* Settings.swift */; };
 		2A74F0B92428CBB400137694 /* HeatedLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B62428CBB300137694 /* HeatedLineChart.swift */; };
 		2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B72428CBB300137694 /* LineGraphGrid.swift */; };
 		2A74F0BB2428CBB400137694 /* LineGraphShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B82428CBB300137694 /* LineGraphShape.swift */; };
@@ -71,7 +71,7 @@
 		2A74F0AE2428CB8400137694 /* JohnsHopkinsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JohnsHopkinsData.swift; sourceTree = "<group>"; };
 		2A74F0AF2428CB8400137694 /* DoublingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoublingModel.swift; sourceTree = "<group>"; };
 		2A74F0B02428CB8400137694 /* Cases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cases.swift; sourceTree = "<group>"; };
-		2A74F0B12428CB8400137694 /* DoublingData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoublingData.swift; sourceTree = "<group>"; };
+		2A74F0B12428CB8400137694 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		2A74F0B62428CBB300137694 /* HeatedLineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeatedLineChart.swift; sourceTree = "<group>"; };
 		2A74F0B72428CBB300137694 /* LineGraphGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphGrid.swift; sourceTree = "<group>"; };
 		2A74F0B82428CBB300137694 /* LineGraphShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphShape.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		2A74F0C22428CE7B00137694 /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		2A74F0C32428CE7B00137694 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2A74F0C42428CE7B00137694 /* CountryPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryPicker.swift; sourceTree = "<group>"; };
-		2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CasesLineChartView.swift; path = Extras/CasesLineChartView.swift; sourceTree = "<group>"; };
+		2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesLineChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +119,6 @@
 				2A445F34242931A1007C6846 /* WORK IN PROGRESS */,
 				2A03BEDD2428BC6F0094852B /* ContentView.swift */,
 				2A03BEFF2428C04F0094852B /* MapViews */,
-				2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */,
 				2A03BEF62428C04F0094852B /* Table */,
 				2A74F0BC2428CE3E00137694 /* Doubling Time */,
 				2A03BEFB2428C04F0094852B /* Charts */,
@@ -150,7 +149,7 @@
 				2A03BEF42428C04F0094852B /* CoronaObservable.swift */,
 				2A03BEF52428C04F0094852B /* CaseData.swift */,
 				2A74F0B02428CB8400137694 /* Cases.swift */,
-				2A74F0B12428CB8400137694 /* DoublingData.swift */,
+				2A74F0B12428CB8400137694 /* Settings.swift */,
 				2A74F0AF2428CB8400137694 /* DoublingModel.swift */,
 				2A74F0AE2428CB8400137694 /* JohnsHopkinsData.swift */,
 			);
@@ -181,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
+				2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */,
 				2A03BF132428C9C80094852B /* TopCasesHBarChart.swift */,
 				2A74F0B62428CBB300137694 /* HeatedLineChart.swift */,
 				2A74F0B82428CBB300137694 /* LineGraphShape.swift */,
@@ -314,7 +314,7 @@
 				2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */,
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
 				2A03BF022428C04F0094852B /* CaseAnnotations.swift in Sources */,
-				2A74F0B52428CB8400137694 /* DoublingData.swift in Sources */,
+				2A74F0B52428CB8400137694 /* Settings.swift in Sources */,
 				2A74F0B22428CB8400137694 /* JohnsHopkinsData.swift in Sources */,
 				2A74F0C62428CE7B00137694 /* Table.swift in Sources */,
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,

@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftPI
 
 struct CasesLineChartView: View {
+    @Environment(\.presentationMode) var presentation
     @EnvironmentObject var jhData: JohnsHopkinsData
     
     @State private var showModal = false
@@ -45,12 +46,23 @@ struct CasesLineChartView: View {
             .padding()
             .navigationBarTitle("COVID-19")
             .navigationBarItems(
-                leading: TrailingButtonSFSymbol("arrow.clockwise") {
-                    self.jhData.getData()
+                leading: HStack {
+                    Button(jhData.selectedCountry) {
+                        self.showModal = true
+                    }
+                    LeadingButtonSFSymbol("arrow.clockwise") {
+                        self.jhData.getData()
+                    }
                 },
-                trailing: Button(jhData.selectedCountry) {
-                    self.showModal = true
-            })
+                trailing:
+//                TrailingButtonSFSymbol("arrow.clockwise") {
+//                    self.jhData.getData()
+//                }
+
+                Button("Done") {
+                    self.presentation.wrappedValue.dismiss()
+                }
+            )
                 .sheet(isPresented: $showModal) {
                     CountryPicker().environmentObject(self.jhData)
             }

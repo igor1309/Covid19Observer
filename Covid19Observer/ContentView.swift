@@ -8,13 +8,41 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct ContentView: View {
     @EnvironmentObject var coronaCases: CoronaObservable
+    @EnvironmentObject var settings: Settings
     
     var body: some View {
-        CasesOnMapView()
+        TabView(selection: $settings.selectedTab) {
+            CasesOnMapView()
+                .tabItem {
+                    Image(systemName: "map")
+                    Text("Map")
+            }
+            .tag(0)
+            
+            CasesChartView()
+                .tabItem {
+                    Image(systemName: "chart.bar")
+                    Text("Chart")
+            }
+            .tag(1)
+            
+            CasesTableView()
+                .tabItem {
+                    Image(systemName: "table")
+                    Text("Table")
+            }
+            .tag(2)
+            
+            DoublingTimeView()
+                .environmentObject(Settings())
+                .tabItem {
+                    Image(systemName: "rectangle.on.rectangle.angled")
+                    Text("Doubling")
+            }
+            .tag(3)
+        }
     }
 }
 
@@ -23,6 +51,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(CoronaObservable())
+            .environmentObject(Settings())
             .environment(\.colorScheme, .dark)
     }
 }

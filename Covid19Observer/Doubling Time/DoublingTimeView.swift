@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct DoublingTimeView: View {
-    @EnvironmentObject var doublingData: DoublingData
+    @Environment(\.presentationMode) var presentation
+    @EnvironmentObject var settings: Settings
     
     var body: some View {
         NavigationView {
@@ -17,7 +18,7 @@ struct DoublingTimeView: View {
                 VStack(alignment: .leading) {
                     Text("Initial Number")
                     
-                    Picker(selection: $doublingData.initialNumber, label: Text("Initial Number")) {
+                    Picker(selection: $settings.initialNumber, label: Text("Initial Number")) {
                         ForEach(DoublingModel.initialNumbers, id: \.self) { no in
                             Text(no.formattedGrouped)
                         }
@@ -39,7 +40,7 @@ struct DoublingTimeView: View {
                 }
                 
                 Table(headers: DoublingModel.rowHeaders(),
-                      cells: DoublingModel.DoublingCells(initialNumber: doublingData.initialNumber))
+                      cells: DoublingModel.DoublingCells(initialNumber: settings.initialNumber))
                 
                 Divider()
                     .padding(.vertical)
@@ -54,6 +55,9 @@ struct DoublingTimeView: View {
             }
             .padding()
             .navigationBarTitle("Doubling Time")
+//            .navigationBarItems(trailing: Button("Done") {
+//                self.presentation.wrappedValue.dismiss()
+//            })
         }
     }
 }
@@ -61,6 +65,6 @@ struct DoublingTimeView: View {
 struct DoublingTimeView_Previews: PreviewProvider {
     static var previews: some View {
         DoublingTimeView()
-            .environmentObject(DoublingData())
+            .environmentObject(Settings())
     }
 }
