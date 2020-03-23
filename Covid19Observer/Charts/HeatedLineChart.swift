@@ -35,54 +35,32 @@ struct HeatedLineChart: View {
             ZStack {
                 LineGraphGridShape(series: series, numberOfGridLines: numberOfGridLines)
                     .stroke(Color.systemGray6)
-
+                
                 LineGraph(series: series)
                     .trim(to: animated ? 1 : 0)
                     .stroke(LinearGradient(gradient: temperetureGradient,
                                            startPoint: .bottom,
                                            endPoint: .top),
                             lineWidth: 4)
-                
-                 .animation(Animation.easeInOut(duration: 2))
-                
-                ZStack(alignment: Alignment(horizontal: .custom, vertical: .top)) {
-                    GeometryReader { geo in
-                        ForEach(0..<10, id: \.self) { item in
-                            Text("\(Int(pow(2, Double(item))))")
-                                .border(Color.pink)
-                                .offset(y: geo.size.height - CGFloat(item) * geo.size.height / 10)
-                                .alignmentGuide(.custom) { d in d.width}
-                                .widthPreference(column: -1)
-                                .frame(width: self.columnWidths[-1], alignment: .trailing)
-                        }
-                    }
-                    .frame(width: self.columnWidths[-1], alignment: .trailing)
-                    .border(Color.pink)
-                }
-                .background(Color.green.opacity(0.2))
-                .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
-
-                ZStack {
-                    //  VStack(alignment: .custom) {
-                    GeometryReader { geo in
-                        ForEach(0..<11) { line in
-//                            Text("text")
-                            Text("\(line * (self.series.max() ?? 0) / self.numberOfGridLines)")
-                                .foregroundColor(line == 0 ? .clear : .secondary)
-                                .font(.caption)
-                                .widthPreference(column: -1)
-                                .frame(width: self.columnWidths[-1], alignment: .trailing)
-                                 .alignmentGuide(.custom) { d in d.width}
-                                .offset(
-                                      x: geo.size.width - 50,
-                                    y: geo.size.height - CGFloat(line) * geo.size.height / CGFloat(self.numberOfGridLines) + 2)
-                        }
-                    }
-                }
-                .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
-                
-//                ExtractedView()
+                    
+                    .animation(Animation.easeInOut(duration: 2))
             }
+            
+            ZStack {
+                GeometryReader { geo in
+                    ForEach(0..<self.numberOfGridLines, id: \.self) { line in
+                        Text("\(line * (self.series.max() ?? 0) / self.numberOfGridLines)")
+                            .foregroundColor(line == 0 ? .clear : .secondary)
+                            .font(.caption)
+                            .offset(y: geo.size.height - CGFloat(line) * geo.size.height / 10)
+                            .widthPreference(column: -1)
+                            .frame(width: self.columnWidths[-1], alignment: .trailing)
+                    }
+                }
+            }
+            .frame(width: self.columnWidths[-1], alignment: .trailing)
+            .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
+            //            .background(Color.green.opacity(0.2))
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

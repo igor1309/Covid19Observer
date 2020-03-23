@@ -39,7 +39,6 @@
 		2A74F0C62428CE7B00137694 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0C22428CE7B00137694 /* Table.swift */; };
 		2A74F0C72428CE7B00137694 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0C32428CE7B00137694 /* Extensions.swift */; };
 		2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0C42428CE7B00137694 /* CountryPicker.swift */; };
-		2A74F0CA2428FA6900137694 /* ExtractedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0C92428FA6900137694 /* ExtractedView.swift */; };
 		2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,7 +76,6 @@
 		2A74F0C22428CE7B00137694 /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		2A74F0C32428CE7B00137694 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2A74F0C42428CE7B00137694 /* CountryPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryPicker.swift; sourceTree = "<group>"; };
-		2A74F0C92428FA6900137694 /* ExtractedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtractedView.swift; sourceTree = "<group>"; };
 		2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CasesLineChartView.swift; path = Extras/CasesLineChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,7 +179,6 @@
 				2A03BF132428C9C80094852B /* TopCasesHBarChart.swift */,
 				2A03BF112428C9890094852B /* TopTenBarChartVert.swift */,
 				2A74F0B62428CBB300137694 /* HeatedLineChart.swift */,
-				2A74F0C92428FA6900137694 /* ExtractedView.swift */,
 				2A74F0B82428CBB300137694 /* LineGraph.swift */,
 				2A74F0B72428CBB300137694 /* LineGraphGrid.swift */,
 			);
@@ -290,7 +287,6 @@
 				2A74F0C02428CE3E00137694 /* WikiQuoteView.swift in Sources */,
 				2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */,
 				2A74F0BB2428CBB400137694 /* LineGraph.swift in Sources */,
-				2A74F0CA2428FA6900137694 /* ExtractedView.swift in Sources */,
 				2A03BF082428C04F0094852B /* PreferenceKeys.swift in Sources */,
 				2A74F0B42428CB8400137694 /* Cases.swift in Sources */,
 				2A03BF042428C04F0094852B /* CaseType.swift in Sources */,
