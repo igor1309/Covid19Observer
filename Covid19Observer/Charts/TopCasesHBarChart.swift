@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TopCasesHBarChart: View {
     @EnvironmentObject var coronaCases: CoronaObservable
-//    @State private var maxBars: Int = 20
     
     @State private var selection = "Confirmed"
     
@@ -42,7 +41,6 @@ struct TopCasesHBarChart: View {
                 VStack {
                     VStack {
                         HStack {
-//                            Text("Top")
                             Text("Top \(self.coronaCases.maxBars)")
                                 .font(.headline)
                                 .padding()
@@ -56,13 +54,13 @@ struct TopCasesHBarChart: View {
                             .pickerStyle(SegmentedPickerStyle())
                             
                         }
-                            Picker(selection: $selection, label: Text("Select Confirmed Cases or Deaths")) {
-                                Text("Confirmed").tag("Confirmed")
-                                Text("Deaths").tag("Deaths")
-                            }
-                            .labelsHidden()
-                            .pickerStyle(SegmentedPickerStyle())
+                        Picker(selection: $selection, label: Text("Select Confirmed Cases or Deaths")) {
+                            Text("Confirmed").tag("Confirmed")
+                            Text("Deaths").tag("Deaths")
                         }
+                        .labelsHidden()
+                        .pickerStyle(SegmentedPickerStyle())
+                    }
                     
                     GeometryReader { geo in
                         VStack(alignment: .leading) {

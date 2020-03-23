@@ -1,5 +1,5 @@
 //
-//  LineGraph.swift
+//  LineGraphShape.swift
 //  Doubling
 //
 //  Created by Igor Malyarov on 18.03.2020.
@@ -8,8 +8,9 @@
 
 import SwiftUI
 
-/// Simple Line Graph based on series of Int data points (Y values only)
-struct LineGraph: Shape {
+/// Simple Shape Line Graph based on series of Int data points (Y values only)
+///
+struct LineGraphShape: Shape {
     let series: [Int]
     
     /// normalized (0...1) array of data points
@@ -46,14 +47,14 @@ struct LineGraph: Shape {
     }
 }
 
-struct LineGraph_Previews: PreviewProvider {
+struct LineGraphShape_Previews: PreviewProvider {
     static var previews: some View {
-        //        LineGraph(series: [])
-        //        LineGraph(series: [16,19,23,80])
+        //        LineGraphShape(series: [])
+        //        LineGraphShape(series: [16,19,23,80])
         //        ZStack {
-        //            LineGraph(series: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,5,18,28,43,61,95,139,245,388,593,978,1501,2336,2922,3513,4747,5823,6566,7161,8042,9000,10075,11364,12729,13938,14991])
+        //            LineGraphShape(series: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,5,18,28,43,61,95,139,245,388,593,978,1501,2336,2922,3513,4747,5823,6566,7161,8042,9000,10075,11364,12729,13938,14991])
         //            .stroke(Color.green, lineWidth: 2)
-        LineGraph(series:
+        LineGraphShape(series:
 //            [1,0,4,5,7,11,1,15,16,19,23,24,24,25,27,28,28,28,28,28,29,30,31,31,104,204,433,602,
                            [833,977,1261,1766,2337,3150,3736,4335,5186,5621,6088,6593,7041,7314,7478,7513,7755,7869,7979,8086,8162,8236])
             .stroke(Color.blue, lineWidth: 2)
