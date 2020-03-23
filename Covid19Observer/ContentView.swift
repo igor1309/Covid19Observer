@@ -8,14 +8,21 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct ContentView: View {
+    @EnvironmentObject var coronaCases: CoronaObservable
+    
     var body: some View {
-        Text("Hello, World!")
+        CasesOnMapView()
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(CoronaObservable())
+            .environment(\.colorScheme, .dark)
     }
 }
