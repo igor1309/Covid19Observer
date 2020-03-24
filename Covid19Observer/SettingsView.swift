@@ -50,7 +50,7 @@ struct SettingsView: View {
                 Section(header: Text("Chart and Table".uppercased()),
                         footer: Text("footer")) {
                             HStack {
-                                Text("Show Top \(self.coronaStore.maxBars)")
+                                Text("Top \(self.coronaStore.maxBars)")
                                     .padding(.trailing, 64)
                                 
                                 Picker(selection: $coronaStore.maxBars, label: Text("Select Top Qty")) {
