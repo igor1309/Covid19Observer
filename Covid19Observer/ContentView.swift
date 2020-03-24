@@ -50,7 +50,7 @@ struct ContentView: View {
             .tag(4)
         }
         .onAppear {
-//            self.coronaStore.updateIfStoreIsOldOrEmpty()
+            self.coronaStore.updateIfStoreIsOldOrEmpty()
         }
     }
 }
