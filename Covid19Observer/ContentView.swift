@@ -14,26 +14,26 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $settings.selectedTab) {
-            CasesOnMapView()
-                .tabItem {
-                    Image(systemName: "map")
-                    Text("Map")
-            }
-            .tag(0)
-            
             CasesChartView()
                 .tabItem {
                     Image(systemName: "chart.bar")
                     Text("Chart")
             }
+            .tag(0)
+            
+            CasesOnMapView()
+                .tabItem {
+                    Image(systemName: "map")
+                    Text("Map")
+            }
             .tag(1)
             
-            CasesTableView()
-                .tabItem {
-                    Image(systemName: "table")
-                    Text("Table")
-            }
-            .tag(2)
+//            CasesTableView()
+//                .tabItem {
+//                    Image(systemName: "table")
+//                    Text("Table")
+//            }
+//            .tag(2)
             
             DoublingTimeView()
                 .tabItem {

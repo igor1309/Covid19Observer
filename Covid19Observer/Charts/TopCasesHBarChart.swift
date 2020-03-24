@@ -17,7 +17,7 @@ struct TopCasesHBarChart: View {
     func textLabel(name: String, width: CGFloat, maxWidth: CGFloat) -> some View {
         Text(name)
             .foregroundColor(width > maxWidth / 2 ? .black : .secondary)
-            .font(.footnote)
+            .font(coronaStore.maxBars > 15 ? .caption : .footnote)
             .frame(width: width > maxWidth / 2 ? width : maxWidth,
                    alignment: width > maxWidth / 2 ? .trailing : .leading)
             .offset(x: width > maxWidth / 2 ? -10 : width + 10)
@@ -47,20 +47,20 @@ struct TopCasesHBarChart: View {
             if coronaStore.cases.isNotEmpty {
                 VStack {
                     VStack {
-                        HStack {
-                            Text("Top \(self.coronaStore.maxBars)")
-                                .font(.headline)
-                                .padding()
-                            
-                            Picker(selection: $coronaStore.maxBars, label: Text("Select Top Qty")) {
-                                ForEach([10, 15, 20], id: \.self) { qty in
-                                    Text("\(qty)").tag(qty)
-                                }
-                            }
-                            .labelsHidden()
-                            .pickerStyle(SegmentedPickerStyle())
-                            
-                        }
+//                        HStack {
+//                            Text("Top \(self.coronaStore.maxBars)")
+//                                .font(.headline)
+//                                .padding()
+//
+//                            Picker(selection: $coronaStore.maxBars, label: Text("Select Top Qty")) {
+//                                ForEach([10, 15, 20], id: \.self) { qty in
+//                                    Text("\(qty)").tag(qty)
+//                                }
+//                            }
+//                            .labelsHidden()
+//                            .pickerStyle(SegmentedPickerStyle())
+//                        }
+                        
                         Picker(selection: $selection, label: Text("Select Confirmed Cases or Deaths")) {
                             Text("Confirmed").tag("Confirmed")
                             Text("Deaths").tag("Deaths")

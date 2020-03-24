@@ -72,9 +72,9 @@ struct CasesTableView: View {
             }
                 //            .padding([.horizontal, .top])
                 .navigationBarTitle("Confirmed & Deaths")
-            //            .navigationBarItems(trailing: Button("Done") {
-            //                self.presentation.wrappedValue.dismiss()
-            //            })
+                        .navigationBarItems(trailing: Button("Done") {
+                            self.presentation.wrappedValue.dismiss()
+                        })
         }
     }
     

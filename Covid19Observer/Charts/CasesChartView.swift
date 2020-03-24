@@ -7,10 +7,13 @@
 //
 
 import SwiftUI
+import SwiftPI
 
 struct CasesChartView: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
+    
+    @State private var showTable = false
     
     var body: some View {
         NavigationView {
@@ -18,9 +21,16 @@ struct CasesChartView: View {
                 
                 .padding(.horizontal)
                 //  .navigationBarTitle("Confirmed Cases")
-//                .navigationBarItems(trailing: Button("Done") {
-//                    self.presentation.wrappedValue.dismiss()
-//                })
+                .navigationBarItems(trailing:
+                    // Button("Done") { self.presentation.wrappedValue.dismiss()
+                    TrailingButtonSFSymbol("table") {
+                        self.showTable = true
+                    }
+                    .sheet(isPresented: $showTable, content: {
+                        CasesTableView()
+                            .environmentObject(self.coronaStore)
+                    })
+            )
         }
     }
 }

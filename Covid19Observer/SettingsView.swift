@@ -46,6 +46,22 @@ struct SettingsView: View {
                         }
                     }
                 }
+                
+                Section(header: Text("Chart and Table".uppercased()),
+                        footer: Text("footer")) {
+                            HStack {
+                                Text("Show Top \(self.coronaStore.maxBars)")
+                                    .padding(.trailing, 64)
+                                
+                                Picker(selection: $coronaStore.maxBars, label: Text("Select Top Qty")) {
+                                    ForEach([10, 15, 20], id: \.self) { qty in
+                                        Text("\(qty)").tag(qty)
+                                    }
+                                }
+                                .labelsHidden()
+                                .pickerStyle(SegmentedPickerStyle())
+                            }
+                }
             }
             .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
             .navigationBarTitle("Settings")
