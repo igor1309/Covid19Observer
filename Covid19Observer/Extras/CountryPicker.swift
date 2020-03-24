@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CountryPicker: View {
     @EnvironmentObject var coronaStore: CoronaStore
+    @Environment(\.presentationMode) var presentation
     
     var body: some View {
         NavigationView {
@@ -23,6 +24,9 @@ struct CountryPicker: View {
                 .labelsHidden()
             }
             .navigationBarTitle("Select Country")
+            .navigationBarItems(trailing: Button("Done") {
+                self.presentation.wrappedValue.dismiss()
+            })
         }
     }
 }

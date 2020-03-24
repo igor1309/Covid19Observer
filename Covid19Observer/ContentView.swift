@@ -36,17 +36,21 @@ struct ContentView: View {
             .tag(2)
             
             DoublingTimeView()
-                .environmentObject(Settings())
                 .tabItem {
                     Image(systemName: "rectangle.on.rectangle.angled")
                     Text("Doubling")
             }
             .tag(3)
+            
+            SettingsView()
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("Settings")
+            }
+            .tag(4)
         }
         .onAppear {
-                if self.coronaStore.cases.isEmpty {
-                    self.coronaStore.updateCoronaStore()
-                }
+//            self.coronaStore.updateIfStoreIsOldOrEmpty()
         }
     }
 }

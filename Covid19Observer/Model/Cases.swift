@@ -11,14 +11,14 @@ import SwiftPI
 
 /// <#Description#>
 struct History {
+    static let primeCountries = ["Russia", "Italy", "France", "Germany", "Finland"]
+    
     struct ShortCaseRow: Identifiable {
         var id: String { countryRegion }
         var provinceState, countryRegion: String
         //        var points: [Date: Int]
         var series: [Int]
     }
-    
-    static let primeCountries = ["Russia", "Italy", "France", "Germany", "Finland"]
     
     var table: [[String]] = []
     var rows: [ShortCaseRow] = []
@@ -83,7 +83,12 @@ struct History {
             }
         }
         
-        let rows = cases.components(separatedBy: "\n")
+        var rows = cases.components(separatedBy: "\n")
+        /// drop lasr row if empty (реальная ситуация 24.03.2020)
+        if rows.count > 1 && rows.last!.isEmpty {
+            rows = rows.dropLast()
+        }
+        
         var table = [[String]]()
         for i in 0..<rows.count {
             var stringToParse = rows[i]

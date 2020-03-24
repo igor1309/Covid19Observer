@@ -15,20 +15,16 @@ import Combine
 import SwiftPI
 
 class CoronaStore: ObservableObject {
-
-    @Published var caseType: CaseType {
-        didSet {
-            processCases()
-        }
-    }
+    
+    @Published var isUpdateCompleted = true
+    
+    @Published var caseType: CaseType { didSet { processCases() }}
     
     @Published var history: History = History(from: "")
     @Published var cases = [CaseData]()
     @Published var caseAnnotations = [CaseAnnotations]()
     @Published var coronaOutbreak = (totalCases: "...", totalRecovered: "...", totalDeaths: "...")
     
-    
-    var storage = [AnyCancellable]()
     
     var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
         didSet {
@@ -50,6 +46,8 @@ class CoronaStore: ObservableObject {
         }
     }
     
+    var storage = [AnyCancellable]()
+    
     private var responseCache: CoronaResponse {
         switch caseType {
         case .byRegion:
@@ -61,7 +59,7 @@ class CoronaStore: ObservableObject {
     
     private var responseCacheByRegion: CoronaResponse
     private var responseCacheByCountry: CoronaResponse
-        
+    
     init() {
         if maxBars == 0 { maxBars = 15 }
         
@@ -82,14 +80,48 @@ class CoronaStore: ObservableObject {
             responseCacheByCountry = CoronaResponse(features: [])
             print("no JSON-file with corona response by Country on disk, set to empty cases")
         }
+        
+        processCases()
+    }
+    
+    var munutesSinceUpdate: Int {
+        Int(modificationDate.distance(to: Date()) / 60)
+    }
+    
+    private var modificationDate: Date = (UserDefaults.standard.object(forKey: "modificationDate") as? Date ?? Date.distantPast) {
+        didSet {
+            UserDefaults.standard.set(modificationDate, forKey: "modificationDate")
+        }
+    }
+    
+    private var isDataOld: Bool {
+        munutesSinceUpdate > 120
+    }
+    
+    func updateHistoryData() {
+        isUpdateCompleted = false
+        //  MARK: FINISH THIS
+        //
+        
+    }
+    
+    func updateIfStoreIsOldOrEmpty() {
+        isUpdateCompleted = false
+        //  MARK: FINISH THIS
+        //
+        if cases.isEmpty || isDataOld {
+            updateCoronaStore()
+        }
     }
     
     func updateCoronaStore() {
         fetchCoronaCases(caseType: .byCountry)
         fetchCoronaCases(caseType: .byRegion)
     }
-        
+    
     private func fetchCoronaCases(caseType: CaseType) {
+        isUpdateCompleted = false
+        
         /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/Coronavirus_2019_nCoV_Cases/FeatureServer
         /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/1
         /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/2
@@ -122,7 +154,7 @@ class CoronaStore: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }) { response in
                 
-                print("data downloaded")
+                print("\(caseType.id) data downloaded")
                 
                 switch caseType {
                 case .byRegion:
@@ -134,6 +166,9 @@ class CoronaStore: ObservableObject {
                 }
                 
                 self.processCases()
+                
+                self.modificationDate = Date()
+                self.isUpdateCompleted = true
         }
         .store(in: &storage)
     }
