@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftPI
 
 /// <#Description#>
-struct Cases {
+struct History {
     struct ShortCaseRow: Identifiable {
         var id: String { countryRegion }
         var provinceState, countryRegion: String
@@ -49,7 +49,7 @@ struct Cases {
             table = getTable(from: casesStr)
             rows = getRows(from: table)
         }
-        self = Cases(table: table, rows: rows)
+        self = History(table: table, rows: rows)
     }
     
     func series(for country: String) -> [Int] {

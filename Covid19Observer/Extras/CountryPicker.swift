@@ -9,20 +9,20 @@
 import SwiftUI
 
 struct CountryPicker: View {
-    @EnvironmentObject var jhData: JohnsHopkinsData
+    @EnvironmentObject var coronaStore: CoronaStore
     
     var body: some View {
         NavigationView {
             Form {
-                Picker(selection: $jhData.selectedCountry, label: Text("Selected Country")) {
-                    ForEach(jhData.cases.countryRegions, id: \.self) { countryRegion in
-//                        ForEach(jhData.cases.provinceStateCountryRegions, id: \.self) { countryRegion in
+                Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
+                    ForEach(coronaStore.history.countryRegions, id: \.self) { countryRegion in
+                        //  ForEach(coronaStore.cases.provinceStateCountryRegions, id: \.self) { countryRegion in
                         Text(countryRegion)
                     }
                 }
                 .labelsHidden()
             }
-        .navigationBarTitle("Select Country")
+            .navigationBarTitle("Select Country")
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  CoronaObservable.swift
+//  CoronaStore.swift
 //  SwiftUICoronaMapTracker
 //
 //  Created by Igor Malyarov on 22.03.2020.
@@ -12,42 +12,43 @@
 
 import SwiftUI
 import Combine
+import SwiftPI
 
-class CoronaObservable: ObservableObject {
-    /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/Coronavirus_2019_nCoV_Cases/FeatureServer
-    /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/1
-    /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/2
-    
-    //    @Published
-    var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
+class CoronaStore: ObservableObject {
+
+    @Published var caseType: CaseType {
         didSet {
-            UserDefaults.standard.set(isFiltered, forKey: "isFiltered")
-            casesByProvince()
-        }
-    }
-        
-    var maxBars = UserDefaults.standard.integer(forKey: "maxBars") {
-        didSet {
-            UserDefaults.standard.set(maxBars, forKey: "maxBars")
-            casesByProvince()
+            processCases()
         }
     }
     
+    @Published var history: History = History(from: "")
+    @Published var cases = [CaseData]()
     @Published var caseAnnotations = [CaseAnnotations]()
     @Published var coronaOutbreak = (totalCases: "...", totalRecovered: "...", totalDeaths: "...")
     
-    @Published var cases = [CaseData]()
     
-    @Published var caseType = CaseType.byCountry {
+    var storage = [AnyCancellable]()
+    
+    var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
         didSet {
-            casesByProvince()
+            UserDefaults.standard.set(isFiltered, forKey: "isFiltered")
+            processCases()
         }
     }
     
-    let urlBaseByRegion  = "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query"
-    let urlBaseByCountry = "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/2/query"
+    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
+        didSet {
+            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
+        }
+    }
     
-    var storage = [AnyCancellable]()
+    var maxBars = UserDefaults.standard.integer(forKey: "maxBars") {
+        didSet {
+            UserDefaults.standard.set(maxBars, forKey: "maxBars")
+            processCases()
+        }
+    }
     
     private var responseCache: CoronaResponse {
         switch caseType {
@@ -58,22 +59,47 @@ class CoronaObservable: ObservableObject {
         }
     }
     
-    private var responseCacheByRegion = CoronaResponse(features: [])
-    private var responseCacheByCountry = CoronaResponse(features: [])
-    
+    private var responseCacheByRegion: CoronaResponse
+    private var responseCacheByCountry: CoronaResponse
+        
     init() {
         if maxBars == 0 { maxBars = 15 }
-        fetchCoronaCases(caseType: .byRegion)
-        fetchCoronaCases(caseType: .byCountry)
+        
+        caseType = CaseType.byCountry
+        
+        if let response: CoronaResponse = loadJSONFromDocDir("byRegion.json") {
+            responseCacheByRegion = response
+            print("corona response by Region loaded from JSON-file on disk")
+        } else {
+            responseCacheByRegion = CoronaResponse(features: [])
+            print("no JSON-file with corona response by Region on disk, set to empty cases")
+        }
+        
+        if let response: CoronaResponse = loadJSONFromDocDir("byCountry.json") {
+            responseCacheByCountry = response
+            print("corona response by Country loaded from JSON-file on disk")
+        } else {
+            responseCacheByCountry = CoronaResponse(features: [])
+            print("no JSON-file with corona response by Country on disk, set to empty cases")
+        }
     }
     
-    func fetchCoronaCases(caseType: CaseType) {
+    func updateCoronaStore() {
+        fetchCoronaCases(caseType: .byCountry)
+        fetchCoronaCases(caseType: .byRegion)
+    }
+        
+    private func fetchCoronaCases(caseType: CaseType) {
+        /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/Coronavirus_2019_nCoV_Cases/FeatureServer
+        /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/1
+        /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/2
+        
         var base: String {
             switch caseType {
             case .byRegion:
-                return urlBaseByRegion
+                return "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query"
             case .byCountry:
-                return urlBaseByCountry
+                return "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/2/query"
             }
         }
         
@@ -101,17 +127,18 @@ class CoronaObservable: ObservableObject {
                 switch caseType {
                 case .byRegion:
                     self.responseCacheByRegion = response
+                    saveJSONToDocDir(data: response, filename: "byRegion.json")
                 case .byCountry:
                     self.responseCacheByCountry = response
+                    saveJSONToDocDir(data: response, filename: "byCountry.json")
                 }
                 
-                self.casesByProvince()
-                //                self.casesByProvince(response: response)
+                self.processCases()
         }
         .store(in: &storage)
     }
     
-    func casesByProvince() {
+    private func processCases() {
         var caseAnnotations: [CaseAnnotations] = []
         var caseData: [CaseData] = []
         
@@ -156,6 +183,22 @@ class CoronaObservable: ObservableObject {
         
         self.caseAnnotations = caseAnnotations
         self.cases = caseData
+    }
+    
+    func getData() {
+        let url = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv")!
+        
+        let task = URLSession.shared.downloadTask(with: url) { localURL, urlResponse, error in
+            if let localURL = localURL {
+                if let casesStr = try? String(contentsOf: localURL) {
+                    DispatchQueue.main.async {
+                        self.history = History(from: casesStr)
+                    }
+                }
+            }
+        }
+        
+        task.resume()
     }
 }
 

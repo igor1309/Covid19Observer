@@ -17,7 +17,7 @@
 		2A03BF022428C04F0094852B /* CaseAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEF12428C04F0094852B /* CaseAnnotations.swift */; };
 		2A03BF032428C04F0094852B /* Corona.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEF22428C04F0094852B /* Corona.swift */; };
 		2A03BF042428C04F0094852B /* CaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEF32428C04F0094852B /* CaseType.swift */; };
-		2A03BF052428C04F0094852B /* CoronaObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEF42428C04F0094852B /* CoronaObservable.swift */; };
+		2A03BF052428C04F0094852B /* CoronaStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEF42428C04F0094852B /* CoronaStore.swift */; };
 		2A03BF062428C04F0094852B /* CaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEF52428C04F0094852B /* CaseData.swift */; };
 		2A03BF072428C04F0094852B /* CasesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEF72428C04F0094852B /* CasesTableView.swift */; };
 		2A03BF082428C04F0094852B /* PreferenceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEF92428C04F0094852B /* PreferenceKeys.swift */; };
@@ -29,7 +29,6 @@
 		2A03BF142428C9C80094852B /* TopCasesHBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF132428C9C80094852B /* TopCasesHBarChart.swift */; };
 		2A445F3124292E94007C6846 /* AxisY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3024292E94007C6846 /* AxisY.swift */; };
 		2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3224292F1A007C6846 /* GraphGridShape.swift */; };
-		2A74F0B22428CB8400137694 /* JohnsHopkinsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0AE2428CB8400137694 /* JohnsHopkinsData.swift */; };
 		2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0AF2428CB8400137694 /* DoublingModel.swift */; };
 		2A74F0B42428CB8400137694 /* Cases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B02428CB8400137694 /* Cases.swift */; };
 		2A74F0B52428CB8400137694 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B12428CB8400137694 /* Settings.swift */; };
@@ -56,7 +55,7 @@
 		2A03BEF12428C04F0094852B /* CaseAnnotations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseAnnotations.swift; sourceTree = "<group>"; };
 		2A03BEF22428C04F0094852B /* Corona.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Corona.swift; sourceTree = "<group>"; };
 		2A03BEF32428C04F0094852B /* CaseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseType.swift; sourceTree = "<group>"; };
-		2A03BEF42428C04F0094852B /* CoronaObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoronaObservable.swift; sourceTree = "<group>"; };
+		2A03BEF42428C04F0094852B /* CoronaStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoronaStore.swift; sourceTree = "<group>"; };
 		2A03BEF52428C04F0094852B /* CaseData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseData.swift; sourceTree = "<group>"; };
 		2A03BEF72428C04F0094852B /* CasesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesTableView.swift; sourceTree = "<group>"; };
 		2A03BEF92428C04F0094852B /* PreferenceKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceKeys.swift; sourceTree = "<group>"; };
@@ -68,7 +67,6 @@
 		2A03BF132428C9C80094852B /* TopCasesHBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopCasesHBarChart.swift; sourceTree = "<group>"; };
 		2A445F3024292E94007C6846 /* AxisY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisY.swift; sourceTree = "<group>"; };
 		2A445F3224292F1A007C6846 /* GraphGridShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGridShape.swift; sourceTree = "<group>"; };
-		2A74F0AE2428CB8400137694 /* JohnsHopkinsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JohnsHopkinsData.swift; sourceTree = "<group>"; };
 		2A74F0AF2428CB8400137694 /* DoublingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoublingModel.swift; sourceTree = "<group>"; };
 		2A74F0B02428CB8400137694 /* Cases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cases.swift; sourceTree = "<group>"; };
 		2A74F0B12428CB8400137694 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -146,12 +144,11 @@
 				2A03BEF12428C04F0094852B /* CaseAnnotations.swift */,
 				2A03BEF22428C04F0094852B /* Corona.swift */,
 				2A03BEF32428C04F0094852B /* CaseType.swift */,
-				2A03BEF42428C04F0094852B /* CoronaObservable.swift */,
+				2A03BEF42428C04F0094852B /* CoronaStore.swift */,
 				2A03BEF52428C04F0094852B /* CaseData.swift */,
 				2A74F0B02428CB8400137694 /* Cases.swift */,
 				2A74F0B12428CB8400137694 /* Settings.swift */,
 				2A74F0AF2428CB8400137694 /* DoublingModel.swift */,
-				2A74F0AE2428CB8400137694 /* JohnsHopkinsData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -295,7 +292,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A03BF0B2428C04F0094852B /* CasesChartView.swift in Sources */,
-				2A03BF052428C04F0094852B /* CoronaObservable.swift in Sources */,
+				2A03BF052428C04F0094852B /* CoronaStore.swift in Sources */,
 				2A03BF0D2428C04F0094852B /* MapViews.swift in Sources */,
 				2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */,
 				2A74F0C02428CE3E00137694 /* WikiQuoteView.swift in Sources */,
@@ -315,7 +312,6 @@
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
 				2A03BF022428C04F0094852B /* CaseAnnotations.swift in Sources */,
 				2A74F0B52428CB8400137694 /* Settings.swift in Sources */,
-				2A74F0B22428CB8400137694 /* JohnsHopkinsData.swift in Sources */,
 				2A74F0C62428CE7B00137694 /* Table.swift in Sources */,
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,
 				2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */,

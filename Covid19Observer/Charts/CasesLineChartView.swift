@@ -11,12 +11,12 @@ import SwiftPI
 
 struct CasesLineChartView: View {
     @Environment(\.presentationMode) var presentation
-    @EnvironmentObject var jhData: JohnsHopkinsData
+    @EnvironmentObject var coronaStore: CoronaStore
     
     @State private var showModal = false
 
     var series: [Int] {
-        jhData.cases.series(for: jhData.selectedCountry)
+        coronaStore.history.series(for: coronaStore.selectedCountry)
     }
     
     let numberOfGridLines = 10
@@ -25,8 +25,8 @@ struct CasesLineChartView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 8) {
-                Picker(selection: $jhData.selectedCountry, label: Text("Selected Country")) {
-                    ForEach(Cases.primeCountries, id: \.self)  { prime in
+                Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
+                    ForEach(History.primeCountries, id: \.self)  { prime in
                         Text(prime)
                     }
                 }
@@ -47,16 +47,16 @@ struct CasesLineChartView: View {
             .navigationBarTitle("COVID-19")
             .navigationBarItems(
                 leading: HStack {
-                    Button(jhData.selectedCountry) {
+                    Button(coronaStore.selectedCountry) {
                         self.showModal = true
                     }
                     LeadingButtonSFSymbol("arrow.clockwise") {
-                        self.jhData.getData()
+                        self.coronaStore.getData()
                     }
                 },
                 trailing:
 //                TrailingButtonSFSymbol("arrow.clockwise") {
-//                    self.jhData.getData()
+//                    self.coronaStore.getData()
 //                }
 
                 Button("Done") {
@@ -64,11 +64,11 @@ struct CasesLineChartView: View {
                 }
             )
                 .sheet(isPresented: $showModal) {
-                    CountryPicker().environmentObject(self.jhData)
+                    CountryPicker().environmentObject(self.coronaStore)
             }
         }
         .onAppear {
-            self.jhData.getData()
+            self.coronaStore.getData()
         }
     }
 }
@@ -76,7 +76,7 @@ struct CasesLineChartView: View {
 struct CasesLineChartView_Previews: PreviewProvider {
     static var previews: some View {
         CasesLineChartView()
-            .environmentObject(JohnsHopkinsData())
+            .environmentObject(CoronaStore())
             .environment(\.colorScheme, .dark)
     }
 }

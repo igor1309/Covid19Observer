@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import MapKit
 import SwiftPI
 
 struct ToolBarButton: View {
@@ -23,7 +24,11 @@ struct ToolBarButton: View {
 }
 
 struct CasesOnMapView: View {
-    @EnvironmentObject var coronaCases: CoronaObservable
+    @EnvironmentObject var coronaStore: CoronaStore
+    
+    @State private var centerCoordinate = CLLocationCoordinate2D()
+    @State private var selectedPlace: MKPointAnnotation?
+    @State private var showingPlaceDetails = false
     
     @State private var showTable = false
     @State private var showDoublingTime = false
@@ -39,7 +44,7 @@ struct CasesOnMapView: View {
             HStack{
                 VStack {
                     Text("Confirmed")
-                    Text("\(coronaCases.coronaOutbreak.totalCases)")
+                    Text("\(coronaStore.coronaOutbreak.totalCases)")
                         .font(.subheadline)
                 }
                 .foregroundColor(.systemYellow)
@@ -47,7 +52,7 @@ struct CasesOnMapView: View {
                 Spacer()
                 VStack {
                     Text("Recovered")
-                    Text("\(coronaCases.coronaOutbreak.totalRecovered)")
+                    Text("\(coronaStore.coronaOutbreak.totalRecovered)")
                         .font(.subheadline)
                 }
                 .foregroundColor(.systemGreen)
@@ -55,7 +60,7 @@ struct CasesOnMapView: View {
                 Spacer()
                 VStack {
                     Text("Deaths")
-                    Text("\(coronaCases.coronaOutbreak.totalDeaths)")
+                    Text("\(coronaStore.coronaOutbreak.totalDeaths)")
                         .font(.subheadline)
                 }
                 .foregroundColor(.systemRed)
@@ -64,7 +69,7 @@ struct CasesOnMapView: View {
             
             Divider()
             
-            Picker(selection: $coronaCases.caseType, label: Text("Select by Provincee or Country")) {
+            Picker(selection: $coronaStore.caseType, label: Text("Select by Provincee or Country")) {
                 ForEach(CaseType.allCases, id: \.self) { type in
                     Text(type.id).tag(type)
                 }
@@ -84,9 +89,9 @@ struct CasesOnMapView: View {
         HStack {
             Group {
                 ToolBarButton(systemName: "line.horizontal.3.decrease") {
-                    self.coronaCases.isFiltered.toggle()
+                    self.coronaStore.isFiltered.toggle()
                 }
-                .foregroundColor(coronaCases.isFiltered ? .systemOrange : .secondary)
+                .foregroundColor(coronaStore.isFiltered ? .systemOrange : .secondary)
                 
                 Spacer()
                 
@@ -95,7 +100,7 @@ struct CasesOnMapView: View {
                 }
                 .sheet(isPresented: $showLineChart) {
                     CasesLineChartView()
-                        .environmentObject(JohnsHopkinsData())
+                        .environmentObject(self.coronaStore)
                 }
                 
                 Spacer()
@@ -105,7 +110,7 @@ struct CasesOnMapView: View {
                 }
                 .sheet(isPresented: $showCasesChart) {
                     CasesChartView()
-                        .environmentObject(self.coronaCases)
+                        .environmentObject(self.coronaStore)
                 }
                 
                 Spacer()
@@ -117,7 +122,7 @@ struct CasesOnMapView: View {
                 }
                 .sheet(isPresented: $showTable) {
                     CasesTableView()
-                        .environmentObject(self.coronaCases)
+                        .environmentObject(self.coronaStore)
                 }
                 
                 Spacer()
@@ -132,7 +137,7 @@ struct CasesOnMapView: View {
                 
                 Spacer()
                 
-                ToolBarButton(systemName: "arrow.2.circlepath.circle") {
+                ToolBarButton(systemName: "arrow.2.circlepath") {
                     self.showAlert = true
                 }
                 .actionSheet(isPresented: $showAlert) {
@@ -142,7 +147,7 @@ struct CasesOnMapView: View {
                                     .cancel(),
                                     .destructive(Text("Yes, reload")) {
                                         //  MARK: FINISH THIS
-                                        self.coronaCases.casesByProvince()
+                                        self.coronaStore.updateCoronaStore()
                                         print("to be done")
                                     }]
                     )
@@ -159,23 +164,33 @@ struct CasesOnMapView: View {
         ZStack(alignment: .bottom) {
             ZStack(alignment: .top) {
                 
-                MapView(coronaCases: coronaCases.caseAnnotations, totalCases: Int(coronaCases.coronaOutbreak.totalCases) ?? 0)
+                MapView(
+                    caseAnnotations: coronaStore.caseAnnotations,
+                    totalCases: Int(coronaStore.coronaOutbreak.totalCases) ?? 0,
+                    centerCoordinate: $centerCoordinate,
+                    selectedPlace: $selectedPlace,
+                    showingPlaceDetails: $showingPlaceDetails)
                     .edgesIgnoringSafeArea(.all)
+                    
                 
                 header
             }
-            
+            .sheet(isPresented: $showingPlaceDetails) {
+                Text("Line Chart to be Here")
+                //                    CasesLineChartView()
+            }
+
             //  toolBar
             
             HStack {
                 ToolBarButton(systemName: "line.horizontal.3.decrease") {
-                    self.coronaCases.isFiltered.toggle()
+                    self.coronaStore.isFiltered.toggle()
                 }
-                .foregroundColor(coronaCases.isFiltered ? .systemOrange : .secondary)
+                .foregroundColor(coronaStore.isFiltered ? .systemOrange : .secondary)
                 
                 Spacer()
                 
-                ToolBarButton(systemName: "arrow.2.circlepath.circle") {
+                ToolBarButton(systemName: "arrow.2.circlepath") {
                     self.showAlert = true
                 }
                 .actionSheet(isPresented: $showAlert) {
@@ -185,7 +200,7 @@ struct CasesOnMapView: View {
                                     .cancel(),
                                     .destructive(Text("Yes, reload")) {
                                         //  MARK: FINISH THIS
-                                        self.coronaCases.casesByProvince()
+                                        self.coronaStore.updateCoronaStore()
                                         print("to be done")
                                     }]
                     )
@@ -201,7 +216,7 @@ struct CasesOnMapView: View {
 struct CasesOnMapView_Previews: PreviewProvider {
     static var previews: some View {
         CasesOnMapView()
-            .environmentObject(CoronaObservable())
+            .environmentObject(CoronaStore())
             .environment(\.colorScheme, .dark)
     }
 }

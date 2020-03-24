@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var coronaCases: CoronaObservable
+    @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
     var body: some View {
@@ -43,6 +43,11 @@ struct ContentView: View {
             }
             .tag(3)
         }
+        .onAppear {
+                if self.coronaStore.cases.isEmpty {
+                    self.coronaStore.updateCoronaStore()
+                }
+        }
     }
 }
 
@@ -50,7 +55,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(CoronaObservable())
+            .environmentObject(CoronaStore())
             .environmentObject(Settings())
             .environment(\.colorScheme, .dark)
     }

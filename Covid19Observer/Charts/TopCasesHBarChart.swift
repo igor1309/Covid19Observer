@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct TopCasesHBarChart: View {
-    @EnvironmentObject var coronaCases: CoronaObservable
+    @EnvironmentObject var coronaStore: CoronaStore
     
     @State private var selection = "Confirmed"
+    @State private var showLineChart = false
+    @State private var selectedCountry = ""
     
     func textLabel(name: String, width: CGFloat, maxWidth: CGFloat) -> some View {
         Text(name)
@@ -23,29 +25,34 @@ struct TopCasesHBarChart: View {
     
     fileprivate func caseData(for index: Int) -> CGFloat {
         return CGFloat(self.selection == "Deaths"
-            ? self.coronaCases.cases[index].deaths
-            : self.coronaCases.cases[index].confirmed)
+            ? self.coronaStore.cases[index].deaths
+            : self.coronaStore.cases[index].confirmed)
     }
     
     fileprivate func caseDataStr(for index: Int) -> String {
         return self.selection == "Deaths"
-            ? self.coronaCases.cases[index].deathsStr
-            : self.coronaCases.cases[index].confirmedStr
+            ? self.coronaStore.cases[index].deathsStr
+            : self.coronaStore.cases[index].confirmedStr
+    }
+    
+    func prepareJHData() {
+        self.coronaStore.selectedCountry = self.selectedCountry
+        self.showLineChart = true
     }
     
     var body: some View {
-        let maxConfirmed = CGFloat(coronaCases.cases.map { $0.confirmed }.max() ?? 1)
+        let maxConfirmed = CGFloat(coronaStore.cases.map { $0.confirmed }.max() ?? 1)
         
         return VStack {
-            if coronaCases.cases.isNotEmpty {
+            if coronaStore.cases.isNotEmpty {
                 VStack {
                     VStack {
                         HStack {
-                            Text("Top \(self.coronaCases.maxBars)")
+                            Text("Top \(self.coronaStore.maxBars)")
                                 .font(.headline)
                                 .padding()
                             
-                            Picker(selection: $coronaCases.maxBars, label: Text("Select Top Qty")) {
+                            Picker(selection: $coronaStore.maxBars, label: Text("Select Top Qty")) {
                                 ForEach([10, 15, 20], id: \.self) { qty in
                                     Text("\(qty)").tag(qty)
                                 }
@@ -64,23 +71,33 @@ struct TopCasesHBarChart: View {
                     
                     GeometryReader { geo in
                         VStack(alignment: .leading) {
-                            ForEach(0..<self.coronaCases.maxBars, id: \.self) { index in
+                            ForEach(0..<self.coronaStore.maxBars, id: \.self) { index in
                                 ZStack(alignment: .leading) {
                                     
                                     Color(self.selection == "Deaths" ? .red : .systemYellow)
                                         .frame(width: geo.size.width / maxConfirmed * self.caseData(for: index))
                                         .cornerRadius(6)
                                     
-                                    self.textLabel(name: "\(self.coronaCases.cases[index].name): \(self.caseDataStr(for: index))",
+                                    self.textLabel(name: "\(self.coronaStore.cases[index].name): \(self.caseDataStr(for: index))",
                                         width: geo.size.width / maxConfirmed * self.caseData(for: index),
                                         maxWidth: geo.size.width)
+                                }
+                                .onTapGesture {
+                                    self.selectedCountry = self.coronaStore.cases[index].name
+                                    self.prepareJHData()
+                                }
+                                .sheet(isPresented: self.$showLineChart) {
+                                    CasesLineChartView()
+                                        .environmentObject(self.coronaStore)
                                 }
                             }
                         }
                     }
                 }
             } else {
-                /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+                //  MARK: FINISH THIS
+                //
+                EmptyView()
             }
         }
         .navigationBarTitle(selection == "Deaths" ? "Deaths" : "Confirmed Cases")
@@ -93,7 +110,7 @@ struct TopCasesHBarChart_Previews: PreviewProvider {
             TopCasesHBarChart()
                 .padding()
         }
-        .environmentObject(CoronaObservable())
+        .environmentObject(CoronaStore())
         .environment(\.colorScheme, .dark)
     }
 }

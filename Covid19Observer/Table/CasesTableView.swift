@@ -10,19 +10,19 @@ import SwiftUI
 
 struct CasesTableView: View {
     @Environment(\.presentationMode) var presentation
-    @EnvironmentObject var coronaCases: CoronaObservable
+    @EnvironmentObject var coronaStore: CoronaStore
+    
     @State private var columnWidths: [Int: CGFloat] = [:]
-    @State private var showChart = false
-    @State private var jhData: JohnsHopkinsData?
+    @State private var showLineChart = false
     
     var body: some View {
         NavigationView {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
-                        ForEach(coronaCases.cases.indices, id: \.self) { index in
+                        ForEach(coronaStore.cases.indices, id: \.self) { index in
                             HStack {
-                                Text("\(index + 1). \(self.coronaCases.cases[index].name)")
+                                Text("\(index + 1). \(self.coronaStore.cases[index].name)")
                                     .padding(.leading, 6)
                                     .lineLimit(1)
                                     .truncationMode(.tail)
@@ -30,13 +30,13 @@ struct CasesTableView: View {
                                 Spacer()
                                 
                                 Group {
-                                    Text(self.coronaCases.cases[index].confirmedStr)
+                                    Text(self.coronaStore.cases[index].confirmedStr)
                                         .foregroundColor(.systemYellow)
                                         .padding(.trailing, 6)
                                         .widthPreference(column: 1)
                                         .frame(width: self.columnWidths[1], alignment: .trailing)
                                     
-                                    Text(self.coronaCases.cases[index].deathsStr)
+                                    Text(self.coronaStore.cases[index].deathsStr)
                                         .foregroundColor(.systemRed)
                                         .padding(.leading, 12)
                                         .padding(.trailing, 6)
@@ -61,9 +61,9 @@ struct CasesTableView: View {
                             .onTapGesture {
                                 self.prepareJHData(for: index)
                             }
-                            .sheet(isPresented: self.$showChart) {
+                            .sheet(isPresented: self.$showLineChart) {
                                 CasesLineChartView()
-                                    .environmentObject(self.jhData!)
+                                    .environmentObject(self.coronaStore)
                             }
                         }
                     }
@@ -78,17 +78,20 @@ struct CasesTableView: View {
         }
     }
     
+    //  MARK: FINISH THIS
+    //  стоит перенести в модель?
+    //  маркер по названию или индексу? - что лучше
+    //  также используется в TopCasesHBarChart()
     func prepareJHData(for index: Int) {
-        self.jhData = JohnsHopkinsData()
-        self.jhData!.selectedCountry = self.coronaCases.cases[index].name
-        self.showChart = true
+        self.coronaStore.selectedCountry = self.coronaStore.cases[index].name
+        self.showLineChart = true
     }
 }
 
 struct CasesTableView_Previews: PreviewProvider {
     static var previews: some View {
         CasesTableView()
-            .environmentObject(CoronaObservable())
+            .environmentObject(CoronaStore())
             .environment(\.colorScheme, .dark)
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CasesChartView: View {
     @Environment(\.presentationMode) var presentation
-    @EnvironmentObject var coronaCases: CoronaObservable
+    @EnvironmentObject var coronaStore: CoronaStore
     
     var body: some View {
         NavigationView {
@@ -28,7 +28,7 @@ struct CasesChartView: View {
 struct CasesChartView_Previews: PreviewProvider {
     static var previews: some View {
         CasesChartView()
-            .environmentObject(CoronaObservable())
+            .environmentObject(CoronaStore())
             .environment(\.colorScheme, .dark)
     }
 }
