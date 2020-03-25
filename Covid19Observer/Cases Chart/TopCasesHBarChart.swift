@@ -77,14 +77,13 @@ struct TopCasesHBarChart: View {
         }
     }
     
-    func prepareJHData() {
+    func prepareHistoryData() {
         self.coronaStore.selectedCountry = self.selectedCountry
         self.showLineChart = true
     }
     
     var body: some View {
         let maxConfirmed: CGFloat
-//            = selection == .deathRate ? 0.1 : CGFloat(coronaStore.cases.map { $0.confirmed }.max() ?? 1)
         switch selection {
         case .confirmed:
             maxConfirmed = CGFloat(coronaStore.cases.map { $0.confirmed }.max() ?? 1)
@@ -120,7 +119,7 @@ struct TopCasesHBarChart: View {
                                 }
                                 .onTapGesture {
                                     self.selectedCountry = self.coronaStore.cases[index].name
-                                    self.prepareJHData()
+                                    self.prepareHistoryData()
                                 }
                                 .sheet(isPresented: self.$showLineChart) {
                                     CasesLineChartView()

@@ -25,6 +25,16 @@ struct CasesLineChartView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("Confirmed: \(coronaStore.selectedCountryOutbreak.totalCases)")
+                        .foregroundColor(.systemYellow)
+                    
+                    Spacer()
+                    
+                    Text("Deaths: \(coronaStore.selectedCountryOutbreak.totalDeaths)")
+                    .foregroundColor(.systemRed)
+                }
+                
                 Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
                     ForEach(History.primeCountries, id: \.self)  { prime in
                         Text(prime)
@@ -39,20 +49,24 @@ struct CasesLineChartView: View {
                     Spacer()
                 }
                 
-                Text(series.map { String($0) }.joined(separator: ", "))
-                    .foregroundColor(.secondary)
+                Text(series
+                    .suffix(14)
+                    .map { String($0) }
+                    .joined(separator: ", "))
+                    .foregroundColor(.tertiary)
                     .font(.caption)
+                    .padding(.bottom, 6)
             }
-            .padding()
-            .navigationBarTitle("COVID-19")
+            .padding(.horizontal)
+            .navigationBarTitle("\(coronaStore.selectedCountry)")
             .navigationBarItems(
                 leading: HStack {
-                    Button(coronaStore.selectedCountry) {
+                    Button(coronaStore.selectedCountry + " ⌄") {
                         self.showModal = true
                     }
-                    LeadingButtonSFSymbol("arrow.clockwise") {
-                        self.coronaStore.getHistoryData()
-                    }
+//                    LeadingButtonSFSymbol("arrow.clockwise") {
+//                        self.coronaStore.getHistoryData()
+//                    }
                 },
                 trailing:
 //                TrailingButtonSFSymbol("arrow.clockwise") {
@@ -68,7 +82,7 @@ struct CasesLineChartView: View {
             }
         }
         .onAppear {
-            self.coronaStore.getHistoryData()
+//            self.coronaStore.getHistoryData()
         }
     }
 }

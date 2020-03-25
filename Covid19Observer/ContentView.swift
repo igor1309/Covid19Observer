@@ -28,6 +28,12 @@ struct ContentView: View {
             }
             .tag(1)
             
+            CasesLineChartView()
+                .tabItem {
+                    Image(systemName: "waveform.path.ecg")
+                    Text("History")
+            }
+            .tag(2)
 //            CasesTableView()
 //                .tabItem {
 //                    Image(systemName: "table")

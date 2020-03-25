@@ -32,6 +32,16 @@ class CoronaStore: ObservableObject {
         }
     }
     
+    var selectedCountryOutbreak: (totalCases: String, totalDeaths: String) {
+////        var outbreak = (totalCases: "...", totalDeaths: "...")
+        if let countryCase = cases.first(where: { $0.name == selectedCountry }) {
+            return (totalCases: countryCase.confirmedStr,
+                    totalDeaths: countryCase.deathsStr)
+        } else {
+            return (totalCases: "...", totalDeaths: "...")
+        }
+    }
+    
     var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
         didSet {
             UserDefaults.standard.set(isFiltered, forKey: "isFiltered")
@@ -114,11 +124,14 @@ class CoronaStore: ObservableObject {
     private var isHistoryDataOld: Bool { casesModificationDate.distance(to: Date()) / 60 > 120 }
     
     func updateIfStoreIsOldOrEmpty() {
-        //  MARK: FINISH THIS
-        //
         if cases.isEmpty || isCasesDataOld {
             isCasesUpdateCompleted = false
             updateCasesData()
+        }
+        
+        if history.table.isEmpty || isHistoryDataOld {
+            isHistoryUpdateCompleted = false
+            updateHistoryData()
         }
     }
     

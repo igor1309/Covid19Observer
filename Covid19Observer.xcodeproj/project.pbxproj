@@ -30,7 +30,7 @@
 		2A445F3124292E94007C6846 /* AxisY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3024292E94007C6846 /* AxisY.swift */; };
 		2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3224292F1A007C6846 /* GraphGridShape.swift */; };
 		2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0AF2428CB8400137694 /* DoublingModel.swift */; };
-		2A74F0B42428CB8400137694 /* Cases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B02428CB8400137694 /* Cases.swift */; };
+		2A74F0B42428CB8400137694 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B02428CB8400137694 /* History.swift */; };
 		2A74F0B52428CB8400137694 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B12428CB8400137694 /* Settings.swift */; };
 		2A74F0B92428CBB400137694 /* HeatedLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B62428CBB300137694 /* HeatedLineChart.swift */; };
 		2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B72428CBB300137694 /* LineGraphGrid.swift */; };
@@ -69,7 +69,7 @@
 		2A445F3024292E94007C6846 /* AxisY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisY.swift; sourceTree = "<group>"; };
 		2A445F3224292F1A007C6846 /* GraphGridShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGridShape.swift; sourceTree = "<group>"; };
 		2A74F0AF2428CB8400137694 /* DoublingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoublingModel.swift; sourceTree = "<group>"; };
-		2A74F0B02428CB8400137694 /* Cases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cases.swift; sourceTree = "<group>"; };
+		2A74F0B02428CB8400137694 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		2A74F0B12428CB8400137694 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		2A74F0B62428CBB300137694 /* HeatedLineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeatedLineChart.swift; sourceTree = "<group>"; };
 		2A74F0B72428CBB300137694 /* LineGraphGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphGrid.swift; sourceTree = "<group>"; };
@@ -119,10 +119,11 @@
 				2A445F34242931A1007C6846 /* WORK IN PROGRESS */,
 				2A03BEDD2428BC6F0094852B /* ContentView.swift */,
 				2AAAC6EE242A384000C03E5B /* SettingsView.swift */,
-				2A03BEFF2428C04F0094852B /* MapViews */,
+				2A03BEFF2428C04F0094852B /* Map Views */,
 				2A03BEF62428C04F0094852B /* Table */,
 				2A74F0BC2428CE3E00137694 /* Doubling Time */,
-				2A03BEFB2428C04F0094852B /* Charts */,
+				2AFF26E9242B50E300DAC856 /* Cases Chart */,
+				2A03BEFB2428C04F0094852B /* Line Charts */,
 				2A03BEF82428C04F0094852B /* Extras */,
 				2A03BEF02428C04F0094852B /* Model */,
 				2A03BEDF2428BC700094852B /* Assets.xcassets */,
@@ -144,12 +145,12 @@
 		2A03BEF02428C04F0094852B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2A03BEF42428C04F0094852B /* CoronaStore.swift */,
 				2A03BEF12428C04F0094852B /* CaseAnnotations.swift */,
 				2A03BEF22428C04F0094852B /* Corona.swift */,
 				2A03BEF32428C04F0094852B /* CaseType.swift */,
-				2A03BEF42428C04F0094852B /* CoronaStore.swift */,
 				2A03BEF52428C04F0094852B /* CaseData.swift */,
-				2A74F0B02428CB8400137694 /* Cases.swift */,
+				2A74F0B02428CB8400137694 /* History.swift */,
 				2A74F0B12428CB8400137694 /* Settings.swift */,
 				2A74F0AF2428CB8400137694 /* DoublingModel.swift */,
 			);
@@ -176,28 +177,26 @@
 			path = Extras;
 			sourceTree = "<group>";
 		};
-		2A03BEFB2428C04F0094852B /* Charts */ = {
+		2A03BEFB2428C04F0094852B /* Line Charts */ = {
 			isa = PBXGroup;
 			children = (
-				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
 				2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */,
-				2A03BF132428C9C80094852B /* TopCasesHBarChart.swift */,
 				2A74F0B62428CBB300137694 /* HeatedLineChart.swift */,
 				2A74F0B82428CBB300137694 /* LineGraphShape.swift */,
 				2A74F0B72428CBB300137694 /* LineGraphGrid.swift */,
 				2A445F3224292F1A007C6846 /* GraphGridShape.swift */,
 				2A445F3024292E94007C6846 /* AxisY.swift */,
 			);
-			path = Charts;
+			path = "Line Charts";
 			sourceTree = "<group>";
 		};
-		2A03BEFF2428C04F0094852B /* MapViews */ = {
+		2A03BEFF2428C04F0094852B /* Map Views */ = {
 			isa = PBXGroup;
 			children = (
 				2A03BF012428C04F0094852B /* CasesOnMapView.swift */,
 				2A03BF002428C04F0094852B /* MapViews.swift */,
 			);
-			path = MapViews;
+			path = "Map Views";
 			sourceTree = "<group>";
 		};
 		2A445F34242931A1007C6846 /* WORK IN PROGRESS */ = {
@@ -215,6 +214,15 @@
 				2A74F0BE2428CE3E00137694 /* WikiQuoteView.swift */,
 			);
 			path = "Doubling Time";
+			sourceTree = "<group>";
+		};
+		2AFF26E9242B50E300DAC856 /* Cases Chart */ = {
+			isa = PBXGroup;
+			children = (
+				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
+				2A03BF132428C9C80094852B /* TopCasesHBarChart.swift */,
+			);
+			path = "Cases Chart";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,7 +311,7 @@
 				2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */,
 				2A74F0BB2428CBB400137694 /* LineGraphShape.swift in Sources */,
 				2A03BF082428C04F0094852B /* PreferenceKeys.swift in Sources */,
-				2A74F0B42428CB8400137694 /* Cases.swift in Sources */,
+				2A74F0B42428CB8400137694 /* History.swift in Sources */,
 				2A03BF042428C04F0094852B /* CaseType.swift in Sources */,
 				2A03BF092428C04F0094852B /* Extension+View.swift in Sources */,
 				2A03BF122428C9890094852B /* TopTenBarChartVert.swift in Sources */,

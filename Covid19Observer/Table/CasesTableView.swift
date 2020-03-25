@@ -50,7 +50,7 @@ struct CasesTableView: View {
                             .background(index.isMultiple(of: 2) ? Color.secondarySystemBackground : .clear)
                             .contextMenu {
                                 Button(action: {
-                                    self.prepareJHData(for: index)
+                                    self.prepareHistoryData(for: index)
                                 }) {
                                     HStack {
                                         Text("Show History Chart")
@@ -59,7 +59,7 @@ struct CasesTableView: View {
                                 }
                             }
                             .onTapGesture {
-                                self.prepareJHData(for: index)
+                                self.prepareHistoryData(for: index)
                             }
                             .sheet(isPresented: self.$showLineChart) {
                                 CasesLineChartView()
@@ -82,7 +82,7 @@ struct CasesTableView: View {
     //  стоит перенести в модель?
     //  маркер по названию или индексу? - что лучше
     //  также используется в TopCasesHBarChart()
-    func prepareJHData(for index: Int) {
+    func prepareHistoryData(for index: Int) {
         self.coronaStore.selectedCountry = self.coronaStore.cases[index].name
         self.showLineChart = true
     }
