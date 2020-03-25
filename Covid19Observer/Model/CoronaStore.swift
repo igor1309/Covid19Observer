@@ -16,8 +16,6 @@ import SwiftPI
 
 class CoronaStore: ObservableObject {
     
-    @Published var isUpdateCompleted = true
-    
     @Published var caseType: CaseType { didSet { processCases() }}
     
     @Published var history: History = History(from: "")
@@ -25,6 +23,14 @@ class CoronaStore: ObservableObject {
     @Published var caseAnnotations = [CaseAnnotations]()
     @Published var coronaOutbreak = (totalCases: "...", totalRecovered: "...", totalDeaths: "...")
     
+    @Published var isCasesUpdateCompleted = true
+    @Published var isHistoryUpdateCompleted = true
+    
+    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
+        didSet {
+            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
+        }
+    }
     
     var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
         didSet {
@@ -33,17 +39,25 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
-        didSet {
-            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
-        }
-    }
-    
     var maxBars = UserDefaults.standard.integer(forKey: "maxBars") {
         didSet {
             UserDefaults.standard.set(maxBars, forKey: "maxBars")
             processCases()
         }
+    }
+    
+    var hoursMunutesSinceCasesUpdateStr: String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .brief
+        formatter.allowedUnits = [.hour, .minute]
+        return formatter.string(from: casesModificationDate, to: Date())  ?? "n/a"
+    }
+    
+    var hoursMunutesSinceHistoryUpdateStr: String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .brief
+        formatter.allowedUnits = [.hour, .minute]
+        return formatter.string(from: historyModificationDate, to: Date())  ?? "n/a"
     }
     
     var storage = [AnyCancellable]()
@@ -84,50 +98,41 @@ class CoronaStore: ObservableObject {
         processCases()
     }
     
-    var munutesSinceUpdate: Int {
-        Int(modificationDate.distance(to: Date()) / 60)
-    }
-    
-    var hoursMunutesSinceUpdateStr: String {
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .brief
-        formatter.allowedUnits = [.hour, .minute]
-        return formatter.string(from: modificationDate, to: Date())  ?? "n/a"
-    }
-    
-    private var modificationDate: Date = (UserDefaults.standard.object(forKey: "modificationDate") as? Date ?? Date.distantPast) {
+    private var casesModificationDate: Date = (UserDefaults.standard.object(forKey: "casesModificationDate") as? Date ?? Date.distantPast) {
         didSet {
-            UserDefaults.standard.set(modificationDate, forKey: "modificationDate")
+            UserDefaults.standard.set(casesModificationDate, forKey: "casesModificationDate")
         }
     }
     
-    private var isDataOld: Bool {
-        munutesSinceUpdate > 120
+    private var historyModificationDate: Date = (UserDefaults.standard.object(forKey: "historyModificationDate") as? Date ?? Date.distantPast) {
+        didSet {
+            UserDefaults.standard.set(historyModificationDate, forKey: "historyModificationDate")
+        }
+    }
+    
+    private var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) / 60 > 120 }
+    private var isHistoryDataOld: Bool { casesModificationDate.distance(to: Date()) / 60 > 120 }
+    
+    func updateIfStoreIsOldOrEmpty() {
+        //  MARK: FINISH THIS
+        //
+        if cases.isEmpty || isCasesDataOld {
+            isCasesUpdateCompleted = false
+            updateCasesData()
+        }
     }
     
     func updateHistoryData() {
-        isUpdateCompleted = false
-        //  MARK: FINISH THIS
-        //
-        
+        getHistoryData()
     }
     
-    func updateIfStoreIsOldOrEmpty() {
-        isUpdateCompleted = false
-        //  MARK: FINISH THIS
-        //
-        if cases.isEmpty || isDataOld {
-            updateCoronaStore()
-        }
-    }
-    
-    func updateCoronaStore() {
+    func updateCasesData() {
         fetchCoronaCases(caseType: .byCountry)
         fetchCoronaCases(caseType: .byRegion)
     }
     
     private func fetchCoronaCases(caseType: CaseType) {
-        isUpdateCompleted = false
+        isCasesUpdateCompleted = false
         
         /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/Coronavirus_2019_nCoV_Cases/FeatureServer
         /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/1
@@ -174,8 +179,8 @@ class CoronaStore: ObservableObject {
                 
                 self.processCases()
                 
-                self.modificationDate = Date()
-                self.isUpdateCompleted = true
+                self.casesModificationDate = Date()
+                self.isCasesUpdateCompleted = true
         }
         .store(in: &storage)
     }
@@ -227,7 +232,9 @@ class CoronaStore: ObservableObject {
         self.cases = caseData
     }
     
-    func getData() {
+    func getHistoryData() {
+        isHistoryUpdateCompleted = false
+        
         let url = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv")!
         
         let task = URLSession.shared.downloadTask(with: url) { localURL, urlResponse, error in
@@ -235,6 +242,9 @@ class CoronaStore: ObservableObject {
                 if let casesStr = try? String(contentsOf: localURL) {
                     DispatchQueue.main.async {
                         self.history = History(from: casesStr)
+                        
+                        self.historyModificationDate = Date()
+                        self.isHistoryUpdateCompleted = true
                     }
                 }
             }

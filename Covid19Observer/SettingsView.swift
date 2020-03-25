@@ -20,19 +20,19 @@ struct SettingsView: View {
                         footer: Text("Data by John Hopkins.")
                 ) {
                     Button(action: {
-                        self.coronaStore.updateCoronaStore()
+                        self.coronaStore.updateCasesData()
                     }) {
                         HStack {
                             Image(systemName: "arrow.2.circlepath")
+                                .rotationEffect(.degrees(coronaStore.isCasesUpdateCompleted ? -720 : 720))
+                                .animation(.easeInOut(duration: 1.3))
                                 .widthPreference(column: -1)
                                 .frame(width: self.columnWidths[-1], alignment: .leading)
-                                .rotationEffect(.degrees(coronaStore.isUpdateCompleted ? -720 : 720))
-                                .animation(.easeInOut(duration: 1.3))
                             
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Update Current Data")
                                 
-                                Text("Last update \(coronaStore.hoursMunutesSinceUpdateStr) ago")
+                                Text("Last update \(coronaStore.hoursMunutesSinceCasesUpdateStr) ago")
                                     .foregroundColor(.secondary)
                                     .font(.subheadline)
                             }
@@ -40,15 +40,22 @@ struct SettingsView: View {
                     }
                     
                     Button(action: {
-                        //  MARK: FINISH THIS
-                        //
                         self.coronaStore.updateHistoryData()
                     }) {
                         HStack {
                             Image(systemName: "arrow.2.circlepath.circle")
+                                .rotationEffect(.degrees(coronaStore.isHistoryUpdateCompleted ? -720 : 720))
+                                .animation(.easeInOut(duration: 1.3))
                                 .widthPreference(column: -1)
                                 .frame(width: self.columnWidths[-1], alignment: .leading)
-                            Text("Update History Data")
+                            
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Update History Data")
+                                
+                                Text("Last update \(coronaStore.hoursMunutesSinceHistoryUpdateStr) ago")
+                                    .foregroundColor(.secondary)
+                                    .font(.subheadline)
+                            }
                         }
                     }
                 }

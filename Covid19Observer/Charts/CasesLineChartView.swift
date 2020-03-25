@@ -51,12 +51,12 @@ struct CasesLineChartView: View {
                         self.showModal = true
                     }
                     LeadingButtonSFSymbol("arrow.clockwise") {
-                        self.coronaStore.getData()
+                        self.coronaStore.getHistoryData()
                     }
                 },
                 trailing:
 //                TrailingButtonSFSymbol("arrow.clockwise") {
-//                    self.coronaStore.getData()
+//                    self.coronaStore.getHistoryData()
 //                }
 
                 Button("Done") {
@@ -68,7 +68,7 @@ struct CasesLineChartView: View {
             }
         }
         .onAppear {
-            self.coronaStore.getData()
+            self.coronaStore.getHistoryData()
         }
     }
 }

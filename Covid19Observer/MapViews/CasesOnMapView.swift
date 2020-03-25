@@ -147,7 +147,7 @@ struct CasesOnMapView: View {
                                     .cancel(),
                                     .destructive(Text("Yes, reload")) {
                                         //  MARK: FINISH THIS
-                                        self.coronaStore.updateCoronaStore()
+                                        self.coronaStore.updateCasesData()
                                         print("to be done")
                                     }]
                     )
@@ -200,7 +200,7 @@ struct CasesOnMapView: View {
                                     .cancel(),
                                     .destructive(Text("Yes, reload")) {
                                         //  MARK: FINISH THIS
-                                        self.coronaStore.updateCoronaStore()
+                                        self.coronaStore.updateCasesData()
                                         print("to be done")
                                     }]
                     )
