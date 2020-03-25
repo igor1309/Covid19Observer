@@ -27,7 +27,7 @@ struct CasesOnMapView: View {
     @EnvironmentObject var coronaStore: CoronaStore
     
     @State private var centerCoordinate = CLLocationCoordinate2D()
-    @State private var selectedPlace: MKPointAnnotation?
+    @State private var selectedPlace: CaseAnnotation?
     @State private var showingPlaceDetails = false
     
     @State private var showTable = false
@@ -85,7 +85,36 @@ struct CasesOnMapView: View {
         .padding(.horizontal)
     }
     
-    var toolBar: some View {
+    var shortToolBar: some View {
+        HStack {
+            ToolBarButton(systemName: "line.horizontal.3.decrease") {
+                self.coronaStore.isFiltered.toggle()
+            }
+            .foregroundColor(coronaStore.isFiltered ? .systemOrange : .secondary)
+            
+            Spacer()
+            
+            ToolBarButton(systemName: "arrow.2.circlepath") {
+                self.showAlert = true
+            }
+            .actionSheet(isPresented: $showAlert) {
+                ActionSheet(title: Text("Reload".uppercased()),
+                            message: Text("Reload data? Internet connection required."),
+                            buttons: [
+                                .cancel(),
+                                .destructive(Text("Yes, reload")) {
+                                    //  MARK: FINISH THIS
+                                    self.coronaStore.updateCasesData()
+                                    print("to be done")
+                                }]
+                )
+            }
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 32)
+    }
+    
+    var longToolBar: some View {
         HStack {
             Group {
                 ToolBarButton(systemName: "line.horizontal.3.decrease") {
@@ -166,50 +195,23 @@ struct CasesOnMapView: View {
                 
                 MapView(
                     caseAnnotations: coronaStore.caseAnnotations,
-                    totalCases: Int(coronaStore.coronaOutbreak.totalCases) ?? 0,
                     centerCoordinate: $centerCoordinate,
                     selectedPlace: $selectedPlace,
+                    selectedCountry: $coronaStore.selectedCountry,
                     showingPlaceDetails: $showingPlaceDetails)
                     .edgesIgnoringSafeArea(.all)
+                    .sheet(isPresented: $showingPlaceDetails) {
+                         CasesLineChartView()
+                            .environmentObject(self.coronaStore)
+                }
                     
                 
                 header
             }
-            .sheet(isPresented: $showingPlaceDetails) {
-                Text("Line Chart to be Here")
-                //                    CasesLineChartView()
-            }
 
-            //  toolBar
+            //  longToolBar
             
-            HStack {
-                ToolBarButton(systemName: "line.horizontal.3.decrease") {
-                    self.coronaStore.isFiltered.toggle()
-                }
-                .foregroundColor(coronaStore.isFiltered ? .systemOrange : .secondary)
-                
-                Spacer()
-                
-                ToolBarButton(systemName: "arrow.2.circlepath") {
-                    self.showAlert = true
-                }
-                .actionSheet(isPresented: $showAlert) {
-                    ActionSheet(title: Text("Reload".uppercased()),
-                                message: Text("Reload data? Internet connection required."),
-                                buttons: [
-                                    .cancel(),
-                                    .destructive(Text("Yes, reload")) {
-                                        //  MARK: FINISH THIS
-                                        self.coronaStore.updateCasesData()
-                                        print("to be done")
-                                    }]
-                    )
-                }
-            }
-                //            .padding(6)
-                //            .roundedBackground()
-                .padding(.horizontal)
-                .padding(.bottom, 32)
+            shortToolBar
         }
     }
 }

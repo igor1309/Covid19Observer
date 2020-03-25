@@ -20,7 +20,7 @@ class CoronaStore: ObservableObject {
     
     @Published var history: History = History(from: "")
     @Published var cases = [CaseData]()
-    @Published var caseAnnotations = [CaseAnnotations]()
+    @Published var caseAnnotations = [CaseAnnotation]()
     @Published var coronaOutbreak = (totalCases: "...", totalRecovered: "...", totalDeaths: "...")
     
     @Published var isCasesUpdateCompleted = true
@@ -207,7 +207,7 @@ class CoronaStore: ObservableObject {
     }
     
     private func processCases() {
-        var caseAnnotations: [CaseAnnotations] = []
+        var caseAnnotations: [CaseAnnotation] = []
         var caseData: [CaseData] = []
         
         var totalCases = 0
@@ -220,7 +220,7 @@ class CoronaStore: ObservableObject {
             let title = cases.attributes.provinceState ?? cases.attributes.countryRegion ?? ""
             
             caseAnnotations.append(
-                CaseAnnotations(
+                CaseAnnotation(
                     title: title,
                     subtitle: "\(confirmed.formattedGrouped)",
                     coordinate: .init(latitude: cases.attributes.lat ?? 0.0,

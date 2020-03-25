@@ -1,5 +1,5 @@
 //
-//  MapViews.swift
+//  MapViewsOLD.swift
 //  SwiftUICoronaMapTracker
 //
 //  Created by Igor Malyarov on 22.03.2020.
@@ -9,10 +9,9 @@
 import SwiftUI
 import MapKit
 
-struct MapView: UIViewRepresentable {
+struct MapViewOLD: UIViewRepresentable {
     
-    var caseAnnotations: [CaseAnnotations]
-    var totalCases: Int
+    var caseAnnotations: [CaseAnnotation]
     
     @Binding var centerCoordinate: CLLocationCoordinate2D
     @Binding var selectedPlace: MKPointAnnotation?
@@ -21,6 +20,10 @@ struct MapView: UIViewRepresentable {
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
+        
+//        let region = MKCoordinateRegion(center: centerCoordinate, span: .regional)
+//        mapView.setRegion(region, animated: true)
+        
         return mapView
     }
     
@@ -42,15 +45,20 @@ struct MapView: UIViewRepresentable {
 //        }
     }
     
-    func makeCoordinator() -> MapViewCoordinator {
-        MapViewCoordinator(self)
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self, showingPlaceDetails: $showingPlaceDetails, selectedPlace: $selectedPlace)
     }
     
-    class MapViewCoordinator: NSObject, MKMapViewDelegate {
-        var parent: MapView
+    final class Coordinator: NSObject, MKMapViewDelegate {
+        var parent: MapViewOLD
         
-        init(_ control: MapView) {
-            self.parent = control
+        @Binding var showingPlaceDetails: Bool
+        @Binding var selectedPlace: MKPointAnnotation?
+        
+        init(_ mapView: MapViewOLD, showingPlaceDetails: Binding<Bool>, selectedPlace: Binding<MKPointAnnotation?>) {
+            self.parent = mapView
+            self._showingPlaceDetails = showingPlaceDetails
+            self._selectedPlace = selectedPlace
         }
         
         /// as in BucketList
@@ -96,12 +104,20 @@ struct MapView: UIViewRepresentable {
         /// as in BucketList
         //  MARK: FINISH THIS
         func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//            guard let placemark = view.annotation as? MKPointAnnotation else { return }
+////            guard let placemark = view.annotation as? MKPointAnnotation else { return }
+//            let placemark = view.annotation as? MKPointAnnotation
+//
+//            print("annotation tapped")
+//            parent.selectedPlace = placemark
+//            parent.showingPlaceDetails = true
+            
+            
+//            guard let placemark = view.annotation as? MKPointAnnotation else {
+//                return
+//            }
             let placemark = view.annotation as? MKPointAnnotation
-
-            print("annotation tapped")
-            parent.selectedPlace = placemark
-            parent.showingPlaceDetails = true
+            showingPlaceDetails = true
+            selectedPlace = placemark
         }
     }
 }
