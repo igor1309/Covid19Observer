@@ -11,6 +11,7 @@ import SwiftUI
 struct AxisY: View {
     let series: [Int]
     let numberOfGridLines: Int
+    let width: CGFloat = 56
     
     @State private var columnWidths: [Int: CGFloat] = [:]
     
@@ -22,13 +23,17 @@ struct AxisY: View {
                         .foregroundColor(line == 0 ? .clear : .secondary)
                         .font(.caption)
                         .offset(y: geo.size.height - CGFloat(line) * geo.size.height / 10)
-                        .widthPreference(column: -1)
-                        .frame(width: self.columnWidths[-1], alignment: .trailing)
+                        //  MARK: FIX THIS
+                        //  widthPreference not working
+                        //
+                        //  .widthPreference(column: 100)
+                        //  .frame(width: self.columnWidths[100], alignment: .trailing)
+                    .frame(width: self.width, alignment: .trailing)
                 }
             }
         }
-        .frame(width: self.columnWidths[-1], alignment: .trailing)
-        .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
+        .frame(width: width, alignment: .trailing)
+//        .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
     }
 }
 

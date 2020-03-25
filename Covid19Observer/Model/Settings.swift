@@ -15,9 +15,16 @@ final class Settings: ObservableObject {
         }
     }
     
-    @Published var initialNumber = UserDefaults.standard.double(forKey: "initialNumber") {
+    @Published var initialNumber: Double {
         didSet {
             UserDefaults.standard.set(initialNumber, forKey: "initialNumber")
+        }
+    }
+    
+    init() {
+        initialNumber = UserDefaults.standard.double(forKey: "initialNumber")
+        if initialNumber == 0 {
+            initialNumber = 5
         }
     }
 }

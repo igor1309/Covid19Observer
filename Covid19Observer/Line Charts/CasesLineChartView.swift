@@ -60,14 +60,15 @@ struct CasesLineChartView: View {
             .padding(.horizontal)
             .navigationBarTitle("\(coronaStore.selectedCountry)")
             .navigationBarItems(
-                leading: HStack {
+                leading: //HStack {
                     Button(coronaStore.selectedCountry + " ⌄") {
                         self.showModal = true
                     }
 //                    LeadingButtonSFSymbol("arrow.clockwise") {
 //                        self.coronaStore.getHistoryData()
 //                    }
-                },
+//                }
+                ,
                 trailing:
 //                TrailingButtonSFSymbol("arrow.clockwise") {
 //                    self.coronaStore.getHistoryData()
