@@ -17,7 +17,7 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 Section(header: Text("Update".uppercased()),
-                        footer: Text("Last update \(coronaStore.munutesSinceUpdate) min ago.\nData by John Hopkins.")
+                        footer: Text("Data by John Hopkins.")
                 ) {
                     Button(action: {
                         self.coronaStore.updateCoronaStore()
@@ -29,7 +29,13 @@ struct SettingsView: View {
                                 .rotationEffect(.degrees(coronaStore.isUpdateCompleted ? -720 : 720))
                                 .animation(.easeInOut(duration: 1.3))
                             
-                            Text("Update Current Data")
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Update Current Data")
+                                
+                                Text("Last update \(coronaStore.hoursMunutesSinceUpdateStr) ago")
+                                    .foregroundColor(.secondary)
+                                    .font(.subheadline)
+                            }
                         }
                     }
                     

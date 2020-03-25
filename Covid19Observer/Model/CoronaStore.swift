@@ -88,6 +88,13 @@ class CoronaStore: ObservableObject {
         Int(modificationDate.distance(to: Date()) / 60)
     }
     
+    var hoursMunutesSinceUpdateStr: String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .brief
+        formatter.allowedUnits = [.hour, .minute]
+        return formatter.string(from: modificationDate, to: Date())  ?? "n/a"
+    }
+    
     private var modificationDate: Date = (UserDefaults.standard.object(forKey: "modificationDate") as? Date ?? Date.distantPast) {
         didSet {
             UserDefaults.standard.set(modificationDate, forKey: "modificationDate")
