@@ -10,10 +10,10 @@ import SwiftUI
 import SwiftPI
 
 /// <#Description#>
-struct History {
+struct History: Codable {
     static let primeCountries = ["Russia", "Italy", "France", "Germany", "Finland"]
     
-    struct ShortCaseRow: Identifiable {
+    struct ShortCaseRow: Codable, Identifiable {
         var id: String { countryRegion }
         var provinceState, countryRegion: String
         //        var points: [Date: Int]

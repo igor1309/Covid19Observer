@@ -106,6 +106,14 @@ class CoronaStore: ObservableObject {
         }
         
         processCases()
+        
+        if let history: History = loadJSONFromDocDir("history.json") {
+            self.history = history
+            print("historical data loaded from JSON-file on disk")
+        } else {
+            self.history = History(from: "")
+            print("no JSON-file with historical data on disk, set to empty")
+        }
     }
     
     private var casesModificationDate: Date = (UserDefaults.standard.object(forKey: "casesModificationDate") as? Date ?? Date.distantPast) {
@@ -136,7 +144,7 @@ class CoronaStore: ObservableObject {
     }
     
     func updateHistoryData() {
-        getHistoryData()
+        fetchHistoryData()
     }
     
     func updateCasesData() {
@@ -245,7 +253,7 @@ class CoronaStore: ObservableObject {
         self.cases = caseData
     }
     
-    func getHistoryData() {
+    func fetchHistoryData() {
         isHistoryUpdateCompleted = false
         
         let url = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv")!
@@ -255,6 +263,7 @@ class CoronaStore: ObservableObject {
                 if let casesStr = try? String(contentsOf: localURL) {
                     DispatchQueue.main.async {
                         self.history = History(from: casesStr)
+                        saveJSONToDocDir(data: self.history, filename: "history.json")
                         
                         self.historyModificationDate = Date()
                         self.isHistoryUpdateCompleted = true
