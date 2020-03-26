@@ -17,9 +17,11 @@ enum CaseDataType: String, CaseIterable {
 }
 
 struct TopCasesHBarChart: View {
+    @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
     
     @State private var selection = CaseDataType.confirmed //"Confirmed"
+    @State private var showTable = false
     @State private var showLineChart = false
     @State private var selectedCountry = ""
     
@@ -35,9 +37,9 @@ struct TopCasesHBarChart: View {
     private func navTitle(_ type: CaseDataType) -> String {
         switch type {
         case .confirmed:
-            return "Cases: \(coronaStore.coronaOutbreak.totalCases)"
+            return "Total: \(coronaStore.coronaOutbreak.totalCases)"
         case .deaths:
-            return "\(type.id): \(coronaStore.coronaOutbreak.totalDeaths)"
+            return "Total: \(coronaStore.coronaOutbreak.totalDeaths) deaths"
         case .deathRate:
             return type.id
         }
@@ -96,6 +98,40 @@ struct TopCasesHBarChart: View {
         return VStack {
             if coronaStore.cases.isNotEmpty {
                 VStack {
+                    HStack{
+                        VStack {
+                            Text("Confirmed")
+                            Text("\(coronaStore.coronaOutbreak.totalCases)")
+                                .font(.subheadline)
+                        }
+                        .foregroundColor(.systemYellow)
+                        
+                        Spacer()
+                        VStack {
+                            Text("Recovered")
+                            Text("\(coronaStore.coronaOutbreak.totalRecovered)")
+                                .font(.subheadline)
+                        }
+                        .foregroundColor(.systemGreen)
+                        
+                        Spacer()
+                        VStack {
+                            Text("Deaths")
+                            Text("\(coronaStore.coronaOutbreak.totalDeaths)")
+                                .font(.subheadline)
+                        }
+                        .foregroundColor(.systemRed)
+                        
+                        TrailingButtonSFSymbol("table") {
+                            self.showTable = true
+                        }
+                        .sheet(isPresented: $showTable, content: {
+                            CasesTableView()
+                                .environmentObject(self.coronaStore)
+                        })
+                    }
+                    .padding(.leading)
+                    
                     Picker(selection: $selection, label: Text("Select Confirmed Cases or Deaths")) {
                         ForEach(CaseDataType.allCases, id: \.self) { type in
                             Text(type.id).tag(type)
