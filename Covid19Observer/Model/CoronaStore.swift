@@ -41,6 +41,8 @@ class CoronaStore: ObservableObject {
         }
     }
     
+    var filterColor: Color { Color(colorCode(number: mapFilterLowerLimit)) }
+    
     var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
         didSet {
             UserDefaults.standard.set(isFiltered, forKey: "isFiltered")
@@ -91,6 +93,7 @@ class CoronaStore: ObservableObject {
     private var responseCacheByCountry: CoronaResponse
     
     init() {
+        if mapFilterLowerLimit == 0 { mapFilterLowerLimit = 100 }
         if maxBars == 0 { maxBars = 15 }
         
         caseType = CaseType.byCountry
@@ -212,6 +215,29 @@ class CoronaStore: ObservableObject {
         .store(in: &storage)
     }
     
+    private func colorCode(number: Int) -> UIColor {
+        let color: UIColor
+        
+        switch number {
+        case 0...99:
+            color = .systemGray
+        case 100...499:
+            color = .systemGreen
+        case 500...999:
+            color = .systemBlue
+        case 1_000...4_999:
+            color = .systemYellow
+        case 5_000...9_999:
+            color = .systemOrange
+        case 10_000...:
+            color = .systemRed
+        default:
+            color = .systemFill
+        }
+        
+        return color
+    }
+    
     private func processCases() {
         var caseAnnotations: [CaseAnnotation] = []
         var caseData: [CaseData] = []
@@ -225,24 +251,6 @@ class CoronaStore: ObservableObject {
             let confirmed = cases.attributes.confirmed ?? 0
             let title = cases.attributes.provinceState ?? cases.attributes.countryRegion ?? ""
             
-            let color: UIColor
-            switch confirmed {
-            case 0...99:
-                color = .systemGray
-            case 100...499:
-                color = .systemGreen
-            case 500...999:
-                color = .systemBlue
-            case 1_000...4_999:
-                color = .systemYellow
-            case 5_000...9_999:
-                color = .systemOrange
-            case 10_000...:
-                color = .systemRed
-            default:
-                color = .systemFill
-            }
-            
             caseAnnotations.append(
                 CaseAnnotation(
                     title: title,
@@ -250,7 +258,7 @@ class CoronaStore: ObservableObject {
                     value: confirmed,
                     coordinate: .init(latitude: cases.attributes.lat ?? 0.0,
                                       longitude: cases.attributes.longField ?? 0.0),
-                    color: color))
+                    color: colorCode(number: confirmed)))
             
             totalCases += confirmed
             totalDeaths += cases.attributes.deaths ?? 0

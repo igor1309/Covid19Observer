@@ -90,7 +90,7 @@ struct CasesOnMapView: View {
             ToolBarButton(systemName: "line.horizontal.3.decrease") {
                 self.coronaStore.isFiltered.toggle()
             }
-            .foregroundColor(coronaStore.isFiltered ? .systemOrange : .secondary)
+            .foregroundColor(coronaStore.isFiltered ? coronaStore.filterColor : .secondary)
             
             Spacer()
             
@@ -120,7 +120,7 @@ struct CasesOnMapView: View {
                 ToolBarButton(systemName: "line.horizontal.3.decrease") {
                     self.coronaStore.isFiltered.toggle()
                 }
-                .foregroundColor(coronaStore.isFiltered ? .systemOrange : .secondary)
+                .foregroundColor(coronaStore.isFiltered ? coronaStore.filterColor : .secondary)
                 
                 Spacer()
                 

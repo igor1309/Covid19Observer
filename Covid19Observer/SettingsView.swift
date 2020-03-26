@@ -77,10 +77,11 @@ struct SettingsView: View {
                             
                             VStack(alignment: .leading) {
                                 Text("Lower Limit for Map Filter")
+                                    .foregroundColor(coronaStore.filterColor)
                                     .padding(.trailing, 64)
                                 
                                 Picker(selection: $coronaStore.mapFilterLowerLimit, label: Text("Select Top Qty")) {
-                                    ForEach([0, 100, 500, 1000, 5_000, 10_000], id: \.self) { qty in
+                                    ForEach([100, 500, 1000, 5_000, 10_000], id: \.self) { qty in
                                         Text("\(qty)").tag(qty)
                                     }
                                 }
