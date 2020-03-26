@@ -41,40 +41,48 @@ struct CasesOnMapView: View {
             Text("COVID-19 Data by John Hopkins")
                 .font(.subheadline).bold()
             
-            HStack{
-                VStack {
-                    Text("\(coronaStore.coronaOutbreak.totalCases)")
-                        .font(.subheadline)
-                    Text("confirmed")
+            Button(action: {
+                self.showTable = true
+            }) {
+                HStack{
+                    VStack {
+                        Text("\(coronaStore.coronaOutbreak.totalCases)")
+                            .font(.subheadline)
+                        Text("confirmed")
+                    }
+                    .foregroundColor(.systemYellow)
+                    
+                    Spacer()
+                    VStack {
+                        Text("\(coronaStore.coronaOutbreak.totalRecovered)")
+                            .font(.subheadline)
+                        Text("recovered")
+                    }
+                    .foregroundColor(.systemGreen)
+                    
+                    Spacer()
+                    VStack {
+                        Text("\(coronaStore.coronaOutbreak.totalDeaths)")
+                            .font(.subheadline)
+                        Text("deaths")
+                    }
+                    .foregroundColor(.systemRed)
+                    
+                    Spacer()
+                    VStack {
+                        Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
+                            .font(.subheadline)
+                        Text("CFR")
+                    }
+                    .foregroundColor(.systemTeal)
                 }
-                .foregroundColor(.systemYellow)
-                
-                Spacer()
-                VStack {
-                    Text("\(coronaStore.coronaOutbreak.totalRecovered)")
-                        .font(.subheadline)
-                    Text("recovered")
-                }
-                .foregroundColor(.systemGreen)
-                
-                Spacer()
-                VStack {
-                    Text("\(coronaStore.coronaOutbreak.totalDeaths)")
-                        .font(.subheadline)
-                    Text("deaths")
-                }
-                .foregroundColor(.systemRed)
-                
-                Spacer()
-                VStack {
-                    Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
-                        .font(.subheadline)
-                    Text("CFR")
-                }
-                .foregroundColor(.systemTeal)
+                .font(.caption)
+                .padding(.horizontal, 8)
             }
-            .font(.caption)
-            .padding(.horizontal, 8)
+            .sheet(isPresented: $showTable, content: {
+                CasesTableView()
+                    .environmentObject(self.coronaStore)
+            })
             
             Divider()
             

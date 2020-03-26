@@ -99,51 +99,49 @@ struct TopCasesHBarChart: View {
         return VStack {
             if coronaStore.cases.isNotEmpty {
                 VStack {
-                    HStack {
-                        Spacer()
-                        
-                        TrailingButtonSFSymbol("table") {
-                            self.showTable = true
+                    Button(action: {
+                        self.showTable = true
+                    }) {
+                        HStack {
+                            VStack {
+                                Text("\(coronaStore.coronaOutbreak.totalCases)")
+                                    .font(.subheadline)
+                                Text("confirmed")
+                            }
+                            .foregroundColor(.systemYellow)
+                            
+                            Spacer()
+                            VStack {
+                                Text("\(coronaStore.coronaOutbreak.totalRecovered)")
+                                    .font(.subheadline)
+                                Text("recovered")
+                            }
+                            .foregroundColor(.systemGreen)
+                            
+                            Spacer()
+                            VStack {
+                                Text("\(coronaStore.coronaOutbreak.totalDeaths)")
+                                    .font(.subheadline)
+                                Text("deaths")
+                            }
+                            .foregroundColor(.systemRed)
+                            
+                            Spacer()
+                            VStack {
+                                Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
+                                    .font(.subheadline)
+                                Text("CFR")
+                            }
+                            .foregroundColor(.systemTeal)
                         }
-                        .sheet(isPresented: $showTable, content: {
-                            CasesTableView()
-                                .environmentObject(self.coronaStore)
-                        })
+                        .font(.caption)
+                        .padding(.horizontal, 6)
                     }
-                    HStack{
-                        VStack {
-                            Text("\(coronaStore.coronaOutbreak.totalCases)")
-                                .font(.subheadline)
-                            Text("confirmed")
-                        }
-                        .foregroundColor(.systemYellow)
-                        
-                        Spacer()
-                        VStack {
-                            Text("\(coronaStore.coronaOutbreak.totalRecovered)")
-                                .font(.subheadline)
-                            Text("recovered")
-                        }
-                        .foregroundColor(.systemGreen)
-                        
-                        Spacer()
-                        VStack {
-                            Text("\(coronaStore.coronaOutbreak.totalDeaths)")
-                                .font(.subheadline)
-                            Text("deaths")
-                        }
-                        .foregroundColor(.systemRed)
-                        
-                        Spacer()
-                        VStack {
-                            Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
-                                .font(.subheadline)
-                            Text("CFR")
-                        }
-                        .foregroundColor(.systemTeal)
-                    }
-                    .font(.caption)
-                    .padding(.horizontal, 6)
+                    .sheet(isPresented: $showTable, content: {
+                        CasesTableView()
+                            .environmentObject(self.coronaStore)
+                    })
+                    
                     
                     Picker(selection: $selection, label: Text("Select Confirmed Cases or Deaths")) {
                         ForEach(CaseDataType.allCases, id: \.self) { type in
