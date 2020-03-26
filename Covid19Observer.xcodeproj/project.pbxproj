@@ -31,6 +31,7 @@
 		2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3224292F1A007C6846 /* GraphGridShape.swift */; };
 		2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */; };
 		2A6607FF242BF7060056C849 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FE242BF7060056C849 /* MapView.swift */; };
+		2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A660800242CC7720056C849 /* CaseAnnotationView.swift */; };
 		2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0AF2428CB8400137694 /* DoublingModel.swift */; };
 		2A74F0B42428CB8400137694 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B02428CB8400137694 /* History.swift */; };
 		2A74F0B52428CB8400137694 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0B12428CB8400137694 /* Settings.swift */; };
@@ -72,6 +73,7 @@
 		2A445F3224292F1A007C6846 /* GraphGridShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGridShape.swift; sourceTree = "<group>"; };
 		2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		2A6607FE242BF7060056C849 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		2A660800242CC7720056C849 /* CaseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseAnnotationView.swift; sourceTree = "<group>"; };
 		2A74F0AF2428CB8400137694 /* DoublingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoublingModel.swift; sourceTree = "<group>"; };
 		2A74F0B02428CB8400137694 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		2A74F0B12428CB8400137694 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			children = (
 				2A03BF012428C04F0094852B /* CasesOnMapView.swift */,
 				2A6607FE242BF7060056C849 /* MapView.swift */,
+				2A660800242CC7720056C849 /* CaseAnnotationView.swift */,
 				2A03BF002428C04F0094852B /* MapViewsOLD.swift */,
 				2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */,
 			);
@@ -329,6 +332,7 @@
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
 				2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */,
 				2A03BF022428C04F0094852B /* CaseAnnotations.swift in Sources */,
+				2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */,
 				2A74F0B52428CB8400137694 /* Settings.swift in Sources */,
 				2A74F0C62428CE7B00137694 /* Table.swift in Sources */,
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,
@@ -477,7 +481,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -486,7 +490,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.07;
+				MARKETING_VERSION = 1.08;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;
@@ -499,7 +503,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -508,7 +512,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.07;
+				MARKETING_VERSION = 1.08;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;

@@ -33,7 +33,6 @@ class CoronaStore: ObservableObject {
     }
     
     var selectedCountryOutbreak: (totalCases: String, totalDeaths: String) {
-////        var outbreak = (totalCases: "...", totalDeaths: "...")
         if let countryCase = cases.first(where: { $0.name == selectedCountry }) {
             return (totalCases: countryCase.confirmedStr,
                     totalDeaths: countryCase.deathsStr)
@@ -45,6 +44,13 @@ class CoronaStore: ObservableObject {
     var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
         didSet {
             UserDefaults.standard.set(isFiltered, forKey: "isFiltered")
+            processCases()
+        }
+    }
+    
+    var mapFilterLowerLimit = UserDefaults.standard.integer(forKey: "mapFilterLowerLimit") {
+        didSet {
+            UserDefaults.standard.set(mapFilterLowerLimit, forKey: "mapFilterLowerLimit")
             processCases()
         }
     }
@@ -227,7 +233,7 @@ class CoronaStore: ObservableObject {
                 color = .systemGreen
             case 500...999:
                 color = .systemBlue
-            case 1000...4999:
+            case 1_000...4_999:
                 color = .systemYellow
             case 5_000...9_999:
                 color = .systemOrange
@@ -241,6 +247,7 @@ class CoronaStore: ObservableObject {
                 CaseAnnotation(
                     title: title,
                     subtitle: "\(confirmed.formattedGrouped)",
+                    value: confirmed,
                     coordinate: .init(latitude: cases.attributes.lat ?? 0.0,
                                       longitude: cases.attributes.longField ?? 0.0),
                     color: color))
@@ -263,8 +270,14 @@ class CoronaStore: ObservableObject {
         self.coronaOutbreak.totalDeaths = "\(totalDeaths.formattedGrouped)"
         self.coronaOutbreak.totalRecovered = "\(totalRecovered.formattedGrouped)"
         
+        if isFiltered {
+            /// caseAnnotations should be filtered by number of cases, not top-10/15/20
+            //  caseAnnotations = Array(caseAnnotations.prefix(upTo: maxBars))
+            caseAnnotations = caseAnnotations
+                .filter { $0.value > mapFilterLowerLimit }
+        }
+
         if isFiltered && caseAnnotations.count > maxBars {
-            caseAnnotations = Array(caseAnnotations.prefix(upTo: maxBars))
             caseData = Array(caseData.prefix(upTo: maxBars))
         }
         

@@ -74,6 +74,20 @@ struct SettingsView: View {
                                 .labelsHidden()
                                 .pickerStyle(SegmentedPickerStyle())
                             }
+                            
+                            VStack(alignment: .leading) {
+                                Text("Lower Limit for Map Filter")
+                                    .padding(.trailing, 64)
+                                
+                                Picker(selection: $coronaStore.mapFilterLowerLimit, label: Text("Select Top Qty")) {
+                                    ForEach([0, 100, 500, 1000, 5_000, 10_000], id: \.self) { qty in
+                                        Text("\(qty)").tag(qty)
+                                    }
+                                }
+                                .labelsHidden()
+                                .pickerStyle(SegmentedPickerStyle())
+                            }
+                            .padding(.vertical, 2)
                 }
             }
             .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }

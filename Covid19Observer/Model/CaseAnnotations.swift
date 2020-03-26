@@ -11,12 +11,14 @@ import MapKit
 class CaseAnnotation: NSObject, MKAnnotation {
     let title: String?
     let subtitle: String?
+    let value: Int
     let coordinate: CLLocationCoordinate2D
     let color: UIColor
     
-    init(title: String?, subtitle: String?, coordinate: CLLocationCoordinate2D, color: UIColor) {
+    init(title: String?, subtitle: String?, value: Int, coordinate: CLLocationCoordinate2D, color: UIColor) {
         self.title = title
         self.subtitle = subtitle
+        self.value = value
         self.coordinate = coordinate
         self.color = color
     }

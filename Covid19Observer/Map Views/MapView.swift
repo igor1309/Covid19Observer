@@ -105,19 +105,22 @@ struct MapView: UIViewRepresentable {
 //        }
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            // this is our unique identifier for view reuse
+            /// unique identifier for view reuse
             let identifier = "Placemark"
             
             // attempt to find a cell we can recycle
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
                 as? MKPinAnnotationView
             
+            //  MAKR: FIX THIS
+            //  annotationView SHOULD be reusable
+            //  https://developer.apple.com/documentation/mapkit/mkannotationview
 //            if annotationView == nil {
                 if let annotation = annotation as? CaseAnnotation {
-                    // we didn't find one; make a new one
+                    /// we didn't find one; make a new one
                     annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                     
-                    // allow this to show pop up information
+                    /// allow this to show pop up information
                     annotationView?.canShowCallout = true
                     
                     /// attach an information button to the view
@@ -163,10 +166,11 @@ extension CaseAnnotation {
     static var london: CaseAnnotation {
         CaseAnnotation(title: "London",
                        subtitle: "Home to the 2012 Summer Olympics.",
+                       value: 255,
                        coordinate: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.13),
                        color: .systemIndigo)
     }
     static var moscow: CaseAnnotation {
-        CaseAnnotation(title: "Moscow", subtitle: "Capital of Russia", coordinate: .moscow, color: .systemGray)
+        CaseAnnotation(title: "Moscow", subtitle: "Capital of Russia", value: 300, coordinate: .moscow, color: .systemGray)
     }
 }
