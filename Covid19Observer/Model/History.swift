@@ -23,19 +23,19 @@ struct History: Codable {
     var table: [[String]] = []
     var rows: [ShortCaseRow] = []
     
-    var provinceStateCountryRegions: [String] {
-        Array(rows.map { $0.countryRegion + ($0.provinceState == "" ? "" : ", " + $0.provinceState) }
-            .dropFirst())
-            .removingDuplicates()
-            .sorted()
-    }
+//    var provinceStateCountryRegions: [String] {
+//        Array(rows.map { $0.countryRegion + ($0.provinceState == "" ? "" : ", " + $0.provinceState) }
+//            .dropFirst())
+//            .removingDuplicates()
+//            .sorted()
+//    }
     
-    var countryRegions: [String] {
-        Array(rows.map { $0.countryRegion }
-            .dropFirst())
-            .removingDuplicates()
-            .sorted()
-    }
+//    var countryRegions: [String] {
+//        Array(rows.map { $0.countryRegion }
+//            .dropFirst())
+//            .removingDuplicates()
+//            .sorted()
+//    }
     
     private init(table: [[String]], rows: [ShortCaseRow]) {
         self.table = table

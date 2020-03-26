@@ -14,15 +14,15 @@ struct CountryPicker: View {
     
     var body: some View {
         NavigationView {
-            Form {
+//            List {
                 Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
-                    ForEach(coronaStore.history.countryRegions, id: \.self) { countryRegion in
+                    ForEach(coronaStore.countryRegions, id: \.self) { countryRegion in
                         //  ForEach(coronaStore.cases.provinceStateCountryRegions, id: \.self) { countryRegion in
                         Text(countryRegion)
                     }
                 }
                 .labelsHidden()
-            }
+//            }
             .navigationBarTitle("Select Country")
             .navigationBarItems(trailing: Button("Done") {
                 self.presentation.wrappedValue.dismiss()

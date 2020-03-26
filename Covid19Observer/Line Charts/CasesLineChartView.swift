@@ -14,7 +14,7 @@ struct CasesLineChartView: View {
     @EnvironmentObject var coronaStore: CoronaStore
     
     @State private var showModal = false
-
+    
     var series: [Int] {
         coronaStore.history.series(for: coronaStore.selectedCountry)
     }
@@ -32,7 +32,7 @@ struct CasesLineChartView: View {
                     Spacer()
                     
                     Text("Deaths: \(coronaStore.selectedCountryOutbreak.totalDeaths)")
-                    .foregroundColor(.systemRed)
+                        .foregroundColor(.systemRed)
                 }
                 
                 Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
@@ -44,7 +44,7 @@ struct CasesLineChartView: View {
                 
                 if series.isNotEmpty {
                     HeatedLineChart(series: series, numberOfGridLines: numberOfGridLines)
-//                        .padding(.top, 12)
+                    //                        .padding(.top, 12)
                 } else {
                     Spacer()
                 }
@@ -52,38 +52,25 @@ struct CasesLineChartView: View {
                 Text(series
                     .suffix(14)
                     .map { String($0) }
-                    .joined(separator: ", "))
+                    .joined(separator: ", ")
+                    //  MARK: FINISH THIS
+                    //  показать последюнюю дату в серии
+                    //+ " " + coronaStore.history.rows[0].series.last
+                )
                     .foregroundColor(.tertiary)
                     .font(.caption)
                     .padding(.bottom, 6)
             }
             .padding(.horizontal)
             .navigationBarTitle("\(coronaStore.selectedCountry)")
-            .navigationBarItems(
-                leading: //HStack {
-                    Button(coronaStore.selectedCountry + " ⌄") {
-                        self.showModal = true
-                    }
-//                    LeadingButtonSFSymbol("arrow.clockwise") {
-//                        self.coronaStore.fetchHistoryData()
-//                    }
-//                }
-                ,
-                trailing:
-//                TrailingButtonSFSymbol("arrow.clockwise") {
-//                    self.coronaStore.fetchHistoryData()
-//                }
-
-                Button("Done") {
-                    self.presentation.wrappedValue.dismiss()
+            .navigationBarItems(leading:
+                Button(coronaStore.selectedCountry + " ⌄") {
+                    self.showModal = true
                 }
-            )
                 .sheet(isPresented: $showModal) {
                     CountryPicker().environmentObject(self.coronaStore)
-            }
-        }
-        .onAppear {
-//            self.coronaStore.fetchHistoryData()
+                }
+            )
         }
     }
 }

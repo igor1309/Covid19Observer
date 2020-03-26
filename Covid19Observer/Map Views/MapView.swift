@@ -105,10 +105,14 @@ struct MapView: UIViewRepresentable {
 //        }
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            guard let caseAnnotation: CaseAnnotation = annotation as? CaseAnnotation else {
+                return nil
+            }
+            
             /// unique identifier for view reuse
             let identifier = "Placemark"
             
-            // attempt to find a cell we can recycle
+            /// attempt to find a cell we can recycle
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
                 as? MKPinAnnotationView
             
@@ -116,36 +120,34 @@ struct MapView: UIViewRepresentable {
             //  annotationView SHOULD be reusable
             //  https://developer.apple.com/documentation/mapkit/mkannotationview
 //            if annotationView == nil {
-                if let annotation = annotation as? CaseAnnotation {
-                    /// we didn't find one; make a new one
-                    annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                    
-                    /// allow this to show pop up information
-                    annotationView?.canShowCallout = true
-                    
-                    /// attach an information button to the view
-                    // annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-                    let mapIcon = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
-                    mapIcon.setBackgroundImage(UIImage(systemName: "waveform.path.ecg"), for: UIControl.State())
-                    annotationView?.rightCalloutAccessoryView = mapIcon
-                    
-                    /// styling
-                    annotationView?.pinTintColor = annotation.color
-                    
-                    let subtitleLabel = UILabel()
-                    subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-                    subtitleLabel.text = annotation.subtitle ?? "NA"
-                    subtitleLabel.numberOfLines = 0
-                    subtitleLabel.font = .preferredFont(forTextStyle: .headline)
-                    subtitleLabel.textColor = .yellow
-                    annotationView?.detailCalloutAccessoryView = subtitleLabel
-                }
+                /// we didn't find one; make a new one
+                annotationView = MKPinAnnotationView(annotation: caseAnnotation, reuseIdentifier: identifier)
+                
+                /// styling
+                annotationView?.pinTintColor = caseAnnotation.color
+                
+                let subtitleLabel = UILabel()
+                subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+                subtitleLabel.text = caseAnnotation.subtitle ?? "NA"
+                subtitleLabel.numberOfLines = 0
+                subtitleLabel.font = .preferredFont(forTextStyle: .headline)
+                subtitleLabel.textColor = .yellow
+                annotationView?.detailCalloutAccessoryView = subtitleLabel
+                
+                /// allow this to show pop up information
+                annotationView?.canShowCallout = true
+                
+                /// attach an information button to the view
+                // annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+                let mapIcon = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
+                mapIcon.setBackgroundImage(UIImage(systemName: "waveform.path.ecg"), for: UIControl.State())
+                annotationView?.rightCalloutAccessoryView = mapIcon
 //            } else {
-//                // we have a view to reuse, so give it the new annotation
-//                annotationView?.annotation = annotation
+//                /// we have a view to reuse, so give it the new annotation
+//                annotationView?.annotation = caseAnnotation
 //            }
             
-            // whether it's a new view or a recycled one, send it back
+            /// whether it's a new view or a recycled one, send it back
             return annotationView
         }
     }

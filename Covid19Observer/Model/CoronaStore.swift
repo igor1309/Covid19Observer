@@ -20,6 +20,7 @@ class CoronaStore: ObservableObject {
     
     @Published var history: History = History(from: "")
     @Published var cases = [CaseData]()
+//    @Published var filteredCases = [CaseData]()
     @Published var caseAnnotations = [CaseAnnotation]()
     @Published var coronaOutbreak = (totalCases: "...", totalRecovered: "...", totalDeaths: "...")
     
@@ -31,6 +32,8 @@ class CoronaStore: ObservableObject {
             UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
         }
     }
+    
+    var countryRegions: [String] { cases.map { $0.name }.sorted()}
     
     var selectedCountryOutbreak: (totalCases: String, totalDeaths: String) {
         if let countryCase = cases.first(where: { $0.name == selectedCountry }) {
@@ -278,19 +281,13 @@ class CoronaStore: ObservableObject {
         self.coronaOutbreak.totalDeaths = "\(totalDeaths.formattedGrouped)"
         self.coronaOutbreak.totalRecovered = "\(totalRecovered.formattedGrouped)"
         
-        if isFiltered {
-            /// caseAnnotations should be filtered by number of cases, not top-10/15/20
-            //  caseAnnotations = Array(caseAnnotations.prefix(upTo: maxBars))
-            caseAnnotations = caseAnnotations
-                .filter { $0.value > mapFilterLowerLimit }
-        }
+        self.caseAnnotations = caseAnnotations.filter { $0.value > (isFiltered ? mapFilterLowerLimit : 0) }
 
-        if isFiltered && caseAnnotations.count > maxBars {
-            caseData = Array(caseData.prefix(upTo: maxBars))
-        }
-        
-        self.caseAnnotations = caseAnnotations
-        self.cases = caseData
+//        if isFiltered && caseAnnotations.count > maxBars {
+//            caseData = Array(caseData.prefix(upTo: maxBars))
+//        }
+        self.cases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
+//        self.cases = caseData
     }
     
     func fetchHistoryData() {

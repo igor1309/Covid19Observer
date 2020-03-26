@@ -152,8 +152,8 @@
 			isa = PBXGroup;
 			children = (
 				2A03BEF42428C04F0094852B /* CoronaStore.swift */,
-				2A03BEF12428C04F0094852B /* CaseAnnotations.swift */,
 				2A03BEF22428C04F0094852B /* Corona.swift */,
+				2A03BEF12428C04F0094852B /* CaseAnnotations.swift */,
 				2A03BEF32428C04F0094852B /* CaseType.swift */,
 				2A03BEF52428C04F0094852B /* CaseData.swift */,
 				2A74F0B02428CB8400137694 /* History.swift */,
