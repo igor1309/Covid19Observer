@@ -253,12 +253,14 @@ class CoronaStore: ObservableObject {
         for cases in responseCache.features {
             
             let confirmed = cases.attributes.confirmed ?? 0
+            let deaths = cases.attributes.deaths ?? 0
+            let cfr = confirmed == 0 ? 0 : Double(deaths) / Double(confirmed)
             let title = cases.attributes.provinceState ?? cases.attributes.countryRegion ?? ""
             
             caseAnnotations.append(
                 CaseAnnotation(
-                    title: title,
-                    subtitle: "\(confirmed.formattedGrouped)",
+                    title: "\(title) \(confirmed.formattedGrouped)",
+                    subtitle: "\(deaths.formattedGrouped) (\(cfr.formattedPercentageWithDecimals))",
                     value: confirmed,
                     coordinate: .init(latitude: cases.attributes.lat ?? 0.0,
                                       longitude: cases.attributes.longField ?? 0.0),

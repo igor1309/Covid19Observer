@@ -139,8 +139,8 @@ struct MapView: UIViewRepresentable {
                 subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
                 subtitleLabel.text = caseAnnotation.subtitle ?? "NA"
                 subtitleLabel.numberOfLines = 0
-                subtitleLabel.font = .preferredFont(forTextStyle: .headline)
-                subtitleLabel.textColor = .yellow
+                subtitleLabel.font = .preferredFont(forTextStyle: .footnote)
+                subtitleLabel.textColor = .systemRed
                 annView.detailCalloutAccessoryView = subtitleLabel
                 
                 /// allow this to show pop up information
