@@ -219,12 +219,31 @@ class CoronaStore: ObservableObject {
             let confirmed = cases.attributes.confirmed ?? 0
             let title = cases.attributes.provinceState ?? cases.attributes.countryRegion ?? ""
             
+            let color: UIColor
+            switch confirmed {
+            case 0...99:
+                color = .systemGray
+            case 100...499:
+                color = .systemGreen
+            case 500...999:
+                color = .systemBlue
+            case 1000...4999:
+                color = .systemYellow
+            case 5_000...9_999:
+                color = .systemOrange
+            case 10_000...:
+                color = .systemRed
+            default:
+                color = .systemFill
+            }
+            
             caseAnnotations.append(
                 CaseAnnotation(
                     title: title,
                     subtitle: "\(confirmed.formattedGrouped)",
                     coordinate: .init(latitude: cases.attributes.lat ?? 0.0,
-                                      longitude: cases.attributes.longField ?? 0.0)))
+                                      longitude: cases.attributes.longField ?? 0.0),
+                    color: color))
             
             totalCases += confirmed
             totalDeaths += cases.attributes.deaths ?? 0

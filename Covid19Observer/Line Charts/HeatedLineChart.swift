@@ -53,8 +53,8 @@ struct HeatedLineChart: View {
                 }
                 .padding(lineWidth / 2)
                 .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        withAnimation(.easeInOut(duration: 1.5)) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        withAnimation(.easeInOut(duration: 1.0)) {
                             self.animated = true
                         }
                     }

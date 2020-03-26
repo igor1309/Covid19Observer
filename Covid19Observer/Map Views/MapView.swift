@@ -33,12 +33,17 @@ struct MapView: UIViewRepresentable {
         view.delegate = context.coordinator
         
         /// Update annotations
-        if caseAnnotations.count != view.annotations.count || caseAnnotations.first?.coordinate.latitude != view.annotations.first?.coordinate.latitude {
+        if caseAnnotations.count != view.annotations.count || caseAnnotations.first?.coordinate.latitude != view.annotations.first?.coordinate.latitude || caseAnnotations.last?.coordinate.latitude != view.annotations.last?.coordinate.latitude {
             view.removeAnnotations(view.annotations)
             view.addAnnotations(caseAnnotations)
         }
         
-//        view.setCenter(centerCoordinate, animated: true)
+        
+        //        view.setCenter(centerCoordinate, animated: true)
+        
+//        if let first = caseAnnotations.first{
+//            view.selectAnnotation(first, animated: true)
+//        }
         
     //        if let selectedPlace = selectedPlace {
     //            view.selectAnnotation(selectedPlace, animated: false)
@@ -94,10 +99,10 @@ struct MapView: UIViewRepresentable {
         //            self.mapView.center = mapView.centerCoordinate
         //        }
         
-        /// as in BucketList
-        func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-            parent.centerCoordinate = mapView.centerCoordinate
-        }
+//        /// as in BucketList
+//        func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+//            parent.centerCoordinate = mapView.centerCoordinate
+//        }
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             // this is our unique identifier for view reuse
@@ -105,32 +110,37 @@ struct MapView: UIViewRepresentable {
             
             // attempt to find a cell we can recycle
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                as? MKPinAnnotationView
             
-            if annotationView == nil {
-                // we didn't find one; make a new one
-                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                
-                // allow this to show pop up information
-                annotationView?.canShowCallout = true
-                
-                /// attach an information button to the view
-                // annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-                let mapIcon = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
-                mapIcon.setBackgroundImage(UIImage(systemName: "waveform.path.ecg"), for: UIControl.State())
-                annotationView?.rightCalloutAccessoryView = mapIcon
-            } else {
-                // we have a view to reuse, so give it the new annotation
-                annotationView?.annotation = annotation
-            }
-            
-            /// styling
-            let subtitleLabel = UILabel()
-            subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-            subtitleLabel.text = annotation.subtitle ?? "NA"
-            subtitleLabel.numberOfLines = 0
-            subtitleLabel.font = .preferredFont(forTextStyle: .headline)
-            subtitleLabel.textColor = .yellow
-            annotationView?.detailCalloutAccessoryView = subtitleLabel
+//            if annotationView == nil {
+                if let annotation = annotation as? CaseAnnotation {
+                    // we didn't find one; make a new one
+                    annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                    
+                    // allow this to show pop up information
+                    annotationView?.canShowCallout = true
+                    
+                    /// attach an information button to the view
+                    // annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+                    let mapIcon = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
+                    mapIcon.setBackgroundImage(UIImage(systemName: "waveform.path.ecg"), for: UIControl.State())
+                    annotationView?.rightCalloutAccessoryView = mapIcon
+                    
+                    /// styling
+                    annotationView?.pinTintColor = annotation.color
+                    
+                    let subtitleLabel = UILabel()
+                    subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+                    subtitleLabel.text = annotation.subtitle ?? "NA"
+                    subtitleLabel.numberOfLines = 0
+                    subtitleLabel.font = .preferredFont(forTextStyle: .headline)
+                    subtitleLabel.textColor = .yellow
+                    annotationView?.detailCalloutAccessoryView = subtitleLabel
+                }
+//            } else {
+//                // we have a view to reuse, so give it the new annotation
+//                annotationView?.annotation = annotation
+//            }
             
             // whether it's a new view or a recycled one, send it back
             return annotationView
@@ -153,9 +163,10 @@ extension CaseAnnotation {
     static var london: CaseAnnotation {
         CaseAnnotation(title: "London",
                        subtitle: "Home to the 2012 Summer Olympics.",
-                       coordinate: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.13))
+                       coordinate: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.13),
+                       color: .systemIndigo)
     }
     static var moscow: CaseAnnotation {
-        CaseAnnotation(title: "Moscow", subtitle: "Capital of Russia", coordinate: .moscow)
+        CaseAnnotation(title: "Moscow", subtitle: "Capital of Russia", coordinate: .moscow, color: .systemGray)
     }
 }
