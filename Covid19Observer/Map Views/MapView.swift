@@ -109,31 +109,23 @@ struct MapView: UIViewRepresentable {
 //        }
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            //  MARK: -????
-            //  нужно ли ": CaseAnnotation" если есть "as? CaseAnnotation"
-            guard let caseAnnotation = annotation as? CaseAnnotation else {
-                return nil
-            }
+            //  https://www.raywenderlich.com/548-mapkit-tutorial-getting-started
+            //  https://developer.apple.com/documentation/mapkit/mkannotationview
+            //  https://www.hackingwithswift.com/read/16/3/annotations-and-accessory-views-mkpinannotationview
+            guard let caseAnnotation = annotation as? CaseAnnotation else { return nil }
             
             /// unique identifier for view reuse
             let identifier = "Placemark"
+            var annotationView: MKPinAnnotationView
             
-            /// attempt to find a cell we can recycle
-            //  MARK: -????
-            //  нужно ли ": MKPinAnnotationView?" если есть "as? MKPinAnnotationView" ??
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-                as? MKPinAnnotationView
-            
-            //  MARK: FIX THIS
-            //  annotationView SHOULD be reusable
-            //  https://developer.apple.com/documentation/mapkit/mkannotationview
-            //  https://www.hackingwithswift.com/read/16/3/annotations-and-accessory-views-mkpinannotationview
-            if annotationView == nil {
-                /// we didn't find one; make a new one
-                let annView = MKPinAnnotationView(annotation: caseAnnotation, reuseIdentifier: identifier)
-                
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                as? MKPinAnnotationView {
+                dequeuedView.annotation = caseAnnotation
+                annotationView = dequeuedView
+            } else {
+                annotationView = MKPinAnnotationView(annotation: caseAnnotation, reuseIdentifier: identifier)
                 /// styling
-                annView.pinTintColor = caseAnnotation.color
+                annotationView.pinTintColor = caseAnnotation.color
                 
                 let subtitleLabel = UILabel()
                 subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -141,21 +133,16 @@ struct MapView: UIViewRepresentable {
                 subtitleLabel.numberOfLines = 0
                 subtitleLabel.font = .preferredFont(forTextStyle: .footnote)
                 subtitleLabel.textColor = .secondaryLabel //.systemRed
-                annView.detailCalloutAccessoryView = subtitleLabel
+                annotationView.detailCalloutAccessoryView = subtitleLabel
                 
                 /// allow this to show pop up information
-                annView.canShowCallout = true
+                annotationView.canShowCallout = true
                 
                 /// attach an information button to the view
                 // annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
                 let mapIcon = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
                 mapIcon.setBackgroundImage(UIImage(systemName: "waveform.path.ecg"), for: UIControl.State())
-                annView.rightCalloutAccessoryView = mapIcon
-                
-                annotationView = annView
-            } else {
-                /// we have a view to reuse, so give it the new annotation
-                annotationView?.annotation = caseAnnotation
+                annotationView.rightCalloutAccessoryView = mapIcon
             }
             
             /// whether it's a new view or a recycled one, send it back
