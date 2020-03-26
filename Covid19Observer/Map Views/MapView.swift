@@ -40,9 +40,9 @@ struct MapView: UIViewRepresentable {
         
 //        view.setCenter(centerCoordinate, animated: true)
         
-//        if let selectedPlace = selectedPlace {
-//            view.selectAnnotation(selectedPlace, animated: false)
-//        }
+    //        if let selectedPlace = selectedPlace {
+    //            view.selectAnnotation(selectedPlace, animated: false)
+    //        }
     }
     
     func makeCoordinator() -> Coordinator {

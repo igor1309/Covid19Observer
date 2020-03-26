@@ -256,7 +256,8 @@ class CoronaStore: ObservableObject {
     func fetchHistoryData() {
         isHistoryUpdateCompleted = false
         
-        let url = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv")!
+        ///  https://github.com/CSSEGISandData/COVID-19
+        let url = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")!
         
         let task = URLSession.shared.downloadTask(with: url) { localURL, urlResponse, error in
             if let localURL = localURL {
