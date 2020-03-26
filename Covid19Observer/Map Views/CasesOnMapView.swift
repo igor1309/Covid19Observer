@@ -43,28 +43,37 @@ struct CasesOnMapView: View {
             
             HStack{
                 VStack {
-                    Text("Confirmed")
                     Text("\(coronaStore.coronaOutbreak.totalCases)")
                         .font(.subheadline)
+                    Text("confirmed")
                 }
                 .foregroundColor(.systemYellow)
                 
                 Spacer()
                 VStack {
-                    Text("Recovered")
                     Text("\(coronaStore.coronaOutbreak.totalRecovered)")
                         .font(.subheadline)
+                    Text("recovered")
                 }
                 .foregroundColor(.systemGreen)
                 
                 Spacer()
                 VStack {
-                    Text("Deaths")
                     Text("\(coronaStore.coronaOutbreak.totalDeaths)")
                         .font(.subheadline)
+                    Text("deaths")
                 }
                 .foregroundColor(.systemRed)
+                
+                Spacer()
+                VStack {
+                    Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
+                        .font(.subheadline)
+                    Text("CFR")
+                }
+                .foregroundColor(.systemTeal)
             }
+            .font(.caption)
             .padding(.horizontal, 8)
             
             Divider()

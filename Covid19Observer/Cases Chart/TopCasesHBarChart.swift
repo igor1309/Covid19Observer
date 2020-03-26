@@ -20,7 +20,7 @@ struct TopCasesHBarChart: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
     
-    @State private var selection = CaseDataType.deathRate //"Confirmed"
+    @State private var selection = CaseDataType.confirmed //"Confirmed"
     @State private var showTable = false
     @State private var showLineChart = false
     @State private var selectedCountry = ""
@@ -99,29 +99,8 @@ struct TopCasesHBarChart: View {
         return VStack {
             if coronaStore.cases.isNotEmpty {
                 VStack {
-                    HStack{
-                        VStack {
-                            Text("Confirmed")
-                            Text("\(coronaStore.coronaOutbreak.totalCases)")
-                                .font(.subheadline)
-                        }
-                        .foregroundColor(.systemYellow)
-                        
+                    HStack {
                         Spacer()
-                        VStack {
-                            Text("Recovered")
-                            Text("\(coronaStore.coronaOutbreak.totalRecovered)")
-                                .font(.subheadline)
-                        }
-                        .foregroundColor(.systemGreen)
-                        
-                        Spacer()
-                        VStack {
-                            Text("Deaths")
-                            Text("\(coronaStore.coronaOutbreak.totalDeaths)")
-                                .font(.subheadline)
-                        }
-                        .foregroundColor(.systemRed)
                         
                         TrailingButtonSFSymbol("table") {
                             self.showTable = true
@@ -131,7 +110,40 @@ struct TopCasesHBarChart: View {
                                 .environmentObject(self.coronaStore)
                         })
                     }
-                    .padding(.leading)
+                    HStack{
+                        VStack {
+                            Text("\(coronaStore.coronaOutbreak.totalCases)")
+                                .font(.subheadline)
+                            Text("confirmed")
+                        }
+                        .foregroundColor(.systemYellow)
+                        
+                        Spacer()
+                        VStack {
+                            Text("\(coronaStore.coronaOutbreak.totalRecovered)")
+                                .font(.subheadline)
+                            Text("recovered")
+                        }
+                        .foregroundColor(.systemGreen)
+                        
+                        Spacer()
+                        VStack {
+                            Text("\(coronaStore.coronaOutbreak.totalDeaths)")
+                                .font(.subheadline)
+                            Text("deaths")
+                        }
+                        .foregroundColor(.systemRed)
+                        
+                        Spacer()
+                        VStack {
+                            Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
+                                .font(.subheadline)
+                            Text("CFR")
+                        }
+                        .foregroundColor(.systemTeal)
+                    }
+                    .font(.caption)
+                    .padding(.horizontal, 6)
                     
                     Picker(selection: $selection, label: Text("Select Confirmed Cases or Deaths")) {
                         ForEach(CaseDataType.allCases, id: \.self) { type in
