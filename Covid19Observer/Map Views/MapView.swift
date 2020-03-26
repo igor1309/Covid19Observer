@@ -122,7 +122,7 @@ struct MapView: UIViewRepresentable {
             //  MARK: -????
             //  нужно ли ": MKPinAnnotationView?" если есть "as? MKPinAnnotationView" ??
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-//                as? MKPinAnnotationView
+                as? MKPinAnnotationView
             
             //  MARK: FIX THIS
             //  annotationView SHOULD be reusable
@@ -140,7 +140,7 @@ struct MapView: UIViewRepresentable {
                 subtitleLabel.text = caseAnnotation.subtitle ?? "NA"
                 subtitleLabel.numberOfLines = 0
                 subtitleLabel.font = .preferredFont(forTextStyle: .footnote)
-                subtitleLabel.textColor = .systemRed
+                subtitleLabel.textColor = .secondaryLabel //.systemRed
                 annView.detailCalloutAccessoryView = subtitleLabel
                 
                 /// allow this to show pop up information
