@@ -230,6 +230,9 @@ struct CasesOnMapView: View {
             
             shortToolBar
         }
+        .onAppear {
+            self.coronaStore.updateIfStoreIsOldOrEmpty()
+        }
     }
 }
 struct CasesOnMapView_Previews: PreviewProvider {

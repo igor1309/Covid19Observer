@@ -62,6 +62,10 @@ struct CasesLineChartView: View {
                     .padding(.bottom, 6)
             }
             .padding(.horizontal)
+            .onAppear {
+                self.coronaStore.updateIfStoreIsOldOrEmpty()
+            }
+                
             .navigationBarTitle("\(coronaStore.selectedCountry)")
             .navigationBarItems(leading:
                 Button(coronaStore.selectedCountry + " ⌄") {
