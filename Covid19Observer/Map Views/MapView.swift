@@ -33,11 +33,15 @@ struct MapView: UIViewRepresentable {
         view.delegate = context.coordinator
         
         /// Update annotations
-        if caseAnnotations.count != view.annotations.count || caseAnnotations.first?.coordinate.latitude != view.annotations.first?.coordinate.latitude || caseAnnotations.last?.coordinate.latitude != view.annotations.last?.coordinate.latitude {
+//        if caseAnnotations.count != view.annotations.count || caseAnnotations.first?.coordinate.latitude != view.annotations.first?.coordinate.latitude || caseAnnotations.last?.coordinate.latitude != view.annotations.last?.coordinate.latitude {
+//            view.removeAnnotations(view.annotations)
+//            view.addAnnotations(caseAnnotations)
+//        }
+        if caseAnnotations.count != view.annotations.count {
             view.removeAnnotations(view.annotations)
             view.addAnnotations(caseAnnotations)
         }
-        
+
         
         //        view.setCenter(centerCoordinate, animated: true)
         
@@ -69,11 +73,11 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-            guard let pin = view.annotation as? CaseAnnotation else {
+            guard let caseAnnotation = view.annotation as? CaseAnnotation else {
                 return
             }
-            selectedPlace = pin
-            selectedCountry = pin.title ?? "n/a"
+            selectedPlace = caseAnnotation
+            selectedCountry = caseAnnotation.title ?? "n/a"
             showingPlaceDetails = true
         }
         
@@ -105,7 +109,9 @@ struct MapView: UIViewRepresentable {
 //        }
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            guard let caseAnnotation: CaseAnnotation = annotation as? CaseAnnotation else {
+            //  MARK: -????
+            //  нужно ли ": CaseAnnotation" если есть "as? CaseAnnotation"
+            guard let caseAnnotation = annotation as? CaseAnnotation else {
                 return nil
             }
             
@@ -113,18 +119,21 @@ struct MapView: UIViewRepresentable {
             let identifier = "Placemark"
             
             /// attempt to find a cell we can recycle
+            //  MARK: -????
+            //  нужно ли ": MKPinAnnotationView?" если есть "as? MKPinAnnotationView" ??
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-                as? MKPinAnnotationView
+//                as? MKPinAnnotationView
             
-            //  MAKR: FIX THIS
+            //  MARK: FIX THIS
             //  annotationView SHOULD be reusable
             //  https://developer.apple.com/documentation/mapkit/mkannotationview
-//            if annotationView == nil {
+            //  https://www.hackingwithswift.com/read/16/3/annotations-and-accessory-views-mkpinannotationview
+            if annotationView == nil {
                 /// we didn't find one; make a new one
-                annotationView = MKPinAnnotationView(annotation: caseAnnotation, reuseIdentifier: identifier)
+                let annView = MKPinAnnotationView(annotation: caseAnnotation, reuseIdentifier: identifier)
                 
                 /// styling
-                annotationView?.pinTintColor = caseAnnotation.color
+                annView.pinTintColor = caseAnnotation.color
                 
                 let subtitleLabel = UILabel()
                 subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -132,20 +141,22 @@ struct MapView: UIViewRepresentable {
                 subtitleLabel.numberOfLines = 0
                 subtitleLabel.font = .preferredFont(forTextStyle: .headline)
                 subtitleLabel.textColor = .yellow
-                annotationView?.detailCalloutAccessoryView = subtitleLabel
+                annView.detailCalloutAccessoryView = subtitleLabel
                 
                 /// allow this to show pop up information
-                annotationView?.canShowCallout = true
+                annView.canShowCallout = true
                 
                 /// attach an information button to the view
                 // annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
                 let mapIcon = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
                 mapIcon.setBackgroundImage(UIImage(systemName: "waveform.path.ecg"), for: UIControl.State())
-                annotationView?.rightCalloutAccessoryView = mapIcon
-//            } else {
-//                /// we have a view to reuse, so give it the new annotation
-//                annotationView?.annotation = caseAnnotation
-//            }
+                annView.rightCalloutAccessoryView = mapIcon
+                
+                annotationView = annView
+            } else {
+                /// we have a view to reuse, so give it the new annotation
+                annotationView?.annotation = caseAnnotation
+            }
             
             /// whether it's a new view or a recycled one, send it back
             return annotationView

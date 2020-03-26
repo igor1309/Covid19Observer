@@ -11,7 +11,7 @@ import SwiftPI
 enum CaseDataType: String, CaseIterable {
     case confirmed = "Confirmed"
     case deaths = "Deaths"
-    case deathRate = "Death Rate"
+    case deathRate = "Rate"
     
     var id: String { rawValue }
 }
@@ -20,7 +20,7 @@ struct TopCasesHBarChart: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
     
-    @State private var selection = CaseDataType.confirmed //"Confirmed"
+    @State private var selection = CaseDataType.deathRate //"Confirmed"
     @State private var showTable = false
     @State private var showLineChart = false
     @State private var selectedCountry = ""
@@ -41,7 +41,7 @@ struct TopCasesHBarChart: View {
         case .deaths:
             return "Total: \(coronaStore.coronaOutbreak.totalDeaths) deaths"
         case .deathRate:
-            return type.id
+            return "Case Fatality Rate"
         }
     }
     
@@ -85,15 +85,16 @@ struct TopCasesHBarChart: View {
     }
     
     var body: some View {
-        let maxConfirmed: CGFloat
+        let maximum: CGFloat
         switch selection {
         case .confirmed:
-            maxConfirmed = CGFloat(coronaStore.cases.map { $0.confirmed }.max() ?? 1)
+            maximum = CGFloat(coronaStore.cases.map { $0.confirmed }.max() ?? 1)
         case .deaths:
-            maxConfirmed = CGFloat(coronaStore.cases.map { $0.deaths }.max() ?? 1)
+            maximum = CGFloat(coronaStore.cases.map { $0.deaths }.max() ?? 1)
         case .deathRate:
-            maxConfirmed = 0.1
+            maximum = 0.15
         }
+        
         
         return VStack {
             if coronaStore.cases.isNotEmpty {
@@ -141,25 +142,46 @@ struct TopCasesHBarChart: View {
                     .pickerStyle(SegmentedPickerStyle())
                     
                     GeometryReader { geo in
-                        VStack(alignment: .leading) {
-                            ForEach(0..<self.coronaStore.maxBars, id: \.self) { index in
-                                ZStack(alignment: .leading) {
-                                    
-                                    self.colorForType(self.selection)
-                                        .frame(width: geo.size.width / maxConfirmed * self.caseData(self.selection, for: index))
-                                        .cornerRadius(6)
-                                    
-                                    self.textLabel(name: "\(self.coronaStore.cases[index].name): \(self.caseDataStr(self.selection, for: index))",
-                                        width: geo.size.width / maxConfirmed * self.caseData(self.selection, for: index),
-                                        maxWidth: geo.size.width)
+                        ZStack {
+                            if self.selection == .deathRate {
+                                Text("World CFR \(self.coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
+                                    .foregroundColor(.systemTeal)
+                                    .font(.caption)
+                                    .padding(.vertical, 4)
+                                    .padding(.horizontal, 8)
+                                    .roundedBackground(cornerRadius: 4)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                            }
+                            
+                            ZStack(alignment: .leading) {
+                                if self.selection == .deathRate {
+                                    Color.systemTeal
+                                        .frame(width: 0.5)
+                                        .offset(x: geo.size.width / maximum * CGFloat(self.coronaStore.worldCaseFatalityRate))
+                                        .opacity(0.6)
                                 }
-                                .onTapGesture {
-                                    self.selectedCountry = self.coronaStore.cases[index].name
-                                    self.prepareHistoryData()
-                                }
-                                .sheet(isPresented: self.$showLineChart) {
-                                    CasesLineChartView()
-                                        .environmentObject(self.coronaStore)
+                                
+                                VStack(alignment: .leading) {
+                                    ForEach(0..<self.coronaStore.maxBars, id: \.self) { index in
+                                        ZStack(alignment: .leading) {
+                                            
+                                            self.colorForType(self.selection)
+                                                .frame(width: geo.size.width / maximum * self.caseData(self.selection, for: index))
+                                                .cornerRadius(6)
+                                            
+                                            self.textLabel(name: "\(self.coronaStore.cases[index].name): \(self.caseDataStr(self.selection, for: index))",
+                                                width: geo.size.width / maximum * self.caseData(self.selection, for: index),
+                                                maxWidth: geo.size.width)
+                                        }
+                                        .onTapGesture {
+                                            self.selectedCountry = self.coronaStore.cases[index].name
+                                            self.prepareHistoryData()
+                                        }
+                                        .sheet(isPresented: self.$showLineChart) {
+                                            CasesLineChartView()
+                                                .environmentObject(self.coronaStore)
+                                        }
+                                    }
                                 }
                             }
                         }

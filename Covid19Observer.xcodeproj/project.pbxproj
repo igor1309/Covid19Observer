@@ -124,12 +124,12 @@
 				2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */,
 				2A445F34242931A1007C6846 /* WORK IN PROGRESS */,
 				2A03BEDD2428BC6F0094852B /* ContentView.swift */,
-				2AAAC6EE242A384000C03E5B /* SettingsView.swift */,
+				2AFF26E9242B50E300DAC856 /* Cases Chart */,
 				2A03BEFF2428C04F0094852B /* Map Views */,
 				2A03BEF62428C04F0094852B /* Table */,
-				2A74F0BC2428CE3E00137694 /* Doubling Time */,
-				2AFF26E9242B50E300DAC856 /* Cases Chart */,
 				2A03BEFB2428C04F0094852B /* Line Charts */,
+				2A74F0BC2428CE3E00137694 /* Doubling Time */,
+				2A660802242D352D0056C849 /* Settings */,
 				2A03BEF82428C04F0094852B /* Extras */,
 				2A03BEF02428C04F0094852B /* Model */,
 				2A03BEDF2428BC700094852B /* Assets.xcassets */,
@@ -214,6 +214,14 @@
 				2A03BF112428C9890094852B /* TopTenBarChartVert.swift */,
 			);
 			path = "WORK IN PROGRESS";
+			sourceTree = "<group>";
+		};
+		2A660802242D352D0056C849 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				2AAAC6EE242A384000C03E5B /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		2A74F0BC2428CE3E00137694 /* Doubling Time */ = {
@@ -481,7 +489,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -490,7 +498,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.09;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;
@@ -503,7 +511,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -512,7 +520,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.09;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;

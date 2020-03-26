@@ -20,9 +20,10 @@ class CoronaStore: ObservableObject {
     
     @Published var history: History = History(from: "")
     @Published var cases = [CaseData]()
-//    @Published var filteredCases = [CaseData]()
     @Published var caseAnnotations = [CaseAnnotation]()
     @Published var coronaOutbreak = (totalCases: "...", totalRecovered: "...", totalDeaths: "...")
+    
+    var worldCaseFatalityRate: Double = 0
     
     @Published var isCasesUpdateCompleted = true
     @Published var isHistoryUpdateCompleted = true
@@ -277,6 +278,8 @@ class CoronaStore: ObservableObject {
             ))
         }
         
+        self.worldCaseFatalityRate = totalCases == 0 ? 0 : Double(totalDeaths) / Double(totalCases)
+        print("World Case Fatality Rate: \(worldCaseFatalityRate)")
         self.coronaOutbreak.totalCases = "\(totalCases.formattedGrouped)"
         self.coronaOutbreak.totalDeaths = "\(totalDeaths.formattedGrouped)"
         self.coronaOutbreak.totalRecovered = "\(totalRecovered.formattedGrouped)"
