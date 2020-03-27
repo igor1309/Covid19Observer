@@ -32,7 +32,9 @@ struct SettingsView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Update Current Data")
                                 
-                                Text("Last update \(coronaStore.hoursMunutesSinceCasesUpdateStr) ago")
+                                Text(coronaStore.hoursMunutesSinceCasesUpdateStr == "0min"
+                                    ? "Updated just now"
+                                    : "Last update \(coronaStore.hoursMunutesSinceCasesUpdateStr) ago")
                                     .foregroundColor(.secondary)
                                     .font(.subheadline)
                             }
@@ -52,7 +54,9 @@ struct SettingsView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Update History Data")
                                 
-                                Text("Last update \(coronaStore.hoursMunutesSinceHistoryUpdateStr) ago")
+                                Text(coronaStore.hoursMunutesSinceHistoryUpdateStr == "0min"
+                                ? "Updated just now"
+                                : "Last update \(coronaStore.hoursMunutesSinceHistoryUpdateStr) ago")
                                     .foregroundColor(.secondary)
                                     .font(.subheadline)
                             }
