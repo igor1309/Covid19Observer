@@ -26,6 +26,9 @@ struct MapView: UIViewRepresentable {
 //        let region = MKCoordinateRegion(center: centerCoordinate, span: .regional)
 //        mapView.setRegion(region, animated: true)
         
+        
+        mapView.register(CaseAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        
         return mapView
     }
     
@@ -108,46 +111,53 @@ struct MapView: UIViewRepresentable {
 //            parent.centerCoordinate = mapView.centerCoordinate
 //        }
 
-        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            //  https://www.raywenderlich.com/548-mapkit-tutorial-getting-started
-            //  https://developer.apple.com/documentation/mapkit/mkannotationview
-            //  https://www.hackingwithswift.com/read/16/3/annotations-and-accessory-views-mkpinannotationview
-            guard let caseAnnotation = annotation as? CaseAnnotation else { return nil }
-            
-            /// unique identifier for view reuse
-            let identifier = "Placemark"
-            var annotationView: MKPinAnnotationView
-            
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-                as? MKPinAnnotationView {
-                dequeuedView.annotation = caseAnnotation
-                annotationView = dequeuedView
-            } else {
-                annotationView = MKPinAnnotationView(annotation: caseAnnotation, reuseIdentifier: identifier)
-                /// styling
-                annotationView.pinTintColor = caseAnnotation.color
-                
-                let subtitleLabel = UILabel()
-                subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-                subtitleLabel.text = caseAnnotation.subtitle ?? "NA"
-                subtitleLabel.numberOfLines = 0
-                subtitleLabel.font = .preferredFont(forTextStyle: .footnote)
-                subtitleLabel.textColor = .secondaryLabel //.systemRed
-                annotationView.detailCalloutAccessoryView = subtitleLabel
-                
-                /// allow this to show pop up information
-                annotationView.canShowCallout = true
-                
-                /// attach an information button to the view
-                // annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-                let mapIcon = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
-                mapIcon.setBackgroundImage(UIImage(systemName: "waveform.path.ecg"), for: UIControl.State())
-                annotationView.rightCalloutAccessoryView = mapIcon
-            }
-            
-            /// whether it's a new view or a recycled one, send it back
-            return annotationView
-        }
+        
+        
+        
+        
+        
+        
+        
+//        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//            //  https://www.raywenderlich.com/548-mapkit-tutorial-getting-started
+//            //  https://developer.apple.com/documentation/mapkit/mkannotationview
+//            //  https://www.hackingwithswift.com/read/16/3/annotations-and-accessory-views-mkpinannotationview
+//            guard let caseAnnotation = annotation as? CaseAnnotation else { return nil }
+//            
+//            /// unique identifier for view reuse
+//            let identifier = "covid19"
+//            var annotationView: MKPinAnnotationView
+//            
+//            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+//                as? MKPinAnnotationView {
+//                dequeuedView.annotation = caseAnnotation
+//                annotationView = dequeuedView
+//            } else {
+//                annotationView = MKPinAnnotationView(annotation: caseAnnotation, reuseIdentifier: identifier)
+//                /// styling
+//                annotationView.pinTintColor = caseAnnotation.color
+//                
+//                let subtitleLabel = UILabel()
+//                subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+//                subtitleLabel.text = caseAnnotation.subtitle ?? "NA"
+//                subtitleLabel.numberOfLines = 0
+//                subtitleLabel.font = .preferredFont(forTextStyle: .footnote)
+//                subtitleLabel.textColor = .secondaryLabel //.systemRed
+//                annotationView.detailCalloutAccessoryView = subtitleLabel
+//                
+//                /// allow this to show pop up information
+//                annotationView.canShowCallout = true
+//                
+//                /// attach an information button to the view
+//                // annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+//                let mapIcon = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
+//                mapIcon.setBackgroundImage(UIImage(systemName: "waveform.path.ecg"), for: UIControl.State())
+//                annotationView.rightCalloutAccessoryView = mapIcon
+//            }
+//            
+//            /// whether it's a new view or a recycled one, send it back
+//            return annotationView
+//        }
     }
 }
 
