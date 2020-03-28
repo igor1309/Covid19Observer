@@ -8,45 +8,86 @@
 
 import SwiftUI
 
-struct AxisY: View {
-    let series: [Int]
-    let numberOfGridLines: Int
-    let width: CGFloat = 56
+struct WidthPref: PreferenceKey {
+    typealias Value = CGFloat
     
-    @State private var columnWidths: [Int: CGFloat] = [:]
+    static let defaultValue: CGFloat = 100
     
-    var body: some View {
-        ZStack {
-            GeometryReader { geo in
-                ForEach(0..<self.numberOfGridLines + 1, id: \.self) { line in
-                    Text("\(line * (self.series.max() ?? 0) / self.numberOfGridLines)")
-                        .foregroundColor(line == 0 ? .clear : .secondary)
-                        .font(.caption)
-                        .offset(y: geo.size.height - CGFloat(line) * geo.size.height / 10)
-                        //  MARK: FIX THIS
-                        //  widthPreference not working
-                        //
-                        //  .widthPreference(column: 100)
-                        //  .frame(width: self.columnWidths[100], alignment: .trailing)
-                    .frame(width: self.width, alignment: .trailing)
-                }
-            }
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        let nextValue = nextValue()
+        if nextValue > value {
+            value = nextValue
         }
-        .frame(width: width, alignment: .trailing)
-//        .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
     }
 }
 
+extension View {
+    func widthPref() -> some View {
+        background(
+            GeometryReader { geo in
+                Color.clear
+                    .preference(key: WidthPref.self,
+                                value: geo.size.width)
+        })
+    }
+}
+
+struct AxisY: View {
+    let seriesMax: Int
+    let numberOfGridLines: Int
+    
+    @State private var width: CGFloat = 100
+    
+    private func axisLabel(geoHeight: CGFloat, line: Int) -> some View {
+        Text("\(line * self.seriesMax / self.numberOfGridLines)")
+            .foregroundColor(line == 0 ? .clear : .secondary)
+            .font(.caption)
+            .offset(y: geoHeight - CGFloat(line) * geoHeight / CGFloat(numberOfGridLines))
+            .fixedSize(horizontal: true, vertical: false)
+            .widthPref()
+            .frame(width: self.width, alignment: .trailing)
+    }
+    
+    var body: some View {
+        VStack {
+            if numberOfGridLines > 0 {
+                GeometryReader { geo in
+                ForEach(0..<self.numberOfGridLines + 1, id: \.self) { line in
+                    
+                    self.axisLabel(geoHeight: geo.size.height, line: line)
+                        
+                        .onAppear { print(geo.size.height) }
+                }
+            }
+            .onPreferenceChange(WidthPref.self) { self.width = $0 }
+            .frame(width: self.width)
+                .fixedSize(horizontal: true, vertical: false)
+            } else {
+                /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+            }
+        }
+    }
+}
+
+
 struct AxisY_Previews: PreviewProvider {
+    static var series = [833,977,1261,1766,2337,3150,3736,4335,5186,5621,6088,6593,7041,7314,7478,7513,7755,7869,7979,8086,8162,8236]
+    
     static var previews: some View {
         HStack {
-            Circle()
-                .fill(Color.blue)
-                .opacity(0.1)
+            //                        Circle()
+            //                            .fill(Color.blue)
+            //                            .opacity(0.1)
             
-            AxisY(series:            [833,977,1261,1766,2337,3150,3736,4335,5186,5621,6088,6593,7041,7314,7478,7513,7755,7869,7979,8086,8162,8236],
-            numberOfGridLines: 10)
+            LineGraphShape(series: series)
+                .stroke(Color.orange, lineWidth: 2)
+            
+            AxisY(seriesMax: series.max()!, numberOfGridLines: 10)
+                .layoutPriority(1)
                 .border(Color.pink)
+            
         }
+        .border(Color.green)
+        .padding()
     }
 }

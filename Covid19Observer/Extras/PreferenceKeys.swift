@@ -17,3 +17,14 @@ struct WidthPreference: PreferenceKey {
         value.merge(nextValue(), uniquingKeysWith: max)
     }
 }
+
+extension View {
+    func widthPreference(column: Int) -> some View {
+        background(
+            GeometryReader { geo in
+                Color.clear
+                    .preference(key: WidthPreference.self,
+                                value: [column: geo.size.width])
+        })
+    }
+}

@@ -78,14 +78,25 @@ struct SettingsView: View {
                                 .labelsHidden()
                                 .pickerStyle(SegmentedPickerStyle())
                             }
-                            
+                }
+                
+                Section(header: Text("Color Code".uppercased()),
+                footer: Text("Select number (color) as a lower limit to filter pins on the map.")) {
                             VStack(alignment: .leading) {
                                 Text("Lower Limit for Map Filter")
                                     .foregroundColor(coronaStore.filterColor)
                                     .padding(.trailing, 64)
                                 
+                                HStack {
+                                    ForEach([100, 500, 1_000, 5_000, 10_000], id: \.self) { item in
+                                        Capsule()
+                                            .foregroundColor(Color(self.coronaStore.colorCode(number: item)))
+                                            .padding(.horizontal, 8)
+                                    }
+                                }
+                                
                                 Picker(selection: $coronaStore.mapFilterLowerLimit, label: Text("Select Top Qty")) {
-                                    ForEach([100, 500, 1000, 5_000, 10_000], id: \.self) { qty in
+                                    ForEach([100, 500, 1_000, 5_000, 10_000], id: \.self) { qty in
                                         Text("\(qty)").tag(qty)
                                     }
                                 }

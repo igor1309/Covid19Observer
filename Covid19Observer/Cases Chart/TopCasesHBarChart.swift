@@ -168,6 +168,7 @@ struct TopCasesHBarChart: View {
                                         self.colorForType(self.selection)
                                             .frame(width: geo.size.width / maximum * self.caseData(self.selection, for: index))
                                             .cornerRadius(6)
+                                            .saturation(self.coronaStore.cases[index].name == "China" ? 0.5 : 1)
                                         
                                         self.textLabel(name: "\(self.coronaStore.cases[index].name): \(self.caseDataStr(self.selection, for: index))",
                                             width: geo.size.width / maximum * self.caseData(self.selection, for: index),

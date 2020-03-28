@@ -19,7 +19,7 @@ struct CasesLineChartView: View {
         coronaStore.history.series(for: coronaStore.selectedCountry)
     }
     
-    let numberOfGridLines = 10
+    @State private var numberOfGridLines = 0//10
     
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
@@ -61,9 +61,16 @@ struct CasesLineChartView: View {
                     .font(.caption)
                     .padding(.bottom, 6)
             }
+            .transition(.opacity)
             .padding(.horizontal)
             .onAppear {
                 self.coronaStore.updateIfStoreIsOldOrEmpty()
+                
+                
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.numberOfGridLines = 10
+                }
             }
                 
             .navigationBarTitle("\(coronaStore.selectedCountry)")

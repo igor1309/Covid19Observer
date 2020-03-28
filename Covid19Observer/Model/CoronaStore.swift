@@ -219,7 +219,7 @@ class CoronaStore: ObservableObject {
         .store(in: &storage)
     }
     
-    private func colorCode(number: Int) -> UIColor {
+    func colorCode(number: Int) -> UIColor {
         let color: UIColor
         
         switch number {

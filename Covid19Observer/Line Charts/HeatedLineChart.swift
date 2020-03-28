@@ -9,6 +9,13 @@
 import SwiftUI
 import SwiftPI
 
+extension Array where Array.Element: Equatable {
+    func deletingPrefix(_ prefix: Array.Element) -> Array {
+        guard self.first == prefix else { return self }
+        return Array(self.dropFirst())
+    }
+}
+
 struct HeatedLineChart: View {
     let series: [Int]
     let numberOfGridLines: Int
@@ -37,7 +44,7 @@ struct HeatedLineChart: View {
                 HStack {
                     ZStack {
                         GraphGridShape(series: series, numberOfGridLines: numberOfGridLines)
-                            .stroke(Color.systemGray6)
+                            .stroke(Color.systemGray5)
                         
                         LineGraphShape(series: series)
                             .trim(to: animated ? 1 : 0)
@@ -49,7 +56,7 @@ struct HeatedLineChart: View {
                                                        lineJoin: .round))
                     }
                     
-                    AxisY(series: series, numberOfGridLines: numberOfGridLines)
+                    AxisY(seriesMax: series.max()!, numberOfGridLines: numberOfGridLines)
                 }
                 .padding(lineWidth / 2)
                 .onAppear {
@@ -70,7 +77,7 @@ struct HeatedLineChart_Previews: PreviewProvider {
     static var previews: some View {
         HeatedLineChart(series:            [833,977,1261,1766,2337,3150,3736,4335,5186,5621,6088,6593,7041,7314,7478,7513,7755,7869,7979,8086,8162,8236],
                         numberOfGridLines: 10)
-//            .border(Color.pink)
+            //            .border(Color.pink)
             .padding()
     }
 }
