@@ -8,30 +8,6 @@
 
 import SwiftUI
 
-struct WidthPref: PreferenceKey {
-    typealias Value = CGFloat
-    
-    static let defaultValue: CGFloat = 100
-    
-    static func reduce(value: inout Value, nextValue: () -> Value) {
-        let nextValue = nextValue()
-        if nextValue > value {
-            value = nextValue
-        }
-    }
-}
-
-extension View {
-    func widthPref() -> some View {
-        background(
-            GeometryReader { geo in
-                Color.clear
-                    .preference(key: WidthPref.self,
-                                value: geo.size.width)
-        })
-    }
-}
-
 struct AxisY: View {
     let seriesMax: Int
     let numberOfGridLines: Int
@@ -52,15 +28,13 @@ struct AxisY: View {
         VStack {
             if numberOfGridLines > 0 {
                 GeometryReader { geo in
-                ForEach(0..<self.numberOfGridLines + 1, id: \.self) { line in
-                    
-                    self.axisLabel(geoHeight: geo.size.height, line: line)
+                    ForEach(0..<self.numberOfGridLines + 1, id: \.self) { line in
                         
-                        .onAppear { print(geo.size.height) }
+                        self.axisLabel(geoHeight: geo.size.height, line: line)
+                    }
                 }
-            }
-            .onPreferenceChange(WidthPref.self) { self.width = $0 }
-            .frame(width: self.width)
+                .onPreferenceChange(WidthPref.self) { self.width = $0 }
+                .frame(width: self.width)
                 .fixedSize(horizontal: true, vertical: false)
             } else {
                 /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/

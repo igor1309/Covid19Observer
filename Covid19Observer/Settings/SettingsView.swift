@@ -28,6 +28,7 @@ struct SettingsView: View {
                                 .animation(.easeInOut(duration: 1.3))
                                 .widthPreference(column: -1)
                                 .frame(width: self.columnWidths[-1], alignment: .leading)
+                                .padding(.trailing, 3)
                             
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Update Current Data")
@@ -50,13 +51,14 @@ struct SettingsView: View {
                                 .animation(.easeInOut(duration: 1.3))
                                 .widthPreference(column: -1)
                                 .frame(width: self.columnWidths[-1], alignment: .leading)
+                                .padding(.trailing, 3)
                             
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Update History Data")
                                 
                                 Text(coronaStore.hoursMunutesSinceHistoryUpdateStr == "0min"
-                                ? "Updated just now"
-                                : "Last update \(coronaStore.hoursMunutesSinceHistoryUpdateStr) ago")
+                                    ? "Updated just now"
+                                    : "Last update \(coronaStore.hoursMunutesSinceHistoryUpdateStr) ago")
                                     .foregroundColor(.secondary)
                                     .font(.subheadline)
                             }
@@ -81,26 +83,21 @@ struct SettingsView: View {
                 }
                 
                 Section(header: Text("Color Code".uppercased()),
-                footer: Text("Select number (color) as a lower limit to filter pins on the map.")) {
+                        footer: Text("Select number (color) as a lower limit to filter pins on the map.")) {
                             VStack(alignment: .leading) {
-                                Text("Lower Limit for Map Filter")
+                                Text("Selected Lower Limit for Map Filter")
                                     .foregroundColor(coronaStore.filterColor)
                                     .padding(.trailing, 64)
-                                
-//                                Capsule()
-//                                    .foregroundColor(coronaStore.filterColor)
-//                                .padding(.horizontal, 8)
-
+                                                                
                                 HStack {
                                     ForEach([100, 500, 1_000, 5_000, 10_000], id: \.self) { item in
                                         Capsule()
                                             .foregroundColor(Color(self.coronaStore.colorCode(number: item)))
                                             .padding(.horizontal, 6)
-//                                            .saturation(self.coronaStore.mapFilterLowerLimit == item ? 1 : 0.2)
-                                        .overlay(
-                                            Capsule()
-                                                .stroke(self.coronaStore.mapFilterLowerLimit == item ? Color.primary : .clear, lineWidth: 2)
-                                                .padding(.horizontal, 6)
+                                            .overlay(
+                                                Capsule()
+                                                    .stroke(self.coronaStore.mapFilterLowerLimit == item ? Color.primary : .clear, lineWidth: 2)
+                                                    .padding(.horizontal, 6)
                                         )
                                     }
                                 }
