@@ -12,37 +12,33 @@ import SwiftPI
 struct CasesChartView: View {
     @Environment(\.horizontalSizeClass) var sizeClass
     @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
     
     @State private var selection = CaseDataType.confirmed
     @State private var showTable = false
     
     var body: some View {
         VStack {
-            if sizeClass == .compact {
-                VStack {
-                    CasesHeaderButton()
-                    
-                    CaseDataTypePicker(selection: $selection)
-                }
-            } else {
-                HStack {
-                    CasesHeaderButton()
-                    
-                    Spacer()
-                    Spacer()
-                    Spacer()
-
-                    CaseDataTypePicker(selection: $selection)
-                }
-            }
+            CasesHeaderButton()
             
+            CaseDataTypePicker(selection: $selection)
             
             if coronaStore.cases.isNotEmpty {
-                CasesHBarChart(selectedType: $selection)
+                FlexibleCasesChart(selectedType: selection, isBarsTappable: true)
             } else {
                 //  MARK: FINISH THIS
                 //
-                Text("No data to display\n\nPlease go to Settings and tap Update")
+                VStack {
+                    Spacer()
+                    
+                    Button(action: {
+                        self.settings.selectedTab = 4
+                    }) {
+                        Text("No data to display\n\nPlease go to Settings and tap Update")
+                    }
+                    
+                    Spacer()
+                }
             }
         }
         .onAppear {
@@ -60,6 +56,7 @@ struct CasesChartView_Previews: PreviewProvider {
                 .padding()
         }
         .environmentObject(CoronaStore())
+        .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }
 }

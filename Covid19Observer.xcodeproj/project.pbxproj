@@ -26,7 +26,7 @@
 		2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF002428C04F0094852B /* MapViewsOLD.swift */; };
 		2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF012428C04F0094852B /* CasesOnMapView.swift */; };
 		2A03BF122428C9890094852B /* TopTenBarChartVert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF112428C9890094852B /* TopTenBarChartVert.swift */; };
-		2A03BF142428C9C80094852B /* CasesHBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF132428C9C80094852B /* CasesHBarChart.swift */; };
+		2A03BF142428C9C80094852B /* FlexibleCasesChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF132428C9C80094852B /* FlexibleCasesChart.swift */; };
 		2A445F3124292E94007C6846 /* AxisY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3024292E94007C6846 /* AxisY.swift */; };
 		2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3224292F1A007C6846 /* GraphGridShape.swift */; };
 		2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */; };
@@ -49,6 +49,7 @@
 		2AB94739243126A1009C18ED /* CasesChartsIPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB94738243126A1009C18ED /* CasesChartsIPad.swift */; };
 		2AB9473B24312A8A009C18ED /* CaseBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9473A24312A8A009C18ED /* CaseBar.swift */; };
 		2AB9473D24312B9C009C18ED /* CaseChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9473C24312B9C009C18ED /* CaseChart.swift */; };
+		2AB9473F24313E35009C18ED /* CasesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9473E24313E35009C18ED /* CasesHeader.swift */; };
 		2ACF1C6C243096F20045C531 /* CaseDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6B243096F20045C531 /* CaseDataType.swift */; };
 		2ACF1C6E2430A7830045C531 /* CaseDataTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */; };
 		2ACF1C702430AA130045C531 /* CasesHeaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */; };
@@ -76,7 +77,7 @@
 		2A03BF002428C04F0094852B /* MapViewsOLD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewsOLD.swift; sourceTree = "<group>"; };
 		2A03BF012428C04F0094852B /* CasesOnMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesOnMapView.swift; sourceTree = "<group>"; };
 		2A03BF112428C9890094852B /* TopTenBarChartVert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopTenBarChartVert.swift; sourceTree = "<group>"; };
-		2A03BF132428C9C80094852B /* CasesHBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesHBarChart.swift; sourceTree = "<group>"; };
+		2A03BF132428C9C80094852B /* FlexibleCasesChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlexibleCasesChart.swift; sourceTree = "<group>"; };
 		2A445F3024292E94007C6846 /* AxisY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisY.swift; sourceTree = "<group>"; };
 		2A445F3224292F1A007C6846 /* GraphGridShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGridShape.swift; sourceTree = "<group>"; };
 		2A56BB4F24307D580082FF21 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -100,6 +101,7 @@
 		2AB94738243126A1009C18ED /* CasesChartsIPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesChartsIPad.swift; sourceTree = "<group>"; };
 		2AB9473A24312A8A009C18ED /* CaseBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseBar.swift; sourceTree = "<group>"; };
 		2AB9473C24312B9C009C18ED /* CaseChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseChart.swift; sourceTree = "<group>"; };
+		2AB9473E24313E35009C18ED /* CasesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesHeader.swift; sourceTree = "<group>"; };
 		2ACF1C6B243096F20045C531 /* CaseDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDataType.swift; sourceTree = "<group>"; };
 		2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDataTypePicker.swift; sourceTree = "<group>"; };
 		2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesHeaderButton.swift; sourceTree = "<group>"; };
@@ -142,12 +144,9 @@
 				2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */,
 				2A445F34242931A1007C6846 /* WORK IN PROGRESS */,
 				2A03BEDD2428BC6F0094852B /* ContentView.swift */,
-				2AB94738243126A1009C18ED /* CasesChartsIPad.swift */,
-				2AB9473C24312B9C009C18ED /* CaseChart.swift */,
-				2AB947362430FCA4009C18ED /* MapWithLineChartView.swift */,
-				2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */,
+				2AB9474024313EC7009C18ED /* Case Headers */,
 				2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */,
-				2AFF26E9242B50E300DAC856 /* Cases Chart */,
+				2AFF26E9242B50E300DAC856 /* Cases Charts */,
 				2A03BEFF2428C04F0094852B /* Map Views */,
 				2A03BEF62428C04F0094852B /* Table */,
 				2A03BEFB2428C04F0094852B /* Line Charts */,
@@ -224,6 +223,7 @@
 		2A03BEFF2428C04F0094852B /* Map Views */ = {
 			isa = PBXGroup;
 			children = (
+				2AB947362430FCA4009C18ED /* MapWithLineChartView.swift */,
 				2A03BF012428C04F0094852B /* CasesOnMapView.swift */,
 				2A6607FE242BF7060056C849 /* MapView.swift */,
 				2A660800242CC7720056C849 /* CaseAnnotationView.swift */,
@@ -258,14 +258,25 @@
 			path = "Doubling Time";
 			sourceTree = "<group>";
 		};
-		2AFF26E9242B50E300DAC856 /* Cases Chart */ = {
+		2AB9474024313EC7009C18ED /* Case Headers */ = {
 			isa = PBXGroup;
 			children = (
+				2AB9473E24313E35009C18ED /* CasesHeader.swift */,
+				2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */,
+			);
+			path = "Case Headers";
+			sourceTree = "<group>";
+		};
+		2AFF26E9242B50E300DAC856 /* Cases Charts */ = {
+			isa = PBXGroup;
+			children = (
+				2AB94738243126A1009C18ED /* CasesChartsIPad.swift */,
 				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
-				2A03BF132428C9C80094852B /* CasesHBarChart.swift */,
+				2A03BF132428C9C80094852B /* FlexibleCasesChart.swift */,
+				2AB9473C24312B9C009C18ED /* CaseChart.swift */,
 				2AB9473A24312A8A009C18ED /* CaseBar.swift */,
 			);
-			path = "Cases Chart";
+			path = "Cases Charts";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,6 +362,7 @@
 				2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */,
 				2A74F0C02428CE3E00137694 /* WikiQuoteView.swift in Sources */,
 				2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */,
+				2AB9473F24313E35009C18ED /* CasesHeader.swift in Sources */,
 				2AB9473D24312B9C009C18ED /* CaseChart.swift in Sources */,
 				2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */,
 				2A74F0BB2428CBB400137694 /* LineGraphShape.swift in Sources */,
@@ -362,7 +374,7 @@
 				2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */,
 				2A74F0B92428CBB400137694 /* HeatedLineChart.swift in Sources */,
 				2A03BF032428C04F0094852B /* Corona.swift in Sources */,
-				2A03BF142428C9C80094852B /* CasesHBarChart.swift in Sources */,
+				2A03BF142428C9C80094852B /* FlexibleCasesChart.swift in Sources */,
 				2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */,
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
 				2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */,

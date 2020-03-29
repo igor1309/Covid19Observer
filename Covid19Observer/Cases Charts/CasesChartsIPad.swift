@@ -12,9 +12,7 @@ struct CasesChartsIPad: View {
     var body: some View {
         VStack {
             HStack {
-                //  MARK: FIX THIS
-                //  no need in button, just data
-                CasesHeaderButton()
+                CasesHeader()
                     .fixedSize(horizontal: true, vertical: false)
             }
             
@@ -24,13 +22,19 @@ struct CasesChartsIPad: View {
                         HStack {
                             CaseChart(
                                 selectedType: CaseDataType.confirmed,
-                                width: geo.size.width / 3)
+                                isBarsTappable: false,
+                                width: geo.size.width / 3
+                            )
                             CaseChart(
                                 selectedType: CaseDataType.deaths,
-                                width: geo.size.width / 3)
+                                isBarsTappable: false,
+                                width: geo.size.width / 3
+                            )
                             CaseChart(
                                 selectedType: CaseDataType.cfr,
-                                width: geo.size.width / 3)
+                                isBarsTappable: false,
+                                width: geo.size.width / 3
+                            )
                         }
                     }
                 }

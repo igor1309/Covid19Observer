@@ -17,7 +17,7 @@ struct ContentView: View {
         TabView(selection: $settings.selectedTab) {
             
             if sizeClass == .compact {
-                CasesChartView()    //  CasesHBarChart()
+                CasesChartView()
                     .padding()
                     .tabItem {
                         Image(systemName: "chart.bar")

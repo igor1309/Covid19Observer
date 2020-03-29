@@ -16,7 +16,7 @@ struct CaseBar: View {
     let maximum: CGFloat
     let width: CGFloat
 
-    let barHeight: CGFloat = 28
+    let barHeight: CGFloat
     
     var body: some View {
         ZStack(alignment: .leading) {
