@@ -84,6 +84,18 @@ struct MapView: UIViewRepresentable {
             showingPlaceDetails = true
         }
         
+        //  MARK: - FIXI THIS
+        //  SHOULD BE UDED BY IPAD ONLY!!!
+        //  EXCESSIVE CALCULATIONS FOR IPHONE!!!!
+        //
+        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            guard let caseAnnotation = view.annotation as? CaseAnnotation else {
+                return
+            }
+            selectedPlace = caseAnnotation
+            selectedCountry = caseAnnotation.title ?? "n/a"
+        }
+        
         //        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         //            guard let pin = view.annotation as? MKPointAnnotation else {
         //                return

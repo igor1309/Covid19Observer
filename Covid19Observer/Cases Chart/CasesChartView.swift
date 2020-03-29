@@ -10,8 +10,8 @@ import SwiftUI
 import SwiftPI
 
 struct CasesChartView: View {
-    @EnvironmentObject var coronaStore: CoronaStore
     @Environment(\.horizontalSizeClass) var sizeClass
+    @EnvironmentObject var coronaStore: CoronaStore
     
     @State private var selection = CaseDataType.confirmed
     @State private var showTable = false

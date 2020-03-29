@@ -24,8 +24,8 @@ struct ToolBarButton: View {
 }
 
 struct CasesOnMapView: View {
-    @EnvironmentObject var coronaStore: CoronaStore
     @Environment(\.horizontalSizeClass) var sizeClass
+    @EnvironmentObject var coronaStore: CoronaStore
     
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var selectedPlace: CaseAnnotation?

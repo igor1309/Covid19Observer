@@ -9,20 +9,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.horizontalSizeClass) var sizeClass
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
     var body: some View {
         TabView(selection: $settings.selectedTab) {
             
-            CasesChartView()
-//            CasesHBarChart()
-                .padding()
-                .tabItem {
-                    Image(systemName: "chart.bar")
-                    Text("Chart")
+            if sizeClass == .compact {
+                CasesChartView()    //  CasesHBarChart()
+                    .padding()
+                    .tabItem {
+                        Image(systemName: "chart.bar")
+                        Text("Chart")
+                }
+                .tag(0)
+            } else {
+                CasesChartsIPad()
+                    .padding()
+                    .tabItem {
+                        Image(systemName: "chart.bar")
+                        Text("Chart")
+                }
+                .tag(0)
             }
-            .tag(0)
             
             CasesOnMapView()
                 .tabItem {
@@ -31,18 +41,28 @@ struct ContentView: View {
             }
             .tag(1)
             
-            CasesLineChartView()
-                .tabItem {
-                    Image(systemName: "waveform.path.ecg")
-                    Text("History")
+            if sizeClass == .compact {
+                CasesLineChartView()
+                    .tabItem {
+                        Image(systemName: "waveform.path.ecg")
+                        Text("History")
+                }
+                .tag(2)
+            } else {
+                MapWithLineChartView()
+                    .tabItem {
+                        Image(systemName: "waveform.path.ecg")
+                        Text("History")
+                }
+                .tag(2)
             }
-            .tag(2)
-//            CasesTableView()
-//                .tabItem {
-//                    Image(systemName: "table")
-//                    Text("Table")
-//            }
-//            .tag(2)
+            
+            //            CasesTableView()
+            //                .tabItem {
+            //                    Image(systemName: "table")
+            //                    Text("Table")
+            //            }
+            //            .tag(2)
             
             DoublingTimeView()
                 .tabItem {

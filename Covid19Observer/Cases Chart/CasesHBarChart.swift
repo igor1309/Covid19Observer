@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftPI
 
 struct CasesHBarChart: View {
-    @Environment(\.presentationMode) var presentation
+//    @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
     
     @Binding var selectedType: CaseDataType
@@ -49,8 +49,8 @@ struct CasesHBarChart: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(alignment: .leading) {
                         ForEach(0..<self.coronaStore.cases.count, id: \.self) { index in
+                            
                             ZStack(alignment: .leading) {
-                                
                                 self.colorForType(self.selectedType)
                                     .frame(width: geo.size.width / maximum * self.caseData(self.selectedType, for: index), height: self.barHeight)
                                     .cornerRadius(6)

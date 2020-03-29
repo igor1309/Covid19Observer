@@ -22,17 +22,17 @@ struct CasesTableView: View {
                 //  MARK: - FINISH THIS
                 //
                 CaseDataTypePicker(selection: $selection)
-//                Picker(selection: .constant(""), label: Text("Table Sort Options")) {
-//                    ForEach(CaseDataType.allCases, id: \.self) { item in
-//                        Text(item.id).tag(item)
-//                    }
-//                }
-//                .labelsHidden()
-//                .pickerStyle(SegmentedPickerStyle())
-                .padding(.horizontal)
-//                .padding(.bottom, 3)
+                    //                Picker(selection: .constant(""), label: Text("Table Sort Options")) {
+                    //                    ForEach(CaseDataType.allCases, id: \.self) { item in
+                    //                        Text(item.id).tag(item)
+                    //                    }
+                    //                }
+                    //                .labelsHidden()
+                    //                .pickerStyle(SegmentedPickerStyle())
+                    .padding(.horizontal)
+                //                .padding(.bottom, 3)
                 
-//                Divider()
+                //                Divider()
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
@@ -96,10 +96,11 @@ struct CasesTableView: View {
             }
                 //            .padding([.horizontal, .top])
                 .navigationBarTitle("Cases Data")
-                        .navigationBarItems(trailing: Button("Done") {
-                            self.presentation.wrappedValue.dismiss()
-                        })
+                .navigationBarItems(trailing: Button("Done") {
+                    self.presentation.wrappedValue.dismiss()
+                })
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     //  MARK: FINISH THIS
