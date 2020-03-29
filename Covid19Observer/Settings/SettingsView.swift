@@ -104,6 +104,7 @@ struct SettingsView: View {
             .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
             .navigationBarTitle("Settings")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

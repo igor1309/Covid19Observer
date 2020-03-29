@@ -10,55 +10,97 @@ import SwiftUI
 
 struct DoublingTimeView: View {
     @Environment(\.presentationMode) var presentation
+    @Environment(\.horizontalSizeClass) var sizeClass
     @EnvironmentObject var settings: Settings
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
+            if sizeClass == .compact {
                 VStack(alignment: .leading) {
-                    Text("Initial Number")
-                    
-                    Picker(selection: $settings.initialNumber, label: Text("Initial Number")) {
-                        ForEach(DoublingModel.initialNumbers, id: \.self) { no in
-                            Text(no.formattedGrouped)
+                    VStack {
+                        VStack(alignment: .leading) {
+                            Text("Initial Number")
+                            
+                            Picker(selection: $settings.initialNumber, label: Text("Initial Number")) {
+                                ForEach(DoublingModel.initialNumbers, id: \.self) { no in
+                                    Text(no.formattedGrouped)
+                                }
+                            }
+                            .labelsHidden()
+                            .pickerStyle(SegmentedPickerStyle())
+                        }
+                        
+                        Divider()
+                            .padding(.vertical)
+                        
+                        HStack {
+                            Spacer()
+                            
+                            Text("Doubling Time, days")
+                                .foregroundColor(.systemTeal)
+                                .font(.footnote)
+                                .padding(.trailing, 8)
                         }
                     }
-                    .labelsHidden()
-                    .pickerStyle(SegmentedPickerStyle())
+                    
+                    
+                    Table(headers: DoublingModel.rowHeaders(),
+                          cells: DoublingModel.DoublingCells(initialNumber: settings.initialNumber))
+                    
+                    Divider()
+                        .padding(.vertical)
+                    
+                    NavigationLink(destination: WikiQuoteView()) {
+                        Text("The doubling time is time it takes for a population to double in size/value. It is applied to population growth, inflation, resource extraction, consumption of goods, compound interest…")
+                            .foregroundColor(.secondary)
+                            .font(.footnote)
+                    }
+                    
+                    Spacer()
                 }
-                
-                Divider()
-                    .padding(.vertical)
-                
-                HStack {
+                .padding()
+                .navigationBarTitle("Doubling Time")
+            } else {
+                VStack {
+                    HStack {
+                        Text("Initial Number")
+                        
+                        Picker(selection: $settings.initialNumber, label: Text("Initial Number")) {
+                            ForEach(DoublingModel.initialNumbers, id: \.self) { no in
+                                Text(no.formattedGrouped)
+                            }
+                        }
+                        .labelsHidden()
+                        .pickerStyle(SegmentedPickerStyle())
+                    }
+                    
                     Spacer()
                     
                     Text("Doubling Time, days")
                         .foregroundColor(.systemTeal)
                         .font(.footnote)
+                        .padding(.top)
                         .padding(.trailing, 8)
+                    
+                    Table(headers: DoublingModel.rowHeaders(),
+                          cells: DoublingModel.DoublingCells(initialNumber: settings.initialNumber))
+                    
+                    Divider()
+                        .padding(.vertical)
+                    
+                    WikiQuoteView()
+                    
+                    Spacer()
                 }
                 
-                Table(headers: DoublingModel.rowHeaders(),
-                      cells: DoublingModel.DoublingCells(initialNumber: settings.initialNumber))
-                
-                Divider()
-                    .padding(.vertical)
-                
-                NavigationLink(destination: WikiQuoteView()) {
-                    Text("The doubling time is time it takes for a population to double in size/value. It is applied to population growth, inflation, resource extraction, consumption of goods, compound interest…")
-                        .foregroundColor(.secondary)
-                        .font(.footnote)
-                }
-                
-                Spacer()
+                .padding()
+                .navigationBarTitle("Doubling Time")
+                //            .navigationBarItems(trailing: Button("Done") {
+                //                self.presentation.wrappedValue.dismiss()
+                //            })
             }
-            .padding()
-            .navigationBarTitle("Doubling Time")
-//            .navigationBarItems(trailing: Button("Done") {
-//                self.presentation.wrappedValue.dismiss()
-//            })
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

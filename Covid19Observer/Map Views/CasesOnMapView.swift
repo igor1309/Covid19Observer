@@ -25,6 +25,7 @@ struct ToolBarButton: View {
 
 struct CasesOnMapView: View {
     @EnvironmentObject var coronaStore: CoronaStore
+    @Environment(\.horizontalSizeClass) var sizeClass
     
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var selectedPlace: CaseAnnotation?
@@ -37,28 +38,65 @@ struct CasesOnMapView: View {
     @State private var showAlert = false
     
     var header: some View {
-        VStack(spacing: 10) {
-            Text("COVID-19 Data by John Hopkins")
-                .font(.subheadline).bold()
-            
-            CasesHeaderButton()
-            
-            Divider()
-            
-            Picker(selection: $coronaStore.caseType, label: Text("Select by Provincee or Country")) {
-                ForEach(CaseType.allCases, id: \.self) { type in
-                    Text(type.id).tag(type)
+        VStack {
+            if sizeClass == .compact {
+                VStack(spacing: 10) {
+                
+                Text("COVID-19 Data by John Hopkins")
+                    .font(.subheadline).bold()
+                
+                CasesHeaderButton()
+                
+                Divider()
+                
+                Picker(selection: $coronaStore.caseType, label: Text("Select by Provincee or Country")) {
+                    ForEach(CaseType.allCases, id: \.self) { type in
+                        Text(type.id).tag(type)
+                    }
                 }
+                .labelsHidden()
+                .pickerStyle(SegmentedPickerStyle())
+                
             }
-            .labelsHidden()
-            .pickerStyle(SegmentedPickerStyle())
-            
+            .font(.footnote)
+            .padding()
+            .roundedBackground()
+            .padding(.top, 6)
+                .padding(.horizontal)
+            } else {
+                HStack(spacing: 10) {
+                    
+                    VStack(alignment: .leading) {
+                        Text("COVID-19")
+                            .font(.subheadline).bold()
+                        Text("Data by John Hopkins")
+                            .foregroundColor(.secondary)
+                            .font(.footnote)
+                    }
+                    
+                    Spacer()
+                    
+                    CasesHeaderButton()
+                    
+                    Spacer()
+                    
+                    Picker(selection: $coronaStore.caseType, label: Text("Select by Provincee or Country")) {
+                        ForEach(CaseType.allCases, id: \.self) { type in
+                            Text(type.id).tag(type)
+                        }
+                    }
+                    .labelsHidden()
+                    .pickerStyle(SegmentedPickerStyle())
+                    
+                }
+            .fixedSize(horizontal: false, vertical: true)
+                .font(.footnote)
+                .padding()
+                .roundedBackground()
+                .padding(.top, 6)
+                    .padding(.horizontal)
+            }
         }
-        .font(.footnote)
-        .padding()
-        .roundedBackground()
-        .padding(.top, 6)
-        .padding(.horizontal)
     }
     
     var shortToolBar: some View {
