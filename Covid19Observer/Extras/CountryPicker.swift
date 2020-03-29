@@ -14,7 +14,7 @@ struct CountryPicker: View {
     
     var body: some View {
         NavigationView {
-//            List {
+            VStack {
                 Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
                     ForEach(coronaStore.countryRegions, id: \.self) { countryRegion in
                         //  ForEach(coronaStore.cases.provinceStateCountryRegions, id: \.self) { countryRegion in
@@ -22,7 +22,9 @@ struct CountryPicker: View {
                     }
                 }
                 .labelsHidden()
-//            }
+                
+                Spacer()
+            }
             .navigationBarTitle("Select Country")
             .navigationBarItems(trailing: Button("Done") {
                 self.presentation.wrappedValue.dismiss()

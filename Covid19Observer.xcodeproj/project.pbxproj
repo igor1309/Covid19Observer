@@ -48,6 +48,7 @@
 		2ACF1C6C243096F20045C531 /* CaseDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6B243096F20045C531 /* CaseDataType.swift */; };
 		2ACF1C6E2430A7830045C531 /* CaseDataTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */; };
 		2ACF1C702430AA130045C531 /* CasesHeaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */; };
+		2ACF1C722430B4EC0045C531 /* CountryCasesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +95,7 @@
 		2ACF1C6B243096F20045C531 /* CaseDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDataType.swift; sourceTree = "<group>"; };
 		2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDataTypePicker.swift; sourceTree = "<group>"; };
 		2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesHeaderButton.swift; sourceTree = "<group>"; };
+		2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCasesHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */,
+				2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */,
 				2A74F0B62428CBB300137694 /* HeatedLineChart.swift */,
 				2A74F0B82428CBB300137694 /* LineGraphShape.swift */,
 				2A74F0B72428CBB300137694 /* LineGraphGrid.swift */,
@@ -353,6 +356,7 @@
 				2A03BF022428C04F0094852B /* CaseAnnotations.swift in Sources */,
 				2ACF1C6E2430A7830045C531 /* CaseDataTypePicker.swift in Sources */,
 				2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */,
+				2ACF1C722430B4EC0045C531 /* CountryCasesHeader.swift in Sources */,
 				2A74F0B52428CB8400137694 /* Settings.swift in Sources */,
 				2A74F0C62428CE7B00137694 /* Table.swift in Sources */,
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,
@@ -503,7 +507,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -512,7 +516,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.13;
+				MARKETING_VERSION = 1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;
@@ -525,7 +529,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -534,7 +538,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.13;
+				MARKETING_VERSION = 1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;

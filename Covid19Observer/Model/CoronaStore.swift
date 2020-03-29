@@ -36,12 +36,13 @@ class CoronaStore: ObservableObject {
     
     var countryRegions: [String] { cases.map { $0.name }.sorted()}
     
-    var selectedCountryOutbreak: (totalCases: String, totalDeaths: String) {
+    var selectedCountryOutbreak: (totalCasesStr: String, totalDeathsStr: String, cfrStr: String) {
         if let countryCase = cases.first(where: { $0.name == selectedCountry }) {
-            return (totalCases: countryCase.confirmedStr,
-                    totalDeaths: countryCase.deathsStr)
+            return (totalCasesStr: countryCase.confirmedStr,
+                    totalDeathsStr: countryCase.deathsStr,
+                    cfrStr: countryCase.cfrStr)
         } else {
-            return (totalCases: "...", totalDeaths: "...")
+            return (totalCasesStr: "...", totalDeathsStr: "...", cfrStr: "...")
         }
     }
     
