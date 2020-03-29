@@ -10,27 +10,27 @@ import SwiftUI
 import SwiftPI
 
 struct CasesChartView: View {
-    @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
     
+    @State private var selection = CaseDataType.cfr
     @State private var showTable = false
     
     var body: some View {
-        NavigationView {
-            TopCasesHBarChart()
-                
-                .padding(.horizontal)
-                //  .navigationBarTitle("Confirmed Cases")
-                .navigationBarItems(trailing:
-                    // Button("Done") { self.presentation.wrappedValue.dismiss()
-                    TrailingButtonSFSymbol("table") {
-                        self.showTable = true
-                    }
-                    .sheet(isPresented: $showTable, content: {
-                        CasesTableView()
-                            .environmentObject(self.coronaStore)
-                    })
-            )
+        VStack {
+            CasesHeaderButton()
+            
+            CaseDataTypePicker(selection: $selection)
+            
+            if coronaStore.cases.isNotEmpty {
+                TopCasesHBarChart(selectedType: $selection)
+            } else {
+                //  MARK: FINISH THIS
+                //
+                Text("No data to display\n\nPlease go to Settings and tap Update")
+            }
+        }
+        .onAppear {
+            self.coronaStore.updateIfStoreIsOldOrEmpty()
         }
     }
 }

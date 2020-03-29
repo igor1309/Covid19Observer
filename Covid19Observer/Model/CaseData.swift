@@ -15,4 +15,6 @@ struct CaseData: Identifiable, Hashable {
     var confirmedStr: String
     var deaths: Int
     var deathsStr: String
+    var cfr: Double
+    var cfrStr: String
 }

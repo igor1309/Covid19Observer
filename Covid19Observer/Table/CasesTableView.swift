@@ -12,12 +12,28 @@ struct CasesTableView: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
     
+    @State private var selection = CaseDataType.confirmed
     @State private var columnWidths: [Int: CGFloat] = [:]
     @State private var showLineChart = false
     
     var body: some View {
         NavigationView {
             VStack {
+                //  MARK: - FINISH THIS
+                //
+                CaseDataTypePicker(selection: $selection)
+//                Picker(selection: .constant(""), label: Text("Table Sort Options")) {
+//                    ForEach(CaseDataType.allCases, id: \.self) { item in
+//                        Text(item.id).tag(item)
+//                    }
+//                }
+//                .labelsHidden()
+//                .pickerStyle(SegmentedPickerStyle())
+                .padding(.horizontal)
+//                .padding(.bottom, 3)
+                
+//                Divider()
+                
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
                         ForEach(coronaStore.cases.indices, id: \.self) { index in
@@ -42,11 +58,19 @@ struct CasesTableView: View {
                                         .padding(.trailing, 6)
                                         .widthPreference(column: 2)
                                         .frame(width: self.columnWidths[2], alignment: .trailing)
+                                    
+                                    Text(self.coronaStore.cases[index].cfrStr)
+                                        .foregroundColor(.systemTeal)
+                                        .padding(.leading, 12)
+                                        .padding(.trailing, 6)
+                                        .widthPreference(column: 3)
+                                        .frame(width: self.columnWidths[3], alignment: .trailing)
                                 }
-                                .font(.system(.subheadline, design: .monospaced))
+                                .font(.system(.footnote, design: .monospaced))
                             }
                             .padding(.vertical, 10)
                             .contentShape(Rectangle())
+                            .background(self.coronaStore.cases[index].name == "Russia" ? Color.systemBlue.opacity(0.3) : Color.clear)
                             .background(index.isMultiple(of: 2) ? Color.secondarySystemBackground : .clear)
                             .contextMenu {
                                 Button(action: {
@@ -71,7 +95,7 @@ struct CasesTableView: View {
                 }
             }
                 //            .padding([.horizontal, .top])
-                .navigationBarTitle("Confirmed & Deaths")
+                .navigationBarTitle("Cases Data")
                         .navigationBarItems(trailing: Button("Done") {
                             self.presentation.wrappedValue.dismiss()
                         })

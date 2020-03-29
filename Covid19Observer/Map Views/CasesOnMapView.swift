@@ -41,48 +41,7 @@ struct CasesOnMapView: View {
             Text("COVID-19 Data by John Hopkins")
                 .font(.subheadline).bold()
             
-            Button(action: {
-                self.showTable = true
-            }) {
-                HStack{
-                    VStack {
-                        Text("\(coronaStore.coronaOutbreak.totalCases)")
-                            .font(.subheadline)
-                        Text("confirmed")
-                    }
-                    .foregroundColor(.systemYellow)
-                    
-                    Spacer()
-                    VStack {
-                        Text("\(coronaStore.coronaOutbreak.totalRecovered)")
-                            .font(.subheadline)
-                        Text("recovered")
-                    }
-                    .foregroundColor(.systemGreen)
-                    
-                    Spacer()
-                    VStack {
-                        Text("\(coronaStore.coronaOutbreak.totalDeaths)")
-                            .font(.subheadline)
-                        Text("deaths")
-                    }
-                    .foregroundColor(.systemRed)
-                    
-                    Spacer()
-                    VStack {
-                        Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
-                            .font(.subheadline)
-                        Text("CFR")
-                    }
-                    .foregroundColor(.systemTeal)
-                }
-                .font(.caption)
-                .padding(.horizontal, 8)
-            }
-            .sheet(isPresented: $showTable, content: {
-                CasesTableView()
-                    .environmentObject(self.coronaStore)
-            })
+            CasesHeaderButton()
             
             Divider()
             
@@ -121,7 +80,8 @@ struct CasesOnMapView: View {
                                 .cancel(),
                                 .destructive(Text("Yes, reload")) {
                                     //  MARK: FINISH THIS
-                                    self.coronaStore.updateCasesData()
+                                    //
+                                    self.coronaStore.updateCasesData() { _ in }
                                     print("to be done")
                                 }]
                 )
@@ -193,7 +153,7 @@ struct CasesOnMapView: View {
                                     .cancel(),
                                     .destructive(Text("Yes, reload")) {
                                         //  MARK: FINISH THIS
-                                        self.coronaStore.updateCasesData()
+                                        self.coronaStore.updateCasesData() { _ in }
                                         print("to be done")
                                     }]
                     )
@@ -218,14 +178,14 @@ struct CasesOnMapView: View {
                     showingPlaceDetails: $showingPlaceDetails)
                     .edgesIgnoringSafeArea(.all)
                     .sheet(isPresented: $showingPlaceDetails) {
-                         CasesLineChartView()
+                        CasesLineChartView()
                             .environmentObject(self.coronaStore)
                 }
-                    
+                
                 
                 header
             }
-
+            
             //  longToolBar
             
             shortToolBar

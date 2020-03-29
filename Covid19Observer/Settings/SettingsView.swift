@@ -13,6 +13,9 @@ struct SettingsView: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @State private var columnWidths: [Int: CGFloat] = [:]
     
+    let maxBarsOptions = [10, 15, 20, 100]
+    let lowerLimits: [Int] = [100, 500, 1_000, 5_000, 10_000]
+
     var body: some View {
         NavigationView {
             Form {
@@ -20,7 +23,7 @@ struct SettingsView: View {
                         footer: Text("Data by John Hopkins.")
                 ) {
                     Button(action: {
-                        self.coronaStore.updateCasesData()
+                        self.coronaStore.updateCasesData() { _ in }
                     }) {
                         HStack {
                             Image(systemName: "arrow.2.circlepath")
@@ -73,7 +76,7 @@ struct SettingsView: View {
                                     .padding(.trailing, 64)
                                 
                                 Picker(selection: $coronaStore.maxBars, label: Text("Select Top Qty")) {
-                                    ForEach([10, 15, 20], id: \.self) { qty in
+                                    ForEach(maxBarsOptions, id: \.self) { qty in
                                         Text("\(qty)").tag(qty)
                                     }
                                 }
@@ -85,15 +88,16 @@ struct SettingsView: View {
                 Section(header: Text("Color Code".uppercased()),
                         footer: Text("Select number (color) as a lower limit to filter pins on the map.")) {
                             VStack(alignment: .leading) {
-                                Text("Selected Lower Limit for Map Filter")
+                                Text("Lower Limit for Map Filter")
                                     .foregroundColor(coronaStore.filterColor)
                                     .padding(.trailing, 64)
                                                                 
                                 HStack {
-                                    ForEach([100, 500, 1_000, 5_000, 10_000], id: \.self) { item in
+                                    ForEach(lowerLimits, id: \.self) { item in
                                         Capsule()
                                             .foregroundColor(Color(self.coronaStore.colorCode(number: item)))
                                             .padding(.horizontal, 6)
+                                            .frame(height: 16)
                                             .overlay(
                                                 Capsule()
                                                     .stroke(self.coronaStore.mapFilterLowerLimit == item ? Color.primary : .clear, lineWidth: 2)
@@ -103,7 +107,7 @@ struct SettingsView: View {
                                 }
                                 
                                 Picker(selection: $coronaStore.mapFilterLowerLimit, label: Text("Select Top Qty")) {
-                                    ForEach([100, 500, 1_000, 5_000, 10_000], id: \.self) { qty in
+                                ForEach(lowerLimits, id: \.self) { qty in
                                         Text("\(qty)").tag(qty)
                                     }
                                 }

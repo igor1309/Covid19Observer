@@ -84,6 +84,9 @@ class CoronaStore: ObservableObject {
     
     var storage = [AnyCancellable]()
     
+    private var responseCacheByRegion: CoronaResponse
+    private var responseCacheByCountry: CoronaResponse
+    
     private var responseCache: CoronaResponse {
         switch caseType {
         case .byRegion:
@@ -93,15 +96,16 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    private var responseCacheByRegion: CoronaResponse
-    private var responseCacheByCountry: CoronaResponse
-    
     init() {
+        /// UserDefaults returns 0 if app is new/reinstalled.cleaned up
         if mapFilterLowerLimit == 0 { mapFilterLowerLimit = 100 }
         if maxBars == 0 { maxBars = 15 }
         
+        /// always start with Country, not Region
         caseType = CaseType.byCountry
         
+        /// load Cases from disk
+        /// Cases by Country
         if let response: CoronaResponse = loadJSONFromDocDir("byRegion.json") {
             responseCacheByRegion = response
             print("corona response by Region loaded from JSON-file on disk")
@@ -110,6 +114,7 @@ class CoronaStore: ObservableObject {
             print("no JSON-file with corona response by Region on disk, set to empty cases")
         }
         
+        /// Cases by Region
         if let response: CoronaResponse = loadJSONFromDocDir("byCountry.json") {
             responseCacheByCountry = response
             print("corona response by Country loaded from JSON-file on disk")
@@ -120,6 +125,7 @@ class CoronaStore: ObservableObject {
         
         processCases()
         
+        /// load History from disk
         if let history: History = loadJSONFromDocDir("history.json") {
             self.history = history
             print("historical data loaded from JSON-file on disk")
@@ -141,13 +147,14 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    private var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) / 60 > 120 }
-    private var isHistoryDataOld: Bool { casesModificationDate.distance(to: Date()) / 60 > 120 }
+    /// 2 hours means data is old
+    private var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) > 2 * 60 * 60 }
+    private var isHistoryDataOld: Bool { casesModificationDate.distance(to: Date()) > 2 * 60 * 60 }
     
     func updateIfStoreIsOldOrEmpty() {
         if cases.isEmpty || isCasesDataOld {
             isCasesUpdateCompleted = false
-            updateCasesData()
+            updateCasesData() { _ in }
         }
         
         if history.table.isEmpty || isHistoryDataOld {
@@ -160,12 +167,13 @@ class CoronaStore: ObservableObject {
         fetchHistoryData()
     }
     
-    func updateCasesData() {
-        fetchCoronaCases(caseType: .byCountry)
-        fetchCoronaCases(caseType: .byRegion)
+    func updateCasesData(completionHandler: @escaping (_ caseType: CaseType) -> Void) {
+        fetchCoronaCases(caseType: .byCountry, completionHandler: completionHandler)
+        fetchCoronaCases(caseType: .byRegion, completionHandler: completionHandler)
     }
     
-    private func fetchCoronaCases(caseType: CaseType) {
+    private func fetchCoronaCases(caseType: CaseType, completionHandler: @escaping (_ caseType: CaseType) -> Void) {
+        
         isCasesUpdateCompleted = false
         
         /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/Coronavirus_2019_nCoV_Cases/FeatureServer
@@ -215,33 +223,12 @@ class CoronaStore: ObservableObject {
                 
                 self.casesModificationDate = Date()
                 self.isCasesUpdateCompleted = true
+                
+                completionHandler(caseType)
         }
         .store(in: &storage)
     }
-    
-    func colorCode(number: Int) -> UIColor {
-        let color: UIColor
-        
-        switch number {
-        case 0...99:
-            color = .systemGray
-        case 100...499:
-            color = .systemGreen
-        case 500...999:
-            color = .systemBlue
-        case 1_000...4_999:
-            color = .systemYellow
-        case 5_000...9_999:
-            color = .systemOrange
-        case 10_000...:
-            color = .systemRed
-        default:
-            color = .systemFill
-        }
-        
-        return color
-    }
-    
+
     private func processCases() {
         var caseAnnotations: [CaseAnnotation] = []
         var caseData: [CaseData] = []
@@ -275,8 +262,10 @@ class CoronaStore: ObservableObject {
                     name: title,
                     confirmed: confirmed,
                     confirmedStr: confirmed.formattedGrouped,
-                    deaths: (cases.attributes.deaths ?? 0),
-                    deathsStr: (cases.attributes.deaths ?? 0).formattedGrouped
+                    deaths: deaths,
+                    deathsStr: deaths.formattedGrouped,
+                    cfr: cfr,
+                    cfrStr: cfr.formattedPercentageWithDecimals
             ))
         }
         
@@ -287,12 +276,12 @@ class CoronaStore: ObservableObject {
         self.coronaOutbreak.totalRecovered = "\(totalRecovered.formattedGrouped)"
         
         self.caseAnnotations = caseAnnotations.filter { $0.value > (isFiltered ? mapFilterLowerLimit : 0) }
-
-//        if isFiltered && caseAnnotations.count > maxBars {
-//            caseData = Array(caseData.prefix(upTo: maxBars))
-//        }
+        
+        //        if isFiltered && caseAnnotations.count > maxBars {
+        //            caseData = Array(caseData.prefix(upTo: maxBars))
+        //        }
         self.cases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
-//        self.cases = caseData
+        //        self.cases = caseData
     }
     
     func fetchHistoryData() {
@@ -316,6 +305,29 @@ class CoronaStore: ObservableObject {
         }
         
         task.resume()
+    }
+    
+    func colorCode(number: Int) -> UIColor {
+        let color: UIColor
+        
+        switch number {
+        case 0...99:
+            color = .systemGray
+        case 100...499:
+            color = .systemGreen
+        case 500...999:
+            color = .systemBlue
+        case 1_000...4_999:
+            color = .systemYellow
+        case 5_000...9_999:
+            color = .systemOrange
+        case 10_000...:
+            color = .systemRed
+        default:
+            color = .systemFill
+        }
+        
+        return color
     }
 }
 
