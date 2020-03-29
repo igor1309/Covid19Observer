@@ -26,7 +26,7 @@
 		2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF002428C04F0094852B /* MapViewsOLD.swift */; };
 		2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF012428C04F0094852B /* CasesOnMapView.swift */; };
 		2A03BF122428C9890094852B /* TopTenBarChartVert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF112428C9890094852B /* TopTenBarChartVert.swift */; };
-		2A03BF142428C9C80094852B /* TopCasesHBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF132428C9C80094852B /* TopCasesHBarChart.swift */; };
+		2A03BF142428C9C80094852B /* CasesHBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BF132428C9C80094852B /* CasesHBarChart.swift */; };
 		2A445F3124292E94007C6846 /* AxisY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3024292E94007C6846 /* AxisY.swift */; };
 		2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3224292F1A007C6846 /* GraphGridShape.swift */; };
 		2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */; };
@@ -72,7 +72,7 @@
 		2A03BF002428C04F0094852B /* MapViewsOLD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewsOLD.swift; sourceTree = "<group>"; };
 		2A03BF012428C04F0094852B /* CasesOnMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesOnMapView.swift; sourceTree = "<group>"; };
 		2A03BF112428C9890094852B /* TopTenBarChartVert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopTenBarChartVert.swift; sourceTree = "<group>"; };
-		2A03BF132428C9C80094852B /* TopCasesHBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopCasesHBarChart.swift; sourceTree = "<group>"; };
+		2A03BF132428C9C80094852B /* CasesHBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesHBarChart.swift; sourceTree = "<group>"; };
 		2A445F3024292E94007C6846 /* AxisY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisY.swift; sourceTree = "<group>"; };
 		2A445F3224292F1A007C6846 /* GraphGridShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGridShape.swift; sourceTree = "<group>"; };
 		2A56BB4F24307D580082FF21 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -251,7 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
-				2A03BF132428C9C80094852B /* TopCasesHBarChart.swift */,
+				2A03BF132428C9C80094852B /* CasesHBarChart.swift */,
 			);
 			path = "Cases Chart";
 			sourceTree = "<group>";
@@ -349,7 +349,7 @@
 				2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */,
 				2A74F0B92428CBB400137694 /* HeatedLineChart.swift in Sources */,
 				2A03BF032428C04F0094852B /* Corona.swift in Sources */,
-				2A03BF142428C9C80094852B /* TopCasesHBarChart.swift in Sources */,
+				2A03BF142428C9C80094852B /* CasesHBarChart.swift in Sources */,
 				2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */,
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
 				2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */,

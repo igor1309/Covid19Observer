@@ -105,7 +105,7 @@ struct CasesTableView: View {
     //  MARK: FINISH THIS
     //  стоит перенести в модель?
     //  маркер по названию или индексу? - что лучше
-    //  также используется в TopCasesHBarChart()
+    //  также используется в CasesHBarChart()
     func prepareHistoryData(for index: Int) {
         self.coronaStore.selectedCountry = self.coronaStore.cases[index].name
         self.showLineChart = true

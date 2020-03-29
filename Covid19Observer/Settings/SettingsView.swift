@@ -68,23 +68,7 @@ struct SettingsView: View {
                         }
                     }
                 }
-                
-                Section(header: Text("Chart and Table".uppercased()),
-                        footer: Text("footer")) {
-                            HStack {
-                                Text("Top \(self.coronaStore.maxBars)")
-                                    .padding(.trailing, 64)
                                 
-                                Picker(selection: $coronaStore.maxBars, label: Text("Select Top Qty")) {
-                                    ForEach(maxBarsOptions, id: \.self) { qty in
-                                        Text("\(qty)").tag(qty)
-                                    }
-                                }
-                                .labelsHidden()
-                                .pickerStyle(SegmentedPickerStyle())
-                            }
-                }
-                
                 Section(header: Text("Color Code".uppercased()),
                         footer: Text("Select number (color) as a lower limit to filter pins on the map.")) {
                             VStack(alignment: .leading) {

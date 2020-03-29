@@ -22,7 +22,7 @@ struct CasesChartView: View {
             CaseDataTypePicker(selection: $selection)
             
             if coronaStore.cases.isNotEmpty {
-                TopCasesHBarChart(selectedType: $selection)
+                CasesHBarChart(selectedType: $selection)
             } else {
                 //  MARK: FINISH THIS
                 //

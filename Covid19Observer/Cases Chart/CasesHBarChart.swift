@@ -1,4 +1,4 @@
-//  TopCasesHBarChart.swift
+//  CasesHBarChart.swift
 //  SwiftUICoronaMapTracker
 //
 //  Created by Igor Malyarov on 22.03.2020.
@@ -8,14 +8,16 @@
 import SwiftUI
 import SwiftPI
 
-struct TopCasesHBarChart: View {
+struct CasesHBarChart: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
     
     @Binding var selectedType: CaseDataType
     @State private var showLineChart = false
     @State private var selectedCountry = ""
-    
+
+    let barHeight: CGFloat = 28
+
     var body: some View {
         let maximum: CGFloat
         switch selectedType {
@@ -50,7 +52,7 @@ struct TopCasesHBarChart: View {
                             ZStack(alignment: .leading) {
                                 
                                 self.colorForType(self.selectedType)
-                                    .frame(width: geo.size.width / maximum * self.caseData(self.selectedType, for: index), height: 24)
+                                    .frame(width: geo.size.width / maximum * self.caseData(self.selectedType, for: index), height: self.barHeight)
                                     .cornerRadius(6)
                                     .saturation(self.coronaStore.cases[index].name == "China" ? 0.3 : 1)
                                 
@@ -76,7 +78,7 @@ struct TopCasesHBarChart: View {
     func textLabel(name: String, width: CGFloat, maxWidth: CGFloat) -> some View {
         Text(name)
             .foregroundColor(width > maxWidth / 2 ? .black : .secondary)
-            .font(coronaStore.maxBars > 15 ? .caption : .footnote)
+            .font(.footnote)
             .frame(width: width > maxWidth / 2 ? width : maxWidth,
                    alignment: width > maxWidth / 2 ? .trailing : .leading)
             .offset(x: width > maxWidth / 2 ? -10 : width + 10)
@@ -121,12 +123,12 @@ struct TopCasesHBarChart: View {
     }
 }
 
-struct TopCasesHBarChart_Previews: PreviewProvider {
+struct CasesHBarChart_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
             
-            TopCasesHBarChart(selectedType: .constant(CaseDataType.cfr))
+            CasesHBarChart(selectedType: .constant(CaseDataType.cfr))
                 .padding(.horizontal)
         }
         .environmentObject(CoronaStore())

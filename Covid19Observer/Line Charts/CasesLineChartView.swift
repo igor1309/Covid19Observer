@@ -56,6 +56,7 @@ struct CasesLineChartView: View {
             }
             
             CountryCasesHeader()
+                .padding(.bottom, 4)
             
             if series.isNotEmpty {
                 HeatedLineChart(series: series, numberOfGridLines: numberOfGridLines)

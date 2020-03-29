@@ -16,7 +16,7 @@ struct ContentView: View {
         TabView(selection: $settings.selectedTab) {
             
             CasesChartView()
-//            TopCasesHBarChart()
+//            CasesHBarChart()
                 .padding()
                 .tabItem {
                     Image(systemName: "chart.bar")

@@ -62,13 +62,6 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    var maxBars = UserDefaults.standard.integer(forKey: "maxBars") {
-        didSet {
-            UserDefaults.standard.set(maxBars, forKey: "maxBars")
-            processCases()
-        }
-    }
-    
     var hoursMunutesSinceCasesUpdateStr: String {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .brief
@@ -100,7 +93,6 @@ class CoronaStore: ObservableObject {
     init() {
         /// UserDefaults returns 0 if app is new/reinstalled.cleaned up
         if mapFilterLowerLimit == 0 { mapFilterLowerLimit = 100 }
-        if maxBars == 0 { maxBars = 15 }
         
         /// always start with Country, not Region
         caseType = CaseType.byCountry
