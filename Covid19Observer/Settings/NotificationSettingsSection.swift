@@ -12,8 +12,13 @@ enum AlertsStatus {
     case notDetermined, denied, scheduled, new
 }
 
-struct DeniedAlertView: View {
-    var body: some View {
+struct NotificationSettingsSection: View {
+    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
+    
+    @State var status: AlertsStatus = .scheduled
+    
+    var deniedAlertView: some View {
         Group {
             Button("Alerts in Notifications are not allowed.") {
                 self.checkAuthorizationStatus()
@@ -27,7 +32,6 @@ struct DeniedAlertView: View {
             }
         }
     }
-
     
     private func openSettingsApp() {
         DispatchQueue.main.async {
@@ -45,15 +49,6 @@ struct DeniedAlertView: View {
             }
         }
     }
-}
-
-struct NotificationSettingsSection: View {
-    @EnvironmentObject var coronaStore: CoronaStore
-    @EnvironmentObject var settings: Settings
-    
-    @State var status: AlertsStatus = .scheduled
-    
-    
     
     var newAlertView: some View {
         Group {
@@ -213,20 +208,17 @@ struct NotificationSettingsSection: View {
             }
             
             #if DEBUG
-            Spacer()
-            Text("Testing:".uppercased())
-            
             Group {
-                Text("Pending Notification Requests: ")
+                Text("Pending Notifications: ")
                     .foregroundColor(.secondary)
-                    + Text("\(pendingNotifications.isEmpty ? "none" : pendingNotifications)")
+                Text("\(pendingNotifications.isEmpty ? "none" : pendingNotifications)")
             }
             .font(.subheadline)
             .onAppear {
                 self.getPending()
             }
             
-            Button("Get Pending Notification Requests") {
+            Button("Get Pending Notifications") {
                 self.getPending()
             }
             #endif

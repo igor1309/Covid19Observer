@@ -57,6 +57,12 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
+                Section(header: Text("Notifications".uppercased()),
+                        footer: Text("Regular local notifications to get updated.")
+                ) {
+                    NotificationSettingsSection()
+                }
+
                 Section(header: Text("Update".uppercased()),
                         footer: Text("Data by John Hopkins.")
                 ) {
@@ -139,12 +145,6 @@ struct SettingsView: View {
                         .pickerStyle(SegmentedPickerStyle())
                     }
                     .padding(.vertical, 2)
-                }
-
-                Section(header: Text("Notifications".uppercased()),
-                        footer: Text("Regular local notifications to get updated.")
-                ) {
-                    NotificationSettingsSection()
                 }
             }
             .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }

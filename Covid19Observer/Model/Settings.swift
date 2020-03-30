@@ -35,6 +35,7 @@ final class Settings: ObservableObject {
         }
     }
     
+    
     @Published var isNotificationRepeated: Bool = UserDefaults.standard.bool(forKey: "isNotificationRepeated") {
         didSet {
             UserDefaults.standard.set(isNotificationRepeated, forKey: "isNotificationRepeated")

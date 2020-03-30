@@ -146,11 +146,13 @@ class CoronaStore: ObservableObject {
     
     func updateIfStoreIsOldOrEmpty() {
         if cases.isEmpty || isCasesDataOld {
+            print("Cases Data empty or old, need to fetch")
             isCasesUpdateCompleted = false
             updateCasesData() { _ in }
         }
         
         if history.table.isEmpty || isHistoryDataOld {
+            print("History Data empty or old, need to fetch")
             isHistoryUpdateCompleted = false
             updateHistoryData()
         }
