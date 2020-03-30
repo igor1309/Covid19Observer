@@ -9,6 +9,19 @@
 import SwiftUI
 
 final class Settings: ObservableObject {
+    
+    @Published var isNotificationRepeated: Bool = UserDefaults.standard.bool(forKey: "isNotificationRepeated") {
+        didSet {
+            UserDefaults.standard.set(isNotificationRepeated, forKey: "isNotificationRepeated")
+        }
+    }
+    
+    @Published var selectedTimePeriod: TimePeriod {
+        didSet {
+            UserDefaults.standard.set(selectedTimePeriod.id, forKey: "selectedTimePeriod")
+        }
+    }
+    
     @Published var selectedTab = UserDefaults.standard.integer(forKey: "selectedTab") {
         didSet {
             UserDefaults.standard.set(selectedTab, forKey: "selectedTab")
@@ -22,9 +35,18 @@ final class Settings: ObservableObject {
     }
     
     init() {
-        initialNumber = UserDefaults.standard.double(forKey: "initialNumber")
-        if initialNumber == 0 {
+        let savedInitialNumber = UserDefaults.standard.double(forKey: "initialNumber")
+        if savedInitialNumber == 0 {
             initialNumber = 5
+        } else {
+            initialNumber = savedInitialNumber
+        }
+        
+        let selectedTimePeriodID = UserDefaults.standard.string(forKey: "selectedTimePeriod") ?? ""
+        if selectedTimePeriodID.isEmpty {
+            selectedTimePeriod = .twoHours
+        } else {
+            selectedTimePeriod = TimePeriod(rawValue: selectedTimePeriodID) ?? .twoHours
         }
     }
 }
