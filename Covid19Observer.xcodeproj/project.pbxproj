@@ -45,6 +45,9 @@
 		2A74F0C72428CE7B00137694 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0C32428CE7B00137694 /* Extensions.swift */; };
 		2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0C42428CE7B00137694 /* CountryPicker.swift */; };
 		2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */; };
+		2A96535024333FD0002A93A7 /* Extension+Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96534F24333FD0002A93A7 /* Extension+Notification.Name.swift */; };
+		2A96535424335810002A93A7 /* NotificationsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96535324335810002A93A7 /* NotificationsSettings.swift */; };
+		2A965356243360A4002A93A7 /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A965355243360A4002A93A7 /* NotificationDelegate.swift */; };
 		2AAAC6EF242A384000C03E5B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAAC6EE242A384000C03E5B /* SettingsView.swift */; };
 		2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB947362430FCA4009C18ED /* MapWithLineChartView.swift */; };
 		2AB94739243126A1009C18ED /* CasesChartsIPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB94738243126A1009C18ED /* CasesChartsIPad.swift */; };
@@ -98,6 +101,9 @@
 		2A74F0C32428CE7B00137694 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2A74F0C42428CE7B00137694 /* CountryPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryPicker.swift; sourceTree = "<group>"; };
 		2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesLineChartView.swift; sourceTree = "<group>"; };
+		2A96534F24333FD0002A93A7 /* Extension+Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Notification.Name.swift"; sourceTree = "<group>"; };
+		2A96535324335810002A93A7 /* NotificationsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettings.swift; sourceTree = "<group>"; };
+		2A965355243360A4002A93A7 /* NotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDelegate.swift; sourceTree = "<group>"; };
 		2A9BE4A824314C8000CA23A4 /* C19 Observer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "C19 Observer.entitlements"; sourceTree = "<group>"; };
 		2AAAC6EE242A384000C03E5B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2AB947362430FCA4009C18ED /* MapWithLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWithLineChartView.swift; sourceTree = "<group>"; };
@@ -156,6 +162,7 @@
 				2A03BEFB2428C04F0094852B /* Line Charts */,
 				2A74F0BC2428CE3E00137694 /* Doubling Time */,
 				2A660802242D352D0056C849 /* Settings */,
+				2A96534924333B96002A93A7 /* Notifications */,
 				2A03BEF82428C04F0094852B /* Extras */,
 				2A03BEF02428C04F0094852B /* Model */,
 				2A03BEDF2428BC700094852B /* Assets.xcassets */,
@@ -249,7 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				2AAAC6EE242A384000C03E5B /* SettingsView.swift */,
-				2A4E35EA2432294900F84C72 /* NotificationSettingsSection.swift */,
+				2A96535324335810002A93A7 /* NotificationsSettings.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -261,6 +268,16 @@
 				2A74F0BE2428CE3E00137694 /* WikiQuoteView.swift */,
 			);
 			path = "Doubling Time";
+			sourceTree = "<group>";
+		};
+		2A96534924333B96002A93A7 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				2A4E35EA2432294900F84C72 /* NotificationSettingsSection.swift */,
+				2A96534F24333FD0002A93A7 /* Extension+Notification.Name.swift */,
+				2A965355243360A4002A93A7 /* NotificationDelegate.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		2AB9474024313EC7009C18ED /* Case Headers */ = {
@@ -364,9 +381,11 @@
 				2A03BF0B2428C04F0094852B /* CasesChartView.swift in Sources */,
 				2A03BF052428C04F0094852B /* CoronaStore.swift in Sources */,
 				2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */,
+				2A96535424335810002A93A7 /* NotificationsSettings.swift in Sources */,
 				2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */,
 				2A74F0C02428CE3E00137694 /* WikiQuoteView.swift in Sources */,
 				2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */,
+				2A965356243360A4002A93A7 /* NotificationDelegate.swift in Sources */,
 				2AB9473F24313E35009C18ED /* CasesHeader.swift in Sources */,
 				2AB9473D24312B9C009C18ED /* CaseChart.swift in Sources */,
 				2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */,
@@ -397,6 +416,7 @@
 				2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */,
 				2A6607FF242BF7060056C849 /* MapView.swift in Sources */,
 				2A445F3124292E94007C6846 /* AxisY.swift in Sources */,
+				2A96535024333FD0002A93A7 /* Extension+Notification.Name.swift in Sources */,
 				2A03BEDE2428BC6F0094852B /* ContentView.swift in Sources */,
 				2A03BF072428C04F0094852B /* CasesTableView.swift in Sources */,
 				2A03BF062428C04F0094852B /* CaseData.swift in Sources */,

@@ -177,9 +177,15 @@ struct NotificationSettingsSection: View {
     }
     
     private func requestPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .provisional]) { success, error in
-            
-            self.checkAuthorizationStatus()
+        UNUserNotificationCenter.current()
+            .requestAuthorization(
+                options: [.alert, .sound, .badge,
+                          /// set `provisional` to show notifications just in Notification Center
+                    /// there is no need in authorisation for this type of notifications
+                    //                                            .provisional,
+                    .providesAppNotificationSettings]) { success, error in
+                        
+                        self.checkAuthorizationStatus()
         }
     }
     
