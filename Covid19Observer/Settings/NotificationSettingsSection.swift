@@ -16,9 +16,9 @@ struct NotificationSettingsSection: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
-    @State var status: AlertsStatus = .scheduled
+    @State private var status: AlertsStatus = .scheduled
     
-    var deniedAlertView: some View {
+    private var deniedAlertView: some View {
         Group {
             Button("Alerts in Notifications are not allowed.") {
                 self.checkAuthorizationStatus()
@@ -50,7 +50,7 @@ struct NotificationSettingsSection: View {
         }
     }
     
-    var newAlertView: some View {
+    private var newAlertView: some View {
         Group {
             Toggle("Repeat Notifications", isOn: $settings.isNotificationRepeated)
             
@@ -83,47 +83,51 @@ struct NotificationSettingsSection: View {
                 || settings.authorizationStatus == .provisional)
                 && settings.alertSetting == .enabled else { return }
             
-            
-            //  MARK: FINISH THIS
-            //  https://www.hackingwithswift.com/read/21/3/acting-on-responses
-            //  registerCategories()
-            
-            
-            /// https://www.hackingwithswift.com/books/ios-swiftui/scheduling-local-notifications
-            let content = UNMutableNotificationContent()
-            content.title = "Updated"
-            content.subtitle = Date().toString(format: "dd-MM-yy hh:ss")
-            content.body = "Total Confirmed: \(self.coronaStore.coronaOutbreak.totalCases)\n" + "Total Deaths: \(self.coronaStore.coronaOutbreak.totalDeaths)\n" + "Case Fatality Rate: \(self.coronaStore.worldCaseFatalityRate.formattedPercentage)"
-            /// https://www.hackingwithswift.com/read/21/2/scheduling-notifications-unusernotificationcenter-and-unnotificationrequest
-            content.categoryIdentifier = "casesUpdate"
-            content.sound = UNNotificationSound.default
-            /// https://www.hackingwithswift.com/example-code/system/how-to-group-user-notifications-using-threadidentifier-and-summaryargument
-            content.threadIdentifier = "covid-19-cases-observer-updates"
-            
-            //  show this notification __ seconds from now
-            //        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
-            let trigger = UNTimeIntervalNotificationTrigger(
-                timeInterval: self.settings.selectedTimePeriod.period,
-                repeats: self.settings.isNotificationRepeated)
-            
-            //  choose a random identifier
-            //  The request combines the content and trigger, but also adds a unique identifier so you can edit or remove specific alerts later on. If you don’t want to edit or remove stuff, use UUID().uuidString to get a random identifier.
-            //  let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-            let identifier = "covid-19-cases-observer-updates"
-            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-            
-            // add our notification request
-            UNUserNotificationCenter.current().add(request) { error in
-                guard error == nil else { return }
-                print("Scheduling notification with id: \(request.identifier)")
-            }
-            
+            self.createAndAddAlert()
+            self.checkPendingNotifications()
+        }
+    }
+    
+    private func createAndAddAlert() {
+        
+        /// https://www.hackingwithswift.com/books/ios-swiftui/scheduling-local-notifications
+        let content = UNMutableNotificationContent()
+        content.title = "Updated"
+        content.subtitle = Date().toString(format: "dd.MM.yyyy h:ss")
+        content.body = "Total Confirmed: \(self.coronaStore.coronaOutbreak.totalCases)\n" + "Total Deaths: \(self.coronaStore.coronaOutbreak.totalDeaths)\n" + "Case Fatality Rate: \(self.coronaStore.worldCaseFatalityRate.formattedPercentage)"
+        /// https://www.hackingwithswift.com/read/21/2/scheduling-notifications-unusernotificationcenter-and-unnotificationrequest
+        content.categoryIdentifier = "casesUpdate"
+        content.sound = UNNotificationSound.default
+        /// https://www.hackingwithswift.com/example-code/system/how-to-group-user-notifications-using-threadidentifier-and-summaryargument
+        content.threadIdentifier = "covid-19-cases-observer-updates"
+        
+        
+        //  show this notification __ seconds from now
+        //        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: self.settings.selectedTimePeriod.period,
+            repeats: self.settings.isNotificationRepeated)
+        
+        
+        //  choose a random identifier
+        //  The request combines the content and trigger, but also adds a unique identifier so you can edit or remove specific alerts later on. If you don’t want to edit or remove stuff, use UUID().uuidString to get a random identifier.
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        //            let identifier = "covid-19-cases-observer-updates"
+        //            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        
+        
+        // add our notification request
+        UNUserNotificationCenter.current().add(request) { error in
+            guard error == nil else { return }
+            print("Scheduling notification with id: \(request.identifier)")
+        }
+        
+        DispatchQueue.main.async {
             self.status = .scheduled
             self.settings.isAlertScheduled = true
             self.settings.notificationWasScheduledAt = Date()
         }
     }
-    
     
     //  MARK: - FINISH THIS
     /// https://www.hackingwithswift.com/read/21/3/acting-on-responses
@@ -132,7 +136,7 @@ struct NotificationSettingsSection: View {
     //        //        center.delegate = self
     //
     //        let show = UNNotificationAction(identifier: "show", title: "Tell me more…", options: .foreground)
-    //        let category = UNNotificationCategory(identifier: "alarm", actions: [show], intentIdentifiers: [])
+    //        let category = UNNotificationCategory(identifier: "casesUpdate", actions: [show], intentIdentifiers: [])
     //
     //        center.setNotificationCategories([category])
     //    }
@@ -166,7 +170,7 @@ struct NotificationSettingsSection: View {
     //    }
     
     
-    var notDeterminedView: some View {
+    private var notDeterminedView: some View {
         Button("Request permission") {
             self.requestPermission()
         }
@@ -180,9 +184,8 @@ struct NotificationSettingsSection: View {
     }
     
     @State private var showResetAlert = false
-    @State private var pendingNotifications = ""
     
-    var scheduledAlertView: some View {
+    private var scheduledAlertView: some View {
         Group {
             Text("Notification\(settings.isNotificationRepeated ? "s were" : " was") scheduled \(settings.hoursMunutesSincenotificationWasScheduledAt) ago \(settings.isNotificationRepeated ? "to repeat every" : "for one time in") \(settings.selectedTimePeriod.id) (\(settings.selectedTimePeriod.period.formattedGrouped) sec).")
             
@@ -206,44 +209,22 @@ struct NotificationSettingsSection: View {
                         .cancel()
                 ])
             }
-            
-            #if DEBUG
-            Group {
-                Text("Pending Notifications: ")
-                    .foregroundColor(.secondary)
-                Text("\(pendingNotifications.isEmpty ? "none" : pendingNotifications)")
-            }
-            .font(.subheadline)
-            .onAppear {
-                self.getPending()
-            }
-            
-            Button("Get Pending Notifications") {
-                self.getPending()
-            }
-            #endif
-        }
-    }
-    
-    private func getPending() {
-        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            
-            //                        print(requests)
-            self.pendingNotifications = requests.map { $0.identifier }.joined(separator: ", ")
         }
     }
     
     private func resetScheduledNotifications() {
-        let identifier = "covid-19-cases-observer-updates"
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+//        let identifier = "covid-19-cases-observer-updates"
+//        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
         /// reset
         self.settings.resetAlertData()
         
         self.status = .new
+        self.checkPendingNotifications()
     }
     
-    var body: some View {
+    private var alertView: some View {
         switch status {
         case .denied:
             return AnyView(deniedAlertView)
@@ -256,6 +237,49 @@ struct NotificationSettingsSection: View {
         }
     }
     
+    @State private var pendingNotifications = ""
+    private var pendingNotificationsView: some View {
+        Group {
+            Group {
+                Text("Pending Notifications: ")
+                    .foregroundColor(.secondary)
+                    
+                Text("\(pendingNotifications.isEmpty ? "none" : pendingNotifications)")
+            }
+            .font(.subheadline)
+            .onAppear {
+                self.checkPendingNotifications()
+            }
+            
+            Button("Get Pending Notifications") {
+                self.checkPendingNotifications()
+            }
+        }
+    }
+    
+    private func checkPendingNotifications() {
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            
+            DispatchQueue.main.async {
+                self.pendingNotifications = requests.map { $0.identifier }.joined(separator: ", ")
+                self.settings.isAlertScheduled = requests.filter { $0.identifier == "covid-19-cases-observer-updates" }.map { $0.content }.isNotEmpty
+            }
+        }
+    }
+
+    var body: some View {
+        Group {
+            alertView
+                .onAppear {
+                    self.checkAuthorizationStatus()
+            }
+            
+            pendingNotificationsView
+                .onAppear {
+                    self.checkPendingNotifications()
+            }
+        }
+    }
     
     private func checkAuthorizationStatus() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in

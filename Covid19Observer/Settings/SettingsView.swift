@@ -12,6 +12,7 @@ import UserNotifications
 
 enum TimePeriod: String, CaseIterable {
     //    #if debug
+    case minute = "1min"
     case quarterHour = "1/4h"
     //    #endif
     case halfHour = "1/2h"
@@ -24,6 +25,8 @@ enum TimePeriod: String, CaseIterable {
     var period: TimeInterval {
         switch self {
         //            #if debug
+        case .minute:
+            return 1 * 60
         case .quarterHour:
             return 15 * 60
         //            #endif

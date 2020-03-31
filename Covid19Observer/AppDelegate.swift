@@ -32,12 +32,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         completionHandler([.alert, .badge, .sound])
     }
     
+    /// https://www.hackingwithswift.com/read/21/3/acting-on-responses
+        func registerCategories() {
+            let center = UNUserNotificationCenter.current()
+            //        center.delegate = self
+    
+            let show = UNNotificationAction(identifier: "show", title: "Tell me more…", options: .foreground)
+            let category = UNNotificationCategory(identifier: "casesUpdate", actions: [show], intentIdentifiers: [])
+    
+            center.setNotificationCategories([category])
+        }
+    
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        
+        ///  `Notifications`
         /// https://medium.com/flawless-app-stories/local-notifications-in-swift-5-and-ios-13-with-unusernotificationcenter-190e654a5615
         UNUserNotificationCenter.current().delegate = self
+        
+        registerCategories()
+        
         
         
         // MARK: Registering Launch Handlers for Tasks
