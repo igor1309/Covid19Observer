@@ -21,26 +21,36 @@ struct CasesHeader: View {
             .foregroundColor(.systemYellow)
             
             Spacer()
+            //  MARK: FIX THIS
+            //
             VStack {
-                Text("\(coronaStore.coronaOutbreak.totalRecovered)")
-                    .font(.subheadline)
-                Text("recovered")
+            Text("\(1_000)")
+            .font(.subheadline)
+            Text("new")
+            }
+            .foregroundColor(.systemOrange)
+            
+            Spacer()
+            VStack {
+            Text("\(coronaStore.coronaOutbreak.totalRecovered)")
+            .font(.subheadline)
+            Text("recovered")
             }
             .foregroundColor(.systemGreen)
             
             Spacer()
             VStack {
-                Text("\(coronaStore.coronaOutbreak.totalDeaths)")
-                    .font(.subheadline)
-                Text("deaths")
+            Text("\(coronaStore.coronaOutbreak.totalDeaths)")
+            .font(.subheadline)
+            Text("deaths")
             }
             .foregroundColor(.systemRed)
             
             Spacer()
             VStack {
-                Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
-                    .font(.subheadline)
-                Text("CFR")
+            Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
+            .font(.subheadline)
+            Text("CFR")
             }
             .foregroundColor(.systemTeal)
         }

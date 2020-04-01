@@ -10,12 +10,12 @@ import SwiftUI
 
 struct CaseBar: View {
     @EnvironmentObject var coronaStore: CoronaStore
-
+    
     let selectedType: CaseDataType
     let index: Int
     let maximum: CGFloat
     let width: CGFloat
-
+    
     let barHeight: CGFloat
     
     var body: some View {
@@ -44,6 +44,8 @@ struct CaseBar: View {
         switch type {
         case .confirmed:
             return CGFloat(coronaStore.cases[index].confirmed)
+        case .new:
+            return CGFloat(coronaStore.cases[index].new)
         case .deaths:
             return CGFloat(coronaStore.cases[index].deaths)
         case .cfr:
@@ -55,6 +57,8 @@ struct CaseBar: View {
         switch type {
         case .confirmed:
             return coronaStore.cases[index].confirmedStr
+        case .new:
+            return coronaStore.cases[index].newStr
         case .deaths:
             return coronaStore.cases[index].deathsStr
         case .cfr:
@@ -66,6 +70,8 @@ struct CaseBar: View {
         switch type {
         case .confirmed:
             return Color.systemYellow
+        case .new:
+            return Color.systemOrange
         case .deaths:
             return Color.systemRed
         case .cfr:

@@ -18,15 +18,15 @@ class CoronaStore: ObservableObject {
     
     @Published var caseType: CaseType { didSet { processCases() }}
     
-    @Published var history: History = History(from: "")
-    @Published var cases = [CaseData]()
-    @Published var caseAnnotations = [CaseAnnotation]()
-    @Published var coronaOutbreak = (totalCases: "...", totalRecovered: "...", totalDeaths: "...")
+    @Published private(set) var history: History = History(from: "")
+    @Published private(set) var cases = [CaseData]()
+    @Published private(set) var caseAnnotations = [CaseAnnotation]()
+    @Published private(set) var coronaOutbreak = (totalCases: "...", totalRecovered: "...", totalDeaths: "...")
     
-    var worldCaseFatalityRate: Double = 0
+    private(set) var worldCaseFatalityRate: Double = 0
     
-    @Published var isCasesUpdateCompleted = true
-    @Published var isHistoryUpdateCompleted = true
+    @Published private(set) var isCasesUpdateCompleted = true
+    @Published private(set) var isHistoryUpdateCompleted = true
     
     @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
         didSet {
@@ -46,7 +46,7 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    var filterColor: Color { Color(colorCode(number: mapFilterLowerLimit)) }
+    var filterColor: Color { Color(colorCode(for: mapFilterLowerLimit)) }
     
     var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
         didSet {
@@ -76,7 +76,7 @@ class CoronaStore: ObservableObject {
         return formatter.string(from: historyModificationDate, to: Date())  ?? "n/a"
     }
     
-    var storage = [AnyCancellable]()
+    private var storage = [AnyCancellable]()
     
     private var responseCacheByRegion: CoronaResponse
     private var responseCacheByCountry: CoronaResponse
@@ -126,6 +126,8 @@ class CoronaStore: ObservableObject {
             self.history = History(from: "")
             print("no JSON-file with historical data on disk, set to empty")
         }
+        
+        countNewCases()
     }
     
     private var casesModificationDate: Date = (UserDefaults.standard.object(forKey: "casesModificationDate") as? Date ?? Date.distantPast) {
@@ -148,18 +150,22 @@ class CoronaStore: ObservableObject {
         if cases.isEmpty || isCasesDataOld {
             print("Cases Data empty or old, need to fetch")
             isCasesUpdateCompleted = false
-            updateCasesData() { _ in }
+            updateCasesData() { _ in
+                self.countNewCases()
+            }
         }
         
         if history.table.isEmpty || isHistoryDataOld {
             print("History Data empty or old, need to fetch")
             isHistoryUpdateCompleted = false
-            updateHistoryData()
+            updateHistoryData() {
+                self.countNewCases()
+            }
         }
     }
     
-    func updateHistoryData() {
-        fetchHistoryData()
+    func updateHistoryData(completionHandler: @escaping () -> Void) {
+        fetchHistoryData(completionHandler: completionHandler)
     }
     
     func updateCasesData(completionHandler: @escaping (_ caseType: CaseType) -> Void) {
@@ -223,6 +229,14 @@ class CoronaStore: ObservableObject {
         }
         .store(in: &storage)
     }
+    
+    private func countNewCases() {
+        for index in cases.indices {
+            let new = cases[index].confirmed - history.last(for: cases[index].name)
+            cases[index].new = new
+            cases[index].newStr = new.formattedGrouped
+        }
+    }
 
     private func processCases() {
         var caseAnnotations: [CaseAnnotation] = []
@@ -246,7 +260,7 @@ class CoronaStore: ObservableObject {
                     value: confirmed,
                     coordinate: .init(latitude: cases.attributes.lat ?? 0.0,
                                       longitude: cases.attributes.longField ?? 0.0),
-                    color: colorCode(number: confirmed)))
+                    color: colorCode(for: confirmed)))
             
             totalCases += confirmed
             totalDeaths += cases.attributes.deaths ?? 0
@@ -257,6 +271,9 @@ class CoronaStore: ObservableObject {
                     name: title,
                     confirmed: confirmed,
                     confirmedStr: confirmed.formattedGrouped,
+                    //  MARK: count new cases is called separately
+                    new: 0,
+                    newStr: "0",
                     deaths: deaths,
                     deathsStr: deaths.formattedGrouped,
                     cfr: cfr,
@@ -279,7 +296,7 @@ class CoronaStore: ObservableObject {
         //        self.cases = caseData
     }
     
-    func fetchHistoryData() {
+    func fetchHistoryData(completionHandler: @escaping () -> Void) {
         isHistoryUpdateCompleted = false
         
         ///  https://github.com/CSSEGISandData/COVID-19
@@ -292,6 +309,8 @@ class CoronaStore: ObservableObject {
                         self.history = History(from: casesStr)
                         saveJSONToDocDir(data: self.history, filename: "history.json")
                         
+                        completionHandler()
+                        
                         self.historyModificationDate = Date()
                         self.isHistoryUpdateCompleted = true
                     }
@@ -302,7 +321,7 @@ class CoronaStore: ObservableObject {
         task.resume()
     }
     
-    func colorCode(number: Int) -> UIColor {
+    func colorCode(for number: Int) -> UIColor {
         let color: UIColor
         
         switch number {

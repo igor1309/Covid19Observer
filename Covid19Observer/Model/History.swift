@@ -14,14 +14,15 @@ struct History: Codable {
     static let primeCountries = ["Russia", "Italy", "France", "Germany", "Finland"]
     
     struct ShortCaseRow: Codable, Identifiable {
-        var id: String { countryRegion }
+        var id: String { provinceState + "/" + countryRegion }
         var provinceState, countryRegion: String
         //        var points: [Date: Int]
+        var name: String { provinceState + "/" + countryRegion }
         var series: [Int]
     }
     
-    var table: [[String]] = []
-    var rows: [ShortCaseRow] = []
+    private(set) var table: [[String]] = []
+    private var rows: [ShortCaseRow] = []
     
 //    var provinceStateCountryRegions: [String] {
 //        Array(rows.map { $0.countryRegion + ($0.provinceState == "" ? "" : ", " + $0.provinceState) }
@@ -45,15 +46,77 @@ struct History: Codable {
     init(from casesStr: String) {
         var table: [[String]] = []
         var rows: [ShortCaseRow] = []
+        
         if casesStr.isNotEmpty {
-            table = getTable(from: casesStr)
+            /// /// remove any special characters in a string
+            table = getTable(from: casesStr.components(separatedBy: CharacterSet.symbols).joined(separator: ""))
             rows = getRows(from: table)
         }
+        
         self = History(table: table, rows: rows)
     }
     
     func series(for country: String) -> [Int] {
-        let filtered = rows.filter { $0.countryRegion == country }
+        
+        guard rows.count > 0 else { return [] }
+        
+        /// нужно суммировать данные по провинциям
+        let countriesWithRegions = ["Australia", "Canada", "China", "Denmark", "France", "Netherlands", "United Kingdom"]
+        
+        var filteredRow: ShortCaseRow
+        
+        if countriesWithRegions.contains(country) {
+            
+            //  собрать все строки с этой страной в одну
+            //  и заменить блок стран с провинциями этой страны на эту одну строку
+            
+            let rowsForCountry = rows.filter { $0.countryRegion == country }
+            
+            var series: [Int]
+            series = []
+            
+            //  пройтись по всем столбцам
+            for i in 0 ..< rows[0].series.count {
+                var s = 0
+                
+                //  и собрать суммы строк
+                for row in rowsForCountry {
+                    
+                    s += row.series[i]
+                    
+                }
+                series.append(s)
+            }
+            
+            filteredRow = ShortCaseRow(provinceState: "", countryRegion: country, series: series)
+            
+            
+        } else {
+            //  если страна без провинций, то по ней данные только в одной строке
+            filteredRow = rows.filter { $0.countryRegion == country }[0]
+        }
+            
+        if filteredRow.series.isEmpty {
+            return []
+        } else {
+
+            //  MARK: - FIX THIS
+            //  нужна проверка по дате а не тупой отброс последнего значения
+            //  https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data
+            //  All timestamps are in UTC (GMT+0)
+            /// если последний элемент равен нулю, то вероятнее всего нет данных на последний день
+            let series = filteredRow.series
+//            if series.last! == 0 {
+//                return series.dropLast()
+//            } else {
+                return series
+//            }
+        }
+
+    }
+    
+    func series(forRegion region: String) -> [Int] {
+        let filtered = rows.filter { ($0.provinceState + $0.countryRegion) == region }
         if filtered.isEmpty {
             return []
         } else {
@@ -67,6 +130,10 @@ struct History: Codable {
         }
     }
     
+    func last(for country: String) -> Int {
+        return series(for: country).last ?? 0
+    }
+        
     private func getTable(from cases: String) -> [[String]] {
         /// returns first quoted text and drops this quote from passed string
         func parseQuotes(stringToParse: inout String) -> [String] {
@@ -75,7 +142,7 @@ struct History: Codable {
                 let secondQuoteIndex = String(stringToParse.dropFirst()).firstIndex(of: "\"")!
                 
                 let prefix = String(stringToParse.prefix(through: secondQuoteIndex))
-                stringToParse = String(stringToParse[secondQuoteIndex..<lastIndex].dropFirst(3))
+                stringToParse = String(stringToParse[secondQuoteIndex...lastIndex].dropFirst(3))
                 
                 return [prefix.replacingOccurrences(of: "\"", with: "")]
             } else {
@@ -84,14 +151,17 @@ struct History: Codable {
         }
         
         var rows = cases.components(separatedBy: "\n")
-        /// drop lasr row if empty (реальная ситуация 24.03.2020)
+        /// drop last row if empty (реальная ситуация 24.03.2020)
         if rows.count > 1 && rows.last!.isEmpty {
             rows = rows.dropLast()
         }
         
+        
         var table = [[String]]()
         for i in 0..<rows.count {
-            var stringToParse = rows[i]
+            /// /// /// remove any special characters in a stringremove any special characters in a string
+            var stringToParse = rows[i].components(separatedBy: CharacterSet.symbols).joined(separator: "")
+            
             var row: [String] = []
 
             /// if no Country/Region, create empty string as the first row element
@@ -112,7 +182,7 @@ struct History: Codable {
         return table
     }
     
-    private func getRows(from table: [[String]]) -> [ShortCaseRow]{
+    private func getRows(from table: [[String]]) -> [ShortCaseRow] {
         var shortCaseRows: [ShortCaseRow] = []
         for i in 0 ..< table.count {
             let row = table[i]

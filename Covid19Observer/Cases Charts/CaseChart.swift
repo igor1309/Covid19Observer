@@ -27,6 +27,8 @@ struct CaseChart: View {
         switch selectedType {
         case .confirmed:
             maximum = CGFloat(coronaStore.cases.map { $0.confirmed }.max() ?? 1)
+        case .new:
+            maximum = CGFloat(coronaStore.cases.map { $0.new }.max() ?? 1)
         case .deaths:
             maximum = CGFloat(coronaStore.cases.map { $0.deaths }.max() ?? 1)
         case .cfr:

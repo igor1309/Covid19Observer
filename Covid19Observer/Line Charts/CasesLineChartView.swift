@@ -40,9 +40,9 @@ struct CasesLineChartView: View {
                     HStack {
                         Text(coronaStore.selectedCountry)
                             .font(.title)
-                        .lineLimit(1)
+                            .lineLimit(1)
                             .layoutPriority(1)
-    
+                        
                         Spacer()
                         Text(" (tap to select other country)")
                             .foregroundColor(.secondary)
@@ -55,8 +55,17 @@ struct CasesLineChartView: View {
                 
             }
             
-            CountryCasesHeader()
-                .padding(.bottom, 4)
+            HStack {
+                CountryCasesHeader()
+                    .padding(.bottom, 4)
+                
+                VStack {
+                    Text(coronaStore.history.last(for: coronaStore.selectedCountry).formattedGrouped)
+                    Text("last in history")
+                        .font(.caption)
+                }
+                .border(Color.pink)
+            }
             
             if series.isNotEmpty {
                 HeatedLineChart(series: series, numberOfGridLines: numberOfGridLines)
@@ -64,8 +73,9 @@ struct CasesLineChartView: View {
                 Spacer()
             }
             
+            /// показать данные за последние 14 дней
             Text(series
-                .suffix(14)
+                .suffix(min(14, series.count))
                 .map { String($0) }
                 .joined(separator: ", ")
                 //  MARK: FINISH THIS

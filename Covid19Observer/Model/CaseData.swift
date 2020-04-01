@@ -13,8 +13,28 @@ struct CaseData: Identifiable, Hashable {
     var name: String
     var confirmed: Int
     var confirmedStr: String
+    var new: Int
+    var newStr: String
     var deaths: Int
     var deathsStr: String
     var cfr: Double
     var cfrStr: String
+}
+
+
+enum CaseType: String, CaseIterable {
+    case byCountry = "Country"
+    case byRegion = "Region"
+    
+    var id: String { rawValue }
+}
+
+
+enum CaseDataType: String, CaseIterable {
+    case confirmed = "Confirmed"
+    case new = "Conf. New"
+    case deaths = "Deaths"
+    case cfr = "CFR"
+    
+    var id: String { rawValue }
 }

@@ -57,12 +57,24 @@ struct SettingsView: View {
     let maxBarsOptions = [10, 15, 20, 100]
     let lowerLimits: [Int] = [100, 500, 1_000, 5_000, 10_000]
     
+    
+    //  MARK: - TESTING
+    //
+    @State private var isShowingNotificationSettingsTESTING = false
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Notifications".uppercased()),
                         footer: Text("Regular local notifications to get updated.")
                 ) {
+                    
+                    NavigationLink(destination: NotificationsSettings()
+                        ,
+                                   isActive: $isShowingNotificationSettingsTESTING
+                    ) {
+                        Text("Notifications")
+                    }
+                    
                     NotificationSettingsSection()
                 }
 
@@ -93,7 +105,7 @@ struct SettingsView: View {
                     }
                     
                     Button(action: {
-                        self.coronaStore.updateHistoryData()
+                        self.coronaStore.updateHistoryData() { }
                     }) {
                         HStack {
                             Image(systemName: "arrow.2.circlepath.circle")
@@ -116,7 +128,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("Color Code".uppercased()),
+                Section(header: Text("Map Color Code".uppercased()),
                         footer: Text("Select number (color) as a lower limit to filter pins on the map.")
                 ) {
                     //                            VStack(alignment: .leading, spacing: 12) {
@@ -128,7 +140,7 @@ struct SettingsView: View {
                         HStack {
                             ForEach(lowerLimits, id: \.self) { item in
                                 Capsule()
-                                    .foregroundColor(Color(self.coronaStore.colorCode(number: item)))
+                                    .foregroundColor(Color(self.coronaStore.colorCode(for: item)))
                                     .padding(.horizontal, 6)
                                     .frame(height: 16)
                                     .overlay(
