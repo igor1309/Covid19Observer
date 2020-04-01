@@ -20,7 +20,7 @@ struct CaseBar: View {
     
     var body: some View {
         ZStack(alignment: .leading) {
-            self.colorForType(self.selectedType)
+            self.selectedType.color
                 .frame(width: width / maximum * self.caseData(self.selectedType, for: index), height: self.barHeight)
                 .cornerRadius(6)
                 .saturation(self.coronaStore.cases[index].name == "China" ? 0.3 : 1)
@@ -67,21 +67,6 @@ struct CaseBar: View {
             return coronaStore.cases[index].deathsStr
         case .cfr:
             return coronaStore.cases[index].cfrStr
-        }
-    }
-    
-    fileprivate func colorForType(_ type: CaseDataType) -> Color {
-        switch type {
-        case .confirmed:
-            return Color.systemYellow
-        case .new:
-            return Color.systemOrange
-        case .current:
-            return Color.systemPurple
-        case .deaths:
-            return Color.systemRed
-        case .cfr:
-            return Color.systemTeal
         }
     }
 }

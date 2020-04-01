@@ -33,11 +33,26 @@ enum CaseType: String, CaseIterable {
 
 
 enum CaseDataType: String, CaseIterable {
-    case confirmed = "Confirmed"
-    case new = "Conf. New"
-    case current = "Current"
+    case confirmed = "Confirmed Cases"
+    case new = "New Confirmed"
+    case current = "Current Confirmed"
     case deaths = "Deaths"
-    case cfr = "CFR"
+    case cfr = "Case Fatality Rate"//"CFR"
     
     var id: String { rawValue }
+    
+    var color: Color {
+        switch self {
+        case .confirmed:
+            return .systemYellow
+        case .new:
+            return .systemOrange
+        case .current:
+            return .systemPurple
+        case .deaths:
+            return .systemRed
+        case .cfr:
+            return .systemTeal
+        }
+    }
 }

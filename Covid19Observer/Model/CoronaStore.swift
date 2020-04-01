@@ -21,7 +21,7 @@ class CoronaStore: ObservableObject {
     @Published private(set) var history: History = History(from: "")
     @Published private(set) var cases = [CaseData]()
     @Published private(set) var caseAnnotations = [CaseAnnotation]()
-    @Published private(set) var coronaOutbreak = (totalCases: "...", totalRecovered: "...", totalDeaths: "...")
+    @Published private(set) var coronaOutbreak = (totalCases: "...", totalNewConfirmed: "...", totalCurrentConfirmed: "...", totalRecovered: "...", totalDeaths: "...")
     
     private(set) var worldCaseFatalityRate: Double = 0
     
@@ -142,9 +142,9 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    /// 2 hours means data is old
-    private var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) > 2 * 60 * 60 }
-    private var isHistoryDataOld: Bool { casesModificationDate.distance(to: Date()) > 2 * 60 * 60 }
+    /// __ hours means data is old
+    private var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) > 1 * 60 * 60 }
+    private var isHistoryDataOld: Bool { casesModificationDate.distance(to: Date()) > 6 * 60 * 60 }
     
     func updateIfStoreIsOldOrEmpty() {
         if cases.isEmpty || isCasesDataOld {
@@ -231,17 +231,27 @@ class CoronaStore: ObservableObject {
     }
     
     private func countNewAndCurrentCases() {
+        var totalNewConfirmed = 0
+        var totalCurrentConfirmed = 0
+        
         for index in cases.indices {
             let last = history.last(for: cases[index].name)
             let previous = history.previous(for: cases[index].name)
             
-            cases[index].newConfirmed = last - previous
-            cases[index].newConfirmedStr = (last - previous).formattedGrouped
+            let new = last - previous
+            cases[index].newConfirmed = new
+            cases[index].newConfirmedStr = new.formattedGrouped
             
             let currentConfirmed = cases[index].confirmed - last
             cases[index].currentConfirmed = currentConfirmed
             cases[index].currentConfirmedStr = currentConfirmed.formattedGrouped
+            
+            totalNewConfirmed += new
+            totalCurrentConfirmed += currentConfirmed
         }
+        
+        self.coronaOutbreak.totalNewConfirmed = "\(totalNewConfirmed.formattedGrouped)"
+        self.coronaOutbreak.totalCurrentConfirmed = "\(totalCurrentConfirmed.formattedGrouped)"
     }
 
     private func processCases() {

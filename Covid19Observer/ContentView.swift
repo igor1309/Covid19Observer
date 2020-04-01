@@ -16,15 +16,15 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $settings.selectedTab) {
             
-            if sizeClass == .compact {
-                CasesChartView()
-                    .padding()
-                    .tabItem {
-                        Image(systemName: "chart.bar")
-                        Text("Chart")
-                }
-                .tag(0)
-            } else {
+//            if sizeClass == .compact {
+//                CasesChartView()
+//                    .padding()
+//                    .tabItem {
+//                        Image(systemName: "chart.bar")
+//                        Text("Chart")
+//                }
+//                .tag(0)
+//            } else {
                 CasesChartsIPad()
                     .padding()
                     .tabItem {
@@ -32,7 +32,7 @@ struct ContentView: View {
                         Text("Chart")
                 }
                 .tag(0)
-            }
+//            }
             
             CasesOnMapView()
                 .tabItem {
@@ -79,6 +79,9 @@ struct ContentView: View {
             .tag(4)
         }
         .onAppear {
+            self.coronaStore.updateIfStoreIsOldOrEmpty()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             self.coronaStore.updateIfStoreIsOldOrEmpty()
         }
     }

@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func scheduleAppRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: "com.photoigor.covid19observer.fetchCases")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 2 * 60)//2 * 60 * 60) //  Fetch no earlier than __ minutes from now
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 20 * 60)//2 * 60 * 60) //  Fetch no earlier than __ minutes from now
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {

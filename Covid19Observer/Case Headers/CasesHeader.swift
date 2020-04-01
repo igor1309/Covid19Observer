@@ -12,50 +12,70 @@ struct CasesHeader: View {
     @EnvironmentObject var coronaStore: CoronaStore
     
     var body: some View {
-        HStack {
-            VStack {
-                Text("\(coronaStore.coronaOutbreak.totalCases)")
-                    .font(.subheadline)
-                Text("confirmed")
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                Group {
+                    VStack {
+                        Text("\(coronaStore.coronaOutbreak.totalCases)")
+                            .font(.subheadline)
+                        Text("confirmed")
+                    }
+                    .foregroundColor(CaseDataType.confirmed.color)
+                    
+                    Spacer()
+                    VStack {
+                        Text("\(coronaStore.coronaOutbreak.totalNewConfirmed)")
+                            .font(.subheadline)
+                        Text("new")
+                    }
+                    .foregroundColor(CaseDataType.new.color)
+                    
+                    Spacer()
+                    VStack {
+                        Text("\(coronaStore.coronaOutbreak.totalCurrentConfirmed)")
+                            .font(.subheadline)
+                        Text("current")
+                    }
+                    .foregroundColor(CaseDataType.current.color)
+                }
+                
+                Group {
+                    Spacer()
+                    VStack {
+                        Text("\(coronaStore.coronaOutbreak.totalDeaths)")
+                            .font(.subheadline)
+                        Text("deaths")
+                    }
+                    .foregroundColor(CaseDataType.deaths.color)
+                    
+                    Spacer()
+                    VStack {
+                        Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
+                            .font(.subheadline)
+                        Text("CFR")
+                    }
+                    .foregroundColor(CaseDataType.cfr.color)
+                    
+                    Spacer()
+                    VStack {
+                        Text("\(coronaStore.coronaOutbreak.totalRecovered)")
+                            .font(.subheadline)
+                        Text("recovered")
+                    }
+                    .foregroundColor(.systemGreen)
+                }
+                
+                Spacer()
+                VStack {
+                    Text("\(coronaStore.hoursMunutesSinceCasesUpdateStr)/\(coronaStore.hoursMunutesSinceHistoryUpdateStr)")
+                        .font(.subheadline)
+                    Text("updated")
+                }
+                .foregroundColor(.secondary)
             }
-            .foregroundColor(.systemYellow)
-            
-            Spacer()
-            //  MARK: FIX THIS
-            //
-            VStack {
-            Text("\(1_000)")
-            .font(.subheadline)
-            Text("new")
-            }
-            .foregroundColor(.systemOrange)
-            
-            Spacer()
-            VStack {
-            Text("\(coronaStore.coronaOutbreak.totalRecovered)")
-            .font(.subheadline)
-            Text("recovered")
-            }
-            .foregroundColor(.systemGreen)
-            
-            Spacer()
-            VStack {
-            Text("\(coronaStore.coronaOutbreak.totalDeaths)")
-            .font(.subheadline)
-            Text("deaths")
-            }
-            .foregroundColor(.systemRed)
-            
-            Spacer()
-            VStack {
-            Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
-            .font(.subheadline)
-            Text("CFR")
-            }
-            .foregroundColor(.systemTeal)
+            .font(.caption)
+            .padding(.horizontal, 6)
         }
-        .font(.caption)
-        .padding(.horizontal, 6)
     }
 }
 

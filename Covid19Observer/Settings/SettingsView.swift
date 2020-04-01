@@ -10,38 +10,6 @@ import SwiftUI
 import SwiftPI
 import UserNotifications
 
-enum TimePeriod: String, CaseIterable {
-    //    #if debug
-    case minute = "1min"
-    case quarterHour = "1/4h"
-    //    #endif
-    case halfHour = "1/2h"
-    case oneHour = "1h"
-    case twoHours = "2h"
-    case threeHours = "3h"
-    
-    var id: String { rawValue }
-    
-    var period: TimeInterval {
-        switch self {
-        //            #if debug
-        case .minute:
-            return 1 * 60
-        case .quarterHour:
-            return 15 * 60
-        //            #endif
-        case .halfHour:
-            return 30 * 60
-        case .oneHour:
-            return 60 * 60
-        case .twoHours:
-            return 2 * 60 * 60
-        case .threeHours:
-            return 3 * 60 * 60
-        }
-    }
-}
-
 struct SettingsView: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
@@ -64,6 +32,25 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
+                //  MARK: FINISH THIS
+                //  mase saved settings var
+                Section(header: Text("Auto/Background Update".uppercased()).foregroundColor(.systemRed),
+                        footer: Text("Current data updates regularly, historical once a day around 23:59 (UTC)").foregroundColor(.systemRed)
+                ) {
+                    /// https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data
+                    HStack {
+                        Text("Every...")
+                        
+                        Picker(selection: .constant(TimePeriod.oneHour), label: Text("Update every")) {
+                            ForEach(TimePeriod.allCases, id: \.self) { period in
+                                Text(period.id).tag(period)
+                            }
+                        }
+                        .labelsHidden()
+                        .pickerStyle(SegmentedPickerStyle())
+                    }
+                }
+                
                 Section(header: Text("Notifications".uppercased()),
                         footer: Text("Regular local notifications to get updated.")
                 ) {
@@ -77,7 +64,7 @@ struct SettingsView: View {
                     
                     NotificationSettingsSection()
                 }
-
+                
                 Section(header: Text("Update".uppercased()),
                         footer: Text("Data by John Hopkins.")
                 ) {
