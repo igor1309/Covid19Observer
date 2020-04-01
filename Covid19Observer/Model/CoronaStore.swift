@@ -127,7 +127,7 @@ class CoronaStore: ObservableObject {
             print("no JSON-file with historical data on disk, set to empty")
         }
         
-        countNewCases()
+        countNewAndCurrentCases()
     }
     
     private var casesModificationDate: Date = (UserDefaults.standard.object(forKey: "casesModificationDate") as? Date ?? Date.distantPast) {
@@ -151,7 +151,7 @@ class CoronaStore: ObservableObject {
             print("Cases Data empty or old, need to fetch")
             isCasesUpdateCompleted = false
             updateCasesData() { _ in
-                self.countNewCases()
+                self.countNewAndCurrentCases()
             }
         }
         
@@ -159,7 +159,7 @@ class CoronaStore: ObservableObject {
             print("History Data empty or old, need to fetch")
             isHistoryUpdateCompleted = false
             updateHistoryData() {
-                self.countNewCases()
+                self.countNewAndCurrentCases()
             }
         }
     }
@@ -230,11 +230,17 @@ class CoronaStore: ObservableObject {
         .store(in: &storage)
     }
     
-    private func countNewCases() {
+    private func countNewAndCurrentCases() {
         for index in cases.indices {
-            let new = cases[index].confirmed - history.last(for: cases[index].name)
-            cases[index].new = new
-            cases[index].newStr = new.formattedGrouped
+            let last = history.last(for: cases[index].name)
+            let previous = history.previous(for: cases[index].name)
+            
+            cases[index].newConfirmed = last - previous
+            cases[index].newConfirmedStr = (last - previous).formattedGrouped
+            
+            let currentConfirmed = cases[index].confirmed - last
+            cases[index].currentConfirmed = currentConfirmed
+            cases[index].currentConfirmedStr = currentConfirmed.formattedGrouped
         }
     }
 
@@ -271,9 +277,11 @@ class CoronaStore: ObservableObject {
                     name: title,
                     confirmed: confirmed,
                     confirmedStr: confirmed.formattedGrouped,
-                    //  MARK: count new cases is called separately
-                    new: 0,
-                    newStr: "0",
+                    //  MARK: count new and current cases is called separately
+                    newConfirmed: 0,
+                    newConfirmedStr: "0",
+                    currentConfirmed: 0,
+                    currentConfirmedStr: "",
                     deaths: deaths,
                     deathsStr: deaths.formattedGrouped,
                     cfr: cfr,

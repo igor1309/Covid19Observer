@@ -13,8 +13,10 @@ struct CaseData: Identifiable, Hashable {
     var name: String
     var confirmed: Int
     var confirmedStr: String
-    var new: Int
-    var newStr: String
+    var newConfirmed: Int
+    var newConfirmedStr: String
+    var currentConfirmed: Int
+    var currentConfirmedStr: String
     var deaths: Int
     var deathsStr: String
     var cfr: Double
@@ -33,6 +35,7 @@ enum CaseType: String, CaseIterable {
 enum CaseDataType: String, CaseIterable {
     case confirmed = "Confirmed"
     case new = "Conf. New"
+    case current = "Current"
     case deaths = "Deaths"
     case cfr = "CFR"
     

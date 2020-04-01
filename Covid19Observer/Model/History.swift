@@ -133,6 +133,10 @@ struct History: Codable {
     func last(for country: String) -> Int {
         return series(for: country).last ?? 0
     }
+    
+    func previous(for country: String) -> Int {
+        return series(for: country).dropLast().last ?? 0
+    }
         
     private func getTable(from cases: String) -> [[String]] {
         /// returns first quoted text and drops this quote from passed string
