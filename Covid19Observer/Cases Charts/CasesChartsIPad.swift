@@ -16,20 +16,25 @@ struct CasesChartsIPad: View {
         VStack {
             HStack {
                 CasesHeader()
-//                    .fixedSize(horizontal: true, vertical: false)
+                //                    .fixedSize(horizontal: true, vertical: false)
             }
             
             if coronaStore.cases.isNotEmpty {
                 GeometryReader { geo in
                     ScrollView(.horizontal, showsIndicators: false) {
-                        ScrollView(.vertical, showsIndicators: false) {
-                            VStack {
+                        VStack(spacing: 0) {
+                            HStack {
+                                ForEach(CaseDataType.allCases, id: \.self) { type in
+                                    Text(type.id)
+                                        .foregroundColor(type.color)
+                                        .font(.headline)
+                                        .padding(.vertical, 6)
+                                        .frame(width: max(300, geo.size.width) / (self.sizeClass == .compact ? 1 : CGFloat(CaseDataType.allCases.count)))
+                                }
+                            }
+                            ScrollView(.vertical, showsIndicators: false) {
                                 HStack {
                                     ForEach(CaseDataType.allCases, id: \.self) { type in
-                                        VStack {
-                                            Text(type.id)
-                                                .foregroundColor(type.color)
-                                                .font(.headline)
                                             
                                             CaseChart(
                                                 selectedType: type,
@@ -38,22 +43,10 @@ struct CasesChartsIPad: View {
                                                 width: max(300, geo.size.width) / (self.sizeClass == .compact ? 1 : CGFloat(CaseDataType.allCases.count))
                                             )
                                         }
-                                    }
-        //                            CaseChart(
-        //                                selectedType: CaseDataType.deaths,
-        //                                isBarsTappable: false,
-        //                                width: geo.size.width / 3
-        //                            )
-        //                            CaseChart(
-        //                                selectedType: CaseDataType.cfr,
-        //                                isBarsTappable: false,
-        //                                width: geo.size.width / 3
-        //                            )
                                 }
                             }
                         }
                     }
-                    .padding(.top, 3)
                 }
             } else {
                 /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
