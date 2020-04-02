@@ -13,7 +13,7 @@ struct CasesHeader: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
+            HStack(spacing: 6) {
                 Group {
                     VStack {
                         Text("\(coronaStore.coronaOutbreak.totalCases)")
