@@ -158,8 +158,8 @@ class CoronaStore: ObservableObject {
     }
     
     /// __ hours means data is old
-    private var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) > 1 * 60 * 60 }
-    private var isHistoryDataOld: Bool { casesModificationDate.distance(to: Date()) > 6 * 60 * 60 }
+    var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) > 1 * 60 * 60 }
+    var isHistoryDataOld: Bool { casesModificationDate.distance(to: Date()) > 6 * 60 * 60 }
     
     func updateIfStoreIsOldOrEmpty() {
         if cases.isEmpty || isCasesDataOld {

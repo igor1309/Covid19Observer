@@ -11,6 +11,8 @@ import SwiftUI
 struct CasesHeader: View {
     @EnvironmentObject var coronaStore: CoronaStore
     
+    @State private var showTable = false
+    
     var body: some View {
         HStack(spacing: 6) {
             Group {
@@ -64,13 +66,42 @@ struct CasesHeader: View {
                 .foregroundColor(.systemGreen)
             }
             
-            Spacer()
-            VStack {
-                Text("\(coronaStore.hoursMunutesSinceCasesUpdateStr)/\(coronaStore.hoursMunutesSinceHistoryUpdateStr)")
-                    .font(.subheadline)
-                Text("updated")
+            Group {
+                Spacer()
+                Button(action: {
+                    self.showTable = true
+                }) {
+                    VStack {
+                        Text("Table".uppercased())
+                            .font(.subheadline)
+                        Text("details")
+                    }
+                }
+                .sheet(isPresented: $showTable) {
+                    CasesTableView()
+                        .environmentObject(self.coronaStore)
+                }
+                .foregroundColor(.secondary)
+                
+                Spacer()
+//                Button(action: {
+                    //  MARK: FIX THIS
+                    //  app crashes — data changes but gradually
+                    //  state is changing while charts are drawing
+                    //  need some flag to signal update finish
+                    //
+                    //                    self.coronaStore.updateCasesData() { _ in }
+                    //                    self.coronaStore.updateHistoryData { }
+//                }) {
+                    VStack {
+                        Text("\(coronaStore.hoursMunutesSinceCasesUpdateStr) ago")
+                            .font(.subheadline)
+                        Text("updated")
+                    }
+                    .foregroundColor(coronaStore.isCasesDataOld ? .systemRed : .secondary)
+                    .opacity(0.8)
+//                }
             }
-            .foregroundColor(.secondary)
         }
         .font(.caption)
         .padding(.horizontal, 6)
@@ -80,7 +111,9 @@ struct CasesHeader: View {
 struct CasesHeader_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CasesHeader()
+            ScrollView(.horizontal, showsIndicators: false) {
+                CasesHeader()
+            }
         }
         .environmentObject(CoronaStore())
         .environment(\.colorScheme, .dark)

@@ -19,7 +19,10 @@ struct CasesChartView: View {
     
     var body: some View {
         VStack {
-            CasesHeaderButton()
+            ScrollView(.horizontal, showsIndicators: false) {
+                CasesHeader()
+            }
+            //CasesHeaderButton()
             
             CaseDataTypePicker(selection: $selectedType)
             
