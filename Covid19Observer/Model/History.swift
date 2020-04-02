@@ -93,7 +93,12 @@ struct History: Codable {
             
         } else {
             //  если страна без провинций, то по ней данные только в одной строке
-            filteredRow = rows.filter { $0.countryRegion == country }[0]
+            let filteredRows = rows.filter { $0.countryRegion == country }
+            if filteredRows.isNotEmpty {
+                filteredRow = filteredRows[0]
+            } else {
+                filteredRow = ShortCaseRow(provinceState: "", countryRegion: "", series: [])
+            }
         }
             
         if filteredRow.series.isEmpty {

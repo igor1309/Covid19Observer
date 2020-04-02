@@ -21,7 +21,7 @@ struct CasesChartsIPad: View {
                 GeometryReader { geo in
                     ScrollView(.horizontal, showsIndicators: false) {
                         VStack(spacing: 0) {
-                            HStack(spacing: 0) {
+                            HStack {
                                 ForEach(CaseDataType.allCases, id: \.self) { type in
                                     Text("\(type.id): \(self.coronaStore.total(for: type))")
                                         .foregroundColor(type.color)
@@ -32,7 +32,7 @@ struct CasesChartsIPad: View {
                             }
 
                             ScrollView(.vertical, showsIndicators: false) {
-                                HStack(spacing: 0) {
+                                HStack {
                                     ForEach(CaseDataType.allCases, id: \.self) { type in
                                         
                                         CaseChart(
