@@ -14,7 +14,7 @@ struct CaseDataTypePicker: View {
     var body: some View {
         Picker(selection: $selection, label: Text("Select Confirmed Cases or Deaths")) {
             ForEach(CaseDataType.allCases, id: \.self) { type in
-                Text(type.id).tag(type)
+                Text(type.short).tag(type)
             }
         }
         .labelsHidden()

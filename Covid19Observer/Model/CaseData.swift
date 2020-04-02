@@ -41,6 +41,21 @@ enum CaseDataType: String, CaseIterable {
     
     var id: String { rawValue }
     
+    var short: String {
+        switch self {
+        case .confirmed:
+            return "Conf."
+        case .new:
+            return "New"
+        case .current:
+            return "Cur."
+        case .deaths:
+            return "Deaths"
+        case .cfr:
+            return "CFR"
+        }
+    }
+    
     var color: Color {
         switch self {
         case .confirmed:

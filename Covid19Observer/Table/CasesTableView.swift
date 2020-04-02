@@ -29,7 +29,7 @@ struct CasesTableView: View {
                     //                }
                     //                .labelsHidden()
                     //                .pickerStyle(SegmentedPickerStyle())
-                    .padding(.horizontal)
+//                    .padding(.horizontal)
                 //                .padding(.bottom, 3)
                 
                 //                Divider()

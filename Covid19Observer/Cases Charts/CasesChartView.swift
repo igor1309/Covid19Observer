@@ -14,20 +14,27 @@ struct CasesChartView: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
-    @State private var selection = CaseDataType.confirmed
+    @State private var selectedType = CaseDataType.confirmed
     @State private var showTable = false
     
     var body: some View {
         VStack {
             CasesHeaderButton()
             
-            CaseDataTypePicker(selection: $selection)
+            CaseDataTypePicker(selection: $selectedType)
             
             if coronaStore.cases.isNotEmpty {
-                FlexibleCasesChart(selectedType: selection, isBarsTappable: true)
+                GeometryReader { geo in
+                    ScrollView(.vertical, showsIndicators: false) {
+                        
+                        CaseChart(
+                            selectedType: self.selectedType,
+                            isBarsTappable: true,
+                            width: geo.size.width
+                        )
+                    }
+                }
             } else {
-                //  MARK: FINISH THIS
-                //
                 VStack {
                     Spacer()
                     

@@ -23,6 +23,21 @@ class CoronaStore: ObservableObject {
     @Published private(set) var caseAnnotations = [CaseAnnotation]()
     @Published private(set) var coronaOutbreak = (totalCases: "...", totalNewConfirmed: "...", totalCurrentConfirmed: "...", totalRecovered: "...", totalDeaths: "...")
     
+    func total(for caseDataType: CaseDataType) -> String {
+        switch caseDataType {
+        case .confirmed:
+            return coronaOutbreak.totalCases
+        case .new:
+            return coronaOutbreak.totalNewConfirmed
+        case .current:
+            return coronaOutbreak.totalCurrentConfirmed
+        case .deaths:
+            return coronaOutbreak.totalDeaths
+        case .cfr:
+            return worldCaseFatalityRate.formattedPercentageWithDecimals
+        }
+    }
+    
     private(set) var worldCaseFatalityRate: Double = 0
     
     @Published private(set) var isCasesUpdateCompleted = true

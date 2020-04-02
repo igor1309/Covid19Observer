@@ -16,7 +16,9 @@ struct CasesHeaderButton: View {
         Button(action: {
             self.showTable = true
         }) {
-            CasesHeader()
+            ScrollView(.horizontal, showsIndicators: false) {
+                CasesHeader()
+            }
         }
         .sheet(isPresented: $showTable, content: {
             CasesTableView()

@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-/// very much like FlexibleCasesChart but bars not tappable and chart size if known
-/// thus no need in GeometryReader
 struct CaseChart: View {
     @EnvironmentObject var coronaStore: CoronaStore
     

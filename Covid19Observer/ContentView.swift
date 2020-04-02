@@ -13,26 +13,36 @@ struct ContentView: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
+    var barChart: some View {
+        Group {
+            if sizeClass == .compact {
+                CasesChartView()
+            } else {
+                CasesChartsIPad()
+            }
+        }
+    }
+    
+    var lineChart: some View {
+        Group {
+            if sizeClass == .compact {
+                CasesLineChartView()
+            } else {
+                MapWithLineChartView()
+            }
+        }
+    }
+    
     var body: some View {
         TabView(selection: $settings.selectedTab) {
             
-//            if sizeClass == .compact {
-//                CasesChartView()
-//                    .padding()
-//                    .tabItem {
-//                        Image(systemName: "chart.bar")
-//                        Text("Chart")
-//                }
-//                .tag(0)
-//            } else {
-                CasesChartsIPad()
-                    .padding()
-                    .tabItem {
-                        Image(systemName: "chart.bar")
-                        Text("Chart")
-                }
-                .tag(0)
-//            }
+            barChart
+                .padding()
+                .tabItem {
+                    Image(systemName: "chart.bar")
+                    Text("Chart")
+            }
+            .tag(0)
             
             CasesOnMapView()
                 .tabItem {
@@ -41,21 +51,12 @@ struct ContentView: View {
             }
             .tag(1)
             
-            if sizeClass == .compact {
-                CasesLineChartView()
-                    .tabItem {
-                        Image(systemName: "waveform.path.ecg")
-                        Text("History")
-                }
-                .tag(2)
-            } else {
-                MapWithLineChartView()
-                    .tabItem {
-                        Image(systemName: "waveform.path.ecg")
-                        Text("History")
-                }
-                .tag(2)
+            lineChart
+                .tabItem {
+                    Image(systemName: "waveform.path.ecg")
+                    Text("History")
             }
+            .tag(2)
             
             //            CasesTableView()
             //                .tabItem {
