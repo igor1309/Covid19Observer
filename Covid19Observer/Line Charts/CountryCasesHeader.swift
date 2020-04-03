@@ -54,7 +54,6 @@ struct CountryCasesHeader: View {
             .foregroundColor(CaseDataType.cfr.color)
         }
         .font(.caption)
-        .padding(.horizontal)
     }
 }
 

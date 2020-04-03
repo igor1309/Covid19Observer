@@ -9,14 +9,12 @@
 enum PrimeCountries: CaseIterable {
     ///https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/UID_ISO_FIPS_LookUp_Table.csv
     
-    case russia, china, us, italy, germany, france, finland, spain
+    case russia, us, italy, germany, france, finland, spain, china
     
     var iso2: String {
         switch self {
         case .russia:
             return "RU"
-        case .china:
-            return "CN"
         case .us:
             return "US"
         case .italy:
@@ -29,6 +27,8 @@ enum PrimeCountries: CaseIterable {
             return "FI"
         case .spain:
             return "ES"
+        case .china:
+            return "CN"
         }
     }
     
@@ -36,8 +36,6 @@ enum PrimeCountries: CaseIterable {
         switch self {
         case .russia:
             return "Russia"
-        case .china:
-            return "China"
         case .us:
             return "US"
         case .italy:
@@ -50,6 +48,8 @@ enum PrimeCountries: CaseIterable {
             return "Finland"
         case .spain:
             return "Spain"
+        case .china:
+            return "China"
         }
     }
 }

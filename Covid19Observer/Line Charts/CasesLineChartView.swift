@@ -37,7 +37,7 @@ struct CasesLineChartView: View {
             Button(action: {
                 self.showCountryPicker = true
             }) {
-                HStack {
+                HStack(alignment: .firstTextBaseline) {
                     Text(coronaStore.selectedCountry)
                         .font(.title)
                         .lineLimit(1)
