@@ -33,38 +33,37 @@ struct CasesLineChartView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding(.top)
             
-            HStack(alignment: .firstTextBaseline, spacing: 0) {
-                Button(action: {
-                    self.showModal = true
-                }) {
-                    HStack {
-                        Text(coronaStore.selectedCountry)
-                            .font(.title)
-                            .lineLimit(1)
-                            .layoutPriority(1)
-                        
-                        Spacer()
-                        Text(" (tap to select other country)")
-                            .foregroundColor(.secondary)
-                            .font(.caption)
-                    }
-                }
-                .sheet(isPresented: $showModal) {
-                    CountryPicker().environmentObject(self.coronaStore)
-                }
-                
-            }
-            
-            HStack {
-                CountryCasesHeader()
-                    .padding(.bottom, 4)
-                
-                VStack {
-                    Text(coronaStore.history.last(for: coronaStore.selectedCountry).formattedGrouped)
-                    Text("last in history")
+            Button(action: {
+                self.showModal = true
+            }) {
+                HStack {
+                    Text(coronaStore.selectedCountry)
+                        .font(.title)
+                        .lineLimit(1)
+                        .layoutPriority(1)
+                    
+                    Spacer()
+                    Text(" (tap to select other country)")
+                        .foregroundColor(.secondary)
                         .font(.caption)
                 }
-                .border(Color.pink)
+            }
+            .sheet(isPresented: $showModal) {
+                CountryPicker().environmentObject(self.coronaStore)
+            }
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    CountryCasesHeader()
+                    
+                    VStack {
+                        Text(coronaStore.history.last(for: coronaStore.selectedCountry).formattedGrouped)
+                        Text("last in history")
+                            .font(.caption)
+                    }
+                    .background(Color.tertiarySystemBackground)
+                }
+                .padding(.bottom, 4)
             }
             
             if series.isNotEmpty {

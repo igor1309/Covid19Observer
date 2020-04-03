@@ -21,7 +21,13 @@ class CoronaStore: ObservableObject {
     @Published private(set) var history: History = History(from: "")
     @Published private(set) var cases = [CaseData]()
     @Published private(set) var caseAnnotations = [CaseAnnotation]()
-    @Published private(set) var coronaOutbreak = (totalCases: "...", totalNewConfirmed: "...", totalCurrentConfirmed: "...", totalRecovered: "...", totalDeaths: "...")
+    @Published private(set) var coronaOutbreak = (
+        totalCases: "...",
+        totalNewConfirmed: "...",
+        totalCurrentConfirmed: "...",
+        totalRecovered: "...",
+        totalDeaths: "...",
+        cfr: "...")
     
     func total(for caseDataType: CaseDataType) -> String {
         switch caseDataType {
@@ -34,7 +40,7 @@ class CoronaStore: ObservableObject {
         case .deaths:
             return coronaOutbreak.totalDeaths
         case .cfr:
-            return worldCaseFatalityRate.formattedPercentageWithDecimals
+            return coronaOutbreak.cfr
         }
     }
     
@@ -49,13 +55,21 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    var selectedCountryOutbreak: (totalCasesStr: String, totalDeathsStr: String, cfrStr: String) {
+    var selectedCountryOutbreak: (
+        confirmed: String,
+        newConfirmed: String,
+        currentConfirmed: String,
+        deaths: String,
+        cfr: String
+        ) {
         if let countryCase = cases.first(where: { $0.name == selectedCountry }) {
-            return (totalCasesStr: countryCase.confirmedStr,
-                    totalDeathsStr: countryCase.deathsStr,
-                    cfrStr: countryCase.cfrStr)
+            return (confirmed: countryCase.confirmedStr,
+                    newConfirmed: countryCase.newConfirmedStr,
+                    currentConfirmed: countryCase.currentConfirmedStr,
+                    deaths: countryCase.deathsStr,
+                    cfr: countryCase.cfrStr)
         } else {
-            return (totalCasesStr: "...", totalDeathsStr: "...", cfrStr: "...")
+            return (confirmed: "...", newConfirmed: "...", currentConfirmed: "...", deaths: "...", cfr: "...")
         }
     }
     
@@ -304,11 +318,11 @@ class CoronaStore: ObservableObject {
             ))
         }
         
-        self.worldCaseFatalityRate = totalCases == 0 ? 0 : Double(totalDeaths) / Double(totalCases)
-        print("World Case Fatality Rate: \(worldCaseFatalityRate)")
         self.coronaOutbreak.totalCases = "\(totalCases.formattedGrouped)"
         self.coronaOutbreak.totalDeaths = "\(totalDeaths.formattedGrouped)"
         self.coronaOutbreak.totalRecovered = "\(totalRecovered.formattedGrouped)"
+        worldCaseFatalityRate = totalCases == 0 ? 0 : Double(totalDeaths) / Double(totalCases)
+        self.coronaOutbreak.cfr = worldCaseFatalityRate.formattedPercentageWithDecimals
         
         self.caseAnnotations = caseAnnotations.filter { $0.value > (isFiltered ? mapFilterLowerLimit : 0) }
         

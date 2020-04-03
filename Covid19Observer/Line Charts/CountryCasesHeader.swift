@@ -14,27 +14,44 @@ struct CountryCasesHeader: View {
     var body: some View {
         HStack {
             VStack {
-                Text("\(coronaStore.selectedCountryOutbreak.totalCasesStr)")
+                Text("\(coronaStore.selectedCountryOutbreak.confirmed)")
                     .font(.headline)
                 Text("confirmed")
             }
-            .foregroundColor(.systemYellow)
+            .foregroundColor(CaseDataType.confirmed.color)
             
             Spacer()
             VStack {
-                Text("\(coronaStore.selectedCountryOutbreak.totalDeathsStr)")
+                Text("\(coronaStore.selectedCountryOutbreak.newConfirmed)")
+                    .font(.headline)
+                Text("new")
+            }
+            .foregroundColor(CaseDataType.new.color)
+            
+            Spacer()
+            VStack {
+                Text("\(coronaStore.selectedCountryOutbreak.currentConfirmed)")
+                    .font(.headline)
+                Text("current")
+            }
+            .foregroundColor(CaseDataType.current.color)
+            
+            
+            Spacer()
+            VStack {
+                Text("\(coronaStore.selectedCountryOutbreak.deaths)")
                     .font(.headline)
                 Text("deaths")
             }
-            .foregroundColor(.systemRed)
+            .foregroundColor(CaseDataType.deaths.color)
             
             Spacer()
             VStack {
-                Text("\(coronaStore.selectedCountryOutbreak.cfrStr)")
+                Text("\(coronaStore.selectedCountryOutbreak.cfr)")
                     .font(.headline)
                 Text("CFR")
             }
-            .foregroundColor(.systemTeal)
+            .foregroundColor(CaseDataType.cfr.color)
         }
         .font(.caption)
         .padding(.horizontal)

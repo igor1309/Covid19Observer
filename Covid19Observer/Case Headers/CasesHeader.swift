@@ -51,7 +51,7 @@ struct CasesHeader: View {
                 
                 Spacer()
                 VStack {
-                    Text("\(coronaStore.worldCaseFatalityRate.formattedPercentageWithDecimals)")
+                    Text("\(coronaStore.coronaOutbreak.cfr)")
                         .font(.subheadline)
                     Text("CFR")
                 }
