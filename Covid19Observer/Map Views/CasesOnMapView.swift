@@ -169,6 +169,7 @@ struct CasesOnMapView: View {
                 .sheet(isPresented: $showTable) {
                     CasesTableView()
                         .environmentObject(self.coronaStore)
+                        .environmentObject(self.settings)
                 }
                 
                 Spacer()

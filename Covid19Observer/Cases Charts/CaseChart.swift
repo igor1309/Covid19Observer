@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CaseChart: View {
     @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
     
     let selectedType: CaseDataType
     let isBarsTappable: Bool
@@ -68,6 +69,7 @@ struct CaseChart: View {
                             CasesLineChartView()
                                 .padding(.top, 6)
                                 .environmentObject(self.coronaStore)
+                                .environmentObject(self.settings)
                         }
 
                     }
@@ -94,6 +96,7 @@ struct CaseChart_Previews: PreviewProvider {
             .padding(.horizontal)
         }
         .environmentObject(CoronaStore())
+        .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }
 }

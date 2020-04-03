@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CasesHeader: View {
     @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
     
     @State private var showTable = false
     
@@ -80,6 +81,7 @@ struct CasesHeader: View {
                 .sheet(isPresented: $showTable) {
                     CasesTableView()
                         .environmentObject(self.coronaStore)
+                        .environmentObject(self.settings)
                 }
                 .foregroundColor(.secondary)
                 
@@ -116,6 +118,7 @@ struct CasesHeader_Previews: PreviewProvider {
             }
         }
         .environmentObject(CoronaStore())
+        .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }
 }

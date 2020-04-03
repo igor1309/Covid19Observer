@@ -10,6 +10,8 @@ import SwiftUI
 
 struct CasesHeaderButton: View {
     @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
+    
     @State private var showTable = false
     
     var body: some View {
@@ -23,6 +25,7 @@ struct CasesHeaderButton: View {
         .sheet(isPresented: $showTable, content: {
             CasesTableView()
                 .environmentObject(self.coronaStore)
+                .environmentObject(self.settings)
         })
     }
 }
@@ -33,6 +36,7 @@ struct CasesHeaderButton_Previews: PreviewProvider {
             CasesHeaderButton()
         }
         .environmentObject(CoronaStore())
+        .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }
 }
