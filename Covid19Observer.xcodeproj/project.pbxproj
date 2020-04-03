@@ -59,6 +59,7 @@
 		2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */; };
 		2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */; };
 		2AE2C50D243723B800CC8476 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50C243723B800CC8476 /* Date+Extensions.swift */; };
+		2AE2C50F2437376500CC8476 /* PrimeCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50E2437376500CC8476 /* PrimeCountries.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -132,6 +133,7 @@
 		2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCasesCharts.swift; sourceTree = "<group>"; };
 		2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettings.swift; sourceTree = "<group>"; };
 		2AE2C50C243723B800CC8476 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		2AE2C50E2437376500CC8476 /* PrimeCountries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeCountries.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 				2A74F0B12428CB8400137694 /* Settings.swift */,
 				2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */,
 				2A234EE32434EF830003C302 /* TimePeriod.swift */,
+				2AE2C50E2437376500CC8476 /* PrimeCountries.swift */,
 				2A03BEF42428C04F0094852B /* CoronaStore.swift */,
 				2A03BEF22428C04F0094852B /* Corona.swift */,
 				2A03BEF52428C04F0094852B /* CaseData.swift */,
@@ -453,6 +456,7 @@
 				2A03BF062428C04F0094852B /* CaseData.swift in Sources */,
 				2A74F0BF2428CE3E00137694 /* DoublingTimeView.swift in Sources */,
 				2AAAC6EF242A384000C03E5B /* SettingsView.swift in Sources */,
+				2AE2C50F2437376500CC8476 /* PrimeCountries.swift in Sources */,
 				2ACF1C702430AA130045C531 /* CasesHeaderButton.swift in Sources */,
 				2A74F0C72428CE7B00137694 /* Extensions.swift in Sources */,
 			);

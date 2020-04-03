@@ -11,7 +11,6 @@ import SwiftPI
 
 /// <#Description#>
 struct History: Codable {
-    static let primeCountries = ["Russia", "Italy", "France", "Germany", "Finland"]
     
     struct ShortCaseRow: Codable, Identifiable {
         var id: String { provinceState + "/" + countryRegion }

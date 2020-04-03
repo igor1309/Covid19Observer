@@ -26,8 +26,8 @@ struct CasesLineChartView: View {
         VStack(alignment: .leading, spacing: 8) {
             
             Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
-                ForEach(History.primeCountries, id: \.self)  { prime in
-                    Text(prime)
+                ForEach(PrimeCountries.allCases, id: \.self)  { country in
+                    Text(country.iso2).tag(country.name)
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
