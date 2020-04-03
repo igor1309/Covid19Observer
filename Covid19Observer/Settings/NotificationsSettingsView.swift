@@ -1,5 +1,5 @@
 //
-//  NotificationsSettings.swift
+//  NotificationsSettingsView.swift
 //  Covid19Observer
 //
 //  Created by Igor Malyarov on 31.03.2020.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct NotificationsSettings: View {
+struct NotificationsSettingsView: View {
     @State private var isToggle = true
     @State private var selectedPeriod: TimePeriod = .twoHours
     
@@ -62,7 +62,7 @@ struct NotificationsSettings: View {
 struct NotificationsSettings_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            NotificationsSettings()
+            NotificationsSettingsView()
         }
         .environment(\.colorScheme, .dark)
     }

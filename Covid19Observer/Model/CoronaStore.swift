@@ -49,8 +49,6 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    var countryRegions: [String] { cases.map { $0.name }.sorted()}
-    
     var selectedCountryOutbreak: (totalCasesStr: String, totalDeathsStr: String, cfrStr: String) {
         if let countryCase = cases.first(where: { $0.name == selectedCountry }) {
             return (totalCasesStr: countryCase.confirmedStr,
@@ -60,6 +58,8 @@ class CoronaStore: ObservableObject {
             return (totalCasesStr: "...", totalDeathsStr: "...", cfrStr: "...")
         }
     }
+    
+    var countryRegions: [String] { cases.map { $0.name }.sorted()}
     
     var filterColor: Color { Color(colorCode(for: mapFilterLowerLimit)) }
     
@@ -77,19 +77,9 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    var hoursMunutesSinceCasesUpdateStr: String {
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .brief
-        formatter.allowedUnits = [.hour, .minute]
-        return formatter.string(from: casesModificationDate, to: Date())  ?? "n/a"
-    }
+    var timeSinceCasesUpdateStr: String { casesModificationDate.hoursMunutesTillNow }
     
-    var hoursMunutesSinceHistoryUpdateStr: String {
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .brief
-        formatter.allowedUnits = [.hour, .minute]
-        return formatter.string(from: historyModificationDate, to: Date())  ?? "n/a"
-    }
+    var timeSinceHistoryUpdateStr: String { historyModificationDate.hoursMunutesTillNow }
     
     private var storage = [AnyCancellable]()
     
@@ -377,4 +367,3 @@ class CoronaStore: ObservableObject {
         return color
     }
 }
-

@@ -45,7 +45,7 @@
 		2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0C42428CE7B00137694 /* CountryPicker.swift */; };
 		2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */; };
 		2A96535024333FD0002A93A7 /* Extension+Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96534F24333FD0002A93A7 /* Extension+Notification.Name.swift */; };
-		2A96535424335810002A93A7 /* NotificationsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96535324335810002A93A7 /* NotificationsSettings.swift */; };
+		2A96535424335810002A93A7 /* NotificationsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96535324335810002A93A7 /* NotificationsSettingsView.swift */; };
 		2A965356243360A4002A93A7 /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A965355243360A4002A93A7 /* NotificationDelegate.swift */; };
 		2AAAC6EF242A384000C03E5B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAAC6EE242A384000C03E5B /* SettingsView.swift */; };
 		2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB947362430FCA4009C18ED /* MapWithLineChartView.swift */; };
@@ -57,6 +57,8 @@
 		2ACF1C702430AA130045C531 /* CasesHeaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */; };
 		2ACF1C722430B4EC0045C531 /* CountryCasesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */; };
 		2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */; };
+		2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */; };
+		2AE2C50D243723B800CC8476 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50C243723B800CC8476 /* Date+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -113,7 +115,7 @@
 		2A74F0C42428CE7B00137694 /* CountryPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryPicker.swift; sourceTree = "<group>"; };
 		2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesLineChartView.swift; sourceTree = "<group>"; };
 		2A96534F24333FD0002A93A7 /* Extension+Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Notification.Name.swift"; sourceTree = "<group>"; };
-		2A96535324335810002A93A7 /* NotificationsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettings.swift; sourceTree = "<group>"; };
+		2A96535324335810002A93A7 /* NotificationsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettingsView.swift; sourceTree = "<group>"; };
 		2A965355243360A4002A93A7 /* NotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDelegate.swift; sourceTree = "<group>"; };
 		2A96535D24336208002A93A7 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		2A96535F24336208002A93A7 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
@@ -128,6 +130,8 @@
 		2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesHeaderButton.swift; sourceTree = "<group>"; };
 		2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCasesHeader.swift; sourceTree = "<group>"; };
 		2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCasesCharts.swift; sourceTree = "<group>"; };
+		2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettings.swift; sourceTree = "<group>"; };
+		2AE2C50C243723B800CC8476 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				2A74F0B12428CB8400137694 /* Settings.swift */,
+				2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */,
 				2A234EE32434EF830003C302 /* TimePeriod.swift */,
 				2A03BEF42428C04F0094852B /* CoronaStore.swift */,
 				2A03BEF22428C04F0094852B /* Corona.swift */,
@@ -226,6 +231,7 @@
 				2A74F0C32428CE7B00137694 /* Extensions.swift */,
 				2A03BEF92428C04F0094852B /* PreferenceKeys.swift */,
 				2A03BEFA2428C04F0094852B /* Extension+View.swift */,
+				2AE2C50C243723B800CC8476 /* Date+Extensions.swift */,
 			);
 			path = Extras;
 			sourceTree = "<group>";
@@ -270,7 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				2AAAC6EE242A384000C03E5B /* SettingsView.swift */,
-				2A96535324335810002A93A7 /* NotificationsSettings.swift */,
+				2A96535324335810002A93A7 /* NotificationsSettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -404,7 +410,8 @@
 				2A03BF0B2428C04F0094852B /* CasesChartView.swift in Sources */,
 				2A03BF052428C04F0094852B /* CoronaStore.swift in Sources */,
 				2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */,
-				2A96535424335810002A93A7 /* NotificationsSettings.swift in Sources */,
+				2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */,
+				2A96535424335810002A93A7 /* NotificationsSettingsView.swift in Sources */,
 				2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */,
 				2A74F0C02428CE3E00137694 /* WikiQuoteView.swift in Sources */,
 				2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */,
@@ -441,6 +448,7 @@
 				2A445F3124292E94007C6846 /* AxisY.swift in Sources */,
 				2A96535024333FD0002A93A7 /* Extension+Notification.Name.swift in Sources */,
 				2A03BEDE2428BC6F0094852B /* ContentView.swift in Sources */,
+				2AE2C50D243723B800CC8476 /* Date+Extensions.swift in Sources */,
 				2A03BF072428C04F0094852B /* CasesTableView.swift in Sources */,
 				2A03BF062428C04F0094852B /* CaseData.swift in Sources */,
 				2A74F0BF2428CE3E00137694 /* DoublingTimeView.swift in Sources */,

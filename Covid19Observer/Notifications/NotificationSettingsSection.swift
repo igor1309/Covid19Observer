@@ -14,7 +14,7 @@ enum AlertsStatus {
 
 struct NotificationSettingsSection: View {
     @EnvironmentObject var coronaStore: CoronaStore
-    @EnvironmentObject var settings: Settings
+    @EnvironmentObject var notificationsSettings: NotificationsSettings
     
     @State private var status: AlertsStatus = .scheduled
     
@@ -52,12 +52,12 @@ struct NotificationSettingsSection: View {
     
     private var newAlertView: some View {
         Group {
-            Toggle("Repeat Notifications", isOn: $settings.isNotificationRepeated)
+            Toggle("Repeat Notifications", isOn: $notificationsSettings.repeatNotification)
             
             HStack {
-                Text(settings.isNotificationRepeated ? "Every" : "Once in")
+                Text(notificationsSettings.repeatNotification ? "Every" : "Once in")
                 
-                Picker(selection: $settings.selectedTimePeriod, label: Text("Time Period Selection")) {
+                Picker(selection: $notificationsSettings.selectedTimePeriod, label: Text("Time Period Selection")) {
                     ForEach(TimePeriod.allCases, id: \.self) { period in
                         Text(period.id).tag(period)
                     }
@@ -105,8 +105,8 @@ struct NotificationSettingsSection: View {
         //  show this notification __ seconds from now
         //        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
         let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: self.settings.selectedTimePeriod.period,
-            repeats: self.settings.isNotificationRepeated)
+            timeInterval: self.notificationsSettings.selectedTimePeriod.period,
+            repeats: self.notificationsSettings.repeatNotification)
         
         
         //  choose a random identifier
@@ -124,8 +124,8 @@ struct NotificationSettingsSection: View {
         
         DispatchQueue.main.async {
             self.status = .scheduled
-            self.settings.isAlertScheduled = true
-            self.settings.notificationWasScheduledAt = Date()
+            self.notificationsSettings.isAlertScheduled = true
+            self.notificationsSettings.notificationWasScheduledAt = Date()
         }
     }
     
@@ -177,11 +177,10 @@ struct NotificationSettingsSection: View {
     }
     
     private func requestPermission() {
-        UNUserNotificationCenter.current()
-            .requestAuthorization(
-                options: [.alert, .sound, .badge, .provisional, .providesAppNotificationSettings]) { success, error in
-                        
-                        self.checkAuthorizationStatus()
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: [.alert, .sound, .badge, .provisional, .providesAppNotificationSettings]) { success, error in
+                
+                self.checkAuthorizationStatus()
         }
     }
     
@@ -189,7 +188,7 @@ struct NotificationSettingsSection: View {
     
     private var scheduledAlertView: some View {
         Group {
-            Text("Notification\(settings.isNotificationRepeated ? "s were" : " was") scheduled \(settings.hoursMunutesSincenotificationWasScheduledAt) ago \(settings.isNotificationRepeated ? "to repeat every" : "for one time in") \(settings.selectedTimePeriod.id) (\(settings.selectedTimePeriod.period.formattedGrouped) sec).")
+            Text("Notification\(notificationsSettings.repeatNotification ? "s were" : " was") scheduled \(notificationsSettings.timeSinceScheduled) ago \(notificationsSettings.repeatNotification ? "to repeat every" : "for one time in") \(notificationsSettings.selectedTimePeriod.id) (\(notificationsSettings.selectedTimePeriod.period.formattedGrouped) sec).")
             
             
             Button("Create New Notification") {
@@ -215,12 +214,12 @@ struct NotificationSettingsSection: View {
     }
     
     private func resetScheduledNotifications() {
-//        let identifier = "covid-19-cases-observer-updates"
-//        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+        //        let identifier = "covid-19-cases-observer-updates"
+        //        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
         /// reset
-        self.settings.resetAlertData()
+        self.notificationsSettings.resetAlertData()
         
         self.status = .new
         self.checkPendingNotifications()
@@ -245,7 +244,7 @@ struct NotificationSettingsSection: View {
             Group {
                 Text("Pending Notifications: ")
                     .foregroundColor(.secondary)
-                    
+                
                 Text("\(pendingNotifications.isEmpty ? "none" : pendingNotifications)")
             }
             .font(.subheadline)
@@ -264,11 +263,11 @@ struct NotificationSettingsSection: View {
             
             DispatchQueue.main.async {
                 self.pendingNotifications = requests.map { $0.identifier }.joined(separator: ", ")
-                self.settings.isAlertScheduled = requests.filter { $0.identifier == "covid-19-cases-observer-updates" }.map { $0.content }.isNotEmpty
+                self.notificationsSettings.isAlertScheduled = requests.filter { $0.identifier == "covid-19-cases-observer-updates" }.map { $0.content }.isNotEmpty
             }
         }
     }
-
+    
     var body: some View {
         Group {
             alertView
@@ -296,7 +295,7 @@ struct NotificationSettingsSection: View {
         switch settings.authorizationStatus {
         case .authorized, .provisional:
             if settings.alertSetting == .enabled {
-                if self.settings.isAlertScheduled {
+                if self.notificationsSettings.isAlertScheduled {
                     self.status = .scheduled
                 } else {
                     self.status = .new
@@ -323,7 +322,7 @@ struct NotificationSettingsSection_Previews: PreviewProvider {
                 NotificationSettingsSection()
             }
         }
-        .environmentObject(Settings())
+        .environmentObject(NotificationsSettings())
         .environment(\.colorScheme, .dark)
     }
 }

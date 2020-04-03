@@ -55,7 +55,7 @@ struct SettingsView: View {
                         footer: Text("Regular local notifications to get updated.")
                 ) {
                     
-                    NavigationLink(destination: NotificationsSettings()
+                    NavigationLink(destination: NotificationsSettingsView()
                         ,
                                    isActive: $isShowingNotificationSettingsTESTING
                     ) {
@@ -82,9 +82,9 @@ struct SettingsView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Update Current Data")
                                 
-                                Text(coronaStore.hoursMunutesSinceCasesUpdateStr == "0min"
+                                Text(coronaStore.timeSinceCasesUpdateStr == "0min"
                                     ? "Updated just now"
-                                    : "Last update \(coronaStore.hoursMunutesSinceCasesUpdateStr) ago")
+                                    : "Last update \(coronaStore.timeSinceCasesUpdateStr) ago")
                                     .foregroundColor(.secondary)
                                     .font(.subheadline)
                             }
@@ -105,9 +105,9 @@ struct SettingsView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Update History Data")
                                 
-                                Text(coronaStore.hoursMunutesSinceHistoryUpdateStr == "0min"
+                                Text(coronaStore.timeSinceHistoryUpdateStr == "0min"
                                     ? "Updated just now"
-                                    : "Last update \(coronaStore.hoursMunutesSinceHistoryUpdateStr) ago")
+                                    : "Last update \(coronaStore.timeSinceHistoryUpdateStr) ago")
                                     .foregroundColor(.secondary)
                                     .font(.subheadline)
                             }

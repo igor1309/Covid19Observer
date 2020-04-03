@@ -94,7 +94,7 @@ struct CasesHeader: View {
                     //                    self.coronaStore.updateHistoryData { }
 //                }) {
                     VStack {
-                        Text("\(coronaStore.hoursMunutesSinceCasesUpdateStr) ago")
+                        Text("\(coronaStore.timeSinceCasesUpdateStr) ago")
                             .font(.subheadline)
                         Text("updated")
                     }
