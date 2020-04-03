@@ -11,6 +11,7 @@ import SwiftUI
 struct CasesTableView: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
     
     @State private var selection = CaseDataType.confirmed
     @State private var columnWidths: [Int: CGFloat] = [:]
@@ -88,6 +89,7 @@ struct CasesTableView: View {
                             .sheet(isPresented: self.$showLineChart) {
                                 CasesLineChartView()
                                     .environmentObject(self.coronaStore)
+                                    .environmentObject(self.settings)
                             }
                         }
                     }
@@ -117,6 +119,7 @@ struct CasesTableView_Previews: PreviewProvider {
     static var previews: some View {
         CasesTableView()
             .environmentObject(CoronaStore())
+            .environmentObject(Settings())
             .environment(\.colorScheme, .dark)
     }
 }

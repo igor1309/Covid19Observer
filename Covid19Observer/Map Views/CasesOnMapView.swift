@@ -26,6 +26,7 @@ struct ToolBarButton: View {
 struct CasesOnMapView: View {
     @Environment(\.horizontalSizeClass) var sizeClass
     @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
     
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var selectedPlace: CaseAnnotation?
@@ -145,6 +146,7 @@ struct CasesOnMapView: View {
                 .sheet(isPresented: $showLineChart) {
                     CasesLineChartView()
                         .environmentObject(self.coronaStore)
+                        .environmentObject(self.settings)
                 }
                 
                 Spacer()
@@ -237,6 +239,7 @@ struct CasesOnMapView_Previews: PreviewProvider {
     static var previews: some View {
         CasesOnMapView()
             .environmentObject(CoronaStore())
+            .environmentObject(Settings())
             .environment(\.colorScheme, .dark)
     }
 }
