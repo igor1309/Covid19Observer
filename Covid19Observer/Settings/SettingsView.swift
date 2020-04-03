@@ -29,9 +29,12 @@ struct SettingsView: View {
     //  MARK: - TESTING
     //
     @State private var isShowingNotificationSettingsTESTING = false
+    
     var body: some View {
         NavigationView {
             Form {
+                LineChartSettingsSection()
+                
                 //  MARK: FINISH THIS
                 //  mase saved settings var
                 Section(header: Text("Auto/Background Update".uppercased()).foregroundColor(.systemRed),

@@ -12,8 +12,9 @@ import SwiftPI
 struct CasesLineChartView: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
     
-    @State private var showModal = false
+    @State private var showCountryPicker = false
     
     var series: [Int] {
         coronaStore.history.series(for: coronaStore.selectedCountry)
@@ -34,7 +35,7 @@ struct CasesLineChartView: View {
             .padding(.top)
             
             Button(action: {
-                self.showModal = true
+                self.showCountryPicker = true
             }) {
                 HStack {
                     Text(coronaStore.selectedCountry)
@@ -48,7 +49,7 @@ struct CasesLineChartView: View {
                         .font(.caption)
                 }
             }
-            .sheet(isPresented: $showModal) {
+            .sheet(isPresented: $showCountryPicker) {
                 CountryPicker().environmentObject(self.coronaStore)
             }
             
@@ -67,7 +68,14 @@ struct CasesLineChartView: View {
             }
             
             if series.isNotEmpty {
-                HeatedLineChart(series: series, numberOfGridLines: numberOfGridLines)
+                ZStack(alignment: .topLeading) {
+                    HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0), numberOfGridLines: numberOfGridLines)
+                    
+                    ToolBarButton(systemName: "line.horizontal.3.decrease") {
+                        self.settings.isLineChartFiltered.toggle()
+                    }
+                    .foregroundColor(settings.isLineChartFiltered ? .systemOrange : .systemBlue)
+                }
             } else {
                 Spacer()
             }
@@ -108,6 +116,7 @@ struct CasesLineChartView_Previews: PreviewProvider {
             CasesLineChartView()
         }
         .environmentObject(CoronaStore())
+        .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }
 }

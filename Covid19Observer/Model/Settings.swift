@@ -22,12 +22,33 @@ final class Settings: ObservableObject {
         }
     }
     
+    @Published var isLineChartFiltered: Bool = UserDefaults.standard.bool(forKey: "isLineChartFiltered") {
+        didSet {
+            UserDefaults.standard.set(isLineChartFiltered, forKey: "isLineChartFiltered")
+        }
+    }
+    
+    @Published var lineChartLimit: Int {
+        didSet {
+            UserDefaults.standard.set(lineChartLimit, forKey: "lineChartLimit")
+        }
+    }
+    
+
+    
     init() {
         let savedInitialNumber = UserDefaults.standard.double(forKey: "initialNumber")
         if savedInitialNumber == 0 {
             initialNumber = 5
         } else {
             initialNumber = savedInitialNumber
+        }
+
+        let savedLineChartLimit = UserDefaults.standard.integer(forKey: "lineChartLimit")
+        if savedLineChartLimit == 0 {
+            lineChartLimit = 100
+        } else {
+            lineChartLimit = savedLineChartLimit
         }
     }
 }
