@@ -48,6 +48,12 @@ struct CaseChart: View {
             
             ZStack(alignment: .leading) {
                 if self.selectedType == .cfr {
+                    ForEach([0.1, 0.2, 0.3], id: \.self) { step in
+                        VerticalLine()
+                            .stroke(Color.systemGray4, style: StrokeStyle(lineWidth: 0.5, lineCap: .round, lineJoin: .round, dash: [10, 5]))
+                            .offset(x: self.width / maximum * step)
+                    }
+                    
                     Color.systemTeal
                         .frame(width: 0.5)
                         .offset(x: width / maximum * CGFloat(self.coronaStore.worldCaseFatalityRate))
@@ -58,7 +64,7 @@ struct CaseChart: View {
                     ForEach(0..<self.coronaStore.cases.count, id: \.self) { index in
                         
                         CaseBar(selectedType: self.selectedType, index: index, maximum: maximum, width: self.width, barHeight: self.barHeight)
-                        
+                            
                             .onTapGesture {
                                 if self.isBarsTappable {
                                     self.selectedCountry = self.coronaStore.cases[index].name
@@ -71,7 +77,7 @@ struct CaseChart: View {
                                 .environmentObject(self.coronaStore)
                                 .environmentObject(self.settings)
                         }
-
+                        
                     }
                 }
             }

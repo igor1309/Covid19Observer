@@ -62,6 +62,7 @@
 		2AE2C50F2437376500CC8476 /* PrimeCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50E2437376500CC8476 /* PrimeCountries.swift */; };
 		2AE2C5132437417E00CC8476 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5122437417E00CC8476 /* Array+Extension.swift */; };
 		2AE2C5152437446700CC8476 /* LineChartSettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5142437446700CC8476 /* LineChartSettingsSection.swift */; };
+		2AE2C5292438762500CC8476 /* VerticalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5282438762500CC8476 /* VerticalLine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -138,6 +139,7 @@
 		2AE2C50E2437376500CC8476 /* PrimeCountries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeCountries.swift; sourceTree = "<group>"; };
 		2AE2C5122437417E00CC8476 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		2AE2C5142437446700CC8476 /* LineChartSettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartSettingsSection.swift; sourceTree = "<group>"; };
+		2AE2C5282438762500CC8476 /* VerticalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -332,6 +334,7 @@
 			children = (
 				2AB94738243126A1009C18ED /* CasesChartsIPad.swift */,
 				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
+				2AE2C5282438762500CC8476 /* VerticalLine.swift */,
 				2AB9473C24312B9C009C18ED /* CaseChart.swift */,
 				2AB9473A24312A8A009C18ED /* CaseBar.swift */,
 			);
@@ -455,6 +458,7 @@
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,
 				2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */,
 				2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */,
+				2AE2C5292438762500CC8476 /* VerticalLine.swift in Sources */,
 				2A6607FF242BF7060056C849 /* MapView.swift in Sources */,
 				2A445F3124292E94007C6846 /* AxisY.swift in Sources */,
 				2A96535024333FD0002A93A7 /* Extension+Notification.Name.swift in Sources */,
