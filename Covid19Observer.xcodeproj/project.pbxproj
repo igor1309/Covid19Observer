@@ -62,7 +62,10 @@
 		2AE2C50F2437376500CC8476 /* PrimeCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50E2437376500CC8476 /* PrimeCountries.swift */; };
 		2AE2C5132437417E00CC8476 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5122437417E00CC8476 /* Array+Extension.swift */; };
 		2AE2C5152437446700CC8476 /* LineChartSettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5142437446700CC8476 /* LineChartSettingsSection.swift */; };
-		2AE2C5292438762500CC8476 /* VerticalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5282438762500CC8476 /* VerticalLine.swift */; };
+		2AE2C5292438762500CC8476 /* LeftVerticalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5282438762500CC8476 /* LeftVerticalLine.swift */; };
+		2AE2C52D24389DC100CC8476 /* MovingCrossHair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */; };
+		2AE2C52F24389EFF00CC8476 /* New+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */; };
+		2AE2C5312438A13700CC8476 /* TopHorizontalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -139,7 +142,10 @@
 		2AE2C50E2437376500CC8476 /* PrimeCountries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeCountries.swift; sourceTree = "<group>"; };
 		2AE2C5122437417E00CC8476 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		2AE2C5142437446700CC8476 /* LineChartSettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartSettingsSection.swift; sourceTree = "<group>"; };
-		2AE2C5282438762500CC8476 /* VerticalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLine.swift; sourceTree = "<group>"; };
+		2AE2C5282438762500CC8476 /* LeftVerticalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftVerticalLine.swift; sourceTree = "<group>"; };
+		2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingCrossHair.swift; sourceTree = "<group>"; };
+		2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "New+Extensions.swift"; sourceTree = "<group>"; };
+		2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHorizontalLine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,6 +284,8 @@
 			children = (
 				2A03BF112428C9890094852B /* TopTenBarChartVert.swift */,
 				2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */,
+				2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */,
+				2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */,
 			);
 			path = "WORK IN PROGRESS";
 			sourceTree = "<group>";
@@ -334,7 +342,8 @@
 			children = (
 				2AB94738243126A1009C18ED /* CasesChartsIPad.swift */,
 				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
-				2AE2C5282438762500CC8476 /* VerticalLine.swift */,
+				2AE2C5282438762500CC8476 /* LeftVerticalLine.swift */,
+				2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */,
 				2AB9473C24312B9C009C18ED /* CaseChart.swift */,
 				2AB9473A24312A8A009C18ED /* CaseBar.swift */,
 			);
@@ -420,6 +429,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A03BF0B2428C04F0094852B /* CasesChartView.swift in Sources */,
+				2AE2C52F24389EFF00CC8476 /* New+Extensions.swift in Sources */,
 				2A03BF052428C04F0094852B /* CoronaStore.swift in Sources */,
 				2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */,
 				2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */,
@@ -442,6 +452,7 @@
 				2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */,
 				2A74F0B92428CBB400137694 /* HeatedLineChart.swift in Sources */,
 				2A03BF032428C04F0094852B /* Corona.swift in Sources */,
+				2AE2C5312438A13700CC8476 /* TopHorizontalLine.swift in Sources */,
 				2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */,
 				2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */,
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
@@ -458,7 +469,7 @@
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,
 				2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */,
 				2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */,
-				2AE2C5292438762500CC8476 /* VerticalLine.swift in Sources */,
+				2AE2C5292438762500CC8476 /* LeftVerticalLine.swift in Sources */,
 				2A6607FF242BF7060056C849 /* MapView.swift in Sources */,
 				2A445F3124292E94007C6846 /* AxisY.swift in Sources */,
 				2A96535024333FD0002A93A7 /* Extension+Notification.Name.swift in Sources */,
@@ -470,6 +481,7 @@
 				2AAAC6EF242A384000C03E5B /* SettingsView.swift in Sources */,
 				2AE2C50F2437376500CC8476 /* PrimeCountries.swift in Sources */,
 				2ACF1C702430AA130045C531 /* CasesHeaderButton.swift in Sources */,
+				2AE2C52D24389DC100CC8476 /* MovingCrossHair.swift in Sources */,
 				2A74F0C72428CE7B00137694 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -49,7 +49,7 @@ struct CaseChart: View {
             ZStack(alignment: .leading) {
                 if self.selectedType == .cfr {
                     ForEach([0.1, 0.2, 0.3], id: \.self) { step in
-                        VerticalLine()
+                        LeftVerticalLine()
                             .stroke(Color.systemGray4, style: StrokeStyle(lineWidth: 0.5, lineCap: .round, lineJoin: .round, dash: [10, 5]))
                             .offset(x: self.width / maximum * step)
                     }
