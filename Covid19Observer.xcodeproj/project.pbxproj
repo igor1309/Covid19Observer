@@ -66,6 +66,7 @@
 		2AE2C52D24389DC100CC8476 /* MovingCrossHair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */; };
 		2AE2C52F24389EFF00CC8476 /* New+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */; };
 		2AE2C5312438A13700CC8476 /* TopHorizontalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */; };
+		2AE2C5332438D2C200CC8476 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5322438D2C200CC8476 /* GridView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -146,6 +147,7 @@
 		2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingCrossHair.swift; sourceTree = "<group>"; };
 		2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "New+Extensions.swift"; sourceTree = "<group>"; };
 		2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHorizontalLine.swift; sourceTree = "<group>"; };
+		2AE2C5322438D2C200CC8476 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +287,7 @@
 				2A03BF112428C9890094852B /* TopTenBarChartVert.swift */,
 				2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */,
 				2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */,
+				2AE2C5322438D2C200CC8476 /* GridView.swift */,
 				2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */,
 			);
 			path = "WORK IN PROGRESS";
@@ -438,6 +441,7 @@
 				2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */,
 				2A74F0C02428CE3E00137694 /* WikiQuoteView.swift in Sources */,
 				2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */,
+				2AE2C5332438D2C200CC8476 /* GridView.swift in Sources */,
 				2A965356243360A4002A93A7 /* NotificationDelegate.swift in Sources */,
 				2AE2C5132437417E00CC8476 /* Array+Extension.swift in Sources */,
 				2AB9473F24313E35009C18ED /* CasesHeader.swift in Sources */,

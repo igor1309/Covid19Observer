@@ -41,12 +41,14 @@ struct HorizontalLine: Shape {
 struct MovingCrossHair: View {
     var size: CGSize
     
-    @State private var currentOffset: CGSize = .zero //CGSize(width: -100, height: -100)
-    @State private var offset: CGSize = .zero //CGSize(width: -100, height: -100)
+    @State private var currentOffset: CGSize = .zero
+    @State private var offset: CGSize = .zero
+    
     @State private var showCrosshair = true
-    
-    @State private var width: CGFloat = 0
-    
+    @State private var crosshairLegendSize: CGSize = .zero
+//    @State private var width: CGFloat = 0
+//    @State private var height: CGFloat = 0
+
     var body: some View {
         let drag = DragGesture()
             .onChanged { drag in
@@ -62,7 +64,6 @@ struct MovingCrossHair: View {
         let tap = TapGesture(count: 1)
             .sequenced(before: tapDrag)
             .onEnded { value in
-                
                 if !self.showCrosshair {
                     self.showCrosshair = true
                 }
@@ -84,26 +85,30 @@ struct MovingCrossHair: View {
         let style = StrokeStyle(lineWidth: 1,
                                 dash: [10, 3])
         return ZStack {
-            Rectangle()
-                .fill(Color.systemBackground)
+            GridView()
+//            Rectangle()
+//                .fill(Color.systemBackground)
                 .gesture(tap)
             
             if self.showCrosshair {
-                VStack(spacing: 0) {
+                ZStack {
                     
                     VStack(alignment: .leading) {
-                        Text("x: \(currentOffset.width)")
-                        Text("y: \(currentOffset.height)")
+                        Text("w: \(crosshairLegendSize.width)")
+                        Text("h: \(crosshairLegendSize.height)")
+                        Text("offset.x: \(currentOffset.width)")
+                        Text("offset.y: \(currentOffset.height)")
+                        Text("x: \(size.width / 2)")
+                        Text("y: \(size.height / 2)")
                     }
                     .padding(8)
                     .foregroundColor(.secondary)
                     .font(.footnote)
                     .roundedBackground(cornerRadius: 8)
-                    .offset(x: clampOffset(currentOffset.width))
+                    .offset(clampOffset(currentOffset))
                     .padding(8)
-                        .widthPref()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.purple)
+                    .widthPref()
+                    .heightPref()
                     
                     ZStack {
                         VerticalLine()
@@ -124,20 +129,25 @@ struct MovingCrossHair: View {
                     }
                 }
                 .gesture(drag)
-                .onPreferenceChange(WidthPref.self) {
-                    self.width = $0
-                }
+                .onPreferenceChange(WidthPref.self) { self.crosshairLegendSize.width = $0 }
+                .onPreferenceChange(HeightPref.self) { self.crosshairLegendSize.height = $0 }
             }
         }
     }
     
-    func clampOffset(_ offsetX: CGFloat) -> CGFloat {
-        var newOffset = offsetX
+    func clampOffset(_ offset: CGSize) -> CGSize {
+        var newOffset = offset
         
-        if offsetX + width / 2 > size.width / 2 {
-            newOffset = size.width / 2 - width / 2
-        } else if offsetX - width / 2 < -size.width / 2 {
-            newOffset = -size.width / 2 + width / 2
+        if offset.width + crosshairLegendSize.width > size.width / 2 {
+            newOffset.width -= crosshairLegendSize.width / 2
+        } else {
+            newOffset.width += crosshairLegendSize.width / 2
+        }
+        
+        if offset.height - crosshairLegendSize.height / 1 < -size.height / 2 {
+            newOffset.height += crosshairLegendSize.height / 2
+        } else {
+            newOffset.height -= crosshairLegendSize.height / 2
         }
         
         return newOffset

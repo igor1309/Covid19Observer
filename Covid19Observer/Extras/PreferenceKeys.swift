@@ -31,6 +31,18 @@ struct WidthPref: PreferenceKey {
     }
 }
 
+struct HeightPref: PreferenceKey {
+    typealias Value = CGFloat
+    
+    static let defaultValue: CGFloat = 100
+    
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        let nextValue = nextValue()
+        if nextValue > value {
+            value = nextValue
+        }
+    }
+}
 
 extension View {
     func widthPreference(column: Int) -> some View {
@@ -48,6 +60,15 @@ extension View {
                 Color.clear
                     .preference(key: WidthPref.self,
                                 value: geo.size.width)
+        })
+    }
+    
+    func heightPref() -> some View {
+        background(
+            GeometryReader { geo in
+                Color.clear
+                    .preference(key: HeightPref.self,
+                                value: geo.size.height)
         })
     }
 }
