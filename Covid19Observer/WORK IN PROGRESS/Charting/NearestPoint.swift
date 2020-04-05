@@ -8,60 +8,6 @@
 
 import SwiftUI
 
-struct Chart: Shape {
-    let points: [CGPoint]
-
-    func path(in rect: CGRect) -> Path {
-        
-        var normalized: [CGPoint] {
-            let maxX = points.map { $0.x }.max() ?? 1
-            let maxY = points.map { $0.y }.max() ?? 1
-            
-            func normalizedPoint(_ point: CGPoint) -> CGPoint {
-                /// перевод обычной сетки координат в rect
-                /// прим: это не нормализация на <0...1>!!!
-                let x = point.x / maxX * rect.width
-                let y = (1 - point.y / maxY) * rect.height
-                return CGPoint(x: x, y: y)
-            }
-            
-            return points.map { normalizedPoint($0) }
-        }
-        
-        return Path { p in
-            guard points.isNotEmpty else { return }
-            
-            p.move(to: normalized[0])
-            
-            for i in 1..<normalized.count {
-                p.addLine(to: normalized[i])
-            }
-        }
-    }
-}
-
-struct ChartGrid: Shape {
-    let xSteps: Int
-    let ySteps: Int
-    
-    func path(in rect: CGRect) -> Path {
-        let xStep = rect.width / CGFloat(xSteps)
-        let yStep = rect.height / CGFloat(ySteps)
-        
-        return Path { p in
-            for i in 0...xSteps {
-                p.move(to: CGPoint(x: xStep * CGFloat(i), y: 0))
-                p.addLine(to: CGPoint(x: xStep * CGFloat(i), y: rect.height))
-            }
-            
-            for i in 0...ySteps {
-                p.move(to: CGPoint(x: 0, y: yStep * CGFloat(i)))
-                p.addLine(to: CGPoint(x: rect.width, y: yStep * CGFloat(i)))
-            }
-        }
-    }
-}
-
 struct NearestPoint: View {
     let points: [CGPoint]
     @State private var size: CGSize = .zero
@@ -82,11 +28,10 @@ struct NearestPoint: View {
                        y: (size.height / 2 - offset.height) * maxY / size.height)
     }
     
-    /// <#Description#>
-    /// the opposite to cgCoordinate function
-    /// - Parameter point: <#point description#>
-    /// - Returns: <#description#>
-    func offsetFromCGCoordinate(_ point: CGPoint) -> CGSize {
+    /// The opposite to cgCoordinate function: returns ofset in iOS coordinate space from CGPoint.
+    /// - Parameter point: CGPoint in iOS coordinate space to translate to offset
+    /// - Returns: offset size
+    func offsetFromCGCoordinate(for point: CGPoint) -> CGSize {
         let maxX = points.map { $0.x }.max() ?? 1
         let maxY = points.map { $0.y }.max() ?? 1
         
@@ -108,16 +53,15 @@ struct NearestPoint: View {
             .font(.caption)
         }
         .padding(8)
-//        .background(Color.secondarySystemFill)
-//        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .offset(currentOffset)
+            //        .background(Color.secondarySystemFill)
+            //        .clipShape(RoundedRectangle(cornerRadius: 8))
+            .offset(currentOffset)
     }
     
-    var nearestPointOffset: CGSize {
-        offsetFromCGCoordinate(nearestPoint(target: cgCoordinate(for: currentOffset), points: points))
-    }
     var nearestPoint: some View {
-        ZStack {
+        let nearestPointOffset = offsetFromCGCoordinate(for: nearestPoint(target: cgCoordinate(for: currentOffset), points: points))
+        
+        return ZStack {
             Circle()
                 .fill(Color.orange)
                 .opacity(0.5)
@@ -155,9 +99,7 @@ struct NearestPoint: View {
         }
         
         return ZStack {
-//            GridView(size: CGSize(width: 35, height: 35))
             ChartGrid(xSteps: 10, ySteps: 20)
-//                .stroke(Color.systemGray3)
                 .stroke(Color.systemGray4,
                         style: StrokeStyle(lineWidth: 0.5, dash: [12, 6]))
                 /// Shape не будет регистрировать тапы на фоне
