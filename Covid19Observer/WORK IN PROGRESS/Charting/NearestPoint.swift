@@ -38,8 +38,10 @@ struct NearestPoint: View {
     let style = StrokeStyle(lineWidth: 1, dash: [12, 4])
     let crosshairLineWidth: CGFloat = 2
     
+    var is2D: Bool
+    
     var nearestPoint: some View {
-        let nearestPointOffset = offsetFromCGCoordinate(for: nearestPoint(target: cgCoordinate(for: currentOffset), points: points))
+        let nearestPointOffset = offsetFromCGCoordinate(for: nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D))
         
         return ZStack {
             VerticalLine()
@@ -66,8 +68,8 @@ struct NearestPoint: View {
                 .offset(nearestPointOffset)
             
             VStack(alignment: .leading) {
-                Text("x: \(Int(nearestPoint(target: cgCoordinate(for: currentOffset), points: points).x))")
-                Text("y: \(Int(nearestPoint(target: cgCoordinate(for: currentOffset), points: points).y))")
+                Text("x: \(Int(nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D).x))")
+                Text("y: \(Int(nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D).y))")
             }
             .padding(8)
             .foregroundColor(.secondary)
@@ -187,15 +189,25 @@ struct NearestPoint: View {
                       height: (1 - point.y / maxY) * size.height - size.height / 2)
     }
     
-    func nearestPoint(target: CGPoint, points: [CGPoint]) -> CGPoint {
-        func distance(_ point1: CGPoint, _ point2: CGPoint) -> CGFloat {
-            let a = abs(point1.x - point2.x)
-            let b = abs(point1.y - point2.y)
-            return (a * a + b * b).squareRoot()
+    /// Find the nearest to the `target` point in the array. 2D or 1D (X axis) option.
+    /// - Parameters:
+    ///   - target: target point
+    ///   - points: <#points description#>
+    ///   - is2D: Use both X and Y axises (true) or just X (false)
+    /// - Returns: closest af all points to `target`
+    func nearestPoint(target: CGPoint, points: [CGPoint], is2D: Bool) -> CGPoint {
+        func distance(_ point1: CGPoint, _ point2: CGPoint, is2D: Bool) -> CGFloat {
+            if is2D {
+                let a = abs(point1.x - point2.x)
+                let b = abs(point1.y - point2.y)
+                return (a * a + b * b).squareRoot()
+            } else {
+                return abs(point1.x - point2.x)
+            }
         }
-        func nearestToTarget(_ point1: CGPoint, _ point2: CGPoint) -> CGPoint {
-            let distance1 = distance(target, point1)
-            let distance2 = distance(target, point2)
+        func nearestToTarget(_ point1: CGPoint, _ point2: CGPoint, is2D: Bool) -> CGPoint {
+            let distance1 = distance(target, point1, is2D: is2D)
+            let distance2 = distance(target, point2, is2D: is2D)
             if distance1 < distance2 {
                 return point1
             } else {
@@ -208,7 +220,7 @@ struct NearestPoint: View {
         var nearest = points[0]
         if points.count > 1 {
             for i in 1..<points.count {
-                nearest = nearestToTarget(nearest, points[i])
+                nearest = nearestToTarget(nearest, points[i], is2D: is2D)
             }
         }
         return nearest
@@ -243,7 +255,7 @@ struct NearestPoint_Previews: PreviewProvider {
                 Chart(points: self.points)
                     .stroke(Color.blue, style: StrokeStyle(lineWidth: 4, lineJoin: .round))
                 
-                NearestPoint(points: points)
+                NearestPoint(points: points, is2D: false)
             }
             .frame(width: 350, height: 700)
         }

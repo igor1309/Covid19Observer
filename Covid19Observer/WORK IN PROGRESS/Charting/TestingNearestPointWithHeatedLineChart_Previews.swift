@@ -16,12 +16,12 @@ struct TestingNearestPointWithHeatedLineChart: View {
     @State private var selectedData = "change"
     var series: [Int] {
         if selectedData == "change" {
-            return coronaStore.history.change(for: coronaStore.selectedCountry)
+            return coronaStore.history.change(for: coronaStore.selectedCountry).filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0)
         } else {
-            return coronaStore.history.series(for: coronaStore.selectedCountry)
+            return coronaStore.history.series(for: coronaStore.selectedCountry).filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0)
         }
     }
-
+    
     var points: [CGPoint] {
         var pointSeries = [CGPoint]()
         
@@ -52,21 +52,37 @@ struct TestingNearestPointWithHeatedLineChart: View {
     ])
     
     var body: some View {
-        ZStack {
-            ChartGrid(xSteps: 10, ySteps: 20)
-                .stroke(Color.systemGray,
-                        style: StrokeStyle(lineWidth: 0.5, dash: [12, 6]))
-                .opacity(0.5)
+        VStack {
+            HStack {
+                Toggle("Limit", isOn: $settings.isLineChartFiltered)
+                
+                Spacer()
+                
+                Picker(selection: $selectedData, label: Text("Data kind")) {
+                    ForEach(["confirmed", "change"], id: \.self) { kind in
+                        Text(kind).tag(kind)
+                    }
+                }
+                .labelsHidden()
+                .pickerStyle(SegmentedPickerStyle())
+            }
             
-            Chart(points: points)
-                .stroke(LinearGradient(gradient: temperetureGradient,
-                                       startPoint: .bottom,
-                                       endPoint: .top),
-                        style: StrokeStyle(lineWidth: lineWidth,
-                                           lineCap: .round,
-                                           lineJoin: .round))
-            
-            NearestPoint(points: points)
+            ZStack {
+                ChartGrid(xSteps: 10, ySteps: 20)
+                    .stroke(Color.systemGray,
+                            style: StrokeStyle(lineWidth: 0.5, dash: [12, 6]))
+                    .opacity(0.5)
+                
+                Chart(points: points)
+                    .stroke(LinearGradient(gradient: temperetureGradient,
+                                           startPoint: .bottom,
+                                           endPoint: .top),
+                            style: StrokeStyle(lineWidth: lineWidth,
+                                               lineCap: .round,
+                                               lineJoin: .round))
+                
+                NearestPoint(points: points, is2D: false)
+            }
         }
     }
 }
@@ -86,9 +102,14 @@ struct TestingNearestPointWithHeatedLineChart_Previews: PreviewProvider {
     ]
     
     static var previews: some View {
-        TestingNearestPointWithHeatedLineChart()
-            .padding()
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            
+            TestingNearestPointWithHeatedLineChart()
+                .padding()
+        }
         .environmentObject(CoronaStore())
         .environmentObject(Settings())
+        .environment(\.colorScheme, .dark)
     }
 }

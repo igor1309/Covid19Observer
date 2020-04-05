@@ -111,6 +111,7 @@ struct CasesLineChartView: View {
         }
         .transition(.opacity)
         .padding(.horizontal)
+        .padding(.bottom, 6)
         .onAppear {
             self.coronaStore.updateIfStoreIsOldOrEmpty()
             
