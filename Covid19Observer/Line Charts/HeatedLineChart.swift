@@ -69,7 +69,13 @@ struct HeatedLineChart: View {
                     }
                 }
             } else {
-                /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+                VStack {
+                    Spacer()
+                    Text("No Data")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
+                }
             }
         }
     }

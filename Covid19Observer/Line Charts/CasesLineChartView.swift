@@ -42,16 +42,18 @@ struct CasesLineChartView: View {
             Button(action: {
                 self.showCountryPicker = true
             }) {
-                HStack(alignment: .firstTextBaseline) {
+                HStack {
                     Text(coronaStore.selectedCountry)
                         .font(.title)
                         .lineLimit(1)
                         .layoutPriority(1)
                     
-                    Spacer()
-                    Text(" (tap to select other country)")
-                        .foregroundColor(.secondary)
-                        .font(.caption)
+//                    Spacer()
+                    Image(systemName: "arrowshape.turn.up.right")
+                        .font(.headline)
+//                    Text(" (tap to select other country)")
+//                        .foregroundColor(.secondary)
+//                        .font(.caption)
                 }
             }
             .sheet(isPresented: $showCountryPicker) {

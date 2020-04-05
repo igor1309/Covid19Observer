@@ -11,7 +11,7 @@ import SwiftUI
 struct CaseChart: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
-    @Environment(\.horizontalSizeClass) var sizeClass
+//    @Environment(\.horizontalSizeClass) var sizeClass
     
     let selectedType: CaseDataType
     let isBarsTappable: Bool
@@ -83,7 +83,7 @@ struct CaseChart: View {
                 }
             }
         }
-        .padding(sizeClass == .compact ? 0 : 8)
+//        .padding(sizeClass == .compact ? 0 : 8)
     }
     
     func prepareHistoryData() {
