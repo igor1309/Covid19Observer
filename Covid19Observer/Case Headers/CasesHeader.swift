@@ -12,6 +12,7 @@ struct CasesHeader: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
+    @State private var showLineChart = false
     @State private var showTable = false
     
     var body: some View {
@@ -23,6 +24,9 @@ struct CasesHeader: View {
                     Text("confirmed")
                 }
                 .foregroundColor(CaseDataType.confirmed.color)
+                .onLongPressGesture {
+                    self.showLineChart = true
+                }
                 
                 Spacer()
                 VStack {
@@ -70,6 +74,23 @@ struct CasesHeader: View {
             Group {
                 Spacer()
                 Button(action: {
+                    self.showLineChart = true
+                }) {
+                    VStack {
+                        Text("Chart".uppercased())
+                            .font(.subheadline)
+                        Text("confirmed")
+                    }
+                    .foregroundColor(CaseDataType.confirmed.color)
+                }
+                .sheet(isPresented: $showLineChart) {
+                    AllCountriesLineChart()
+                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.settings)
+                }
+                
+                Spacer()
+                Button(action: {
                     self.showTable = true
                 }) {
                     VStack {
@@ -77,32 +98,32 @@ struct CasesHeader: View {
                             .font(.subheadline)
                         Text("details")
                     }
+                    .foregroundColor(.secondary)
                 }
                 .sheet(isPresented: $showTable) {
                     CasesTableView()
                         .environmentObject(self.coronaStore)
                         .environmentObject(self.settings)
                 }
-                .foregroundColor(.secondary)
                 
                 Spacer()
-//                Button(action: {
-                    //  MARK: FIX THIS
-                    //  app crashes — data changes but gradually
-                    //  state is changing while charts are drawing
-                    //  need some flag to signal update finish
-                    //
-                    //                    self.coronaStore.updateCasesData() { _ in }
-                    //                    self.coronaStore.updateHistoryData { }
-//                }) {
-                    VStack {
-                        Text("\(coronaStore.timeSinceCasesUpdateStr) ago")
-                            .font(.subheadline)
-                        Text("updated")
-                    }
-                    .foregroundColor(coronaStore.isCasesDataOld ? .systemRed : .secondary)
-                    .opacity(0.8)
-//                }
+                //                Button(action: {
+                //  MARK: FIX THIS
+                //  app crashes — data changes but gradually
+                //  state is changing while charts are drawing
+                //  need some flag to signal update finish
+                //
+                //                    self.coronaStore.updateCasesData() { _ in }
+                //                    self.coronaStore.updateHistoryData { }
+                //                }) {
+                VStack {
+                    Text("\(coronaStore.timeSinceCasesUpdateStr) ago")
+                        .font(.subheadline)
+                    Text("updated")
+                }
+                .foregroundColor(coronaStore.isCasesDataOld ? .systemRed : .secondary)
+                .opacity(0.8)
+                //                }
             }
         }
         .font(.caption)

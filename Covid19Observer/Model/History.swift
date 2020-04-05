@@ -55,6 +55,20 @@ struct History: Codable {
         self = History(table: table, rows: rows)
     }
     
+    var allCountriesTotals: [Int] {
+        guard rows.count > 0 else { return [] }
+        
+        var totals = Array(repeating: 0, count: rows[0].series.count)
+        
+        for row in rows {
+            for i in 0..<row.series.count {
+                totals[i] += row.series[i]
+            }
+        }
+
+        return totals
+    }
+    
     func change(for country: String) -> [Int] {
         let countryData = series(for: country)
         guard countryData.count > 1 else { return [] }

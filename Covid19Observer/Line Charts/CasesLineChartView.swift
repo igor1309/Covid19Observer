@@ -18,6 +18,10 @@ struct CasesLineChartView: View {
     @State private var selectedData = "change"
     
     var series: [Int] {
+        if selectedData == "all" {
+            return coronaStore.history.allCountriesTotals
+        }
+        
         if selectedData == "change" {
             return coronaStore.history.change(for: coronaStore.selectedCountry)
         } else {
@@ -77,7 +81,7 @@ struct CasesLineChartView: View {
             if series.isNotEmpty {
                 
                 Picker(selection: $selectedData, label: Text("Data kind")) {
-                    ForEach(["confirmed", "change"], id: \.self) { kind in
+                    ForEach(["all", "confirmed", "change"], id: \.self) { kind in
                         Text(kind).tag(kind)
                     }
                 }

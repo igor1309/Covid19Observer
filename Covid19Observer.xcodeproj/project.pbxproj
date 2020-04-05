@@ -71,6 +71,7 @@
 		2AE2C5382439DA8A00CC8476 /* Chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5372439DA8A00CC8476 /* Chart.swift */; };
 		2AE2C53A2439DBF500CC8476 /* ChartGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5392439DBF500CC8476 /* ChartGrid.swift */; };
 		2AE2C53C243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */; };
+		2AE2C53E243A877D00CC8476 /* AllCountriesLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53D243A877D00CC8476 /* AllCountriesLineChart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -156,6 +157,7 @@
 		2AE2C5372439DA8A00CC8476 /* Chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chart.swift; sourceTree = "<group>"; };
 		2AE2C5392439DBF500CC8476 /* ChartGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartGrid.swift; sourceTree = "<group>"; };
 		2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingNearestPointWithHeatedLineChart_Previews.swift; sourceTree = "<group>"; };
+		2AE2C53D243A877D00CC8476 /* AllCountriesLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCountriesLineChart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */,
+				2AE2C53D243A877D00CC8476 /* AllCountriesLineChart.swift */,
 				2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */,
 				2A74F0B62428CBB300137694 /* HeatedLineChart.swift */,
 				2A74F0B82428CBB300137694 /* LineGraphShape.swift */,
@@ -495,6 +498,7 @@
 				2A74F0C62428CE7B00137694 /* Table.swift in Sources */,
 				2AB94739243126A1009C18ED /* CasesChartsIPad.swift in Sources */,
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,
+				2AE2C53E243A877D00CC8476 /* AllCountriesLineChart.swift in Sources */,
 				2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */,
 				2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */,
 				2AE2C5292438762500CC8476 /* LeftVerticalLine.swift in Sources */,
