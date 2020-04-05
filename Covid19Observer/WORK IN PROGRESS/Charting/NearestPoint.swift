@@ -36,6 +36,7 @@ struct NearestPoint: View {
     
     let strokeColor = Color.systemGray2
     let style = StrokeStyle(lineWidth: 1, dash: [12, 4])
+    let crosshairLineWidth: CGFloat = 2
     
     var nearestPoint: some View {
         let nearestPointOffset = offsetFromCGCoordinate(for: nearestPoint(target: cgCoordinate(for: currentOffset), points: points))
@@ -44,7 +45,7 @@ struct NearestPoint: View {
             VerticalLine()
                 .stroke(strokeColor, style: style)
                 .opacity(0.5)
-                .frame(width: 20)
+                .frame(width: crosshairLineWidth)
                 .background(
                     Color.systemGray6.opacity(0.01)
             )
@@ -53,7 +54,7 @@ struct NearestPoint: View {
             HorizontalLine()
                 .stroke(strokeColor, style: style)
                 .opacity(0.5)
-                .frame(height: 20)
+                .frame(height: crosshairLineWidth)
                 .background(
                     Color.systemGray6.opacity(0.01)
             )
@@ -132,19 +133,14 @@ struct NearestPoint: View {
         }
         
         return ZStack {
-            ChartGrid(xSteps: 10, ySteps: 20)
-                .stroke(Color.systemGray,
-                        style: StrokeStyle(lineWidth: 0.5, dash: [12, 6]))
-                .opacity(0.5)
+            
+            Color.black.opacity(0.001)
                 /// Shape не будет регистрировать тапы на фоне
                 /// поэтому нужна суперпрозрачная подложка (.clear не рабоатет)
                 .background(Color.gray.opacity(0.001))
                 .gesture(tap)
             
-            Chart(points: self.points)
-                .stroke(Color.blue)
-            
-                        showCrosshair ? tapPoint : nil
+            //            showCrosshair ? tapPoint : nil
             
             showCrosshair ?
                 nearestPoint
@@ -232,12 +228,24 @@ struct NearestPoint_Previews: PreviewProvider {
         CGPoint(x: 85, y: 200),
         CGPoint(x: 100, y: 190)
     ]
+    
     static var previews: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
+//            Color.black.edgesIgnoringSafeArea(.all)
             
-            NearestPoint(points: points)
-                .frame(width: 350, height: 700)
+            ZStack {
+                
+                ChartGrid(xSteps: 10, ySteps: 20)
+                    .stroke(Color.systemGray,
+                            style: StrokeStyle(lineWidth: 0.5, dash: [12, 6]))
+                    .opacity(0.5)
+                
+                Chart(points: self.points)
+                    .stroke(Color.blue, style: StrokeStyle(lineWidth: 4, lineJoin: .round))
+                
+                NearestPoint(points: points)
+            }
+            .frame(width: 350, height: 700)
         }
         .environment(\.colorScheme, .dark)
     }

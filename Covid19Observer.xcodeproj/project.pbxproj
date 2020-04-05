@@ -70,6 +70,7 @@
 		2AE2C53524393DEF00CC8476 /* NearestPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53424393DEF00CC8476 /* NearestPoint.swift */; };
 		2AE2C5382439DA8A00CC8476 /* Chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5372439DA8A00CC8476 /* Chart.swift */; };
 		2AE2C53A2439DBF500CC8476 /* ChartGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5392439DBF500CC8476 /* ChartGrid.swift */; };
+		2AE2C53C243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -154,6 +155,7 @@
 		2AE2C53424393DEF00CC8476 /* NearestPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPoint.swift; sourceTree = "<group>"; };
 		2AE2C5372439DA8A00CC8476 /* Chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chart.swift; sourceTree = "<group>"; };
 		2AE2C5392439DBF500CC8476 /* ChartGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartGrid.swift; sourceTree = "<group>"; };
+		2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingNearestPointWithHeatedLineChart_Previews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				2AE2C53424393DEF00CC8476 /* NearestPoint.swift */,
+				2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */,
 				2AE2C5372439DA8A00CC8476 /* Chart.swift */,
 				2AE2C5392439DBF500CC8476 /* ChartGrid.swift */,
 			);
@@ -454,6 +457,7 @@
 				2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */,
 				2AE2C5382439DA8A00CC8476 /* Chart.swift in Sources */,
 				2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */,
+				2AE2C53C243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift in Sources */,
 				2AE2C5152437446700CC8476 /* LineChartSettingsSection.swift in Sources */,
 				2A96535424335810002A93A7 /* NotificationsSettingsView.swift in Sources */,
 				2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */,
