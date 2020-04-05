@@ -73,6 +73,15 @@ struct CasesLineChartView: View {
             }
             
             if series.isNotEmpty {
+                
+                Picker(selection: $selectedData, label: Text("Data kind")) {
+                    ForEach(["confirmed", "change"], id: \.self) { kind in
+                        Text(kind).tag(kind)
+                    }
+                }
+                .labelsHidden()
+                .pickerStyle(SegmentedPickerStyle())
+                
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0), numberOfGridLines: numberOfGridLines)
                     
@@ -80,19 +89,12 @@ struct CasesLineChartView: View {
                         self.settings.isLineChartFiltered.toggle()
                     }
                     .foregroundColor(settings.isLineChartFiltered ? .systemOrange : .systemBlue)
-                .padding()
+                    .padding(.top, 6)
                 }
+                
             } else {
                 Spacer()
             }
-            
-            Picker(selection: $selectedData, label: Text("Data kind")) {
-                ForEach(["confirmed", "change"], id: \.self) { kind in
-                    Text(kind).tag(kind)
-                }
-            }
-            .labelsHidden()
-            .pickerStyle(SegmentedPickerStyle())
 
             /// показать данные за последние 14 дней
 //                Text(series
