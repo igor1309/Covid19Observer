@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct GridView: View {
+    var size = CGSize(width: 30, height: 30)
     var body: some View {
-        let size = CGSize(width: 30, height: 30)
         let image = Image(uiImage: gridImage(size: size))
         
         return Rectangle()

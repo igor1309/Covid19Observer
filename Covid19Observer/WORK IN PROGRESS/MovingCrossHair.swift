@@ -46,9 +46,7 @@ struct MovingCrossHair: View {
     
     @State private var showCrosshair = true
     @State private var crosshairLegendSize: CGSize = .zero
-//    @State private var width: CGFloat = 0
-//    @State private var height: CGFloat = 0
-
+    
     var body: some View {
         let drag = DragGesture()
             .onChanged { drag in
@@ -60,6 +58,7 @@ struct MovingCrossHair: View {
             self.currentOffset = self.offset + drag.translation
             self.offset = self.currentOffset
         }
+        
         let tapDrag = DragGesture(minimumDistance: 0)
         let tap = TapGesture(count: 1)
             .sequenced(before: tapDrag)
@@ -82,12 +81,10 @@ struct MovingCrossHair: View {
         }
         
         let strokeColor = Color.systemGray4
-        let style = StrokeStyle(lineWidth: 1,
-                                dash: [10, 3])
+        let style = StrokeStyle(lineWidth: 1, dash: [10, 3])
+        
         return ZStack {
             GridView()
-//            Rectangle()
-//                .fill(Color.systemBackground)
                 .gesture(tap)
             
             if self.showCrosshair {
@@ -105,7 +102,7 @@ struct MovingCrossHair: View {
                     .foregroundColor(.secondary)
                     .font(.footnote)
                     .roundedBackground(cornerRadius: 8)
-                    .offset(clampOffset(currentOffset))
+                    .offset(legendOffset(from: currentOffset))
                     .padding(8)
                     .widthPref()
                     .heightPref()
@@ -129,13 +126,20 @@ struct MovingCrossHair: View {
                     }
                 }
                 .gesture(drag)
-                .onPreferenceChange(WidthPref.self) { self.crosshairLegendSize.width = $0 }
-                .onPreferenceChange(HeightPref.self) { self.crosshairLegendSize.height = $0 }
+                .onTapGesture(count: 2) {
+                    self.showCrosshair = false
+                }
+                .onPreferenceChange(WidthPref.self) {
+                    self.crosshairLegendSize.width = $0
+                }
+                .onPreferenceChange(HeightPref.self) {
+                    self.crosshairLegendSize.height = $0
+                }
             }
         }
     }
     
-    func clampOffset(_ offset: CGSize) -> CGSize {
+    func legendOffset(from offset: CGSize) -> CGSize {
         var newOffset = offset
         
         if offset.width + crosshairLegendSize.width > size.width / 2 {
