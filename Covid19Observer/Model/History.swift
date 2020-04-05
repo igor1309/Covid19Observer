@@ -55,6 +55,19 @@ struct History: Codable {
         self = History(table: table, rows: rows)
     }
     
+    func change(for country: String) -> [Int] {
+        let countryData = series(for: country)
+        guard countryData.count > 1 else { return [] }
+            
+        var change = [Int]()
+        
+        for i in 1..<countryData.count {
+            change.append(countryData[i] - countryData[i-1])
+        }
+        
+        return change
+    }
+    
     func series(for country: String) -> [Int] {
         
         guard rows.count > 0 else { return [] }
@@ -89,8 +102,8 @@ struct History: Codable {
             
             filteredRow = ShortCaseRow(provinceState: "", countryRegion: country, series: series)
             
-            
         } else {
+            
             //  если страна без провинций, то по ней данные только в одной строке
             let filteredRows = rows.filter { $0.countryRegion == country }
             if filteredRows.isNotEmpty {

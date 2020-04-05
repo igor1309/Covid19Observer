@@ -15,9 +15,14 @@ struct CasesLineChartView: View {
     @EnvironmentObject var settings: Settings
     
     @State private var showCountryPicker = false
+    @State private var selectedData = "change"
     
     var series: [Int] {
-        coronaStore.history.series(for: coronaStore.selectedCountry)
+        if selectedData == "change" {
+            return coronaStore.history.change(for: coronaStore.selectedCountry)
+        } else {
+            return coronaStore.history.series(for: coronaStore.selectedCountry)
+        }
     }
     
     @State private var numberOfGridLines = 0//10
@@ -75,23 +80,32 @@ struct CasesLineChartView: View {
                         self.settings.isLineChartFiltered.toggle()
                     }
                     .foregroundColor(settings.isLineChartFiltered ? .systemOrange : .systemBlue)
+                .padding()
                 }
             } else {
                 Spacer()
             }
             
+            Picker(selection: $selectedData, label: Text("Data kind")) {
+                ForEach(["confirmed", "change"], id: \.self) { kind in
+                    Text(kind).tag(kind)
+                }
+            }
+            .labelsHidden()
+            .pickerStyle(SegmentedPickerStyle())
+
             /// показать данные за последние 14 дней
-            Text(series
-                .suffix(min(14, series.count))
-                .map { String($0) }
-                .joined(separator: ", ")
-                //  MARK: FINISH THIS
-                //  показать последюнюю дату в серии
-                //+ " " + coronaStore.history.rows[0].series.last
-            )
-                .foregroundColor(.tertiary)
-                .font(.caption)
-                .padding(.bottom, 6)
+//                Text(series
+//                    .suffix(min(14, series.count))
+//                    .map { String($0) }
+//                    .joined(separator: ", ")
+//                    //  MARK: FINISH THIS
+//                    //  показать последюнюю дату в серии
+//                    //+ " " + coronaStore.history.rows[0].series.last
+//                )
+//                    .foregroundColor(.tertiary)
+//                    .font(.caption)
+//                    .padding(.bottom, 6)
         }
         .transition(.opacity)
         .padding(.horizontal)

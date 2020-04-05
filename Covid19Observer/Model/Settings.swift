@@ -33,7 +33,6 @@ final class Settings: ObservableObject {
             UserDefaults.standard.set(lineChartLimit, forKey: "lineChartLimit")
         }
     }
-    
 
     
     init() {
