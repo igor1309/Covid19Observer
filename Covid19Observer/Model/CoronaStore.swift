@@ -308,9 +308,9 @@ class CoronaStore: ObservableObject {
                     confirmedStr: confirmed.formattedGrouped,
                     //  MARK: count new and current cases is called separately
                     newConfirmed: 0,
-                    newConfirmedStr: "0",
+                    newConfirmedStr: "n/a",
                     currentConfirmed: 0,
-                    currentConfirmedStr: "",
+                    currentConfirmedStr: "n/a",
                     deaths: deaths,
                     deathsStr: deaths.formattedGrouped,
                     cfr: cfr,
