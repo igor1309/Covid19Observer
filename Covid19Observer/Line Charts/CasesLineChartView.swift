@@ -15,17 +15,14 @@ struct CasesLineChartView: View {
     @EnvironmentObject var settings: Settings
     
     @State private var showCountryPicker = false
-    @State private var selectedData = "change"
+    @State private var selectedDataKind = DataKind.total
     
     var series: [Int] {
-        if selectedData == "all" {
-            return coronaStore.history.allCountriesTotals
-        }
-        
-        if selectedData == "change" {
-            return coronaStore.history.change(for: coronaStore.selectedCountry)
-        } else {
+        switch selectedDataKind {
+        case .total:
             return coronaStore.history.series(for: coronaStore.selectedCountry)
+        case .daily:
+            return coronaStore.history.change(for: coronaStore.selectedCountry)
         }
     }
     
@@ -80,13 +77,7 @@ struct CasesLineChartView: View {
             
             if series.isNotEmpty {
                 
-                Picker(selection: $selectedData, label: Text("Data kind")) {
-                    ForEach(["all", "confirmed", "change"], id: \.self) { kind in
-                        Text(kind).tag(kind)
-                    }
-                }
-                .labelsHidden()
-                .pickerStyle(SegmentedPickerStyle())
+                DataKindPicker(selectedDataKind: $selectedDataKind)
                 
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0), numberOfGridLines: numberOfGridLines)
