@@ -44,17 +44,17 @@ struct ContentView: View {
             }
             .tag(0)
             
-            CasesOnMapView()
-                .tabItem {
-                    Image(systemName: "map")
-                    Text("Map")
-            }
-            .tag(1)
-            
             lineChart
                 .tabItem {
                     Image(systemName: "waveform.path.ecg")
                     Text("History")
+            }
+            .tag(1)
+            
+            CasesOnMapView()
+                .tabItem {
+                    Image(systemName: "map")
+                    Text("Map")
             }
             .tag(2)
             

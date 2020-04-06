@@ -68,8 +68,8 @@ struct NearestPoint: View {
                 .offset(nearestPointOffset)
             
             VStack(alignment: .leading) {
-                Text("x: \(Int(nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D).x))")
-                Text("y: \(Int(nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D).y))")
+                Text("x: \(nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D).x, specifier: "%.2f")")
+                Text("y: \(nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D).y, specifier: "%.2f")")
             }
             .padding(8)
             .foregroundColor(.secondary)
@@ -166,28 +166,54 @@ struct NearestPoint: View {
         .onPreferenceChange(HeightPref.self) { self.size.height = $0 }
     }
     
+    
     /// Translates offset in iOS flipped-coordinate space to normal (as in Core Graphics) coordinate.
     /// In the default Core Graphics coordinate space, the origin is located in the lower-left corner of the rectangle and the rectangle extends towards the upper-right corner.
     /// - Parameter offset: offset (CGSize)
     /// - Returns: CGPoint in nornal coordinate space
     func cgCoordinate(for offset: CGSize) -> CGPoint {
+        //  MARK: FINISH THIS
+        //  АНАЛОГИЧНО использовать minX и minY
+        //
+        let minX = points.map { $0.x }.min() ?? 0
         let maxX = points.map { $0.x }.max() ?? 1
+        let minY = points.map { $0.y }.min() ?? 0
         let maxY = points.map { $0.y }.max() ?? 1
         
-        return CGPoint(x: (offset.width + size.width / 2) * maxX / size.width,
-                       y: (size.height / 2 - offset.height) * maxY / size.height)
+        /// нормировка и сдвиг
+        let x = (offset.width / size.width + 1/2)
+        /// нормировка, сдвиг и переворот (1 - 1/2 = 1/2)
+        let y = (1/2 - offset.height / size.height)
+        
+        /// масштабирование на размеры
+        return CGPoint(x: x * (maxX - minX),
+                       y: y * (maxY - minY))
+        //        return CGPoint(x: (offset.width + size.width / 2) * maxX / size.width,
+        //                       y: (size.height / 2 - offset.height) * maxY / size.height)
     }
+    
     
     /// The opposite to cgCoordinate function: returns ofset in iOS coordinate space from CGPoint.
     /// - Parameter point: CGPoint in iOS coordinate space to translate to offset
     /// - Returns: offset size
     func offsetFromCGCoordinate(for point: CGPoint) -> CGSize {
+        let minX = points.map { $0.x }.min() ?? 0
         let maxX = points.map { $0.x }.max() ?? 1
+        let minY = points.map { $0.y }.min() ?? 0
         let maxY = points.map { $0.y }.max() ?? 1
         
-        return CGSize(width: point.x / maxX * size.width - size.width / 2,
-                      height: (1 - point.y / maxY) * size.height - size.height / 2)
+        /// сдвиг и нормировка
+        let x = (point.x - minX) / (maxX - minX)
+        /// сдвиг, переворот  и нормировка
+        let y = (1 - (point.y - minY) / (maxY - minY))
+        
+        /// масштабирование на размеры
+        return CGSize(width: (x - 1/2) * size.width,
+                      height: (y - 1/2) * size.height)
+        //        return CGSize(width: (point.x - minX) / (maxX - minX) * size.width - size.width / 2,
+        //                      height: (1 - (point.y - minY) / (maxY - minY)) * size.height - size.height / 2)
     }
+    
     
     /// Find the nearest to the `target` point in the array. 2D or 1D (X axis) option.
     /// - Parameters:

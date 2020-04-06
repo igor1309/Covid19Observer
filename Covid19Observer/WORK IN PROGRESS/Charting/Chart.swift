@@ -14,15 +14,19 @@ struct Chart: Shape {
     func path(in rect: CGRect) -> Path {
         
         var normalized: [CGPoint] {
+            let minX = points.map { $0.x }.min() ?? 0
             let maxX = points.map { $0.x }.max() ?? 1
+            
+            let minY = points.map { $0.y }.min() ?? 0
             let maxY = points.map { $0.y }.max() ?? 1
             
             /// Перевод обычной сетки координат, задаваемой серией данных, в rect. Прим: это не нормализация на <0...1>(!!!), а нормализация на размеры rect.
+            /// https://en.wikipedia.org/wiki/Feature_scaling
             /// - Parameter point: координаты точки из серии
             /// - Returns: координаты в пространстве, заданном rect
             func normalizedPoint(_ point: CGPoint) -> CGPoint {
-                let x = point.x / maxX * rect.width
-                let y = (1 - point.y / maxY) * rect.height
+                let x = (point.x - minX) / (maxX - minX) * rect.width
+                let y = (1 - (point.y - minY) / (maxY - minY)) * rect.height
                 return CGPoint(x: x, y: y)
             }
             

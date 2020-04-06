@@ -71,9 +71,9 @@ struct TestingNearestPointWithHeatedLineChart: View {
                 ChartGrid(xSteps: 10, ySteps: 20)
                     .stroke(Color.systemGray,
                             style: StrokeStyle(lineWidth: 0.5, dash: [12, 6]))
-                    .opacity(0.5)
+                    .opacity(0.3)
                 
-                Chart(points: points)
+                LineChart(points: points)
                     .stroke(LinearGradient(gradient: temperetureGradient,
                                            startPoint: .bottom,
                                            endPoint: .top),

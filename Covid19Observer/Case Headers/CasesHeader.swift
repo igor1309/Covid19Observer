@@ -76,12 +76,17 @@ struct CasesHeader: View {
                 Button(action: {
                     self.showLineChart = true
                 }) {
-                    VStack {
-                        Text("Chart".uppercased())
-                            .font(.subheadline)
-                        Text("confirmed")
+                    HStack {
+                        Image(systemName: "waveform.path.ecg")
+                        
+                        VStack {
+                            Text("Chart".uppercased())
+                                .font(.subheadline)
+                            Text("confirmed")
+                        }
                     }
                     .foregroundColor(CaseDataType.confirmed.color)
+                    .fixedSize()
                 }
                 .sheet(isPresented: $showLineChart) {
                     AllCountriesLineChart()
@@ -93,12 +98,16 @@ struct CasesHeader: View {
                 Button(action: {
                     self.showTable = true
                 }) {
-                    VStack {
-                        Text("Table".uppercased())
-                            .font(.subheadline)
-                        Text("details")
+                    HStack {
+                        Image(systemName: "table")
+                        
+                        VStack {
+                            Text("Table".uppercased())
+                                .font(.subheadline)
+                            Text("details")
+                        }
                     }
-                    .foregroundColor(.secondary)
+                    .fixedSize()
                 }
                 .sheet(isPresented: $showTable) {
                     CasesTableView()
