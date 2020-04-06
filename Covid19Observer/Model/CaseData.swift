@@ -32,6 +32,14 @@ enum CaseType: String, CaseIterable {
 }
 
 
+enum DataKind: String, CaseIterable {
+    case total = "Total"
+    case daily = " Daily"
+    
+    var id: String { rawValue }
+}
+
+
 enum CaseDataType: String, CaseIterable {
     case confirmed = "Confirmed Cases"
     case new = "New Confirmed"

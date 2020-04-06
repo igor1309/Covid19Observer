@@ -69,6 +69,19 @@ struct History: Codable {
         return totals
     }
     
+    var allCountriesDaily: [Int] {
+        guard allCountriesTotals.count > 1 else { return [] }
+        
+        var daily = [Int]()
+        
+        for i in 1..<allCountriesTotals.count {
+            daily.append(allCountriesTotals[i] - allCountriesTotals[i-1])
+        }
+
+        return daily
+
+    }
+    
     func change(for country: String) -> [Int] {
         let countryData = series(for: country)
         guard countryData.count > 1 else { return [] }
