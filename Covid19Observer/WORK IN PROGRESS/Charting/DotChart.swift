@@ -92,7 +92,7 @@ struct DotChart_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             ZStack {
-                DotChart(points: points, bounds: plotAreaForPoints(points))
+                DotChart(points: points, bounds: CGPoint.plotAreaForPoints(points))
                     .stroke(LinearGradient(gradient: temperetureGradient,
                                    startPoint: .bottom,
                                    endPoint: .top),

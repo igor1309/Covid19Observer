@@ -25,8 +25,8 @@ struct NearestPoint: View {
                 .frame(width: 4, height: 4)
             
             VStack(alignment: .leading) {
-                Text("x: \(Int(offset.width)) : \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points)).x))")
-                Text("y: \(Int(offset.height)) :  \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points)).y))")
+                Text("x: \(Int(offset.width)) : \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points)).x))")
+                Text("y: \(Int(offset.height)) :  \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points)).y))")
             }
             .font(.caption)
         }
@@ -43,10 +43,10 @@ struct NearestPoint: View {
     var nearestPoint: some View {
         //        let nearestPT = nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D)
         let nearestPT = currentOffset
-            .rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points))
+            .rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points))
             .nearestPoint(points: points, is2D: is2D)
         let nearestPointOffset = nearestPT
-            .rescaleToOffset(sourceSpace: plotAreaForPoints(points),
+            .rescaleToOffset(sourceSpace: CGPoint.plotAreaForPoints(points),
                              targetViewSize: size)
                 
         return ZStack {
@@ -76,13 +76,13 @@ struct NearestPoint: View {
             VStack(alignment: .leading) {
                 Text("x: " + Double(
                     currentOffset
-                        .rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points))
+                        .rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points))
                         .nearestPoint(points: points, is2D: is2D)
                         .x)
                     .formattedGrouped)
                 Text("y: " + Double(
                     currentOffset
-                        .rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points))
+                        .rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points))
                         .nearestPoint(points: points, is2D: is2D)
                         .y)
                     .formattedGrouped)

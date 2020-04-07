@@ -78,28 +78,25 @@ extension CGSize {
     }
 }
 
-
-//  MARK: - MOVE TO SOME CLASS OR ENUM???
-//
-/// Calculates 2D plot area (bounds) for series of points.
-/// - Parameter points: series of points
-/// - Returns: plot area
-func plotAreaForPoints(_ points: [CGPoint]) -> CGRect {
-    guard points.isNotEmpty else { return .zero }
-    
-    let minX = points.map { $0.x }.min()!
-    let maxX = points.map { $0.x }.max()!
-    let minY = points.map { $0.y }.min()!
-    let maxY = points.map { $0.y }.max()!
-    
-    return CGRect(x: minX,
-                  y: minY,
-                  width: maxX - minX,
-                  height: maxY - minY)
-}
-
-
 extension CGPoint {
+    
+    /// Calculates 2D plot area (bounds) for series of points.
+    /// - Parameter points: series of points
+    /// - Returns: plot area
+    static func plotAreaForPoints(_ points: [CGPoint]) -> CGRect {
+        guard points.isNotEmpty else { return .zero }
+        
+        let minX = points.map { $0.x }.min()!
+        let maxX = points.map { $0.x }.max()!
+        let minY = points.map { $0.y }.min()!
+        let maxY = points.map { $0.y }.max()!
+        
+        return CGRect(x: minX,
+                      y: minY,
+                      width: maxX - minX,
+                      height: maxY - minY)
+    }
+    
     
     /// Rescaling: returns ofset in the target iOS coordinate space (View Space) for CGPoint in sourceSpace. The opposite to cgCoordinate function.
     /// - Parameters:
@@ -154,7 +151,7 @@ extension CGPoint {
     func nearestPoint(points: [CGPoint], is2D: Bool) -> CGPoint {
         nearestPoint(target: self, points: points, is2D: is2D)
     }
-
+    
     /// Find the nearest to the `target` point in the array. 2D or 1D (X axis) option.
     /// - Parameters:
     ///   - target: target point
