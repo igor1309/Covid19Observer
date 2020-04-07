@@ -17,6 +17,9 @@ struct NotificationsSettingsView: View {
             Section(header: Text("Notifications".uppercased()),
                     footer: Text("Set Notifications Options.")) {
                         
+                        NotificationSettingsSection()
+                        
+                        
                         //  MARK: - FINISH THIS
                         //
                         
@@ -63,6 +66,9 @@ struct NotificationsSettings_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             NotificationsSettingsView()
+                .environmentObject(CoronaStore())
+                .environmentObject(Settings())
+                .environmentObject(NotificationsSettings())
         }
         .environment(\.colorScheme, .dark)
     }

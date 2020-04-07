@@ -58,14 +58,10 @@ struct SettingsView: View {
                         footer: Text("Regular local notifications to get updated.")
                 ) {
                     
-                    NavigationLink(destination: NotificationsSettingsView()
-                        ,
-                                   isActive: $isShowingNotificationSettingsTESTING
+                    NavigationLink(destination: NotificationsSettingsView(), isActive: $isShowingNotificationSettingsTESTING
                     ) {
                         Text("Notifications")
                     }
-                    
-                    NotificationSettingsSection()
                 }
                 
                 Section(header: Text("Update".uppercased()),

@@ -26,7 +26,7 @@ struct LineChartSettingsSection: View {
                     Spacer()
                     
                     Picker("Line Chart Limit", selection: $settings.lineChartLimit) {
-                        ForEach([10, 100, 1000], id: \.self) { qty in
+                        ForEach([10, 50, 100, 1000], id: \.self) { qty in
                             Text(qty.formattedGrouped).tag(qty)
                         }
                     }

@@ -70,7 +70,7 @@ struct NearestPoint: View {
             
             Circle()
                 .fill(Color.orange)
-                .frame(width: 8, height: 8)
+                .frame(width: 10, height: 10)
                 .offset(nearestPointOffset)
             
             VStack(alignment: .leading) {

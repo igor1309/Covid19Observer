@@ -50,7 +50,7 @@ final class Settings: ObservableObject {
         
         let savedLineChartLimit = UserDefaults.standard.integer(forKey: "lineChartLimit")
         if savedLineChartLimit == 0 {
-            lineChartLimit = 100
+            lineChartLimit = 50
         } else {
             lineChartLimit = savedLineChartLimit
         }
