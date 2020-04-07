@@ -73,7 +73,7 @@ struct TestingNearestPointWithHeatedLineChart: View {
                             style: StrokeStyle(lineWidth: 0.5, dash: [12, 6]))
                     .opacity(0.3)
                 
-                LineChart(points: points)
+                DotChart(points: points)
                     .stroke(LinearGradient(gradient: temperetureGradient,
                                            startPoint: .bottom,
                                            endPoint: .top),

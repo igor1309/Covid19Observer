@@ -28,6 +28,8 @@
 		2A234EE42434EF830003C302 /* TimePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A234EE32434EF830003C302 /* TimePeriod.swift */; };
 		2A24A40C243B68BE0097C3EB /* MultiCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A24A40B243B68BE0097C3EB /* MultiCharts.swift */; };
 		2A24A40E243BA49A0097C3EB /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A24A40D243BA49A0097C3EB /* LineChart.swift */; };
+		2A24A410243C6AA10097C3EB /* DotChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A24A40F243C6AA10097C3EB /* DotChart.swift */; };
+		2A24A412243C6BC10097C3EB /* CG+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A24A411243C6BC10097C3EB /* CG+Extensions.swift */; };
 		2A445F3124292E94007C6846 /* AxisY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3024292E94007C6846 /* AxisY.swift */; };
 		2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3224292F1A007C6846 /* GraphGridShape.swift */; };
 		2A4E35EB2432294900F84C72 /* NotificationSettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E35EA2432294900F84C72 /* NotificationSettingsSection.swift */; };
@@ -116,6 +118,8 @@
 		2A234EE32434EF830003C302 /* TimePeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePeriod.swift; sourceTree = "<group>"; };
 		2A24A40B243B68BE0097C3EB /* MultiCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiCharts.swift; sourceTree = "<group>"; };
 		2A24A40D243BA49A0097C3EB /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
+		2A24A40F243C6AA10097C3EB /* DotChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotChart.swift; sourceTree = "<group>"; };
+		2A24A411243C6BC10097C3EB /* CG+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CG+Extensions.swift"; sourceTree = "<group>"; };
 		2A445F3024292E94007C6846 /* AxisY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisY.swift; sourceTree = "<group>"; };
 		2A445F3224292F1A007C6846 /* GraphGridShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGridShape.swift; sourceTree = "<group>"; };
 		2A4E35EA2432294900F84C72 /* NotificationSettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsSection.swift; sourceTree = "<group>"; };
@@ -310,6 +314,7 @@
 			children = (
 				2A03BF112428C9890094852B /* TopTenBarChartVert.swift */,
 				2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */,
+				2A24A411243C6BC10097C3EB /* CG+Extensions.swift */,
 				2AE2C548243B528000CC8476 /* Logistic */,
 				2AE2C5362439DA7700CC8476 /* Charting */,
 				2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */,
@@ -367,6 +372,8 @@
 		2AE2C5362439DA7700CC8476 /* Charting */ = {
 			isa = PBXGroup;
 			children = (
+				2A24A40D243BA49A0097C3EB /* LineChart.swift */,
+				2A24A40F243C6AA10097C3EB /* DotChart.swift */,
 				2AE2C5322438D2C200CC8476 /* GridView.swift */,
 				2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */,
 				2AE2C53424393DEF00CC8476 /* NearestPoint.swift */,
@@ -382,7 +389,6 @@
 			children = (
 				2AE2C541243B336D00CC8476 /* LogisticCurve.swift */,
 				2A24A40B243B68BE0097C3EB /* MultiCharts.swift */,
-				2A24A40D243BA49A0097C3EB /* LineChart.swift */,
 			);
 			path = Logistic;
 			sourceTree = "<group>";
@@ -520,9 +526,11 @@
 				2AE2C53A2439DBF500CC8476 /* ChartGrid.swift in Sources */,
 				2A03BF022428C04F0094852B /* CaseAnnotations.swift in Sources */,
 				2ACF1C6E2430A7830045C531 /* CaseDataTypePicker.swift in Sources */,
+				2A24A412243C6BC10097C3EB /* CG+Extensions.swift in Sources */,
 				2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */,
 				2ACF1C722430B4EC0045C531 /* CountryCasesHeader.swift in Sources */,
 				2A4E35EB2432294900F84C72 /* NotificationSettingsSection.swift in Sources */,
+				2A24A410243C6AA10097C3EB /* DotChart.swift in Sources */,
 				2A74F0B52428CB8400137694 /* Settings.swift in Sources */,
 				2A74F0C62428CE7B00137694 /* Table.swift in Sources */,
 				2A24A40E243BA49A0097C3EB /* LineChart.swift in Sources */,

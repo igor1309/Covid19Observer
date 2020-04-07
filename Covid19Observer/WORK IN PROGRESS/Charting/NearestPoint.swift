@@ -172,6 +172,11 @@ struct NearestPoint: View {
     /// - Parameter offset: offset (CGSize)
     /// - Returns: CGPoint in nornal coordinate space
     func cgCoordinate(for offset: CGSize) -> CGPoint {
+        
+        /// https://en.wikipedia.org/wiki/Feature_scaling
+        /// To rescale a range between an arbitrary set of values [a, b]
+        /// x' = (x - min) * (b - a) / (max - min) + a
+        ///
         //  MARK: FINISH THIS
         //  АНАЛОГИЧНО использовать minX и minY
         //
@@ -180,16 +185,20 @@ struct NearestPoint: View {
         let minY = points.map { $0.y }.min() ?? 0
         let maxY = points.map { $0.y }.max() ?? 1
         
-        /// нормировка и сдвиг
-        let x = (offset.width / size.width + 1/2)
-        /// нормировка, сдвиг и переворот (1 - 1/2 = 1/2)
-        let y = (1/2 - offset.height / size.height)
+        /// нормировка, сдвиг, масштабирование на размеры и еще сдвиг
+        let x = (offset.width / size.width + 1/2) * (maxX - minX) + minX
+        /// нормировка, сдвиг, переворот (1 - 1/2 = 1/2), масштабирование на размеры и еще сдвиг
+        let y = (1/2 - offset.height / size.height) * (maxY - minY) + minY
         
-        /// масштабирование на размеры
-        return CGPoint(x: x * (maxX - minX),
-                       y: y * (maxY - minY))
+        return CGPoint(x: x, y: y)
         //        return CGPoint(x: (offset.width + size.width / 2) * maxX / size.width,
         //                       y: (size.height / 2 - offset.height) * maxY / size.height)
+        
+        let plotArea = plotAreaForPoints(points)
+        print(points)
+        print(plotArea)
+        //
+        return offset.rescaleOffsetToPoint(from: size, to: plotArea)
     }
     
     
@@ -197,6 +206,8 @@ struct NearestPoint: View {
     /// - Parameter point: CGPoint in iOS coordinate space to translate to offset
     /// - Returns: offset size
     func offsetFromCGCoordinate(for point: CGPoint) -> CGSize {
+        
+        
         let minX = points.map { $0.x }.min() ?? 0
         let maxX = points.map { $0.x }.max() ?? 1
         let minY = points.map { $0.y }.min() ?? 0
@@ -204,14 +215,19 @@ struct NearestPoint: View {
         
         /// сдвиг и нормировка
         let x = (point.x - minX) / (maxX - minX)
-        /// сдвиг, переворот  и нормировка
-        let y = (1 - (point.y - minY) / (maxY - minY))
+        /// сдвиг и нормировка
+        let y = (point.y - minY) / (maxY - minY)
         
         /// масштабирование на размеры
         return CGSize(width: (x - 1/2) * size.width,
-                      height: (y - 1/2) * size.height)
+                      height: (1/2 - y) * size.height)
         //        return CGSize(width: (point.x - minX) / (maxX - minX) * size.width - size.width / 2,
         //                      height: (1 - (point.y - minY) / (maxY - minY)) * size.height - size.height / 2)
+        
+        let plotArea = plotAreaForPoints(points)
+        print("offsetFromCGCoordinate calculated")
+        return point.rescaleToOffset(sourceSpace: plotArea,
+                                     targetViewSize: size)
     }
     
     

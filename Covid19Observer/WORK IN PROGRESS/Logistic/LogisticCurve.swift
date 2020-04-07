@@ -126,10 +126,10 @@ struct LogisticCurve: View {
 //                    .stroke(Color.blue, style: StrokeStyle(lineWidth: 3, lineJoin: .round))
                 
                 LineChart(points: pdfPoints0, bounds: bounds)
-                    .stroke(Color.orange, style: StrokeStyle(lineWidth: 3, lineJoin: .round))
+                    .stroke(Color.orange, style: StrokeStyle(lineWidth: 1, lineJoin: .round))
                     .border(Color.pink)
                 LineChart(points: pdfPoints, bounds: bounds)
-                    .stroke(Color.purple, style: StrokeStyle(lineWidth: 3, lineJoin: .round))
+                    .stroke(Color.purple, style: StrokeStyle(lineWidth: 1, lineJoin: .round))
                 
                 NearestPoint(points: [pdfPoints/*, pdfPoints0*/].flatMap { $0 }, is2D: false)
                 
