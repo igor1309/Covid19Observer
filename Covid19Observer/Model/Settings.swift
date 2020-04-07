@@ -34,6 +34,11 @@ final class Settings: ObservableObject {
         }
     }
 
+    @Published var selectedDataKind: DataKind {
+        didSet {
+            UserDefaults.standard.set(selectedDataKind.id, forKey: "selectedDataKind")
+        }
+    }
     
     init() {
         let savedInitialNumber = UserDefaults.standard.double(forKey: "initialNumber")
@@ -42,12 +47,19 @@ final class Settings: ObservableObject {
         } else {
             initialNumber = savedInitialNumber
         }
-
+        
         let savedLineChartLimit = UserDefaults.standard.integer(forKey: "lineChartLimit")
         if savedLineChartLimit == 0 {
             lineChartLimit = 100
         } else {
             lineChartLimit = savedLineChartLimit
+        }
+        
+        let selectedDataKindID = UserDefaults.standard.string(forKey: "selectedDataKind") ?? ""
+        if selectedDataKindID.isEmpty {
+            selectedDataKind = .daily
+        } else {
+            selectedDataKind = DataKind(rawValue: selectedDataKindID) ?? .daily
         }
     }
 }

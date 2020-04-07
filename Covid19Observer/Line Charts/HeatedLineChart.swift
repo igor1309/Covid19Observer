@@ -38,6 +38,19 @@ struct HeatedLineChart: View {
     
     @State private var animated = false
     
+    var points: [CGPoint] {
+        var pointSeries = [CGPoint]()
+        
+        guard series.isNotEmpty else { return [] }
+        
+        for i in 0..<series.count {
+            pointSeries.append(CGPoint(x: CGFloat(i),
+                                       y: CGFloat(series[i])))
+        }
+        
+        return pointSeries
+    }
+    
     var body: some View {
         VStack {
             if series.isNotEmpty {
@@ -48,7 +61,8 @@ struct HeatedLineChart: View {
                         GraphGridShape(series: series, numberOfGridLines: numberOfGridLines)
                             .stroke(Color.systemGray5)
                         
-                        LineGraphShape(series: series)
+                        DotChart(points: points)
+//                        LineGraphShape(series: series)
                             .trim(to: animated ? 1 : 0)
                             .stroke(LinearGradient(gradient: temperetureGradient,
                                                    startPoint: .bottom,
@@ -56,6 +70,8 @@ struct HeatedLineChart: View {
                                     style: StrokeStyle(lineWidth: lineWidth,
                                                        lineCap: .round,
                                                        lineJoin: .round))
+                        
+                        NearestPoint(points: points, is2D: false)
                     }
                     
                     AxisY(seriesMax: series.max()!, numberOfGridLines: numberOfGridLines)

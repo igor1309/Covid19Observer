@@ -13,11 +13,10 @@ struct AllCountriesLineChart: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
-    @State private var selectedDataKind: DataKind = .daily
     @State private var numberOfGridLines = 0
     
     var series: [Int] {
-        switch selectedDataKind {
+        switch settings.selectedDataKind {
         case .daily:
             return coronaStore.history.allCountriesDaily
         case .total:
@@ -33,7 +32,7 @@ struct AllCountriesLineChart: View {
                 .font(.headline)
                 .padding(.bottom, 6)
             
-            DataKindPicker(selectedDataKind: $selectedDataKind)
+            DataKindPicker(selectedDataKind: $settings.selectedDataKind)
             
             ZStack(alignment: .topLeading) {
                 HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0), numberOfGridLines: numberOfGridLines)

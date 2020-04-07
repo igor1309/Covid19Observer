@@ -25,8 +25,8 @@ struct NearestPoint: View {
                 .frame(width: 4, height: 4)
             
             VStack(alignment: .leading) {
-                Text("x: \(Int(offset.width)) : \(Int(cgCoordinate(for: currentOffset).x))")
-                Text("y: \(Int(offset.height)) : \(Int(cgCoordinate(for: currentOffset).y))")
+                Text("x: \(Int(offset.width)) : \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points)).x))")
+                Text("y: \(Int(offset.height)) :  \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points)).y))")
             }
             .font(.caption)
         }
@@ -41,8 +41,14 @@ struct NearestPoint: View {
     var is2D: Bool
     
     var nearestPoint: some View {
-        let nearestPointOffset = offsetFromCGCoordinate(for: nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D))
-        
+        //        let nearestPT = nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D)
+        let nearestPT = currentOffset
+            .rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points))
+            .nearestPoint(points: points, is2D: is2D)
+        let nearestPointOffset = nearestPT
+            .rescaleToOffset(sourceSpace: plotAreaForPoints(points),
+                             targetViewSize: size)
+                
         return ZStack {
             VerticalLine()
                 .stroke(strokeColor, style: style)
@@ -68,8 +74,18 @@ struct NearestPoint: View {
                 .offset(nearestPointOffset)
             
             VStack(alignment: .leading) {
-                Text("x: \(nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D).x, specifier: "%.2f")")
-                Text("y: \(nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D).y, specifier: "%.2f")")
+                Text("x: " + Double(
+                    currentOffset
+                        .rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points))
+                        .nearestPoint(points: points, is2D: is2D)
+                        .x)
+                    .formattedGrouped)
+                Text("y: " + Double(
+                    currentOffset
+                        .rescaleOffsetToPoint(from: size, into: plotAreaForPoints(points))
+                        .nearestPoint(points: points, is2D: is2D)
+                        .y)
+                    .formattedGrouped)
             }
             .padding(8)
             .foregroundColor(.secondary)
@@ -136,18 +152,19 @@ struct NearestPoint: View {
         
         return ZStack {
             
+            /// Shape не будет регистрировать тапы на фоне
+            /// поэтому нужна суперпрозрачная подложка (.clear не рабоатет)
             Color.black.opacity(0.001)
-                /// Shape не будет регистрировать тапы на фоне
-                /// поэтому нужна суперпрозрачная подложка (.clear не рабоатет)
                 .background(Color.gray.opacity(0.001))
                 .gesture(tap)
             
-            //            showCrosshair ? tapPoint : nil
+            // showCrosshair ? tapPoint : nil
             
             showCrosshair ?
                 nearestPoint
-                    /// MARK: gesture grad писалась для произвольной точки
-                    /// вероятно для nearestPoint нужно изменить математику
+                    // MARK: -FINISH THIS
+                    // gesture grad писалась для произвольной точки
+                    // вероятно для nearestPoint нужно изменить математику
                     .gesture(drag)
                     .onTapGesture(count: 2) {
                         self.showCrosshair = false
@@ -165,107 +182,11 @@ struct NearestPoint: View {
         .onPreferenceChange(WidthPref.self) { self.size.width = $0 }
         .onPreferenceChange(HeightPref.self) { self.size.height = $0 }
     }
-    
-    
-    /// Translates offset in iOS flipped-coordinate space to normal (as in Core Graphics) coordinate.
-    /// In the default Core Graphics coordinate space, the origin is located in the lower-left corner of the rectangle and the rectangle extends towards the upper-right corner.
-    /// - Parameter offset: offset (CGSize)
-    /// - Returns: CGPoint in nornal coordinate space
-    func cgCoordinate(for offset: CGSize) -> CGPoint {
-        
-        /// https://en.wikipedia.org/wiki/Feature_scaling
-        /// To rescale a range between an arbitrary set of values [a, b]
-        /// x' = (x - min) * (b - a) / (max - min) + a
-        ///
-        //  MARK: FINISH THIS
-        //  АНАЛОГИЧНО использовать minX и minY
-        //
-        let minX = points.map { $0.x }.min() ?? 0
-        let maxX = points.map { $0.x }.max() ?? 1
-        let minY = points.map { $0.y }.min() ?? 0
-        let maxY = points.map { $0.y }.max() ?? 1
-        
-        /// нормировка, сдвиг, масштабирование на размеры и еще сдвиг
-        let x = (offset.width / size.width + 1/2) * (maxX - minX) + minX
-        /// нормировка, сдвиг, переворот (1 - 1/2 = 1/2), масштабирование на размеры и еще сдвиг
-        let y = (1/2 - offset.height / size.height) * (maxY - minY) + minY
-        
-        return CGPoint(x: x, y: y)
-        //        return CGPoint(x: (offset.width + size.width / 2) * maxX / size.width,
-        //                       y: (size.height / 2 - offset.height) * maxY / size.height)
-        
-        let plotArea = plotAreaForPoints(points)
-        print(points)
-        print(plotArea)
-        //
-        return offset.rescaleOffsetToPoint(from: size, to: plotArea)
-    }
-    
-    
-    /// The opposite to cgCoordinate function: returns ofset in iOS coordinate space from CGPoint.
-    /// - Parameter point: CGPoint in iOS coordinate space to translate to offset
-    /// - Returns: offset size
-    func offsetFromCGCoordinate(for point: CGPoint) -> CGSize {
-        
-        
-        let minX = points.map { $0.x }.min() ?? 0
-        let maxX = points.map { $0.x }.max() ?? 1
-        let minY = points.map { $0.y }.min() ?? 0
-        let maxY = points.map { $0.y }.max() ?? 1
-        
-        /// сдвиг и нормировка
-        let x = (point.x - minX) / (maxX - minX)
-        /// сдвиг и нормировка
-        let y = (point.y - minY) / (maxY - minY)
-        
-        /// масштабирование на размеры
-        return CGSize(width: (x - 1/2) * size.width,
-                      height: (1/2 - y) * size.height)
-        //        return CGSize(width: (point.x - minX) / (maxX - minX) * size.width - size.width / 2,
-        //                      height: (1 - (point.y - minY) / (maxY - minY)) * size.height - size.height / 2)
-        
-        let plotArea = plotAreaForPoints(points)
-        print("offsetFromCGCoordinate calculated")
-        return point.rescaleToOffset(sourceSpace: plotArea,
-                                     targetViewSize: size)
-    }
-    
-    
-    /// Find the nearest to the `target` point in the array. 2D or 1D (X axis) option.
-    /// - Parameters:
-    ///   - target: target point
-    ///   - points: <#points description#>
-    ///   - is2D: Use both X and Y axises (true) or just X (false)
-    /// - Returns: closest af all points to `target`
-    func nearestPoint(target: CGPoint, points: [CGPoint], is2D: Bool) -> CGPoint {
-        func distance(_ point1: CGPoint, _ point2: CGPoint, is2D: Bool) -> CGFloat {
-            if is2D {
-                let a = abs(point1.x - point2.x)
-                let b = abs(point1.y - point2.y)
-                return (a * a + b * b).squareRoot()
-            } else {
-                return abs(point1.x - point2.x)
-            }
-        }
-        func nearestToTarget(_ point1: CGPoint, _ point2: CGPoint, is2D: Bool) -> CGPoint {
-            let distance1 = distance(target, point1, is2D: is2D)
-            let distance2 = distance(target, point2, is2D: is2D)
-            if distance1 < distance2 {
-                return point1
-            } else {
-                return point2
-            }
-        }
-        
-        if points.isEmpty { return target }
-        
-        var nearest = points[0]
-        if points.count > 1 {
-            for i in 1..<points.count {
-                nearest = nearestToTarget(nearest, points[i], is2D: is2D)
-            }
-        }
-        return nearest
+}
+
+public extension CGFloat {
+    var formattedGroupedWithMax2Decimals: String {
+        return Formatter.groupedWithMax2DecimalsFormat.string(for: Double(self)) ?? ""
     }
 }
 
@@ -285,7 +206,7 @@ struct NearestPoint_Previews: PreviewProvider {
     
     static var previews: some View {
         ZStack {
-//            Color.black.edgesIgnoringSafeArea(.all)
+            //            Color.black.edgesIgnoringSafeArea(.all)
             
             ZStack {
                 

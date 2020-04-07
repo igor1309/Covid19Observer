@@ -50,6 +50,8 @@ struct DotChart: Shape {
         }
         
         return Path { p in
+            guard points.isNotEmpty else { return }
+            
             for i in 1..<points.count {
                 p.addEllipse(in: ellipseRect(for: normalized(points[i])))
             }
@@ -89,14 +91,18 @@ struct DotChart_Previews: PreviewProvider {
     static let lineWidth: CGFloat = 4
     static var previews: some View {
         VStack {
-            DotChart(points: points, bounds: CGRect(x: 0, y: 0, width: 100, height: 220))
-                .stroke(LinearGradient(gradient: temperetureGradient,
-                               startPoint: .bottom,
-                               endPoint: .top),
-                style: StrokeStyle(lineWidth: lineWidth,
-                                   lineCap: .round,
-                                   lineJoin: .round))
-                .border(Color.pink)
+            ZStack {
+                DotChart(points: points, bounds: plotAreaForPoints(points))
+                    .stroke(LinearGradient(gradient: temperetureGradient,
+                                   startPoint: .bottom,
+                                   endPoint: .top),
+                    style: StrokeStyle(lineWidth: lineWidth,
+                                       lineCap: .round,
+                                       lineJoin: .round))
+                    .border(Color.pink)
+                
+                NearestPoint(points: points, is2D: false)
+            }
             
             DotChart(points: points, bounds: nil)
                 .stroke(Color.purple, style: StrokeStyle(lineWidth: 1, lineJoin: .round))

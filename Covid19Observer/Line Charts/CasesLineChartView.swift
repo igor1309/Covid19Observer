@@ -15,10 +15,9 @@ struct CasesLineChartView: View {
     @EnvironmentObject var settings: Settings
     
     @State private var showCountryPicker = false
-    @State private var selectedDataKind = DataKind.total
     
     var series: [Int] {
-        switch selectedDataKind {
+        switch settings.selectedDataKind {
         case .total:
             return coronaStore.history.series(for: coronaStore.selectedCountry)
         case .daily:
@@ -49,12 +48,8 @@ struct CasesLineChartView: View {
                         .lineLimit(1)
                         .layoutPriority(1)
                     
-//                    Spacer()
                     Image(systemName: "arrowshape.turn.up.right")
                         .font(.headline)
-//                    Text(" (tap to select other country)")
-//                        .foregroundColor(.secondary)
-//                        .font(.caption)
                 }
             }
             .sheet(isPresented: $showCountryPicker) {
@@ -77,7 +72,7 @@ struct CasesLineChartView: View {
             
             if series.isNotEmpty {
                 
-                DataKindPicker(selectedDataKind: $selectedDataKind)
+                DataKindPicker(selectedDataKind: $settings.selectedDataKind)
                 
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0), numberOfGridLines: numberOfGridLines)

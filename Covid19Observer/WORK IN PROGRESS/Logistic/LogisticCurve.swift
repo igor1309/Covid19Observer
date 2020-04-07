@@ -47,7 +47,7 @@ struct LogisticCurve: View {
         var array = [CGPoint]()
         
         for x in stride(from: CGFloat(-10), through: 10, by: 0.1) {
-            array.append(CGPoint(x: x, y: x.sigmoid))
+            array.append(CGPoint(x: x, y: scale * x.sigmoid))
         }
         
         return array
@@ -57,7 +57,7 @@ struct LogisticCurve: View {
         var array = [CGPoint]()
         
         for x in stride(from: CGFloat(-10), through: 10, by: 0.1) {
-            array.append(CGPoint(x: x, y: x.pdf(mu: mu, s: s)))
+            array.append(CGPoint(x: x, y: scale * x.pdf(mu: mu, s: s)))
         }
         
         return array
@@ -67,7 +67,7 @@ struct LogisticCurve: View {
         var array = [CGPoint]()
         
         for x in stride(from: CGFloat(-10), through: 10, by: 0.1) {
-            array.append(CGPoint(x: x, y: x.pdf()))
+            array.append(CGPoint(x: x, y: scale * x.pdf()))
         }
         
         return array
@@ -92,6 +92,7 @@ struct LogisticCurve: View {
     
     @State private var mu: CGFloat = 0
     @State private var s: CGFloat = 1
+    @State private var scale: CGFloat = 100
     
     var body: some View {
         let bounds = chartBounds(multiPoints: [pdfPoints, pdfPoints0])
@@ -110,6 +111,13 @@ struct LogisticCurve: View {
                     .frame(width: 52)
                     .onTapGesture { self.s = 1 }
                 Slider(value: $s, in: 0.3...6)
+            }
+            HStack {
+                Text("scale: \(scale, specifier: "%.f")")
+                    .font(.footnote)
+                    .frame(width: 52)
+                    .onTapGesture { self.scale = 100 }
+                Slider(value: $scale, in: 1...100, step: 10)
             }
             Divider()
             
@@ -133,7 +141,7 @@ struct LogisticCurve: View {
                 
                 NearestPoint(points: [pdfPoints/*, pdfPoints0*/].flatMap { $0 }, is2D: false)
                 
-                Text("pdf0: \(CGFloat(0).pdf(), specifier: "%.2f")\npdf: \(CGFloat(0).pdf(mu: mu, s: s), specifier: "%.2f")")
+                Text("pdf0: \(scale * CGFloat(0).pdf(), specifier: "%.2f")\npdf: \(scale * CGFloat(0).pdf(mu: mu, s: s), specifier: "%.2f")")
                     .font(.subheadline)
                     .padding(8)
                     .roundedBackground()
