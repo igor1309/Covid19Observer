@@ -56,13 +56,21 @@ struct HeatedLineChart: View {
             if series.isNotEmpty {
                 HStack {
                     ZStack {
-                        //  MARK; FIX THIS
-                        //
+                        
                         GraphGridShape(series: series, numberOfGridLines: numberOfGridLines)
                             .stroke(Color.systemGray5)
                         
+                        
+                        LineChart(points: points)
+                            .trim(to: animated ? 1 : 0)
+                            .stroke(LinearGradient(gradient: temperetureGradient,
+                                                   startPoint: .bottom,
+                                                   endPoint: .top),
+                                    style: StrokeStyle(lineWidth: 0.5,
+                                                       lineCap: .round,
+                                                       lineJoin: .round))
+                        
                         DotChart(points: points)
-//                        LineGraphShape(series: series)
                             .trim(to: animated ? 1 : 0)
                             .stroke(LinearGradient(gradient: temperetureGradient,
                                                    startPoint: .bottom,

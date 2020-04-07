@@ -87,6 +87,7 @@ struct NearestPoint: View {
                         .y)
                     .formattedGrouped)
             }
+        .fixedSize()
             .padding(8)
             .foregroundColor(.secondary)
             .font(.caption)
