@@ -10,12 +10,14 @@ import SwiftUI
 
 struct NearestPoint: View {
     let points: [CGPoint]
-    @State private var size: CGSize = .zero
+    let is2D: Bool
     
+    @State private var size: CGSize = .zero
     @State private var currentOffset: CGSize = .zero
     @State private var offset: CGSize = .zero
     @State private var showCrosshair = false
-    
+    @State private var legendSize: CGSize = .zero
+
     var tapPoint: some View {
         ZStack {
             Circle()
@@ -38,17 +40,17 @@ struct NearestPoint: View {
     let style = StrokeStyle(lineWidth: 1, dash: [12, 4])
     let crosshairLineWidth: CGFloat = 2
     
-    var is2D: Bool
-    
-    var nearestPoint: some View {
-        //        let nearestPT = nearestPoint(target: cgCoordinate(for: currentOffset), points: points, is2D: is2D)
-        let nearestPT = currentOffset
-            .rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points))
-            .nearestPoint(points: points, is2D: is2D)
-        let nearestPointOffset = nearestPT
-            .rescaleToOffset(sourceSpace: CGPoint.plotAreaForPoints(points),
-                             targetViewSize: size)
+    var pointer: some View {
+        let pointerOffset =
+            currentOffset
+                .rescaleOffsetToPoint(from: size,
+                                      into: CGPoint.plotAreaForPoints(points))
+                .nearestPoint(points: points, is2D: is2D)
+                .rescaleToOffset(sourceSpace: CGPoint.plotAreaForPoints(points),
+                                 targetViewSize: size)
                 
+        
+
         return ZStack {
             VerticalLine()
                 .stroke(strokeColor, style: style)
@@ -57,7 +59,7 @@ struct NearestPoint: View {
                 .background(
                     Color.systemGray6.opacity(0.01)
             )
-                .offset(x: nearestPointOffset.width)
+                .offset(x: pointerOffset.width)
             
             HorizontalLine()
                 .stroke(strokeColor, style: style)
@@ -66,12 +68,12 @@ struct NearestPoint: View {
                 .background(
                     Color.systemGray6.opacity(0.01)
             )
-                .offset(y: nearestPointOffset.height)
+                .offset(y: pointerOffset.height)
             
             Circle()
                 .fill(Color.orange)
                 .frame(width: 10, height: 10)
-                .offset(nearestPointOffset)
+                .offset(pointerOffset)
             
             VStack(alignment: .leading) {
                 Text("x: " + Double(
@@ -87,20 +89,19 @@ struct NearestPoint: View {
                         .y)
                     .formattedGrouped)
             }
-        .fixedSize()
+            .fixedSize()
             .padding(8)
             .foregroundColor(.secondary)
             .font(.caption)
             .roundedBackground(cornerRadius: 8)
-            .offset(legendOffset(from: nearestPointOffset))
+            .offset(pointerLegendOffset(from: pointerOffset))
             .padding(8)
             .widthPref()
             .heightPref()
         }
     }
     
-    @State private var legendSize: CGSize = .zero
-    func legendOffset(from offset: CGSize) -> CGSize {
+    func pointerLegendOffset(from offset: CGSize) -> CGSize {
         var newOffset = offset
         
         if offset.width + legendSize.width > size.width / 2 {
@@ -162,7 +163,7 @@ struct NearestPoint: View {
             // showCrosshair ? tapPoint : nil
             
             showCrosshair ?
-                nearestPoint
+                pointer
                     // MARK: -FINISH THIS
                     // gesture grad писалась для произвольной точки
                     // вероятно для nearestPoint нужно изменить математику
@@ -185,11 +186,6 @@ struct NearestPoint: View {
     }
 }
 
-public extension CGFloat {
-    var formattedGroupedWithMax2Decimals: String {
-        return Formatter.groupedWithMax2DecimalsFormat.string(for: Double(self)) ?? ""
-    }
-}
 
 struct NearestPoint_Previews: PreviewProvider {
     static let points: [CGPoint] = [
