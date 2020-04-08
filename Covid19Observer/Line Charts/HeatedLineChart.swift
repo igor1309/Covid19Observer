@@ -29,6 +29,22 @@ struct HeatedLineChart: View {
     }
     
     
+    var movingAvgPoints: [CGPoint] {
+        guard points.isNotEmpty else { return [] }
+        
+        var maPoints = [CGPoint]()
+        
+        for i in 0..<points.count {
+            let slice = points.prefix(i + 1).suffix(7)
+            print("slice: \(slice)")
+            let avg = slice.reduce(CGFloat(0)) { $0 + $1.y } / CGFloat(slice.count)
+            let point = CGPoint(x: CGFloat(i), y: avg)
+            maPoints.append(point)
+        }
+
+        return maPoints
+    }
+    
     var body: some View {
         let axisX = Axis(for: points.map { $0.x })
         let axisY = Axis(for: points.map { $0.y })
@@ -43,6 +59,16 @@ struct HeatedLineChart: View {
                             .stroke(Color.systemGray4, style: StrokeStyle(lineWidth: 0.5, dash: [10, 5]))
                         
                         
+                        LineChart(points: movingAvgPoints, plotArea: plotArea)
+                            .trim(to: animated ? 1 : 0)
+                            .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
+                                                   startPoint: .bottom,
+                                                   endPoint: .top),
+                                    style: StrokeStyle(lineWidth: 2,
+                                                       lineCap: .round,
+                                                       lineJoin: .round))
+                            .opacity(0.3)
+                        
                         LineChart(points: points, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
                             .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
@@ -51,7 +77,7 @@ struct HeatedLineChart: View {
                                     style: StrokeStyle(lineWidth: 0.5,
                                                        lineCap: .round,
                                                        lineJoin: .round))
-                        
+
                         DotChart(points: points, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
                             .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
