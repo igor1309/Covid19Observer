@@ -139,7 +139,7 @@ struct LogisticCurve: View {
                 LineChart(points: pdfPoints, bounds: bounds)
                     .stroke(Color.purple, style: StrokeStyle(lineWidth: 1, lineJoin: .round))
                 
-                NearestPoint(points: [pdfPoints/*, pdfPoints0*/].flatMap { $0 }, is2D: false)
+                TapPointer(points: [pdfPoints/*, pdfPoints0*/].flatMap { $0 }, is2D: false)
                 
                 Text("pdf0: \(scale * CGFloat(0).pdf(), specifier: "%.2f")\npdf: \(scale * CGFloat(0).pdf(mu: mu, s: s), specifier: "%.2f")")
                     .font(.subheadline)
@@ -152,7 +152,7 @@ struct LogisticCurve: View {
 //                Chart(points: pdfPoints)
 //                    .stroke(Color.green, style: StrokeStyle(lineWidth: 3, lineJoin: .round))
                 
-                //            NearestPoint(points: points, is2D: false)
+                //            TapPointer(points: points, is2D: false)
             }
         }
     }

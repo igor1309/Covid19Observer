@@ -1,5 +1,5 @@
 //
-//  TestingNearestPointWithHeatedLineChart.swift
+//  TestingTapPointerWithHeatedLineChart.swift
 //  Covid19Observer
 //
 //  Created by Igor Malyarov on 05.04.2020.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct TestingNearestPointWithHeatedLineChart: View {
+struct TestingTapPointerWithHeatedLineChart: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
@@ -36,20 +36,6 @@ struct TestingNearestPointWithHeatedLineChart: View {
     }
     
     let lineWidth: CGFloat = 4
-    let temperetureGradient = Gradient(colors: [
-        .purple,
-        Color(red: 0, green: 0, blue: 139.0/255.0),
-        .blue,
-        Color(red: 30.0/255.0, green: 144.0/255.0, blue: 1.0),
-        Color(red: 0, green: 191/255.0, blue: 1.0),
-        Color(red: 135.0/255.0, green: 206.0/255.0, blue: 250.0/255.0),
-        .green,
-        .yellow,
-        .orange,
-        Color(red: 1.0, green: 140.0/255.0, blue: 0.0),
-        .red,
-        Color(red: 139.0/255.0, green: 0.0, blue: 0.0)
-    ])
     
     var body: some View {
         VStack {
@@ -74,20 +60,20 @@ struct TestingNearestPointWithHeatedLineChart: View {
                     .opacity(0.3)
                 
                 DotChart(points: points)
-                    .stroke(LinearGradient(gradient: temperetureGradient,
+                    .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
                                            startPoint: .bottom,
                                            endPoint: .top),
                             style: StrokeStyle(lineWidth: lineWidth,
                                                lineCap: .round,
                                                lineJoin: .round))
                 
-                NearestPoint(points: points, is2D: false)
+                TapPointer(points: points, is2D: false)
             }
         }
     }
 }
 
-struct TestingNearestPointWithHeatedLineChart_Previews: PreviewProvider {
+struct TestingTapPointerWithHeatedLineChart_Previews: PreviewProvider {
     static let points: [CGPoint] = [
         CGPoint(x: 0, y: 10),
         CGPoint(x: 10, y: 0),
@@ -105,7 +91,7 @@ struct TestingNearestPointWithHeatedLineChart_Previews: PreviewProvider {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
             
-            TestingNearestPointWithHeatedLineChart()
+            TestingTapPointerWithHeatedLineChart()
                 .padding()
         }
         .environmentObject(CoronaStore())

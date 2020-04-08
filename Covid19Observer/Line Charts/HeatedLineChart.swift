@@ -21,21 +21,6 @@ struct HeatedLineChart: View {
     let numberOfGridLines: Int
     let lineWidth: CGFloat = 4
     
-    let temperetureGradient = Gradient(colors: [
-        .purple,
-        Color(red: 0, green: 0, blue: 139.0/255.0),
-        .blue,
-        Color(red: 30.0/255.0, green: 144.0/255.0, blue: 1.0),
-        Color(red: 0, green: 191/255.0, blue: 1.0),
-        Color(red: 135.0/255.0, green: 206.0/255.0, blue: 250.0/255.0),
-        .green,
-        .yellow,
-        .orange,
-        Color(red: 1.0, green: 140.0/255.0, blue: 0.0),
-        .red,
-        Color(red: 139.0/255.0, green: 0.0, blue: 0.0)
-    ])
-    
     @State private var animated = false
     
     var points: [CGPoint] {
@@ -63,7 +48,7 @@ struct HeatedLineChart: View {
                         
                         LineChart(points: points)
                             .trim(to: animated ? 1 : 0)
-                            .stroke(LinearGradient(gradient: temperetureGradient,
+                            .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
                                                    startPoint: .bottom,
                                                    endPoint: .top),
                                     style: StrokeStyle(lineWidth: 0.5,
@@ -72,14 +57,14 @@ struct HeatedLineChart: View {
                         
                         DotChart(points: points)
                             .trim(to: animated ? 1 : 0)
-                            .stroke(LinearGradient(gradient: temperetureGradient,
+                            .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
                                                    startPoint: .bottom,
                                                    endPoint: .top),
                                     style: StrokeStyle(lineWidth: lineWidth,
                                                        lineCap: .round,
                                                        lineJoin: .round))
                         
-                        NearestPoint(points: points, is2D: false)
+                        TapPointer(points: points, is2D: false)
                     }
                     
                     AxisY(seriesMax: series.max()!, numberOfGridLines: numberOfGridLines)

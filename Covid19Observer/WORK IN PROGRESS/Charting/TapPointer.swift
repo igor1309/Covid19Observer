@@ -1,5 +1,5 @@
 //
-//  NearestPoint.swift
+//  TapPointer.swift
 //  Covid19Observer
 //
 //  Created by Igor Malyarov on 05.04.2020.
@@ -8,9 +8,34 @@
 
 import SwiftUI
 
-struct NearestPoint: View {
+struct TapPointer: View {
+    //  MARK: - FINISH THIS FOR plotArea
+    //
+    
     let points: [CGPoint]
     let is2D: Bool
+    let plotArea: CGRect
+    
+    /// plotArea is defined by points
+    /// - Parameters:
+    ///   - points: <#points description#>
+    ///   - is2D: <#is2D description#>
+    init(points: [CGPoint], is2D: Bool) {
+        self.points = points
+        self.is2D = is2D
+        self.plotArea = CGPoint.plotAreaForPoints(points)
+    }
+    
+    /// plotArea is provided
+    /// - Parameters:
+    ///   - points: <#points description#>
+    ///   - plotArea: <#plotArea description#>
+    ///   - is2D: <#is2D description#>
+    init(points: [CGPoint], plotArea: CGRect, is2D: Bool) {
+        self.points = points
+        self.is2D = is2D
+        self.plotArea = plotArea
+    }
     
     @State private var size: CGSize = .zero
     @State private var currentOffset: CGSize = .zero
@@ -22,8 +47,6 @@ struct NearestPoint: View {
         ZStack {
             Circle()
                 .fill(Color.primary)
-                //            .stroke(Color.primary)
-                //                .opacity(0.5)
                 .frame(width: 4, height: 4)
             
             VStack(alignment: .leading) {
@@ -36,38 +59,53 @@ struct NearestPoint: View {
         .offset(currentOffset)
     }
     
-    let strokeColor = Color.systemGray2
-    let style = StrokeStyle(lineWidth: 1, dash: [12, 4])
-    let crosshairLineWidth: CGFloat = 2
-    
     var pointer: some View {
-        let pointerOffset =
+        
+        let strokeColor = Color.systemGray2
+        let style = StrokeStyle(lineWidth: 1, dash: [12, 4])
+        let lineWidth: CGFloat = 2
+        
+        let nearestPoint =
             currentOffset
                 .rescaleOffsetToPoint(from: size,
                                       into: CGPoint.plotAreaForPoints(points))
                 .nearestPoint(points: points, is2D: is2D)
+        let pointerOffset =
+            nearestPoint
                 .rescaleToOffset(sourceSpace: CGPoint.plotAreaForPoints(points),
                                  targetViewSize: size)
-                
         
-
+        func pointerLegendOffset(from offset: CGSize) -> CGSize {
+            var newOffset = offset
+            
+            if offset.width + legendSize.width > size.width / 2 {
+                newOffset.width -= legendSize.width / 2
+            } else {
+                newOffset.width += legendSize.width / 2
+            }
+            
+            if offset.height - legendSize.height / 1 < -size.height / 2 {
+                newOffset.height += legendSize.height / 2
+            } else {
+                newOffset.height -= legendSize.height / 2
+            }
+            
+            return newOffset
+        }
+        
         return ZStack {
             VerticalLine()
                 .stroke(strokeColor, style: style)
                 .opacity(0.5)
-                .frame(width: crosshairLineWidth)
-                .background(
-                    Color.systemGray6.opacity(0.01)
-            )
+                .background(Color.systemGray6.opacity(0.01))
+                .frame(width: lineWidth)
                 .offset(x: pointerOffset.width)
             
             HorizontalLine()
                 .stroke(strokeColor, style: style)
                 .opacity(0.5)
-                .frame(height: crosshairLineWidth)
-                .background(
-                    Color.systemGray6.opacity(0.01)
-            )
+                .background(Color.systemGray6.opacity(0.01))
+                .frame(height: lineWidth)
                 .offset(y: pointerOffset.height)
             
             Circle()
@@ -76,18 +114,8 @@ struct NearestPoint: View {
                 .offset(pointerOffset)
             
             VStack(alignment: .leading) {
-                Text("x: " + Double(
-                    currentOffset
-                        .rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points))
-                        .nearestPoint(points: points, is2D: is2D)
-                        .x)
-                    .formattedGrouped)
-                Text("y: " + Double(
-                    currentOffset
-                        .rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points))
-                        .nearestPoint(points: points, is2D: is2D)
-                        .y)
-                    .formattedGrouped)
+                Text("x: " + Double(nearestPoint.x).formattedGrouped)
+                Text("y: " + Double(nearestPoint.y).formattedGrouped)
             }
             .fixedSize()
             .padding(8)
@@ -99,24 +127,7 @@ struct NearestPoint: View {
             .widthPref()
             .heightPref()
         }
-    }
-    
-    func pointerLegendOffset(from offset: CGSize) -> CGSize {
-        var newOffset = offset
         
-        if offset.width + legendSize.width > size.width / 2 {
-            newOffset.width -= legendSize.width / 2
-        } else {
-            newOffset.width += legendSize.width / 2
-        }
-        
-        if offset.height - legendSize.height / 1 < -size.height / 2 {
-            newOffset.height += legendSize.height / 2
-        } else {
-            newOffset.height -= legendSize.height / 2
-        }
-        
-        return newOffset
     }
     
     var body: some View {
@@ -187,7 +198,7 @@ struct NearestPoint: View {
 }
 
 
-struct NearestPoint_Previews: PreviewProvider {
+struct TapPointer_Previews: PreviewProvider {
     static let points: [CGPoint] = [
         CGPoint(x: 0, y: 10),
         CGPoint(x: 10, y: 0),
@@ -215,7 +226,7 @@ struct NearestPoint_Previews: PreviewProvider {
                 Chart(points: self.points)
                     .stroke(Color.blue, style: StrokeStyle(lineWidth: 4, lineJoin: .round))
                 
-                NearestPoint(points: points, is2D: false)
+                TapPointer(points: points, is2D: false)
             }
             .frame(width: 350, height: 700)
         }

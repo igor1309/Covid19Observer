@@ -13,18 +13,18 @@ struct DotChart: Shape {
     
     let minX, maxX, minY, maxY: CGFloat
     
-    init(points: [CGPoint], bounds: CGRect? = nil) {
+    init(points: [CGPoint], plotArea: CGRect? = nil) {
         self.points = points
-        if bounds == nil {
+        if plotArea == nil {
             self.minX = points.map { $0.x }.min() ?? 0
             self.minY = points.map { $0.y }.min() ?? 0
             self.maxX = points.map { $0.x }.max() ?? 1
             self.maxY = points.map { $0.y }.max() ?? 1
         } else {
-            self.minX = bounds!.minX
-            self.minY = bounds!.minY
-            self.maxX = bounds!.width
-            self.maxY = bounds!.height
+            self.minX = plotArea!.minX
+            self.minY = plotArea!.minY
+            self.maxX = plotArea!.width
+            self.maxY = plotArea!.height
         }
     }
     
@@ -73,27 +73,15 @@ struct DotChart_Previews: PreviewProvider {
         CGPoint(x: 100, y: 190)
     ]
     
-    static let temperetureGradient = Gradient(colors: [
-        .purple,
-        Color(red: 0, green: 0, blue: 139.0/255.0),
-        .blue,
-        Color(red: 30.0/255.0, green: 144.0/255.0, blue: 1.0),
-        Color(red: 0, green: 191/255.0, blue: 1.0),
-        Color(red: 135.0/255.0, green: 206.0/255.0, blue: 250.0/255.0),
-        .green,
-        .yellow,
-        .orange,
-        Color(red: 1.0, green: 140.0/255.0, blue: 0.0),
-        .red,
-        Color(red: 139.0/255.0, green: 0.0, blue: 0.0)
-    ])
-    
     static let lineWidth: CGFloat = 4
+    
     static var previews: some View {
         VStack {
             ZStack {
-                DotChart(points: points, bounds: CGPoint.plotAreaForPoints(points))
-                    .stroke(LinearGradient(gradient: temperetureGradient,
+                DotChart(points: points,
+                         plotArea: CGRect(x: 0, y: 0, width: 200, height: 300))
+//                plotArea: CGPoint.plotAreaForPoints(points))
+                    .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
                                    startPoint: .bottom,
                                    endPoint: .top),
                     style: StrokeStyle(lineWidth: lineWidth,
@@ -101,12 +89,17 @@ struct DotChart_Previews: PreviewProvider {
                                        lineJoin: .round))
                     .border(Color.pink)
                 
-                NearestPoint(points: points, is2D: false)
+                TapPointer(points: points, is2D: false)
             }
             
-            DotChart(points: points, bounds: nil)
-                .stroke(Color.purple, style: StrokeStyle(lineWidth: 1, lineJoin: .round))
-                .border(Color.pink)
+            HStack {
+                DotChart(points: points, plotArea: nil)
+                    .stroke(Color.purple, style: StrokeStyle(lineWidth: 1, lineJoin: .round))
+                    .border(Color.pink)
+                DotChart(points: points, plotArea: nil)
+                    .fill(Color.purple)
+                    .border(Color.pink)
+            }
         }
         .padding()
     }

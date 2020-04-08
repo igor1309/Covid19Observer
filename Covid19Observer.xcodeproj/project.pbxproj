@@ -57,6 +57,7 @@
 		2AB9473B24312A8A009C18ED /* CaseBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9473A24312A8A009C18ED /* CaseBar.swift */; };
 		2AB9473D24312B9C009C18ED /* CaseChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9473C24312B9C009C18ED /* CaseChart.swift */; };
 		2AB9473F24313E35009C18ED /* CasesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9473E24313E35009C18ED /* CasesHeader.swift */; };
+		2AC7EB8F243DCEC900454FFA /* Gradient+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC7EB8E243DCEC900454FFA /* Gradient+Extension.swift */; };
 		2ACF1C6E2430A7830045C531 /* CaseDataTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */; };
 		2ACF1C702430AA130045C531 /* CasesHeaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */; };
 		2ACF1C722430B4EC0045C531 /* CountryCasesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */; };
@@ -71,7 +72,7 @@
 		2AE2C52F24389EFF00CC8476 /* New+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */; };
 		2AE2C5312438A13700CC8476 /* TopHorizontalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */; };
 		2AE2C5332438D2C200CC8476 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5322438D2C200CC8476 /* GridView.swift */; };
-		2AE2C53524393DEF00CC8476 /* NearestPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53424393DEF00CC8476 /* NearestPoint.swift */; };
+		2AE2C53524393DEF00CC8476 /* TapPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53424393DEF00CC8476 /* TapPointer.swift */; };
 		2AE2C5382439DA8A00CC8476 /* Chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5372439DA8A00CC8476 /* Chart.swift */; };
 		2AE2C53A2439DBF500CC8476 /* ChartGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5392439DBF500CC8476 /* ChartGrid.swift */; };
 		2AE2C53C243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */; };
@@ -151,6 +152,7 @@
 		2AB9473A24312A8A009C18ED /* CaseBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseBar.swift; sourceTree = "<group>"; };
 		2AB9473C24312B9C009C18ED /* CaseChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseChart.swift; sourceTree = "<group>"; };
 		2AB9473E24313E35009C18ED /* CasesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesHeader.swift; sourceTree = "<group>"; };
+		2AC7EB8E243DCEC900454FFA /* Gradient+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Extension.swift"; sourceTree = "<group>"; };
 		2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDataTypePicker.swift; sourceTree = "<group>"; };
 		2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesHeaderButton.swift; sourceTree = "<group>"; };
 		2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCasesHeader.swift; sourceTree = "<group>"; };
@@ -165,7 +167,7 @@
 		2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "New+Extensions.swift"; sourceTree = "<group>"; };
 		2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHorizontalLine.swift; sourceTree = "<group>"; };
 		2AE2C5322438D2C200CC8476 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
-		2AE2C53424393DEF00CC8476 /* NearestPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPoint.swift; sourceTree = "<group>"; };
+		2AE2C53424393DEF00CC8476 /* TapPointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapPointer.swift; sourceTree = "<group>"; };
 		2AE2C5372439DA8A00CC8476 /* Chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chart.swift; sourceTree = "<group>"; };
 		2AE2C5392439DBF500CC8476 /* ChartGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartGrid.swift; sourceTree = "<group>"; };
 		2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingNearestPointWithHeatedLineChart_Previews.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				2A03BF112428C9890094852B /* TopTenBarChartVert.swift */,
 				2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */,
 				2A24A411243C6BC10097C3EB /* CG+Extensions.swift */,
+				2AC7EB8E243DCEC900454FFA /* Gradient+Extension.swift */,
 				2AE2C548243B528000CC8476 /* Logistic */,
 				2AE2C5362439DA7700CC8476 /* Charting */,
 				2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */,
@@ -376,7 +379,7 @@
 				2A24A40F243C6AA10097C3EB /* DotChart.swift */,
 				2AE2C5322438D2C200CC8476 /* GridView.swift */,
 				2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */,
-				2AE2C53424393DEF00CC8476 /* NearestPoint.swift */,
+				2AE2C53424393DEF00CC8476 /* TapPointer.swift */,
 				2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */,
 				2AE2C5372439DA8A00CC8476 /* Chart.swift */,
 				2AE2C5392439DBF500CC8476 /* ChartGrid.swift */,
@@ -501,9 +504,10 @@
 				2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */,
 				2AE2C5332438D2C200CC8476 /* GridView.swift in Sources */,
 				2A965356243360A4002A93A7 /* NotificationDelegate.swift in Sources */,
-				2AE2C53524393DEF00CC8476 /* NearestPoint.swift in Sources */,
+				2AE2C53524393DEF00CC8476 /* TapPointer.swift in Sources */,
 				2AE2C5132437417E00CC8476 /* Array+Extension.swift in Sources */,
 				2AB9473F24313E35009C18ED /* CasesHeader.swift in Sources */,
+				2AC7EB8F243DCEC900454FFA /* Gradient+Extension.swift in Sources */,
 				2A234EE42434EF830003C302 /* TimePeriod.swift in Sources */,
 				2AB9473D24312B9C009C18ED /* CaseChart.swift in Sources */,
 				2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */,
