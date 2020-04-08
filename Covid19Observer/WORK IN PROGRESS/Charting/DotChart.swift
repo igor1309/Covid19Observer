@@ -89,7 +89,9 @@ struct DotChart_Previews: PreviewProvider {
                                        lineJoin: .round))
                     .border(Color.pink)
                 
-                TapPointer(points: points, is2D: false)
+                TapPointer(points: points,
+                           plotArea: CGRect(x: 0, y: 0, width: 200, height: 300),
+                           is2D: false)
             }
             
             HStack {

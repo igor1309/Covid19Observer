@@ -85,5 +85,6 @@ struct MultiCharts_Previews: PreviewProvider {
     
     static var previews: some View {
         MultiCharts(multiPoints: [points])
+        .stroke()
     }
 }

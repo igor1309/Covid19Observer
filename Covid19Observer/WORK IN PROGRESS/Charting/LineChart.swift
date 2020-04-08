@@ -13,18 +13,18 @@ struct LineChart: Shape {
     
     let minX, maxX, minY, maxY: CGFloat
     
-    init(points: [CGPoint], bounds: CGRect? = nil) {
+    init(points: [CGPoint], plotArea: CGRect? = nil) {
         self.points = points
-        if bounds == nil {
+        if plotArea == nil {
             self.minX = points.map { $0.x }.min() ?? 0
             self.minY = points.map { $0.y }.min() ?? 0
             self.maxX = points.map { $0.x }.max() ?? 1
             self.maxY = points.map { $0.y }.max() ?? 1
         } else {
-            self.minX = bounds!.minX
-            self.minY = bounds!.minY
-            self.maxX = bounds!.width
-            self.maxY = bounds!.height
+            self.minX = plotArea!.minX
+            self.minY = plotArea!.minY
+            self.maxX = plotArea!.width
+            self.maxY = plotArea!.height
         }
     }
     
@@ -67,11 +67,11 @@ struct LineChart_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack {
-            LineChart(points: points, bounds: CGRect(x: 0, y: 0, width: 100, height: 220))
+            LineChart(points: points, plotArea: CGRect(x: 0, y: 0, width: 100, height: 220))
                 .stroke(Color.blue, style: StrokeStyle(lineWidth: 3, lineJoin: .round))
                 .border(Color.pink)
             
-            LineChart(points: points, bounds: nil)
+            LineChart(points: points, plotArea: nil)
                 .stroke(Color.purple, style: StrokeStyle(lineWidth: 3, lineJoin: .round))
                 .border(Color.pink)
         }

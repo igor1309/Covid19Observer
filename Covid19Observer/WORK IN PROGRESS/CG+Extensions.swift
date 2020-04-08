@@ -97,6 +97,12 @@ extension CGPoint {
                       height: maxY - minY)
     }
     
+    static func plotAreaForAxises(axisX: Axis, axisY :Axis) -> CGRect {
+        return CGRect(x: axisX.bottom,
+                      y: axisY.bottom,
+                      width: axisX.top - axisY.bottom,
+                      height: axisY.top - axisY.bottom)
+    }
     
     /// Rescaling: returns ofset in the target iOS coordinate space (View Space) for CGPoint in sourceSpace. The opposite to cgCoordinate function.
     /// - Parameters:
@@ -139,9 +145,7 @@ extension CGPoint {
         return CGSize(width: (x - 1/2) * targetViewSize.width,
                       height: (1/2 - y) * targetViewSize.height)
     }
-}
-
-extension CGPoint {
+    
     
     /// Find the nearest to the `target` (self) point in the array. 2D or 1D (X axis) option.
     /// - Parameters:

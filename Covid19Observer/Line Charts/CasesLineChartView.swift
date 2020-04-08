@@ -25,7 +25,7 @@ struct CasesLineChartView: View {
         }
     }
     
-    @State private var numberOfGridLines = 0//10
+//    @State private var steps = 0//10
     
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
@@ -75,7 +75,7 @@ struct CasesLineChartView: View {
                 DataKindPicker(selectedDataKind: $settings.selectedDataKind)
                 
                 ZStack(alignment: .topLeading) {
-                    HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0), numberOfGridLines: numberOfGridLines)
+                    HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0))//, steps: steps)
                     
                     ToolBarButton(systemName: "line.horizontal.3.decrease") {
                         self.settings.isLineChartFiltered.toggle()
@@ -104,16 +104,16 @@ struct CasesLineChartView: View {
         .transition(.opacity)
         .padding(.horizontal)
         .padding(.bottom, 6)
-        .onAppear {
-            self.coronaStore.updateIfStoreIsOldOrEmpty()
-            
-            //  MARK: FINISH THIS
-            //
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.numberOfGridLines = 10
-            }
-        }
+//        .onAppear {
+//            self.coronaStore.updateIfStoreIsOldOrEmpty()
+//            
+//            //  MARK: FINISH THIS
+//            //
+//            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                self.steps = 10
+//            }
+//        }
     }
 }
 

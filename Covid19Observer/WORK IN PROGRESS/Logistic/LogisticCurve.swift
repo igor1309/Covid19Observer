@@ -73,10 +73,10 @@ struct LogisticCurve: View {
         return array
     }
     
-    /// «размеры» по всем сериям для определения общего масштаба графика
+    /// мин-максы по всем сериям для определения общего масштаба графика
     /// - Parameter multiPoints: <#multiPoints description#>
     /// - Returns: <#description#>
-    func chartBounds(multiPoints: [[CGPoint]]) -> CGRect {
+    func chartPlotArea(multiPoints: [[CGPoint]]) -> CGRect {
         
         let minX = multiPoints.flatMap { $0 }.map { $0.x }.min() ?? 0
         let maxX = multiPoints.flatMap { $0 }.map { $0.x }.max() ?? 1
@@ -86,6 +86,7 @@ struct LogisticCurve: View {
         
         return CGRect(x: minX,
                       y: minY,
+                      //    MARK: FINISH THIS: минимальные значения отнимать или нет??
                       width: maxX,// - minX,
                       height: maxY)// - minY)
     }
@@ -95,7 +96,7 @@ struct LogisticCurve: View {
     @State private var scale: CGFloat = 100
     
     var body: some View {
-        let bounds = chartBounds(multiPoints: [pdfPoints, pdfPoints0])
+        let plotArea = chartPlotArea(multiPoints: [pdfPoints, pdfPoints0])
         
         return VStack {
             HStack {
@@ -133,10 +134,10 @@ struct LogisticCurve: View {
 //                MultiCharts(multiPoints: [pdfPoints0, pdfPoints])
 //                    .stroke(Color.blue, style: StrokeStyle(lineWidth: 3, lineJoin: .round))
                 
-                LineChart(points: pdfPoints0, bounds: bounds)
+                LineChart(points: pdfPoints0, plotArea: plotArea)
                     .stroke(Color.orange, style: StrokeStyle(lineWidth: 1, lineJoin: .round))
                     .border(Color.pink)
-                LineChart(points: pdfPoints, bounds: bounds)
+                LineChart(points: pdfPoints, plotArea: plotArea)
                     .stroke(Color.purple, style: StrokeStyle(lineWidth: 1, lineJoin: .round))
                 
                 TapPointer(points: [pdfPoints/*, pdfPoints0*/].flatMap { $0 }, is2D: false)

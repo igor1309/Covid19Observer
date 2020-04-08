@@ -10,15 +10,25 @@ import SwiftUI
 
 struct AxisY: View {
     let seriesMax: Int
-    let numberOfGridLines: Int
+    let steps: Int
+    
+    init(seriesMax: Int, steps: Int) {
+        self.seriesMax = seriesMax
+        self.steps = steps
+    }
+    
+    init(axisY: Axis) {
+        self.seriesMax = Int(axisY.top)
+        self.steps = axisY.steps
+    }
     
     @State private var width: CGFloat = 100
     
     private func axisLabel(geoHeight: CGFloat, line: Int) -> some View {
-        Text("\(line * self.seriesMax / self.numberOfGridLines)")
+        Text("\(line * self.seriesMax / self.steps)")
             .foregroundColor(line == 0 ? .clear : .secondary)
             .font(.caption)
-            .offset(y: geoHeight - CGFloat(line) * geoHeight / CGFloat(numberOfGridLines))
+            .offset(y: geoHeight - CGFloat(line) * geoHeight / CGFloat(steps))
             .fixedSize(horizontal: true, vertical: false)
             .widthPref()
             .frame(width: self.width, alignment: .trailing)
@@ -26,9 +36,9 @@ struct AxisY: View {
     
     var body: some View {
         VStack {
-            if numberOfGridLines > 0 {
+            if steps > 0 {
                 GeometryReader { geo in
-                    ForEach(0..<self.numberOfGridLines + 1, id: \.self) { line in
+                    ForEach(0..<self.steps + 1, id: \.self) { line in
                         
                         self.axisLabel(geoHeight: geo.size.height, line: line)
                     }
@@ -56,7 +66,7 @@ struct AxisY_Previews: PreviewProvider {
             LineGraphShape(series: series)
                 .stroke(Color.orange, lineWidth: 2)
             
-            AxisY(seriesMax: series.max()!, numberOfGridLines: 10)
+            AxisY(seriesMax: series.max()!, steps: 10)
                 .layoutPriority(1)
                 .border(Color.pink)
             

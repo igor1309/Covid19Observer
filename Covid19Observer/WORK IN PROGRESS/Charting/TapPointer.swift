@@ -9,32 +9,19 @@
 import SwiftUI
 
 struct TapPointer: View {
-    //  MARK: - FINISH THIS FOR plotArea
-    //
-    
+
     let points: [CGPoint]
     let is2D: Bool
     let plotArea: CGRect
-    
-    /// plotArea is defined by points
-    /// - Parameters:
-    ///   - points: <#points description#>
-    ///   - is2D: <#is2D description#>
-    init(points: [CGPoint], is2D: Bool) {
+        
+    init(points: [CGPoint], plotArea: CGRect? = nil, is2D: Bool) {
         self.points = points
         self.is2D = is2D
-        self.plotArea = CGPoint.plotAreaForPoints(points)
-    }
-    
-    /// plotArea is provided
-    /// - Parameters:
-    ///   - points: <#points description#>
-    ///   - plotArea: <#plotArea description#>
-    ///   - is2D: <#is2D description#>
-    init(points: [CGPoint], plotArea: CGRect, is2D: Bool) {
-        self.points = points
-        self.is2D = is2D
-        self.plotArea = plotArea
+        if plotArea == nil {
+            self.plotArea = CGPoint.plotAreaForPoints(points)
+        } else {
+            self.plotArea = plotArea!
+        }
     }
     
     @State private var size: CGSize = .zero
@@ -50,8 +37,8 @@ struct TapPointer: View {
                 .frame(width: 4, height: 4)
             
             VStack(alignment: .leading) {
-                Text("x: \(Int(offset.width)) : \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points)).x))")
-                Text("y: \(Int(offset.height)) :  \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: CGPoint.plotAreaForPoints(points)).y))")
+                Text("x: \(Int(offset.width)) : \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: plotArea).x))")
+                Text("y: \(Int(offset.height)) :  \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: plotArea).y))")
             }
             .font(.caption)
         }
@@ -68,11 +55,11 @@ struct TapPointer: View {
         let nearestPoint =
             currentOffset
                 .rescaleOffsetToPoint(from: size,
-                                      into: CGPoint.plotAreaForPoints(points))
+                                      into: plotArea)
                 .nearestPoint(points: points, is2D: is2D)
         let pointerOffset =
             nearestPoint
-                .rescaleToOffset(sourceSpace: CGPoint.plotAreaForPoints(points),
+                .rescaleToOffset(sourceSpace: plotArea,
                                  targetViewSize: size)
         
         func pointerLegendOffset(from offset: CGSize) -> CGSize {
