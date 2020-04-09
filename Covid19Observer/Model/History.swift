@@ -12,7 +12,7 @@ import SwiftPI
 /// <#Description#>
 struct History: Codable {
     
-    struct ShortCaseRow: Codable, Identifiable {
+    struct CaseRow: Codable, Identifiable {
         var id: String { provinceState + "/" + countryRegion }
         
         var provinceState, countryRegion: String
@@ -21,33 +21,34 @@ struct History: Codable {
         var series: [Int]
     }
     
-    private(set) var rows: [ShortCaseRow] = []
+    private(set) var countryCases: [CaseRow] = []
     
     init(from casesCSV: String) {
         guard casesCSV.isNotEmpty else {
-            self.rows = []
+            self.countryCases = []
             return
         }
         
         var table: [[String]] = []
-        var rows: [ShortCaseRow] = []
+        var rows: [CaseRow] = []
         
         /// remove any special characters in a string
         table = parseCVStoTable(
             from: casesCSV
                 .components(separatedBy: CharacterSet.symbols)
                 .joined(separator: ""))
-        rows = getRows(from: table)
         
-        self.rows = rows
+        rows = splitToCaseRows(table)
+        
+        self.countryCases = rows
     }
     
     var allCountriesTotals: [Int] {
-        guard rows.count > 0 else { return [] }
+        guard countryCases.count > 0 else { return [] }
         
-        var totals = Array(repeating: 0, count: rows[0].series.count)
+        var totals = Array(repeating: 0, count: countryCases[0].series.count)
         
-        for row in rows {
+        for row in countryCases {
             for i in 0..<row.series.count {
                 totals[i] += row.series[i]
             }
@@ -84,25 +85,25 @@ struct History: Codable {
     
     func series(for country: String) -> [Int] {
         
-        guard rows.count > 0 else { return [] }
+        guard countryCases.count > 0 else { return [] }
         
         /// нужно суммировать данные по провинциям в следующих странах
         let countriesWithRegions = ["Australia", "Canada", "China", "Denmark", "France", "Netherlands", "United Kingdom"]
         
-        var filteredRow: ShortCaseRow
+        var filteredRow: CaseRow
         
         if countriesWithRegions.contains(country) {
             
             //  собрать все строки с этой страной в одну
             //  и заменить блок стран с провинциями этой страны на эту одну строку
             
-            let rowsForCountry = rows.filter { $0.countryRegion == country }
+            let rowsForCountry = countryCases.filter { $0.countryRegion == country }
             
             var series: [Int]
             series = []
             
             //  пройтись по всем столбцам
-            for i in 0 ..< rows[0].series.count {
+            for i in 0 ..< countryCases[0].series.count {
                 var s = 0
                 
                 //  и собрать суммы строк
@@ -114,16 +115,16 @@ struct History: Codable {
                 series.append(s)
             }
             
-            filteredRow = ShortCaseRow(provinceState: "", countryRegion: country, series: series)
+            filteredRow = CaseRow(provinceState: "", countryRegion: country, series: series)
             
         } else {
             
             //  если страна без провинций, то по ней данные только в одной строке
-            let filteredRows = rows.filter { $0.countryRegion == country }
+            let filteredRows = countryCases.filter { $0.countryRegion == country }
             if filteredRows.isNotEmpty {
                 filteredRow = filteredRows[0]
             } else {
-                filteredRow = ShortCaseRow(provinceState: "", countryRegion: "", series: [])
+                filteredRow = CaseRow(provinceState: "", countryRegion: "", series: [])
             }
         }
         
@@ -147,7 +148,7 @@ struct History: Codable {
     }
     
     func series(forRegion region: String) -> [Int] {
-        let filtered = rows.filter { ($0.provinceState + $0.countryRegion) == region }
+        let filtered = countryCases.filter { ($0.provinceState + $0.countryRegion) == region }
         if filtered.isEmpty {
             return []
         } else {
@@ -169,9 +170,9 @@ struct History: Codable {
         return series(for: country).dropLast().last ?? 0
     }
     
-    private func getRows(from table: [[String]]) -> [ShortCaseRow] {
+    private func splitToCaseRows(_ table: [[String]]) -> [CaseRow] {
         
-        var shortCaseRows: [ShortCaseRow] = []
+        var caseRows: [CaseRow] = []
         
         for i in 0 ..< table.count {
             let row = table[i]
@@ -183,11 +184,11 @@ struct History: Codable {
                 //                points[dateFromStr(table[0][j])] = Int(row[j])
                 series.append(Int(row[j]) ?? 0)
             }
-            shortCaseRows.append(ShortCaseRow(provinceState: provinceState, countryRegion: countryRegion, series: series))
-            //            shortCaseRows.append(ShortCaseRow(countryRegion: countryRegion, points: points, series: series))
+            caseRows.append(CaseRow(provinceState: provinceState, countryRegion: countryRegion, series: series))
+            //            caseRows.append(CaseRow(countryRegion: countryRegion, points: points, series: series))
         }
         
-        return shortCaseRows
+        return caseRows
     }
     
     private func parseCVStoTable(from cases: String) -> [[String]] {

@@ -174,7 +174,7 @@ class CoronaStore: ObservableObject {
             }
         }
         
-        if history.rows.isEmpty || isHistoryDataOld {
+        if history.countryCases.isEmpty || isHistoryDataOld {
             print("History Data empty or old, need to fetch")
             isHistoryUpdateCompleted = false
             updateHistoryData() {
