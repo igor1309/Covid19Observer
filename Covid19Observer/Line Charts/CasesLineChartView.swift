@@ -21,7 +21,7 @@ struct CasesLineChartView: View {
         case .total:
             return coronaStore.history.series(for: coronaStore.selectedCountry)
         case .daily:
-            return coronaStore.history.change(for: coronaStore.selectedCountry)
+            return coronaStore.history.dailyChange(for: coronaStore.selectedCountry)
         }
     }
     

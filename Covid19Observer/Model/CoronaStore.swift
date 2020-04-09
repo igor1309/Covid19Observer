@@ -174,7 +174,7 @@ class CoronaStore: ObservableObject {
             }
         }
         
-        if history.table.isEmpty || isHistoryDataOld {
+        if history.rows.isEmpty || isHistoryDataOld {
             print("History Data empty or old, need to fetch")
             isHistoryUpdateCompleted = false
             updateHistoryData() {
@@ -354,11 +354,12 @@ class CoronaStore: ObservableObject {
                 }
             }
         }
-        
         task.resume()
     }
     
+    
     func colorCode(for number: Int) -> UIColor {
+        
         let color: UIColor
         
         switch number {

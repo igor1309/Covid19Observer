@@ -36,9 +36,9 @@ struct HeatedLineChart: View {
         
         for i in 0..<points.count {
             let slice = points.prefix(i + 1).suffix(7)
-            print("slice: \(slice)")
+//            print("slice: \(slice)")
             let avg = slice.reduce(CGFloat(0)) { $0 + $1.y } / CGFloat(slice.count)
-            let point = CGPoint(x: CGFloat(i), y: avg)
+            let point = CGPoint(x: points[i].x, y: avg)
             maPoints.append(point)
         }
 
@@ -64,10 +64,10 @@ struct HeatedLineChart: View {
                             .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
                                                    startPoint: .bottom,
                                                    endPoint: .top),
-                                    style: StrokeStyle(lineWidth: 2,
+                                    style: StrokeStyle(lineWidth: 3,
                                                        lineCap: .round,
                                                        lineJoin: .round))
-                            .opacity(0.3)
+                            .opacity(0.5)
                         
                         LineChart(points: points, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
@@ -77,6 +77,7 @@ struct HeatedLineChart: View {
                                     style: StrokeStyle(lineWidth: 0.5,
                                                        lineCap: .round,
                                                        lineJoin: .round))
+                            .opacity(0.3)
 
                         DotChart(points: points, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)

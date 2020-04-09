@@ -18,7 +18,7 @@ struct AllCountriesLineChart: View {
     var series: [Int] {
         switch settings.selectedDataKind {
         case .daily:
-            return coronaStore.history.allCountriesDaily
+            return coronaStore.history.allCountriesDailyChange
         case .total:
             return coronaStore.history.allCountriesTotals
         }

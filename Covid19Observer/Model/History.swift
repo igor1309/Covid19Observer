@@ -14,45 +14,32 @@ struct History: Codable {
     
     struct ShortCaseRow: Codable, Identifiable {
         var id: String { provinceState + "/" + countryRegion }
+        
         var provinceState, countryRegion: String
         //        var points: [Date: Int]
         var name: String { provinceState + "/" + countryRegion }
         var series: [Int]
     }
     
-    private(set) var table: [[String]] = []
-    private var rows: [ShortCaseRow] = []
+    private(set) var rows: [ShortCaseRow] = []
     
-//    var provinceStateCountryRegions: [String] {
-//        Array(rows.map { $0.countryRegion + ($0.provinceState == "" ? "" : ", " + $0.provinceState) }
-//            .dropFirst())
-//            .removingDuplicates()
-//            .sorted()
-//    }
-    
-//    var countryRegions: [String] {
-//        Array(rows.map { $0.countryRegion }
-//            .dropFirst())
-//            .removingDuplicates()
-//            .sorted()
-//    }
-    
-    private init(table: [[String]], rows: [ShortCaseRow]) {
-        self.table = table
-        self.rows = rows
-    }
-    
-    init(from casesStr: String) {
+    init(from casesCSV: String) {
+        guard casesCSV.isNotEmpty else {
+            self.rows = []
+            return
+        }
+        
         var table: [[String]] = []
         var rows: [ShortCaseRow] = []
         
-        if casesStr.isNotEmpty {
-            /// /// remove any special characters in a string
-            table = getTable(from: casesStr.components(separatedBy: CharacterSet.symbols).joined(separator: ""))
-            rows = getRows(from: table)
-        }
+        /// remove any special characters in a string
+        table = parseCVStoTable(
+            from: casesCSV
+                .components(separatedBy: CharacterSet.symbols)
+                .joined(separator: ""))
+        rows = getRows(from: table)
         
-        self = History(table: table, rows: rows)
+        self.rows = rows
     }
     
     var allCountriesTotals: [Int] {
@@ -65,11 +52,11 @@ struct History: Codable {
                 totals[i] += row.series[i]
             }
         }
-
+        
         return totals
     }
     
-    var allCountriesDaily: [Int] {
+    var allCountriesDailyChange: [Int] {
         guard allCountriesTotals.count > 1 else { return [] }
         
         var daily = [Int]()
@@ -77,15 +64,15 @@ struct History: Codable {
         for i in 1..<allCountriesTotals.count {
             daily.append(allCountriesTotals[i] - allCountriesTotals[i-1])
         }
-
+        
         return daily
-
+        
     }
     
-    func change(for country: String) -> [Int] {
+    func dailyChange(for country: String) -> [Int] {
         let countryData = series(for: country)
         guard countryData.count > 1 else { return [] }
-            
+        
         var change = [Int]()
         
         for i in 1..<countryData.count {
@@ -99,7 +86,7 @@ struct History: Codable {
         
         guard rows.count > 0 else { return [] }
         
-        /// нужно суммировать данные по провинциям
+        /// нужно суммировать данные по провинциям в следующих странах
         let countriesWithRegions = ["Australia", "Canada", "China", "Denmark", "France", "Netherlands", "United Kingdom"]
         
         var filteredRow: ShortCaseRow
@@ -139,24 +126,24 @@ struct History: Codable {
                 filteredRow = ShortCaseRow(provinceState: "", countryRegion: "", series: [])
             }
         }
-            
+        
         if filteredRow.series.isEmpty {
             return []
         } else {
-
+            
             //  MARK: - FIX THIS
             //  нужна проверка по дате а не тупой отброс последнего значения
             //  https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data
             //  All timestamps are in UTC (GMT+0)
             /// если последний элемент равен нулю, то вероятнее всего нет данных на последний день
             let series = filteredRow.series
-//            if series.last! == 0 {
-//                return series.dropLast()
-//            } else {
-                return series
-//            }
+            //            if series.last! == 0 {
+            //                return series.dropLast()
+            //            } else {
+            return series
+            //            }
         }
-
+        
     }
     
     func series(forRegion region: String) -> [Int] {
@@ -181,8 +168,29 @@ struct History: Codable {
     func previous(for country: String) -> Int {
         return series(for: country).dropLast().last ?? 0
     }
+    
+    private func getRows(from table: [[String]]) -> [ShortCaseRow] {
         
-    private func getTable(from cases: String) -> [[String]] {
+        var shortCaseRows: [ShortCaseRow] = []
+        
+        for i in 0 ..< table.count {
+            let row = table[i]
+            let provinceState = row[0]
+            let countryRegion = row[1]
+            //            var points: [Date: Int] = [:]
+            var series: [Int] = []
+            for j in 4 ..< row.count {
+                //                points[dateFromStr(table[0][j])] = Int(row[j])
+                series.append(Int(row[j]) ?? 0)
+            }
+            shortCaseRows.append(ShortCaseRow(provinceState: provinceState, countryRegion: countryRegion, series: series))
+            //            shortCaseRows.append(ShortCaseRow(countryRegion: countryRegion, points: points, series: series))
+        }
+        
+        return shortCaseRows
+    }
+    
+    private func parseCVStoTable(from cases: String) -> [[String]] {
         /// returns first quoted text and drops this quote from passed string
         func parseQuotes(stringToParse: inout String) -> [String] {
             if stringToParse.first == "\"" {
@@ -207,11 +215,11 @@ struct History: Codable {
         
         var table = [[String]]()
         for i in 0..<rows.count {
-            /// /// /// remove any special characters in a stringremove any special characters in a string
+            /// remove any special characters in a string
             var stringToParse = rows[i].components(separatedBy: CharacterSet.symbols).joined(separator: "")
             
             var row: [String] = []
-
+            
             /// if no Country/Region, create empty string as the first row element
             if stringToParse.first == "," {
                 row += [""]
@@ -228,24 +236,6 @@ struct History: Codable {
             table.append(row)
         }
         return table
-    }
-    
-    private func getRows(from table: [[String]]) -> [ShortCaseRow] {
-        var shortCaseRows: [ShortCaseRow] = []
-        for i in 0 ..< table.count {
-            let row = table[i]
-            let provinceState = row[0]
-            let countryRegion = row[1]
-            //            var points: [Date: Int] = [:]
-            var series: [Int] = []
-            for j in 4 ..< row.count {
-                //                points[dateFromStr(table[0][j])] = Int(row[j])
-                series.append(Int(row[j]) ?? 0)
-            }
-            shortCaseRows.append(ShortCaseRow(provinceState: provinceState, countryRegion: countryRegion, series: series))
-            //            shortCaseRows.append(ShortCaseRow(countryRegion: countryRegion, points: points, series: series))
-        }
-        return shortCaseRows
     }
     
     /// date as String in format m/d/yy

@@ -16,7 +16,7 @@ struct TestingTapPointerWithHeatedLineChart: View {
     @State private var selectedData = "change"
     var series: [Int] {
         if selectedData == "change" {
-            return coronaStore.history.change(for: coronaStore.selectedCountry).filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0)
+            return coronaStore.history.dailyChange(for: coronaStore.selectedCountry).filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0)
         } else {
             return coronaStore.history.series(for: coronaStore.selectedCountry).filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0)
         }
