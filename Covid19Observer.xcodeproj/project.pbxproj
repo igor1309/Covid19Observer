@@ -64,6 +64,7 @@
 		2ACF1C6E2430A7830045C531 /* CaseDataTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */; };
 		2ACF1C702430AA130045C531 /* CasesHeaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */; };
 		2ACF1C722430B4EC0045C531 /* CountryCasesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */; };
+		2AD13AAC243FB1EB00B61CCE /* HistoryTableIPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD13AAB243FB1EB00B61CCE /* HistoryTableIPad.swift */; };
 		2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */; };
 		2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */; };
 		2AE2C50D243723B800CC8476 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50C243723B800CC8476 /* Date+Extensions.swift */; };
@@ -162,6 +163,7 @@
 		2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDataTypePicker.swift; sourceTree = "<group>"; };
 		2ACF1C6F2430AA130045C531 /* CasesHeaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesHeaderButton.swift; sourceTree = "<group>"; };
 		2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCasesHeader.swift; sourceTree = "<group>"; };
+		2AD13AAB243FB1EB00B61CCE /* HistoryTableIPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableIPad.swift; sourceTree = "<group>"; };
 		2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCasesCharts.swift; sourceTree = "<group>"; };
 		2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettings.swift; sourceTree = "<group>"; };
 		2AE2C50C243723B800CC8476 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				2AE2C548243B528000CC8476 /* Logistic */,
 				2AE2C5362439DA7700CC8476 /* Charting */,
 				2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */,
+				2AD13AAB243FB1EB00B61CCE /* HistoryTableIPad.swift */,
 			);
 			path = "WORK IN PROGRESS";
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */,
 				2A74F0BB2428CBB400137694 /* LineGraphShape.swift in Sources */,
 				2A03BF082428C04F0094852B /* PreferenceKeys.swift in Sources */,
+				2AD13AAC243FB1EB00B61CCE /* HistoryTableIPad.swift in Sources */,
 				2AE2C542243B336D00CC8476 /* LogisticCurve.swift in Sources */,
 				2A74F0B42428CB8400137694 /* History.swift in Sources */,
 				2A03BF092428C04F0094852B /* Extension+View.swift in Sources */,

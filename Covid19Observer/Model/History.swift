@@ -29,17 +29,14 @@ struct History: Codable {
             return
         }
         
-        var table: [[String]] = []
-        var rows: [CaseRow] = []
-        
         /// remove any special characters in a string
-        table = parseCVStoTable(
+        let table: [[String]] = parseCVStoTable(
             from: casesCSV
                 .components(separatedBy: CharacterSet.symbols)
                 .joined(separator: ""))
         
-        rows = splitToCaseRows(table)
-        
+        let rows: [CaseRow] = splitToCaseRows(table)
+
         self.countryCases = rows
     }
     
@@ -176,6 +173,15 @@ struct History: Codable {
         
         for i in 0 ..< table.count {
             let row = table[i]
+
+            //  MARK: FIX THIS!!!
+            //  09.04.2020 из-за Sao Tome and Principe сбился парсинг
+            //  пока причину не нашел
+            //  размером можно пренебречь, поэтому удаляю
+            guard row[1] != "Sao Tome and Principe" else {
+                continue
+            }
+            
             let provinceState = row[0]
             let countryRegion = row[1]
             //            var points: [Date: Int] = [:]
@@ -191,7 +197,7 @@ struct History: Codable {
         return caseRows
     }
     
-    private func parseCVStoTable(from cases: String) -> [[String]] {
+    private func parseCVStoTable(from csvStr: String) -> [[String]] {
         /// returns first quoted text and drops this quote from passed string
         func parseQuotes(stringToParse: inout String) -> [String] {
             if stringToParse.first == "\"" {
@@ -207,12 +213,22 @@ struct History: Codable {
             }
         }
         
-        var rows = cases.components(separatedBy: "\n")
-        /// drop last row if empty (реальная ситуация 24.03.2020)
-        if rows.count > 1 && rows.last!.isEmpty {
-            rows = rows.dropLast()
+        /// https://stackoverflow.com/questions/43295163/swift-3-1-how-to-get-array-or-dictionary-from-csv
+        func cleanRows(csv: String) -> String {
+            var cleanFile = csv
+            cleanFile = cleanFile.replacingOccurrences(of: "\r", with: "\n")
+            cleanFile = cleanFile.replacingOccurrences(of: "\n\n", with: "\n")
+            //        cleanFile = cleanFile.replacingOccurrences(of: ";;", with: "")
+            //        cleanFile = cleanFile.replacingOccurrences(of: ";\n", with: "")
+            return cleanFile
         }
         
+        var rows = cleanRows(csv: csvStr).components(separatedBy: "\n")
+        /// drop last row if empty (реальная ситуация 24.03.2020)
+        if rows.count > 1 && rows.last!.isEmpty {
+            print("!! dropped last emty row")
+            rows = rows.dropLast()
+        }
         
         var table = [[String]]()
         for i in 0..<rows.count {

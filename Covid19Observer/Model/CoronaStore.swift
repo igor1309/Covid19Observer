@@ -334,23 +334,55 @@ class CoronaStore: ObservableObject {
     }
     
     func fetchHistoryData(completionHandler: @escaping () -> Void) {
+        
         isHistoryUpdateCompleted = false
         
         ///  https://github.com/CSSEGISandData/COVID-19
         let url = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")!
         
+        func completion(casesStr: String) {
+            DispatchQueue.main.async {
+                self.history = History(from: casesStr)
+                
+                saveJSONToDocDir(data: self.history,
+                                 filename: "history.json")
+                
+                completionHandler()
+                
+                self.historyModificationDate = Date()
+                self.isHistoryUpdateCompleted = true
+            }
+        }
+        
+//        var storage = Set<AnyCancellable>()
+//
+//        func fetch() -> AnyPublisher<String, URLError> {
+//
+//            return URLSession.shared.dataTaskPublisher(for: url)
+//                //                .retry(1)
+//                .compactMap { String(data: $0.data, encoding: .utf8) }
+//                .receive(on: DispatchQueue.main)
+//                .eraseToAnyPublisher()
+//
+//        }
+//
+//        fetch()
+//            .sink(receiveCompletion: { _ in
+//                print("error getting string for ure \(url)")
+//            }) {
+//                completion(casesStr: $0)
+//        }
+//            .store(in: &storage)//cancel()
+        
+        //
+        //        fetch()
+        
         let task = URLSession.shared.downloadTask(with: url) { localURL, urlResponse, error in
             if let localURL = localURL {
                 if let casesStr = try? String(contentsOf: localURL) {
-                    DispatchQueue.main.async {
-                        self.history = History(from: casesStr)
-                        saveJSONToDocDir(data: self.history, filename: "history.json")
-                        
-                        completionHandler()
-                        
-                        self.historyModificationDate = Date()
-                        self.isHistoryUpdateCompleted = true
-                    }
+
+                    completion(casesStr: casesStr)
+
                 }
             }
         }
