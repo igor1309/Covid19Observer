@@ -24,10 +24,8 @@ class CoronaStore: ObservableObject {
     
     @Published var caseType: CaseType { didSet { processCases() }}
     
-    @Published private(set) var confirmedHistory: History = History()
-    
-    //  MARK: - FINISH THIS
-    @Published private(set) var deathsHistory: History = History()
+    @Published private(set) var confirmedHistory: History
+    @Published private(set) var deathsHistory: History
     
     @Published private(set) var currentCases = [CaseData]()
     @Published private(set) var caseAnnotations = [CaseAnnotation]()
@@ -138,17 +136,27 @@ class CoronaStore: ObservableObject {
             print("no JSON-file with corona response by Country on disk, set to empty cases")
         }
         
+        
+        
+        ///  https://github.com/CSSEGISandData/COVID-19
+        /// confirmed cases dataset
+        let confirmedURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")!
+        /// deaths dataset
+        let deathsURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")!
+        
+
+        /// initialize history data
+        confirmedHistory = History(saveIn: "confirmedHistory.json", url: confirmedURL)
+        deathsHistory = History(saveIn: "deathsHistory", url: deathsURL)
+
+        /// load saved history data
+        confirmedHistory.load()
+        deathsHistory.load()
+
+        /// update if data is empty or old
+        updateEmptyOrOldStore()
+        
         processCases()
-        
-        /// load History from disk or set to empty
-        if let history: History = loadJSONFromDocDir("confirmedHistory.json") {
-            self.confirmedHistory = history
-            print("historical data loaded from JSON-file on disk")
-        } else {
-            self.confirmedHistory = History()
-            print("no JSON-file with historical data on disk, set to empty")
-        }
-        
         countNewAndCurrentCases()
     }
     
@@ -174,7 +182,6 @@ class CoronaStore: ObservableObject {
         
         if confirmedHistory.countryCases.isEmpty || confirmedHistory.isDataOld {
             print("History Data empty or old, need to fetch")
-            confirmedHistory.isUpdateCompleted = false
             updateHistoryData() {
                 self.countNewAndCurrentCases()
             }
@@ -182,7 +189,6 @@ class CoronaStore: ObservableObject {
         
         if deathsHistory.countryCases.isEmpty || deathsHistory.isDataOld {
             print("History Data empty or old, need to fetch")
-            deathsHistory.isUpdateCompleted = false
             updateHistoryData() {
                 self.countNewAndCurrentCases()
             }
@@ -336,90 +342,47 @@ class CoronaStore: ObservableObject {
     }
     
     func updateHistoryData(completionHandler: @escaping () -> Void) {
-        fetchHistoryData(completionHandler: completionHandler)
-    }
-    
-    func fetchHistoryData(completionHandler: @escaping () -> Void) {
         
         confirmedHistory.isUpdateCompleted = false
         deathsHistory.isUpdateCompleted = false
         
-        ///  https://github.com/CSSEGISandData/COVID-19
-        /// confirmed cases
-        let confirmedURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")!
-        /// deaths
-        let deathsURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")!
-        
-        func completionConfirmed(casesStr: String) {
+        func completionConfirmed(casesCSV: String) {
             DispatchQueue.main.async {
-                self.confirmedHistory = History(from: casesStr)
                 
-                saveJSONToDocDir(data: self.confirmedHistory,
-                                 filename: "confirmedHistory.json")
-                
+                self.confirmedHistory.update(from: casesCSV)
                 completionHandler()
-                
-                self.confirmedHistory.isUpdateCompleted = true
             }
         }
         
-        func completionDeaths(casesStr: String) {
+        func completionDeaths(casesCSV: String) {
             DispatchQueue.main.async {
-                self.deathsHistory = History(from: casesStr)
                 
-                saveJSONToDocDir(data: self.confirmedHistory,
-                                 filename: "deathsHistory.json")
-                
+                self.deathsHistory.update(from: casesCSV)
                 completionHandler()
-                
-                self.deathsHistory.isUpdateCompleted = true
             }
         }
         
         let confirmedTask = URLSession.shared
-            .downloadTask(with: confirmedURL) { localURL, urlResponse, error in
+            .downloadTask(with: confirmedHistory.url) { localURL, urlResponse, error in
                 if let localURL = localURL {
                     if let history = try? String(contentsOf: localURL) {
                         
-                        completionConfirmed(casesStr: history)
+                        completionConfirmed(casesCSV: history)
                     }
                 }
         }
         confirmedTask.resume()
         
         let deathsTask = URLSession.shared
-            .downloadTask(with: deathsURL) { localURL, urlResponse, error in
+            .downloadTask(with: deathsHistory.url) { localURL, urlResponse, error in
                 if let localURL = localURL {
                     if let history = try? String(contentsOf: localURL) {
                         
-                        completionDeaths(casesStr: history)
+                        completionDeaths(casesCSV: history)
                     }
                 }
         }
         deathsTask.resume()
-        
-        //        var storage = Set<AnyCancellable>()
-        //
-        //        func fetch() -> AnyPublisher<String, URLError> {
-        //
-        //            return URLSession.shared.dataTaskPublisher(for: url)
-        //                //                .retry(1)
-        //                .compactMap { String(data: $0.data, encoding: .utf8) }
-        //                .receive(on: DispatchQueue.main)
-        //                .eraseToAnyPublisher()
-        //
-        //        }
-        //
-        //        fetch()
-        //            .sink(receiveCompletion: { _ in
-        //                print("error getting string for ure \(url)")
-        //            }) {
-        //                completion(casesStr: $0)
-        //        }
-        //            .store(in: &storage)//cancel()
-        
-        //
-        //        fetch()
     }
     
     

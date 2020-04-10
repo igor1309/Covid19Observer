@@ -21,6 +21,9 @@ struct History: Codable {
         var series: [Int]
     }
     
+    let filename: String
+    let url: URL
+    
     private(set) var countryCases: [CaseRow]
     
     var modificationDate: Date
@@ -31,23 +34,38 @@ struct History: Codable {
     
     var isUpdateCompleted: Bool?
     
-    init() {
+    init(saveIn filename: String, url: URL) {
         self.countryCases = []
         self.modificationDate = .distantPast
         self.isUpdateCompleted = nil
+        self.filename = filename
+        self.url = url
+    }
+}
+
+extension History {
+    
+    /// load  History from disk if there is saved data
+    mutating func load() {
+        if let history: History = loadJSONFromDocDir(self.filename) {
+            self = history
+            print("historical data loaded from \(self.filename) on disk")
+        }
     }
     
-    init(from casesCSV: String) {
-        
-        self.init()
+    /// update history data from csv
+    /// - Parameter casesCSV: fetched data in csv format
+    mutating func update(from casesCSV: String) {
         
         guard casesCSV.isNotEmpty else { return }
         
-        let rows: [CaseRow] = perseCsvToCaseRows(casesCSV)
+        let rows: [CaseRow] = parseCsvToCaseRows(casesCSV)
         
-        self.modificationDate = Date()
         self.countryCases = rows
+        self.modificationDate = Date()
         self.isUpdateCompleted = true
+        
+        saveJSONToDocDir(data: self, filename: self.filename)
     }
 }
 
@@ -183,8 +201,8 @@ extension History {
 }
 
 extension History {
-
-    private func perseCsvToCaseRows(_ casesCsv: String) -> [CaseRow] {
+    
+    private func parseCsvToCaseRows(_ casesCsv: String) -> [CaseRow] {
         
         /// parse to table (array of rows)
         let table: [[String]] = parseCVStoTable(from: casesCsv)
