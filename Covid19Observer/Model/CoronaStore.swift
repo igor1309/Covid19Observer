@@ -16,12 +16,6 @@ import SwiftPI
 
 class CoronaStore: ObservableObject {
     
-    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
-        didSet {
-            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
-        }
-    }
-    
     @Published var caseType: CaseType { didSet { processCases() }}
     
     @Published private(set) var confirmedHistory: History
@@ -60,6 +54,12 @@ class CoronaStore: ObservableObject {
         confirmedHistory.isUpdateCompleted ?? false && deathsHistory.isUpdateCompleted ?? false
     }
     
+    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
+        didSet {
+            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
+        }
+    }
+    
     var selectedCountryOutbreak: (
         confirmed: String,
         newConfirmed: String,
@@ -78,9 +78,10 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    var countryRegions: [String] { currentCases.map { $0.name }.sorted()}
+    var countryRegions: [String] { currentCases.map { $0.name }.sorted() }
     
-    var filterColor: Color { Color(colorCode(for: mapFilterLowerLimit)) }
+    
+    //  MARK: MAP Stuff
     
     var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
         didSet {
@@ -89,6 +90,8 @@ class CoronaStore: ObservableObject {
         }
     }
     
+    var filterColor: Color { Color(colorCode(for: mapFilterLowerLimit)) }
+    
     var mapFilterLowerLimit = UserDefaults.standard.integer(forKey: "mapFilterLowerLimit") {
         didSet {
             UserDefaults.standard.set(mapFilterLowerLimit, forKey: "mapFilterLowerLimit")
@@ -96,7 +99,8 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    private var storage = [AnyCancellable]()
+    
+    //  MARK: CoronaResponse
     
     private var responseCacheByRegion: CoronaResponse
     private var responseCacheByCountry: CoronaResponse
@@ -128,6 +132,8 @@ class CoronaStore: ObservableObject {
         
         var allCFR = [Int]()
         for i in 00..<confirmed.count {
+            //  MARK: FINISH THIS
+            //  ГРАФИКЕ СТРОЯТСЯ ПО [Int] нужно переходить к CGFloat
             let cfr = confirmed[i] == 0 ? 0 : 100 * 100 * deaths[i] / confirmed[i]
             allCFR.append(cfr)
         }
@@ -168,15 +174,15 @@ class CoronaStore: ObservableObject {
         /// deaths dataset
         let deathsURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")!
         
-
+        
         /// initialize history data
         confirmedHistory = History(saveIn: "confirmedHistory.json", url: confirmedURL)
         deathsHistory = History(saveIn: "deathsHistory", url: deathsURL)
-
+        
         /// load saved history data
         confirmedHistory.load()
         deathsHistory.load()
-
+        
         /// update if data is empty or old
         updateEmptyOrOldStore()
         
@@ -205,6 +211,8 @@ class CoronaStore: ObservableObject {
         fetchCoronaCases(caseType: .byCountry, completionHandler: completionHandler)
         fetchCoronaCases(caseType: .byRegion, completionHandler: completionHandler)
     }
+    
+    private var storage = [AnyCancellable]()
     
     private func fetchCoronaCases(caseType: CaseType, completionHandler: @escaping (_ caseType: CaseType) -> Void) {
         
@@ -286,7 +294,7 @@ class CoronaStore: ObservableObject {
         self.coronaOutbreak.totalNewConfirmed = "\(totalNewConfirmed.formattedGrouped)"
         self.coronaOutbreak.totalCurrentConfirmed = "\(totalCurrentConfirmed.formattedGrouped)"
     }
-
+    
     private func processCases() {
         var caseAnnotations: [CaseAnnotation] = []
         var caseData: [CaseData] = []
@@ -347,40 +355,42 @@ class CoronaStore: ObservableObject {
         //        self.cases = caseData
     }
     
+    private var confirmedHistoryStorage = [AnyCancellable]()
+    private var deathsHistoryStorage = [AnyCancellable]()
+}
+
+extension CoronaStore {
     
     func updateHistoryData(completionHandler: @escaping () -> Void) {
         
         confirmedHistory.isUpdateCompleted = false
         deathsHistory.isUpdateCompleted = false
         
-        let confirmedTask = URLSession.shared
-            .downloadTask(with: confirmedHistory.url) { localURL, urlResponse, error in
-                if let localURL = localURL {
-                    if let history = try? String(contentsOf: localURL) {
-                        
-                        DispatchQueue.main.async {
-                            self.confirmedHistory.update(from: history)
-                            completionHandler()
-                        }
-                    }
-                }
+        URLSession.shared
+            .dataTaskPublisher(for: confirmedHistory.url)
+            .map { String(data: $0.data, encoding: .utf8)! }
+            .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }) { history in
+                self.confirmedHistory.update(from: history)
+                completionHandler()
         }
-        confirmedTask.resume()
+        .store(in: &confirmedHistoryStorage)
         
-        let deathsTask = URLSession.shared
-            .downloadTask(with: deathsHistory.url) { localURL, urlResponse, error in
-                if let localURL = localURL {
-                    if let history = try? String(contentsOf: localURL) {
-                        
-                        DispatchQueue.main.async {
-                            self.deathsHistory.update(from: history)
-                            completionHandler()
-                        }                    }
-                }
+        URLSession.shared
+            .dataTaskPublisher(for: deathsHistory.url)
+            .map { String(data: $0.data, encoding: .utf8)! }
+            .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }) { history in
+                self.deathsHistory.update(from: history)
+                completionHandler()
         }
-        deathsTask.resume()
+        .store(in: &deathsHistoryStorage)
     }
-    
+}
+
+extension CoronaStore {
     
     func colorCode(for number: Int) -> UIColor {
         
