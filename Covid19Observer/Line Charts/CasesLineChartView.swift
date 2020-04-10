@@ -26,6 +26,8 @@ struct CasesLineChartView: View {
             return coronaStore.deathsHistory.series(for: coronaStore.selectedCountry)
         case .deathsDaily:
             return coronaStore.deathsHistory.dailyChange(for: coronaStore.selectedCountry)
+        case .cfr:
+            return coronaStore.allCountriesCFR
         }
     }
     

@@ -26,17 +26,17 @@ struct History: Codable {
     
     private(set) var countryCases: [CaseRow]
     
-    var modificationDate: Date
+    private var lastSyncDate: Date
     
-    var timeSinceUpdateStr: String { modificationDate.hoursMunutesTillNow }
+    var timeSinceUpdateStr: String { lastSyncDate.hoursMunutesTillNow }
     
-    var isDataOld: Bool { modificationDate.distance(to: Date()) > 6 * 60 * 60 }
+    var isDataOld: Bool { lastSyncDate.distance(to: Date()) > 6 * 60 * 60 }
     
     var isUpdateCompleted: Bool?
     
     init(saveIn filename: String, url: URL) {
         self.countryCases = []
-        self.modificationDate = .distantPast
+        self.lastSyncDate = .distantPast
         self.isUpdateCompleted = nil
         self.filename = filename
         self.url = url
@@ -62,7 +62,7 @@ extension History {
         let rows: [CaseRow] = parseCsvToCaseRows(casesCSV)
         
         self.countryCases = rows
-        self.modificationDate = Date()
+        self.lastSyncDate = Date()
         self.isUpdateCompleted = true
         
         saveJSONToDocDir(data: self, filename: self.filename)
@@ -70,34 +70,34 @@ extension History {
 }
 
 extension History {
-    
+
     var allCountriesTotals: [Int] {
         guard countryCases.count > 0 else { return [] }
-        
+
         var totals = Array(repeating: 0, count: countryCases[0].series.count)
-        
+
         for row in countryCases {
             for i in 0..<row.series.count {
                 totals[i] += row.series[i]
             }
         }
-        
+
         return totals
     }
     
     var allCountriesDailyChange: [Int] {
         guard allCountriesTotals.count > 1 else { return [] }
-        
+
         var daily = [Int]()
-        
+
         for i in 1..<allCountriesTotals.count {
             daily.append(allCountriesTotals[i] - allCountriesTotals[i-1])
         }
-        
+
         return daily
-        
+
     }
-    
+
     func dailyChange(for country: String) -> [Int] {
         let countryData = series(for: country)
         guard countryData.count > 1 else { return [] }
@@ -314,3 +314,39 @@ extension History {
         return Calendar.current.date(from: DateComponents(year: year, month: month, day: day)) ?? .distantPast
     }
 }
+
+
+extension History {
+    
+    //  MARK: methods to use for stored properties instead of computed
+    
+    ///    var allCountriesTotals: [Int]
+    private func calcAllCountriesTotals() -> [Int] {
+        guard countryCases.count > 0 else { return [] }
+        
+        var totals = Array(repeating: 0, count: countryCases[0].series.count)
+        
+        for row in countryCases {
+            for i in 0..<row.series.count {
+                totals[i] += row.series[i]
+            }
+        }
+        
+        return totals
+    }
+    
+    ///    var allCountriesDailyChange: [Int]
+    private func calcAllCountriesDailyChange() -> [Int] {
+        guard allCountriesTotals.count > 1 else { return [] }
+        
+        var daily = [Int]()
+        
+        for i in 1..<allCountriesTotals.count {
+            daily.append(allCountriesTotals[i] - allCountriesTotals[i-1])
+        }
+        
+        return daily
+        
+    }
+}
+

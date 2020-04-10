@@ -110,6 +110,30 @@ class CoronaStore: ObservableObject {
         }
     }
     
+    var timeSinceCasesUpdateStr: String { casesModificationDate.hoursMunutesTillNow }
+    
+    private var casesModificationDate: Date = (UserDefaults.standard.object(forKey: "casesModificationDate") as? Date ?? Date.distantPast) {
+        didSet {
+            UserDefaults.standard.set(casesModificationDate, forKey: "casesModificationDate")
+        }
+    }
+    
+    /// __ hours means data is old
+    var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) > 1 * 60 * 60 }
+    
+    ///
+    var allCountriesCFR: [Int] {
+        let confirmed = confirmedHistory.allCountriesTotals
+        let deaths = deathsHistory.allCountriesTotals
+        
+        var allCFR = [Int]()
+        for i in 00..<confirmed.count {
+            let cfr = confirmed[i] == 0 ? 0 : 100 * 100 * deaths[i] / confirmed[i]
+            allCFR.append(cfr)
+        }
+        return allCFR
+    }
+    
     init() {
         /// UserDefaults returns 0 if app is new/reinstalled.cleaned up
         if mapFilterLowerLimit == 0 { mapFilterLowerLimit = 100 }
@@ -159,17 +183,6 @@ class CoronaStore: ObservableObject {
         processCases()
         countNewAndCurrentCases()
     }
-    
-    var timeSinceCasesUpdateStr: String { casesModificationDate.hoursMunutesTillNow }
-    
-    private var casesModificationDate: Date = (UserDefaults.standard.object(forKey: "casesModificationDate") as? Date ?? Date.distantPast) {
-        didSet {
-            UserDefaults.standard.set(casesModificationDate, forKey: "casesModificationDate")
-        }
-    }
-        
-    /// __ hours means data is old
-    var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) > 1 * 60 * 60 }
     
     func updateEmptyOrOldStore() {
         if currentCases.isEmpty || isCasesDataOld {

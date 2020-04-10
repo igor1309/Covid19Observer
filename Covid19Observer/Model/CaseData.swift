@@ -37,6 +37,7 @@ enum DataKind: String, CaseIterable {
     case confirmedDaily = "Confirmed Cases Daily"
     case deathsTotal = "Deaths"
     case deathsDaily = "Deaths Daily"
+    case cfr = "Case Fatality Rate"
     
     var id: String { rawValue }
     
@@ -50,6 +51,8 @@ enum DataKind: String, CaseIterable {
             return "Deaths"
         case .deathsDaily:
             return "Deaths.D"
+        case .cfr:
+            return "CFR"
         }
     }
 }

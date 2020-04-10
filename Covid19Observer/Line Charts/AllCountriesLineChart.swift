@@ -25,6 +25,8 @@ struct AllCountriesLineChart: View {
             return coronaStore.deathsHistory.allCountriesTotals
         case .deathsDaily:
             return coronaStore.deathsHistory.allCountriesDailyChange
+        case .cfr:
+            return coronaStore.allCountriesCFR
         }
     }
     
@@ -37,6 +39,12 @@ struct AllCountriesLineChart: View {
                 .padding(.bottom, 6)
             
             DataKindPicker(selectedDataKind: $settings.selectedDataKind)
+            
+            settings.selectedDataKind == .cfr
+                ? Text("TO BE DONE")
+                    .foregroundColor(.red)
+                    .font(.title)
+                : nil
             
             ZStack(alignment: .topLeading) {
                 HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0))//, steps: steps)
