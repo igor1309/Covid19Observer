@@ -189,10 +189,6 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    func updateHistoryData(completionHandler: @escaping () -> Void) {
-        fetchHistoryData(completionHandler: completionHandler)
-    }
-    
     func updateCasesData(completionHandler: @escaping (_ caseType: CaseType) -> Void) {
         fetchCoronaCases(caseType: .byCountry, completionHandler: completionHandler)
         fetchCoronaCases(caseType: .byRegion, completionHandler: completionHandler)
@@ -337,6 +333,10 @@ class CoronaStore: ObservableObject {
         //        }
         self.currentCases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
         //        self.cases = caseData
+    }
+    
+    func updateHistoryData(completionHandler: @escaping () -> Void) {
+        fetchHistoryData(completionHandler: completionHandler)
     }
     
     func fetchHistoryData(completionHandler: @escaping () -> Void) {

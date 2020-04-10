@@ -38,17 +38,20 @@ struct History: Codable {
     }
     
     init(from casesCSV: String) {
-
+        
         self.init()
-
+        
         guard casesCSV.isNotEmpty else { return }
         
         let rows: [CaseRow] = perseCsvToCaseRows(casesCSV)
-
+        
         self.modificationDate = Date()
         self.countryCases = rows
         self.isUpdateCompleted = true
     }
+}
+
+extension History {
     
     var allCountriesTotals: [Int] {
         guard countryCases.count > 0 else { return [] }
@@ -139,7 +142,7 @@ struct History: Codable {
             return []
         } else {
             
-            //  MARK: - FIX THIS
+            //  MARK: FIX THIS
             //  нужна проверка по дате а не тупой отброс последнего значения
             //  https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data
             //  All timestamps are in UTC (GMT+0)
@@ -177,6 +180,10 @@ struct History: Codable {
         return series(for: country).dropLast().last ?? 0
     }
     
+}
+
+extension History {
+
     private func perseCsvToCaseRows(_ casesCsv: String) -> [CaseRow] {
         
         /// parse to table (array of rows)
