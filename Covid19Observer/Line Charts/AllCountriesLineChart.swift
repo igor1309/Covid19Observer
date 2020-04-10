@@ -17,17 +17,21 @@ struct AllCountriesLineChart: View {
     
     var series: [Int] {
         switch settings.selectedDataKind {
-        case .daily:
-            return coronaStore.confirmedHistory.allCountriesDailyChange
-        case .total:
+        case .confirmedTotal:
             return coronaStore.confirmedHistory.allCountriesTotals
+        case .confirmedDaily:
+            return coronaStore.confirmedHistory.allCountriesDailyChange
+        case .deathsTotal:
+            return coronaStore.deathsHistory.allCountriesTotals
+        case .deathsDaily:
+            return coronaStore.deathsHistory.allCountriesDailyChange
         }
     }
     
     var body: some View {
         VStack {
             
-            Text("All Countries Confirmed Cases")
+            Text("All Countries \(settings.selectedDataKind.id)")
                 .foregroundColor(.systemOrange)
                 .font(.headline)
                 .padding(.bottom, 6)
@@ -61,7 +65,7 @@ struct AllCountriesLineChart: View {
 }
 
 struct AllCountriesLineChart_Previews: PreviewProvider {
-    @State static var selectedDataKind: DataKind = .total
+    @State static var selectedDataKind: DataKind = .confirmedTotal
     static var previews: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)

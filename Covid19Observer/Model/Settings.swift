@@ -57,9 +57,9 @@ final class Settings: ObservableObject {
         
         let selectedDataKindID = UserDefaults.standard.string(forKey: "selectedDataKind") ?? ""
         if selectedDataKindID.isEmpty {
-            selectedDataKind = .daily
+            selectedDataKind = .confirmedDaily
         } else {
-            selectedDataKind = DataKind(rawValue: selectedDataKindID) ?? .daily
+            selectedDataKind = DataKind(rawValue: selectedDataKindID) ?? .confirmedDaily
         }
     }
 }

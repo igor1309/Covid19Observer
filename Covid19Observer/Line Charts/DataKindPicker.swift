@@ -14,7 +14,7 @@ struct DataKindPicker: View {
     var body: some View {
         Picker(selection: $selectedDataKind, label: Text("Select Data Kind")) {
             ForEach(DataKind.allCases, id: \.self) { kind in
-                Text(kind.id).tag(kind)
+                Text(kind.abbreviation).tag(kind)
             }
         }
         .labelsHidden()
@@ -23,7 +23,7 @@ struct DataKindPicker: View {
 }
 
 struct DataKindPicker_Previews: PreviewProvider {
-    @State static var selectedDataKind: DataKind = .total
+    @State static var selectedDataKind: DataKind = .confirmedTotal
     
     static var previews: some View {
         DataKindPicker(selectedDataKind: $selectedDataKind)

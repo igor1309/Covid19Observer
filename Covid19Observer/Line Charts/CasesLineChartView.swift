@@ -18,10 +18,14 @@ struct CasesLineChartView: View {
     
     var series: [Int] {
         switch settings.selectedDataKind {
-        case .total:
+        case .confirmedTotal:
             return coronaStore.confirmedHistory.series(for: coronaStore.selectedCountry)
-        case .daily:
+        case .confirmedDaily:
             return coronaStore.confirmedHistory.dailyChange(for: coronaStore.selectedCountry)
+        case .deathsTotal:
+            return coronaStore.deathsHistory.series(for: coronaStore.selectedCountry)
+        case .deathsDaily:
+            return coronaStore.deathsHistory.dailyChange(for: coronaStore.selectedCountry)
         }
     }
     

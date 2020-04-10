@@ -33,10 +33,25 @@ enum CaseType: String, CaseIterable {
 
 
 enum DataKind: String, CaseIterable {
-    case total = "Total"
-    case daily = " Daily"
+    case confirmedTotal = "Confirmed Cases"
+    case confirmedDaily = "Confirmed Cases Daily"
+    case deathsTotal = "Deaths"
+    case deathsDaily = "Deaths Daily"
     
     var id: String { rawValue }
+    
+    var abbreviation: String {
+        switch self {
+        case .confirmedTotal:
+            return "Conf."
+        case .confirmedDaily:
+            return "Conf.D"
+        case .deathsTotal:
+            return "Deaths"
+        case .deathsDaily:
+            return "Deaths.D"
+        }
+    }
 }
 
 

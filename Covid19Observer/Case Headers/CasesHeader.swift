@@ -18,6 +18,52 @@ struct CasesHeader: View {
     var body: some View {
         HStack(spacing: 6) {
             Group {
+//                Spacer()
+                Button(action: {
+                    self.showLineChart = true
+                }) {
+                    HStack {
+                        Image(systemName: "waveform.path.ecg")
+                        
+                        //                        VStack {
+                        //                            Text("Chart".uppercased())
+                        //                                .font(.subheadline)
+                        //                            Text("confirmed")
+                        //                        }
+                    }
+                    .foregroundColor(CaseDataType.confirmed.color)
+                    .fixedSize()
+                }
+                .sheet(isPresented: $showLineChart) {
+                    AllCountriesLineChart()
+                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.settings)
+                }
+                
+                Spacer()
+                Button(action: {
+                    self.showTable = true
+                }) {
+                    HStack {
+                        Image(systemName: "table")
+                        
+                        //                        VStack {
+                        //                            Text("Table".uppercased())
+                        //                                .font(.subheadline)
+                        //                            Text("details")
+                        //                        }
+                    }
+                    .fixedSize()
+                }
+                .sheet(isPresented: $showTable) {
+                    CasesTableView()
+                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.settings)
+                }
+            }
+            
+            Group {
+                Spacer()
                 VStack {
                     Text("\(coronaStore.coronaOutbreak.totalCases)")
                         .font(.subheadline)
@@ -53,7 +99,7 @@ struct CasesHeader: View {
                     Text("deaths")
                 }
                 .foregroundColor(CaseDataType.deaths.color)
-                
+
                 Spacer()
                 VStack {
                     Text("\(coronaStore.coronaOutbreak.cfr)")
@@ -61,7 +107,7 @@ struct CasesHeader: View {
                     Text("CFR")
                 }
                 .foregroundColor(CaseDataType.cfr.color)
-                
+
                 Spacer()
                 VStack {
                     Text("\(coronaStore.coronaOutbreak.totalRecovered)")
@@ -72,49 +118,6 @@ struct CasesHeader: View {
             }
             
             Group {
-                Spacer()
-                Button(action: {
-                    self.showLineChart = true
-                }) {
-                    HStack {
-                        Image(systemName: "waveform.path.ecg")
-                        
-                        VStack {
-                            Text("Chart".uppercased())
-                                .font(.subheadline)
-                            Text("confirmed")
-                        }
-                    }
-                    .foregroundColor(CaseDataType.confirmed.color)
-                    .fixedSize()
-                }
-                .sheet(isPresented: $showLineChart) {
-                    AllCountriesLineChart()
-                        .environmentObject(self.coronaStore)
-                        .environmentObject(self.settings)
-                }
-                
-                Spacer()
-                Button(action: {
-                    self.showTable = true
-                }) {
-                    HStack {
-                        Image(systemName: "table")
-                        
-                        VStack {
-                            Text("Table".uppercased())
-                                .font(.subheadline)
-                            Text("details")
-                        }
-                    }
-                    .fixedSize()
-                }
-                .sheet(isPresented: $showTable) {
-                    CasesTableView()
-                        .environmentObject(self.coronaStore)
-                        .environmentObject(self.settings)
-                }
-                
                 Spacer()
                 //                Button(action: {
                 //  MARK: FIX THIS
