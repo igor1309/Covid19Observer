@@ -180,14 +180,7 @@ class CoronaStore: ObservableObject {
             }
         }
         
-        if confirmedHistory.countryCases.isEmpty || confirmedHistory.isDataOld {
-            print("History Data empty or old, need to fetch")
-            updateHistoryData() {
-                self.countNewAndCurrentCases()
-            }
-        }
-        
-        if deathsHistory.countryCases.isEmpty || deathsHistory.isDataOld {
+        if confirmedHistory.countryCases.isEmpty || confirmedHistory.isDataOld || deathsHistory.countryCases.isEmpty || deathsHistory.isDataOld {
             print("History Data empty or old, need to fetch")
             updateHistoryData() {
                 self.countNewAndCurrentCases()
@@ -341,33 +334,21 @@ class CoronaStore: ObservableObject {
         //        self.cases = caseData
     }
     
+    
     func updateHistoryData(completionHandler: @escaping () -> Void) {
         
         confirmedHistory.isUpdateCompleted = false
         deathsHistory.isUpdateCompleted = false
-        
-        func completionConfirmed(casesCSV: String) {
-            DispatchQueue.main.async {
-                
-                self.confirmedHistory.update(from: casesCSV)
-                completionHandler()
-            }
-        }
-        
-        func completionDeaths(casesCSV: String) {
-            DispatchQueue.main.async {
-                
-                self.deathsHistory.update(from: casesCSV)
-                completionHandler()
-            }
-        }
         
         let confirmedTask = URLSession.shared
             .downloadTask(with: confirmedHistory.url) { localURL, urlResponse, error in
                 if let localURL = localURL {
                     if let history = try? String(contentsOf: localURL) {
                         
-                        completionConfirmed(casesCSV: history)
+                        DispatchQueue.main.async {
+                            self.confirmedHistory.update(from: history)
+                            completionHandler()
+                        }
                     }
                 }
         }
@@ -378,8 +359,10 @@ class CoronaStore: ObservableObject {
                 if let localURL = localURL {
                     if let history = try? String(contentsOf: localURL) {
                         
-                        completionDeaths(casesCSV: history)
-                    }
+                        DispatchQueue.main.async {
+                            self.deathsHistory.update(from: history)
+                            completionHandler()
+                        }                    }
                 }
         }
         deathsTask.resume()
