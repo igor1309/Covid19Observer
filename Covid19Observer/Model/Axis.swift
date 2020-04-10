@@ -46,7 +46,7 @@ struct Axis {
         // Normalize rough step to find the normalized one that fits best
         let stepPower = pow(10, -(log10(abs(stepSize))).rounded(.down))
         let normalizedStep = stepSize * stepPower
-        let goodNormalizedStep = goodNormalizedSteps.first { $0 >= normalizedStep }!
+        let goodNormalizedStep = goodNormalizedSteps.first { $0 >= normalizedStep } ?? 10
         let step = goodNormalizedStep / stepPower
         
         

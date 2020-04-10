@@ -176,8 +176,10 @@ class CoronaStore: ObservableObject {
         
         
         /// initialize history data
-        confirmedHistory = History(saveIn: "confirmedHistory.json", url: confirmedURL)
-        deathsHistory = History(saveIn: "deathsHistory", url: deathsURL)
+        confirmedHistory = History(
+            saveIn: "confirmedHistory.json", url: confirmedURL)
+        deathsHistory = History(
+            saveIn: "deathsHistory.json", url: deathsURL)
         
         /// load saved history data
         confirmedHistory.load()

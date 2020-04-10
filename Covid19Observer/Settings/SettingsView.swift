@@ -38,6 +38,7 @@ struct SettingsView: View {
                     }
                     .sheet(isPresented: $showDoublingTime) {
                         DoublingTimeView()
+                            .environmentObject(self.settings)
                     }
         }
     }
