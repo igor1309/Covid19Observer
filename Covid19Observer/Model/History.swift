@@ -16,8 +16,8 @@ struct History: Codable {
         var id: String { provinceState + "/" + countryRegion }
         
         var provinceState, countryRegion: String
-        //        var points: [Date: Int]
         var name: String { provinceState + "/" + countryRegion }
+        var points: [Date: Int]
         var series: [Int]
     }
     
@@ -111,6 +111,8 @@ extension History {
         return change
     }
     
+    //  MARK: FIX THIS
+    //  НЕ СОБИРАЕТ POINTS!!
     func series(for country: String) -> [Int] {
         
         guard countryCases.count > 0 else { return [] }
@@ -142,8 +144,9 @@ extension History {
                 }
                 series.append(s)
             }
-            
-            filteredRow = CaseRow(provinceState: "", countryRegion: country, series: series)
+            //  MARK: FIX THIS
+            //  НЕ СОБИРАЕТ POINTS!!
+            filteredRow = CaseRow(provinceState: "", countryRegion: country, points: [:], series: series)
             
         } else {
             
@@ -152,7 +155,7 @@ extension History {
             if filteredRows.isNotEmpty {
                 filteredRow = filteredRows[0]
             } else {
-                filteredRow = CaseRow(provinceState: "", countryRegion: "", series: [])
+                filteredRow = CaseRow(provinceState: "", countryRegion: "", points: [:], series: [])
             }
         }
         
@@ -217,20 +220,23 @@ extension History {
             //  09.04.2020 из-за Sao Tome and Principe сбился парсинг
             //  пока причину не нашел
             //  размером можно пренебречь, поэтому удаляю
-            guard row[1] != "Sao Tome and Principe" else {
-                continue
-            }
+//            guard row[1] != "Sao Tome and Principe" else {
+//                continue
+//            }
             
             let provinceState = row[0]
             let countryRegion = row[1]
-            //            var points: [Date: Int] = [:]
+            
+            var points: [Date: Int] = [:]
             var series: [Int] = []
+            /// skip lat and long ([2] & [3]
             for j in 4 ..< row.count {
-                //                points[dateFromStr(table[0][j])] = Int(row[j])
+                let date = dateFromStr(table[0][j])
+                points[date] = Int(row[j])
                 series.append(Int(row[j]) ?? 0)
             }
-            caseRows.append(CaseRow(provinceState: provinceState, countryRegion: countryRegion, series: series))
-            //            caseRows.append(CaseRow(countryRegion: countryRegion, points: points, series: series))
+            
+            caseRows.append(CaseRow(provinceState: provinceState, countryRegion: countryRegion, points: points, series: series))
         }
         
         return caseRows
@@ -276,7 +282,7 @@ extension History {
         
         /// drop last row if empty (реальная ситуация 24.03.2020)
         if rows.count > 1 && rows.last!.isEmpty {
-            print("!! dropped last emty row")
+            print("!! dropped last empty row")
             rows = rows.dropLast()
         }
         
@@ -308,10 +314,13 @@ extension History {
     /// date as String in format m/d/yy
     private func dateFromStr(_ str: String) -> Date {
         let strComponents = str.components(separatedBy: "/")
+        let hour = 23
+        let minutes = 59
         let month = Int(strComponents[0])
         let day = Int(strComponents[1])
         let year = 2000 + (Int(strComponents[2]) ?? 0)
-        return Calendar.current.date(from: DateComponents(year: year, month: month, day: day)) ?? .distantPast
+        let timeZone = TimeZone(abbreviation: "UTC")
+        return Calendar.current.date(from: DateComponents(timeZone: timeZone, year: year, month: month, day: day, hour: hour, minute: minutes)) ?? .distantPast
     }
 }
 

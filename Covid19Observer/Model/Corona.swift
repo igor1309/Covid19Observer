@@ -6,7 +6,7 @@
 //  Copyright © 2020 Igor Malyarov. All rights reserved.
 //
 
-struct CoronaResponse: Codable{
+struct CoronaResponse: Codable {
     public var features: [CoronaCases]
     
     private enum CodingKeys: String, CodingKey {
@@ -15,7 +15,7 @@ struct CoronaResponse: Codable{
 }
 
 
-struct CoronaCases: Codable{
+struct CoronaCases: Codable {
     public var attributes: CaseAttributes
     
     private enum CodingKeys: String, CodingKey {
