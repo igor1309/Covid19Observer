@@ -80,10 +80,10 @@ struct ContentView: View {
             .tag(4)
         }
         .onAppear {
-            self.coronaStore.updateIfStoreIsOldOrEmpty()
+            self.coronaStore.updateEmptyOrOldStore()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            self.coronaStore.updateIfStoreIsOldOrEmpty()
+            self.coronaStore.updateEmptyOrOldStore()
         }
     }
 }

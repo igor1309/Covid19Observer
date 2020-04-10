@@ -21,23 +21,33 @@ struct History: Codable {
         var series: [Int]
     }
     
-    private(set) var countryCases: [CaseRow] = []
+    private(set) var countryCases: [CaseRow]
+    
+    var modificationDate: Date
+    
+    var timeSinceUpdateStr: String { modificationDate.hoursMunutesTillNow }
+    
+    var isDataOld: Bool { modificationDate.distance(to: Date()) > 6 * 60 * 60 }
+    
+    var isUpdateCompleted: Bool?
+    
+    init() {
+        self.countryCases = []
+        self.modificationDate = .distantPast
+        self.isUpdateCompleted = nil
+    }
     
     init(from casesCSV: String) {
-        guard casesCSV.isNotEmpty else {
-            self.countryCases = []
-            return
-        }
-        
-        /// remove any special characters in a string
-        let table: [[String]] = parseCVStoTable(
-            from: casesCSV
-                .components(separatedBy: CharacterSet.symbols)
-                .joined(separator: ""))
-        
-        let rows: [CaseRow] = splitToCaseRows(table)
 
+        self.init()
+
+        guard casesCSV.isNotEmpty else { return }
+        
+        let rows: [CaseRow] = perseCsvToCaseRows(casesCSV)
+
+        self.modificationDate = Date()
         self.countryCases = rows
+        self.isUpdateCompleted = true
     }
     
     var allCountriesTotals: [Int] {
@@ -167,13 +177,17 @@ struct History: Codable {
         return series(for: country).dropLast().last ?? 0
     }
     
-    private func splitToCaseRows(_ table: [[String]]) -> [CaseRow] {
+    private func perseCsvToCaseRows(_ casesCsv: String) -> [CaseRow] {
+        
+        /// parse to table (array of rows)
+        let table: [[String]] = parseCVStoTable(from: casesCsv)
         
         var caseRows: [CaseRow] = []
         
+        /// parse each row
         for i in 0 ..< table.count {
             let row = table[i]
-
+            
             //  MARK: FIX THIS!!!
             //  09.04.2020 из-за Sao Tome and Principe сбился парсинг
             //  пока причину не нашел
@@ -198,6 +212,7 @@ struct History: Codable {
     }
     
     private func parseCVStoTable(from csvStr: String) -> [[String]] {
+        
         /// returns first quoted text and drops this quote from passed string
         func parseQuotes(stringToParse: inout String) -> [String] {
             if stringToParse.first == "\"" {
@@ -214,16 +229,26 @@ struct History: Codable {
         }
         
         /// https://stackoverflow.com/questions/43295163/swift-3-1-how-to-get-array-or-dictionary-from-csv
-        func cleanRows(csv: String) -> String {
+        func cleanCsv(_ csv: String) -> String {
             var cleanFile = csv
+            
+            /// remove any special characters in a string
+            cleanFile = csv
+                .components(separatedBy: CharacterSet.symbols)
+                .joined(separator: "")
+            
+            /// unify end of line symbols
             cleanFile = cleanFile.replacingOccurrences(of: "\r", with: "\n")
             cleanFile = cleanFile.replacingOccurrences(of: "\n\n", with: "\n")
-            //        cleanFile = cleanFile.replacingOccurrences(of: ";;", with: "")
-            //        cleanFile = cleanFile.replacingOccurrences(of: ";\n", with: "")
+            //  cleanFile = cleanFile.replacingOccurrences(of: ";;", with: "")
+            //  cleanFile = cleanFile.replacingOccurrences(of: ";\n", with: "")
+            
             return cleanFile
         }
         
-        var rows = cleanRows(csv: csvStr).components(separatedBy: "\n")
+        
+        var rows = cleanCsv(csvStr).components(separatedBy: "\n")
+        
         /// drop last row if empty (реальная ситуация 24.03.2020)
         if rows.count > 1 && rows.last!.isEmpty {
             print("!! dropped last emty row")

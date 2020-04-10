@@ -37,9 +37,9 @@ struct CasesTableView: View {
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
-                        ForEach(coronaStore.cases.indices, id: \.self) { index in
+                        ForEach(coronaStore.currentCases.indices, id: \.self) { index in
                             HStack {
-                                Text("\(index + 1). \(self.coronaStore.cases[index].name)")
+                                Text("\(index + 1). \(self.coronaStore.currentCases[index].name)")
                                     .padding(.leading, 6)
                                     .lineLimit(1)
                                     .truncationMode(.tail)
@@ -47,20 +47,20 @@ struct CasesTableView: View {
                                 Spacer()
                                 
                                 Group {
-                                    Text(self.coronaStore.cases[index].confirmedStr)
+                                    Text(self.coronaStore.currentCases[index].confirmedStr)
                                         .foregroundColor(.systemYellow)
                                         .padding(.trailing, 6)
                                         .widthPreference(column: 1)
                                         .frame(width: self.columnWidths[1], alignment: .trailing)
                                     
-                                    Text(self.coronaStore.cases[index].deathsStr)
+                                    Text(self.coronaStore.currentCases[index].deathsStr)
                                         .foregroundColor(.systemRed)
                                         .padding(.leading, 12)
                                         .padding(.trailing, 6)
                                         .widthPreference(column: 2)
                                         .frame(width: self.columnWidths[2], alignment: .trailing)
                                     
-                                    Text(self.coronaStore.cases[index].cfrStr)
+                                    Text(self.coronaStore.currentCases[index].cfrStr)
                                         .foregroundColor(.systemTeal)
                                         .padding(.leading, 12)
                                         .padding(.trailing, 6)
@@ -71,7 +71,7 @@ struct CasesTableView: View {
                             }
                             .padding(.vertical, 10)
                             .contentShape(Rectangle())
-                            .background(self.coronaStore.cases[index].name == "Russia" ? Color.systemBlue.opacity(0.3) : Color.clear)
+                            .background(self.coronaStore.currentCases[index].name == "Russia" ? Color.systemBlue.opacity(0.3) : Color.clear)
                             .background(index.isMultiple(of: 2) ? Color.secondarySystemBackground : .clear)
                             .contextMenu {
                                 Button(action: {
@@ -110,7 +110,7 @@ struct CasesTableView: View {
     //  маркер по названию или индексу? - что лучше
     //  также используется в FlexibleCasesChart()
     func prepareHistoryData(for index: Int) {
-        self.coronaStore.selectedCountry = self.coronaStore.cases[index].name
+        self.coronaStore.selectedCountry = self.coronaStore.currentCases[index].name
         self.showLineChart = true
     }
 }

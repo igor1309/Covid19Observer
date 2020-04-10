@@ -16,10 +16,20 @@ import SwiftPI
 
 class CoronaStore: ObservableObject {
     
+    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
+        didSet {
+            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
+        }
+    }
+    
     @Published var caseType: CaseType { didSet { processCases() }}
     
-    @Published private(set) var history: History = History(from: "")
-    @Published private(set) var cases = [CaseData]()
+    @Published private(set) var confirmedHistory: History = History()
+    
+    //  MARK: - FINISH THIS
+    @Published private(set) var deathsHistory: History = History()
+    
+    @Published private(set) var currentCases = [CaseData]()
     @Published private(set) var caseAnnotations = [CaseAnnotation]()
     @Published private(set) var coronaOutbreak = (
         totalCases: "...",
@@ -47,12 +57,9 @@ class CoronaStore: ObservableObject {
     private(set) var worldCaseFatalityRate: Double = 0
     
     @Published private(set) var isCasesUpdateCompleted = true
-    @Published private(set) var isHistoryUpdateCompleted = true
     
-    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
-        didSet {
-            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
-        }
+    var isHistoryUpdateCompleted: Bool {
+        confirmedHistory.isUpdateCompleted ?? false && deathsHistory.isUpdateCompleted ?? false
     }
     
     var selectedCountryOutbreak: (
@@ -62,7 +69,7 @@ class CoronaStore: ObservableObject {
         deaths: String,
         cfr: String
         ) {
-        if let countryCase = cases.first(where: { $0.name == selectedCountry }) {
+        if let countryCase = currentCases.first(where: { $0.name == selectedCountry }) {
             return (confirmed: countryCase.confirmedStr,
                     newConfirmed: countryCase.newConfirmedStr,
                     currentConfirmed: countryCase.currentConfirmedStr,
@@ -73,7 +80,7 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    var countryRegions: [String] { cases.map { $0.name }.sorted()}
+    var countryRegions: [String] { currentCases.map { $0.name }.sorted()}
     
     var filterColor: Color { Color(colorCode(for: mapFilterLowerLimit)) }
     
@@ -90,10 +97,6 @@ class CoronaStore: ObservableObject {
             processCases()
         }
     }
-    
-    var timeSinceCasesUpdateStr: String { casesModificationDate.hoursMunutesTillNow }
-    
-    var timeSinceHistoryUpdateStr: String { historyModificationDate.hoursMunutesTillNow }
     
     private var storage = [AnyCancellable]()
     
@@ -137,36 +140,31 @@ class CoronaStore: ObservableObject {
         
         processCases()
         
-        /// load History from disk
-        if let history: History = loadJSONFromDocDir("history.json") {
-            self.history = history
+        /// load History from disk or set to empty
+        if let history: History = loadJSONFromDocDir("confirmedHistory.json") {
+            self.confirmedHistory = history
             print("historical data loaded from JSON-file on disk")
         } else {
-            self.history = History(from: "")
+            self.confirmedHistory = History()
             print("no JSON-file with historical data on disk, set to empty")
         }
         
         countNewAndCurrentCases()
     }
     
+    var timeSinceCasesUpdateStr: String { casesModificationDate.hoursMunutesTillNow }
+    
     private var casesModificationDate: Date = (UserDefaults.standard.object(forKey: "casesModificationDate") as? Date ?? Date.distantPast) {
         didSet {
             UserDefaults.standard.set(casesModificationDate, forKey: "casesModificationDate")
         }
     }
-    
-    private var historyModificationDate: Date = (UserDefaults.standard.object(forKey: "historyModificationDate") as? Date ?? Date.distantPast) {
-        didSet {
-            UserDefaults.standard.set(historyModificationDate, forKey: "historyModificationDate")
-        }
-    }
-    
+        
     /// __ hours means data is old
     var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) > 1 * 60 * 60 }
-    var isHistoryDataOld: Bool { casesModificationDate.distance(to: Date()) > 6 * 60 * 60 }
     
-    func updateIfStoreIsOldOrEmpty() {
-        if cases.isEmpty || isCasesDataOld {
+    func updateEmptyOrOldStore() {
+        if currentCases.isEmpty || isCasesDataOld {
             print("Cases Data empty or old, need to fetch")
             isCasesUpdateCompleted = false
             updateCasesData() { _ in
@@ -174,9 +172,17 @@ class CoronaStore: ObservableObject {
             }
         }
         
-        if history.countryCases.isEmpty || isHistoryDataOld {
+        if confirmedHistory.countryCases.isEmpty || confirmedHistory.isDataOld {
             print("History Data empty or old, need to fetch")
-            isHistoryUpdateCompleted = false
+            confirmedHistory.isUpdateCompleted = false
+            updateHistoryData() {
+                self.countNewAndCurrentCases()
+            }
+        }
+        
+        if deathsHistory.countryCases.isEmpty || deathsHistory.isDataOld {
+            print("History Data empty or old, need to fetch")
+            deathsHistory.isUpdateCompleted = false
             updateHistoryData() {
                 self.countNewAndCurrentCases()
             }
@@ -253,17 +259,17 @@ class CoronaStore: ObservableObject {
         var totalNewConfirmed = 0
         var totalCurrentConfirmed = 0
         
-        for index in cases.indices {
-            let last = history.last(for: cases[index].name)
-            let previous = history.previous(for: cases[index].name)
+        for index in currentCases.indices {
+            let last = confirmedHistory.last(for: currentCases[index].name)
+            let previous = confirmedHistory.previous(for: currentCases[index].name)
             
             let new = last - previous
-            cases[index].newConfirmed = new
-            cases[index].newConfirmedStr = new.formattedGrouped
+            currentCases[index].newConfirmed = new
+            currentCases[index].newConfirmedStr = new.formattedGrouped
             
-            let currentConfirmed = cases[index].confirmed - last
-            cases[index].currentConfirmed = currentConfirmed
-            cases[index].currentConfirmedStr = currentConfirmed.formattedGrouped
+            let currentConfirmed = currentCases[index].confirmed - last
+            currentCases[index].currentConfirmed = currentConfirmed
+            currentCases[index].currentConfirmedStr = currentConfirmed.formattedGrouped
             
             totalNewConfirmed += new
             totalCurrentConfirmed += currentConfirmed
@@ -329,64 +335,91 @@ class CoronaStore: ObservableObject {
         //        if isFiltered && caseAnnotations.count > maxBars {
         //            caseData = Array(caseData.prefix(upTo: maxBars))
         //        }
-        self.cases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
+        self.currentCases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
         //        self.cases = caseData
     }
     
     func fetchHistoryData(completionHandler: @escaping () -> Void) {
         
-        isHistoryUpdateCompleted = false
+        confirmedHistory.isUpdateCompleted = false
+        deathsHistory.isUpdateCompleted = false
         
         ///  https://github.com/CSSEGISandData/COVID-19
-        let url = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")!
+        /// confirmed cases
+        let confirmedURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")!
+        /// deaths
+        let deathsURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")!
         
-        func completion(casesStr: String) {
+        func completionConfirmed(casesStr: String) {
             DispatchQueue.main.async {
-                self.history = History(from: casesStr)
+                self.confirmedHistory = History(from: casesStr)
                 
-                saveJSONToDocDir(data: self.history,
-                                 filename: "history.json")
+                saveJSONToDocDir(data: self.confirmedHistory,
+                                 filename: "confirmedHistory.json")
                 
                 completionHandler()
                 
-                self.historyModificationDate = Date()
-                self.isHistoryUpdateCompleted = true
+                self.confirmedHistory.isUpdateCompleted = true
             }
         }
         
-//        var storage = Set<AnyCancellable>()
-//
-//        func fetch() -> AnyPublisher<String, URLError> {
-//
-//            return URLSession.shared.dataTaskPublisher(for: url)
-//                //                .retry(1)
-//                .compactMap { String(data: $0.data, encoding: .utf8) }
-//                .receive(on: DispatchQueue.main)
-//                .eraseToAnyPublisher()
-//
-//        }
-//
-//        fetch()
-//            .sink(receiveCompletion: { _ in
-//                print("error getting string for ure \(url)")
-//            }) {
-//                completion(casesStr: $0)
-//        }
-//            .store(in: &storage)//cancel()
+        func completionDeaths(casesStr: String) {
+            DispatchQueue.main.async {
+                self.deathsHistory = History(from: casesStr)
+                
+                saveJSONToDocDir(data: self.confirmedHistory,
+                                 filename: "deathsHistory.json")
+                
+                completionHandler()
+                
+                self.deathsHistory.isUpdateCompleted = true
+            }
+        }
+        
+        let confirmedTask = URLSession.shared
+            .downloadTask(with: confirmedURL) { localURL, urlResponse, error in
+                if let localURL = localURL {
+                    if let history = try? String(contentsOf: localURL) {
+                        
+                        completionConfirmed(casesStr: history)
+                    }
+                }
+        }
+        confirmedTask.resume()
+        
+        let deathsTask = URLSession.shared
+            .downloadTask(with: deathsURL) { localURL, urlResponse, error in
+                if let localURL = localURL {
+                    if let history = try? String(contentsOf: localURL) {
+                        
+                        completionDeaths(casesStr: history)
+                    }
+                }
+        }
+        deathsTask.resume()
+        
+        //        var storage = Set<AnyCancellable>()
+        //
+        //        func fetch() -> AnyPublisher<String, URLError> {
+        //
+        //            return URLSession.shared.dataTaskPublisher(for: url)
+        //                //                .retry(1)
+        //                .compactMap { String(data: $0.data, encoding: .utf8) }
+        //                .receive(on: DispatchQueue.main)
+        //                .eraseToAnyPublisher()
+        //
+        //        }
+        //
+        //        fetch()
+        //            .sink(receiveCompletion: { _ in
+        //                print("error getting string for ure \(url)")
+        //            }) {
+        //                completion(casesStr: $0)
+        //        }
+        //            .store(in: &storage)//cancel()
         
         //
         //        fetch()
-        
-        let task = URLSession.shared.downloadTask(with: url) { localURL, urlResponse, error in
-            if let localURL = localURL {
-                if let casesStr = try? String(contentsOf: localURL) {
-
-                    completion(casesStr: casesStr)
-
-                }
-            }
-        }
-        task.resume()
     }
     
     

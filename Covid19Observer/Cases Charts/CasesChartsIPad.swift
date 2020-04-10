@@ -17,7 +17,7 @@ struct CasesChartsIPad: View {
         VStack {
             CasesHeader()
             
-            if coronaStore.cases.isNotEmpty {
+            if coronaStore.currentCases.isNotEmpty {
                 GeometryReader { geo in
                     ScrollView(.horizontal, showsIndicators: false) {
                         VStack(spacing: 0) {

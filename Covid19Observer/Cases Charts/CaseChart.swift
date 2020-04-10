@@ -26,16 +26,16 @@ struct CaseChart: View {
         let maximum: CGFloat
         switch selectedType {
         case .confirmed:
-            maximum = CGFloat(coronaStore.cases.map { $0.confirmed }.max() ?? 1)
+            maximum = CGFloat(coronaStore.currentCases.map { $0.confirmed }.max() ?? 1)
         case .new:
-            maximum = CGFloat(coronaStore.cases.map { $0.newConfirmed }.max() ?? 1)
+            maximum = CGFloat(coronaStore.currentCases.map { $0.newConfirmed }.max() ?? 1)
         case .current:
-            maximum = CGFloat(coronaStore.cases.map { $0.currentConfirmed }.max() ?? 1)
+            maximum = CGFloat(coronaStore.currentCases.map { $0.currentConfirmed }.max() ?? 1)
         case .deaths:
-            maximum = CGFloat(coronaStore.cases.map { $0.deaths }.max() ?? 1)
+            maximum = CGFloat(coronaStore.currentCases.map { $0.deaths }.max() ?? 1)
         case .cfr:
             //            maximum = 0.15
-            maximum = CGFloat(coronaStore.cases
+            maximum = CGFloat(coronaStore.currentCases
                 //  MARK: - FINISH THIS
                 //  move to model
                 //
@@ -62,13 +62,13 @@ struct CaseChart: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    ForEach(0..<self.coronaStore.cases.count, id: \.self) { index in
+                    ForEach(0..<self.coronaStore.currentCases.count, id: \.self) { index in
                         
                         CaseBar(selectedType: self.selectedType, index: index, maximum: maximum, width: self.width, barHeight: self.barHeight)
                             
                             .onTapGesture {
                                 if self.isBarsTappable {
-                                    self.selectedCountry = self.coronaStore.cases[index].name
+                                    self.selectedCountry = self.coronaStore.currentCases[index].name
                                     self.prepareHistoryData()
                                 }
                         }

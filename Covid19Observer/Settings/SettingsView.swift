@@ -104,9 +104,9 @@ struct SettingsView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Update History Data")
                                 
-                                Text(coronaStore.timeSinceHistoryUpdateStr == "0min"
+                                Text(coronaStore.confirmedHistory.timeSinceUpdateStr == "0min"
                                     ? "Updated just now"
-                                    : "Last update \(coronaStore.timeSinceHistoryUpdateStr) ago")
+                                    : "Last update \(coronaStore.confirmedHistory.timeSinceUpdateStr) ago")
                                     .foregroundColor(.secondary)
                                     .font(.subheadline)
                             }

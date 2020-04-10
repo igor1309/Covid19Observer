@@ -38,7 +38,7 @@ struct HistoryTableIPad: View {
                 ScrollView(.vertical) {
                     VStack {
                         //                ScrollView(.horizontal) {
-                        ForEach(coronaStore.history.countryCases) { countryCase in
+                        ForEach(coronaStore.confirmedHistory.countryCases) { countryCase in
                             Row(country: countryCase.name, series: countryCase.series)
                         }
                         //            }
@@ -47,7 +47,7 @@ struct HistoryTableIPad: View {
             }
         }
         .onAppear {
-            self.coronaStore.updateIfStoreIsOldOrEmpty()
+            self.coronaStore.updateEmptyOrOldStore()
         }
     }
 }

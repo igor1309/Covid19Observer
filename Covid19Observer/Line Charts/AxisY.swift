@@ -22,7 +22,7 @@ struct AxisY: View {
         self.steps = axisY.steps
     }
     
-    @State private var width: CGFloat = 100
+    @State private var width: CGFloat = 50
     
     private func axisLabel(geoHeight: CGFloat, line: Int) -> some View {
         Text("\(line * self.seriesMax / self.steps)")

@@ -19,9 +19,9 @@ struct CasesLineChartView: View {
     var series: [Int] {
         switch settings.selectedDataKind {
         case .total:
-            return coronaStore.history.series(for: coronaStore.selectedCountry)
+            return coronaStore.confirmedHistory.series(for: coronaStore.selectedCountry)
         case .daily:
-            return coronaStore.history.dailyChange(for: coronaStore.selectedCountry)
+            return coronaStore.confirmedHistory.dailyChange(for: coronaStore.selectedCountry)
         }
     }
     
@@ -61,7 +61,7 @@ struct CasesLineChartView: View {
                     CountryCasesHeader()
                     
                     VStack {
-                        Text(coronaStore.history.last(for: coronaStore.selectedCountry).formattedGrouped)
+                        Text(coronaStore.confirmedHistory.last(for: coronaStore.selectedCountry).formattedGrouped)
                         Text("last in history")
                             .font(.caption)
                     }
@@ -95,7 +95,7 @@ struct CasesLineChartView: View {
 //                    .joined(separator: ", ")
 //                    //  MARK: FINISH THIS
 //                    //  показать последюнюю дату в серии
-//                    //+ " " + coronaStore.history.rows[0].series.last
+//                    //+ " " + coronaStore.confirmedHistory.rows[0].series.last
 //                )
 //                    .foregroundColor(.tertiary)
 //                    .font(.caption)
@@ -105,7 +105,7 @@ struct CasesLineChartView: View {
         .padding(.horizontal)
         .padding(.bottom, 6)
 //        .onAppear {
-//            self.coronaStore.updateIfStoreIsOldOrEmpty()
+//            self.coronaStore.updateEmptyOrOldStore()
 //            
 //            //  MARK: FINISH THIS
 //            //

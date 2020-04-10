@@ -17,7 +17,7 @@ struct CountryPicker: View {
             VStack {
                 Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
                     ForEach(coronaStore.countryRegions, id: \.self) { countryRegion in
-                        //  ForEach(coronaStore.cases.provinceStateCountryRegions, id: \.self) { countryRegion in
+                        //  ForEach(coronaStore.currentCases.provinceStateCountryRegions, id: \.self) { countryRegion in
                         Text(countryRegion)
                     }
                 }

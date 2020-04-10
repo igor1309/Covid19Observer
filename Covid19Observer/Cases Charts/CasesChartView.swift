@@ -26,7 +26,7 @@ struct CasesChartView: View {
             
             CaseDataTypePicker(selection: $selectedType)
             
-            if coronaStore.cases.isNotEmpty {
+            if coronaStore.currentCases.isNotEmpty {
                 GeometryReader { geo in
                     ScrollView(.vertical, showsIndicators: false) {
                         
@@ -52,7 +52,7 @@ struct CasesChartView: View {
             }
         }
         .onAppear {
-            self.coronaStore.updateIfStoreIsOldOrEmpty()
+            self.coronaStore.updateEmptyOrOldStore()
         }
     }
 }

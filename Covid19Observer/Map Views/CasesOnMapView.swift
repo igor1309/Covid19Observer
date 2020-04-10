@@ -232,7 +232,7 @@ struct CasesOnMapView: View {
             shortToolBar
         }
         .onAppear {
-            self.coronaStore.updateIfStoreIsOldOrEmpty()
+            self.coronaStore.updateEmptyOrOldStore()
         }
     }
 }

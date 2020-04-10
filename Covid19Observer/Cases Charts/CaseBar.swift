@@ -23,9 +23,9 @@ struct CaseBar: View {
             self.selectedType.color
                 .frame(width: width / maximum * self.caseData(self.selectedType, for: index), height: self.barHeight)
                 .cornerRadius(6)
-                .saturation(self.coronaStore.cases[index].name == "China" ? 0.3 : 1)
+                .saturation(self.coronaStore.currentCases[index].name == "China" ? 0.3 : 1)
             
-            self.textLabel(name: "\(self.coronaStore.cases[index].name): \(self.caseDataStr(self.selectedType, for: index))",
+            self.textLabel(name: "\(self.coronaStore.currentCases[index].name): \(self.caseDataStr(self.selectedType, for: index))",
                 width: width / maximum * self.caseData(self.selectedType, for: index),
                 maxWidth: width)
         }
@@ -43,30 +43,30 @@ struct CaseBar: View {
     private func caseData(_ type: CaseDataType, for index: Int) -> CGFloat {
         switch type {
         case .confirmed:
-            return CGFloat(coronaStore.cases[index].confirmed)
+            return CGFloat(coronaStore.currentCases[index].confirmed)
         case .new:
-            return CGFloat(coronaStore.cases[index].newConfirmed)
+            return CGFloat(coronaStore.currentCases[index].newConfirmed)
         case .current:
-            return CGFloat(coronaStore.cases[index].currentConfirmed)
+            return CGFloat(coronaStore.currentCases[index].currentConfirmed)
         case .deaths:
-            return CGFloat(coronaStore.cases[index].deaths)
+            return CGFloat(coronaStore.currentCases[index].deaths)
         case .cfr:
-            return CGFloat(coronaStore.cases[index].cfr)
+            return CGFloat(coronaStore.currentCases[index].cfr)
         }
     }
     
     private func caseDataStr(_ type: CaseDataType, for index: Int) -> String {
         switch type {
         case .confirmed:
-            return coronaStore.cases[index].confirmedStr
+            return coronaStore.currentCases[index].confirmedStr
         case .new:
-            return coronaStore.cases[index].newConfirmedStr
+            return coronaStore.currentCases[index].newConfirmedStr
         case .current:
-            return coronaStore.cases[index].currentConfirmedStr
+            return coronaStore.currentCases[index].currentConfirmedStr
         case .deaths:
-            return coronaStore.cases[index].deathsStr
+            return coronaStore.currentCases[index].deathsStr
         case .cfr:
-            return coronaStore.cases[index].cfrStr
+            return coronaStore.currentCases[index].cfrStr
         }
     }
 }

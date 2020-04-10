@@ -12,15 +12,15 @@ struct TopTenBarChartVert: View {
     @EnvironmentObject var coronaStore: CoronaStore
     
     var body: some View {
-        let maxConfirmed = coronaStore.cases.map { $0.confirmed }.max() ?? 1
+        let maxConfirmed = coronaStore.currentCases.map { $0.confirmed }.max() ?? 1
         
         return VStack {
-            if coronaStore.cases.isNotEmpty {
+            if coronaStore.currentCases.isNotEmpty {
                 GeometryReader { geo in
                     HStack(alignment: .bottom) {
                         ForEach(0..<10) { index in
                             VStack {
-                                Text(self.coronaStore.cases[index].name)
+                                Text(self.coronaStore.currentCases[index].name)
                                     .font(.footnote)
                                     .background(Color.blue)
                                     .zIndex(1)
@@ -30,21 +30,21 @@ struct TopTenBarChartVert: View {
                                         RoundedRectangle(cornerRadius: 6, style: .continuous)
                                             .fill(Color.systemYellow)
                                             .frame(width: geo.size.width / 10 * 0.8,
-                                                   height: geo.size.height * CGFloat(self.coronaStore.cases[index].confirmed) / CGFloat(maxConfirmed))
+                                                   height: geo.size.height * CGFloat(self.coronaStore.currentCases[index].confirmed) / CGFloat(maxConfirmed))
                                         
                                         RoundedRectangle(cornerRadius: 6, style: .continuous)
                                             .fill(Color.systemRed)
                                             .frame(width: geo.size.width / 10 * 0.8,
-                                                   height: geo.size.height * CGFloat(self.coronaStore.cases[index].deaths) / CGFloat(maxConfirmed))
+                                                   height: geo.size.height * CGFloat(self.coronaStore.currentCases[index].deaths) / CGFloat(maxConfirmed))
                                     }
                                     
-                                    Text(self.coronaStore.cases[index].confirmedStr)
+                                    Text(self.coronaStore.currentCases[index].confirmedStr)
                                         .foregroundColor(.black)
                                         .lineLimit(1)
                                         .font(.caption)
                                         .rotationEffect(.degrees(-90))
                                     
-                                    //                                Text(self.coronaStore.cases[index].name)
+                                    //                                Text(self.coronaStore.currentCases[index].name)
                                     //                                    //                                    .rotationEffect(.degrees(-90))
                                     //                                    .frame(width: geo.size.width / 10 * 0.6, height: 150)
                                     //                                    .rotation3DEffect(.degrees(-90), axis: (x: 0, y: 0, z: 1))

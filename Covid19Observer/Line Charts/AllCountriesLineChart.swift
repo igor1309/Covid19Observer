@@ -18,9 +18,9 @@ struct AllCountriesLineChart: View {
     var series: [Int] {
         switch settings.selectedDataKind {
         case .daily:
-            return coronaStore.history.allCountriesDailyChange
+            return coronaStore.confirmedHistory.allCountriesDailyChange
         case .total:
-            return coronaStore.history.allCountriesTotals
+            return coronaStore.confirmedHistory.allCountriesTotals
         }
     }
     
@@ -48,7 +48,7 @@ struct AllCountriesLineChart: View {
         .padding()
             //        .padding(.bottom, 6)
 //            .onAppear {
-//                //            self.coronaStore.updateIfStoreIsOldOrEmpty()
+//                //            self.coronaStore.updateEmptyOrOldStore()
 //
 //                //  MARK: FINISH THIS
 //                //
