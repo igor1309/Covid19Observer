@@ -36,27 +36,34 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $settings.selectedTab) {
             
+            WhatsNew()
+                .tabItem {
+                    Image(systemName: "doc.text.magnifyingglass")
+                    Text("New")
+            }
+            .tag(0)
+            
             barChart
                 .padding()
                 .tabItem {
                     Image(systemName: "chart.bar")
                     Text("Chart")
             }
-            .tag(0)
+            .tag(1)
             
             lineChart
                 .tabItem {
                     Image(systemName: "waveform.path.ecg")
                     Text("History")
             }
-            .tag(1)
+            .tag(2)
             
             CasesOnMapView()
                 .tabItem {
                     Image(systemName: "map")
                     Text("Map")
             }
-            .tag(2)
+            .tag(3)
             
             //            CasesTableView()
             //                .tabItem {
@@ -65,12 +72,12 @@ struct ContentView: View {
             //            }
             //            .tag(2)
             
-            DoublingTimeView()
-                .tabItem {
-                    Image(systemName: "rectangle.on.rectangle.angled")
-                    Text("Doubling")
-            }
-            .tag(3)
+//            DoublingTimeView()
+//                .tabItem {
+//                    Image(systemName: "rectangle.on.rectangle.angled")
+//                    Text("Doubling")
+//            }
+//            .tag(3)
             
             SettingsView()
                 .tabItem {

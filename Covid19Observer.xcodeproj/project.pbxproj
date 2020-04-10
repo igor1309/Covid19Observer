@@ -51,6 +51,8 @@
 		2A96535024333FD0002A93A7 /* Extension+Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96534F24333FD0002A93A7 /* Extension+Notification.Name.swift */; };
 		2A96535424335810002A93A7 /* NotificationsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96535324335810002A93A7 /* NotificationsSettingsView.swift */; };
 		2A965356243360A4002A93A7 /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A965355243360A4002A93A7 /* NotificationDelegate.swift */; };
+		2A9974D3244125BB004FF043 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D2244125BB004FF043 /* WhatsNew.swift */; };
+		2A9974D6244126CF004FF043 /* MapColorCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D5244126CF004FF043 /* MapColorCodeView.swift */; };
 		2AAAC6EF242A384000C03E5B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAAC6EE242A384000C03E5B /* SettingsView.swift */; };
 		2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB947362430FCA4009C18ED /* MapWithLineChartView.swift */; };
 		2AB94739243126A1009C18ED /* CasesChartsIPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB94738243126A1009C18ED /* CasesChartsIPad.swift */; };
@@ -149,6 +151,8 @@
 		2A965355243360A4002A93A7 /* NotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDelegate.swift; sourceTree = "<group>"; };
 		2A96535D24336208002A93A7 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		2A96535F24336208002A93A7 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		2A9974D2244125BB004FF043 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
+		2A9974D5244126CF004FF043 /* MapColorCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapColorCodeView.swift; sourceTree = "<group>"; };
 		2A9BE4A824314C8000CA23A4 /* C19 Observer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "C19 Observer.entitlements"; sourceTree = "<group>"; };
 		2AAAC6EE242A384000C03E5B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2AB947362430FCA4009C18ED /* MapWithLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWithLineChartView.swift; sourceTree = "<group>"; };
@@ -224,6 +228,7 @@
 				2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */,
 				2A445F34242931A1007C6846 /* WORK IN PROGRESS */,
 				2A03BEDD2428BC6F0094852B /* ContentView.swift */,
+				2A9974D4244125D0004FF043 /* What's New */,
 				2AB9474024313EC7009C18ED /* Case Headers */,
 				2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */,
 				2AFF26E9242B50E300DAC856 /* Cases Charts */,
@@ -342,6 +347,7 @@
 				2AAAC6EE242A384000C03E5B /* SettingsView.swift */,
 				2AE2C5142437446700CC8476 /* LineChartSettingsSection.swift */,
 				2A96535324335810002A93A7 /* NotificationsSettingsView.swift */,
+				2A9974D5244126CF004FF043 /* MapColorCodeView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -372,6 +378,14 @@
 				2A96535F24336208002A93A7 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2A9974D4244125D0004FF043 /* What's New */ = {
+			isa = PBXGroup;
+			children = (
+				2A9974D2244125BB004FF043 /* WhatsNew.swift */,
+			);
+			path = "What's New";
 			sourceTree = "<group>";
 		};
 		2AB9474024313EC7009C18ED /* Case Headers */ = {
@@ -506,6 +520,7 @@
 				2AE2C52F24389EFF00CC8476 /* New+Extensions.swift in Sources */,
 				2A03BF052428C04F0094852B /* CoronaStore.swift in Sources */,
 				2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */,
+				2A9974D6244126CF004FF043 /* MapColorCodeView.swift in Sources */,
 				2AE2C5382439DA8A00CC8476 /* Chart.swift in Sources */,
 				2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */,
 				2AE2C53C243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift in Sources */,
@@ -572,6 +587,7 @@
 				2AAAC6EF242A384000C03E5B /* SettingsView.swift in Sources */,
 				2AE2C50F2437376500CC8476 /* PrimeCountries.swift in Sources */,
 				2ACF1C702430AA130045C531 /* CasesHeaderButton.swift in Sources */,
+				2A9974D3244125BB004FF043 /* WhatsNew.swift in Sources */,
 				2AE2C52D24389DC100CC8476 /* MovingCrossHair.swift in Sources */,
 				2A74F0C72428CE7B00137694 /* Extensions.swift in Sources */,
 			);

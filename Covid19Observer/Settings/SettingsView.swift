@@ -23,16 +23,30 @@ struct SettingsView: View {
     @State private var alertStatus: AlertsStatus = .notDetermined
     
     let maxBarsOptions = [10, 15, 20, 100]
-    let lowerLimits: [Int] = [100, 500, 1_000, 5_000, 10_000]
     
     
     //  MARK: - TESTING
     //
     @State private var isShowingNotificationSettingsTESTING = false
+    @State private var showDoublingTime = false
+    
+    var doublingSection: some View {
+        Section(header: Text("Doubling Time".uppercased()),
+                footer: Text("Show Doubling Time")) {
+                    Button("Doubling Time") {
+                        self.showDoublingTime = true
+                    }
+                    .sheet(isPresented: $showDoublingTime) {
+                        DoublingTimeView()
+                    }
+        }
+    }
     
     var body: some View {
         NavigationView {
             Form {
+                doublingSection
+                
                 LineChartSettingsSection()
                 
                 //  MARK: FINISH THIS
@@ -114,39 +128,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("Map Color Code".uppercased()),
-                        footer: Text("Select number (color) as a lower limit to filter pins on the map.")
-                ) {
-                    //                            VStack(alignment: .leading, spacing: 12) {
-                    Group {
-                        Text("Lower Limit for Map Filter")
-                            .foregroundColor(coronaStore.filterColor)
-                            .padding(.trailing, 64)
-                        
-                        HStack {
-                            ForEach(lowerLimits, id: \.self) { item in
-                                Capsule()
-                                    .foregroundColor(Color(self.coronaStore.colorCode(for: item)))
-                                    .padding(.horizontal, 6)
-                                    .frame(height: 16)
-                                    .overlay(
-                                        Capsule()
-                                            .stroke(self.coronaStore.mapFilterLowerLimit == item ? Color.primary : .clear, lineWidth: 2)
-                                            .padding(.horizontal, 6)
-                                )
-                            }
-                        }
-                        
-                        Picker(selection: $coronaStore.mapFilterLowerLimit, label: Text("Select Top Qty")) {
-                            ForEach(lowerLimits, id: \.self) { qty in
-                                Text("\(qty)").tag(qty)
-                            }
-                        }
-                        .labelsHidden()
-                        .pickerStyle(SegmentedPickerStyle())
-                    }
-                    .padding(.vertical, 2)
-                }
+                MapColorCodeView()
             }
             .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
             .navigationBarTitle("Settings")
@@ -161,5 +143,7 @@ struct SettingsView_Previews: PreviewProvider {
             .environmentObject(CoronaStore())
             .environmentObject(Settings())
             .environment(\.colorScheme, .dark)
+            .previewLayout(.sizeThatFits)
     }
 }
+
