@@ -48,7 +48,6 @@ struct WhatsNew: View {
                 Text(deviations.map { $0.country }.joined(separator: ", "))
                     .foregroundColor(.secondary)
                     .font(.footnote)
-                    .fixedSize(horizontal: false, vertical: true)
             }
             .contentShape(Rectangle())
             .padding(12)
