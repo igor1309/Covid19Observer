@@ -248,30 +248,34 @@ struct WhatsNew: View {
         .font(.subheadline)
     }
     
+    @Environment(\.horizontalSizeClass) var sizeClass
+    
     var  body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack {
-                Text("What's New")
-                    .font(.title)
-                    .padding(.top)
-                
-                deviations
-                    .sheet(isPresented: $showCountryList) {
-                        CountryList(kind: self.kind, deviations: self.listToShow)
-                            .environmentObject(self.coronaStore)
-                            .environmentObject(self.settings)
+        VStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
+                    Text("What's New")
+                        .font(.title)
+                        .padding(.top)
+                    
+                    deviations
+                        .sheet(isPresented: $showCountryList) {
+                            CountryList(kind: self.kind, deviations: self.listToShow)
+                                .environmentObject(self.coronaStore)
+                                .environmentObject(self.settings)
+                    }
+                    
+                    
+                    world
+                        .sheet(isPresented: $showAllCountriesLineChart) {
+                            AllCountriesLineChart()
+                                .environmentObject(self.coronaStore)
+                                .environmentObject(self.settings)
+                    }
+                    
+                    chartAndTableButtons
+                        .padding(.vertical)
                 }
-                
-                
-                world
-                    .sheet(isPresented: $showAllCountriesLineChart) {
-                        AllCountriesLineChart()
-                            .environmentObject(self.coronaStore)
-                            .environmentObject(self.settings)
-                }
-                
-                chartAndTableButtons
-                    .padding(.vertical)
             }
         }
     }

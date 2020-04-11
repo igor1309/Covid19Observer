@@ -1,0 +1,1836 @@
+[
+ {
+   "Country Name": "Aruba",
+   "Country Code": "ABW",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 105845
+ },
+ {
+   "Country Name": "Afghanistan",
+   "Country Code": "AFG",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 37172386
+ },
+ {
+   "Country Name": "Angola",
+   "Country Code": "AGO",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 30809762
+ },
+ {
+   "Country Name": "Albania",
+   "Country Code": "ALB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2866376
+ },
+ {
+   "Country Name": "Andorra",
+   "Country Code": "AND",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 77006
+ },
+ {
+   "Country Name": "Arab World",
+   "Country Code": "ARB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 419790588
+ },
+ {
+   "Country Name": "United Arab Emirates",
+   "Country Code": "ARE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 9630959
+ },
+ {
+   "Country Name": "Argentina",
+   "Country Code": "ARG",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 44494502
+ },
+ {
+   "Country Name": "Armenia",
+   "Country Code": "ARM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2951776
+ },
+ {
+   "Country Name": "American Samoa",
+   "Country Code": "ASM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 55465
+ },
+ {
+   "Country Name": "Antigua and Barbuda",
+   "Country Code": "ATG",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 96286
+ },
+ {
+   "Country Name": "Australia",
+   "Country Code": "AUS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 24982688
+ },
+ {
+   "Country Name": "Austria",
+   "Country Code": "AUT",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 8840521
+ },
+ {
+   "Country Name": "Azerbaijan",
+   "Country Code": "AZE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 9939800
+ },
+ {
+   "Country Name": "Burundi",
+   "Country Code": "BDI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 11175378
+ },
+ {
+   "Country Name": "Belgium",
+   "Country Code": "BEL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 11433256
+ },
+ {
+   "Country Name": "Benin",
+   "Country Code": "BEN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 11485048
+ },
+ {
+   "Country Name": "Burkina Faso",
+   "Country Code": "BFA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 19751535
+ },
+ {
+   "Country Name": "Bangladesh",
+   "Country Code": "BGD",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 161356039
+ },
+ {
+   "Country Name": "Bulgaria",
+   "Country Code": "BGR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 7025037
+ },
+ {
+   "Country Name": "Bahrain",
+   "Country Code": "BHR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1569439
+ },
+ {
+   "Country Name": "Bahamas, The",
+   "Country Code": "BHS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 385640
+ },
+ {
+   "Country Name": "Bosnia and Herzegovina",
+   "Country Code": "BIH",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 3323929
+ },
+ {
+   "Country Name": "Belarus",
+   "Country Code": "BLR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 9483499
+ },
+ {
+   "Country Name": "Belize",
+   "Country Code": "BLZ",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 383071
+ },
+ {
+   "Country Name": "Bermuda",
+   "Country Code": "BMU",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 63973
+ },
+ {
+   "Country Name": "Bolivia",
+   "Country Code": "BOL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 11353142
+ },
+ {
+   "Country Name": "Brazil",
+   "Country Code": "BRA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 209469333
+ },
+ {
+   "Country Name": "Barbados",
+   "Country Code": "BRB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 286641
+ },
+ {
+   "Country Name": "Brunei Darussalam",
+   "Country Code": "BRN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 428962
+ },
+ {
+   "Country Name": "Bhutan",
+   "Country Code": "BTN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 754394
+ },
+ {
+   "Country Name": "Botswana",
+   "Country Code": "BWA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2254126
+ },
+ {
+   "Country Name": "Central African Republic",
+   "Country Code": "CAF",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4666377
+ },
+ {
+   "Country Name": "Canada",
+   "Country Code": "CAN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 37057765
+ },
+ {
+   "Country Name": "Central Europe and the Baltics",
+   "Country Code": "CEB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 102511922
+ },
+ {
+   "Country Name": "Switzerland",
+   "Country Code": "CHE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 8513227
+ },
+ {
+   "Country Name": "Channel Islands",
+   "Country Code": "CHI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 170499
+ },
+ {
+   "Country Name": "Chile",
+   "Country Code": "CHL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 18729160
+ },
+ {
+   "Country Name": "China",
+   "Country Code": "CHN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1392730000
+ },
+ {
+   "Country Name": "Cote d'Ivoire",
+   "Country Code": "CIV",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 25069229
+ },
+ {
+   "Country Name": "Cameroon",
+   "Country Code": "CMR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 25216237
+ },
+ {
+   "Country Name": "Congo, Dem. Rep.",
+   "Country Code": "COD",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 84068091
+ },
+ {
+   "Country Name": "Congo, Rep.",
+   "Country Code": "COG",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 5244363
+ },
+ {
+   "Country Name": "Colombia",
+   "Country Code": "COL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 49648685
+ },
+ {
+   "Country Name": "Comoros",
+   "Country Code": "COM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 832322
+ },
+ {
+   "Country Name": "Cabo Verde",
+   "Country Code": "CPV",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 543767
+ },
+ {
+   "Country Name": "Costa Rica",
+   "Country Code": "CRI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4999441
+ },
+ {
+   "Country Name": "Caribbean small states",
+   "Country Code": "CSS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 7358965
+ },
+ {
+   "Country Name": "Cuba",
+   "Country Code": "CUB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 11338138
+ },
+ {
+   "Country Name": "Curacao",
+   "Country Code": "CUW",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 159800
+ },
+ {
+   "Country Name": "Cayman Islands",
+   "Country Code": "CYM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 64174
+ },
+ {
+   "Country Name": "Cyprus",
+   "Country Code": "CYP",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1189265
+ },
+ {
+   "Country Name": "Czech Republic",
+   "Country Code": "CZE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 10629928
+ },
+ {
+   "Country Name": "Germany",
+   "Country Code": "DEU",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 82905782
+ },
+ {
+   "Country Name": "Djibouti",
+   "Country Code": "DJI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 958920
+ },
+ {
+   "Country Name": "Dominica",
+   "Country Code": "DMA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 71625
+ },
+ {
+   "Country Name": "Denmark",
+   "Country Code": "DNK",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 5793636
+ },
+ {
+   "Country Name": "Dominican Republic",
+   "Country Code": "DOM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 10627165
+ },
+ {
+   "Country Name": "Algeria",
+   "Country Code": "DZA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 42228429
+ },
+ {
+   "Country Name": "East Asia & Pacific (excluding high income)",
+   "Country Code": "EAP",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2081651801
+ },
+ {
+   "Country Name": "Early-demographic dividend",
+   "Country Code": "EAR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 3249140605
+ },
+ {
+   "Country Name": "East Asia & Pacific",
+   "Country Code": "EAS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2328220870
+ },
+ {
+   "Country Name": "Europe & Central Asia (excluding high income)",
+   "Country Code": "ECA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 417797257
+ },
+ {
+   "Country Name": "Europe & Central Asia",
+   "Country Code": "ECS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 918793590
+ },
+ {
+   "Country Name": "Ecuador",
+   "Country Code": "ECU",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 17084357
+ },
+ {
+   "Country Name": "Egypt, Arab Rep.",
+   "Country Code": "EGY",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 98423595
+ },
+ {
+   "Country Name": "Euro area",
+   "Country Code": "EMU",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 341783171
+ },
+ {
+   "Country Name": "Eritrea",
+   "Country Code": "ERI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 5200000
+ },
+ {
+   "Country Name": "Spain",
+   "Country Code": "ESP",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 46796540
+ },
+ {
+   "Country Name": "Estonia",
+   "Country Code": "EST",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1321977
+ },
+ {
+   "Country Name": "Ethiopia",
+   "Country Code": "ETH",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 109224559
+ },
+ {
+   "Country Name": "European Union",
+   "Country Code": "EUU",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 446786293
+ },
+ {
+   "Country Name": "Fragile and conflict affected situations",
+   "Country Code": "FCS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 743958386
+ },
+ {
+   "Country Name": "Finland",
+   "Country Code": "FIN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 5515525
+ },
+ {
+   "Country Name": "Fiji",
+   "Country Code": "FJI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 883483
+ },
+ {
+   "Country Name": "France",
+   "Country Code": "FRA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 66977107
+ },
+ {
+   "Country Name": "Faroe Islands",
+   "Country Code": "FRO",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 48497
+ },
+ {
+   "Country Name": "Micronesia, Fed. Sts.",
+   "Country Code": "FSM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 112640
+ },
+ {
+   "Country Name": "Gabon",
+   "Country Code": "GAB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2119275
+ },
+ {
+   "Country Name": "United Kingdom",
+   "Country Code": "GBR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 66460344
+ },
+ {
+   "Country Name": "Georgia",
+   "Country Code": "GEO",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 3726549
+ },
+ {
+   "Country Name": "Ghana",
+   "Country Code": "GHA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 29767108
+ },
+ {
+   "Country Name": "Gibraltar",
+   "Country Code": "GIB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 33718
+ },
+ {
+   "Country Name": "Guinea",
+   "Country Code": "GIN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 12414318
+ },
+ {
+   "Country Name": "Gambia, The",
+   "Country Code": "GMB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2280102
+ },
+ {
+   "Country Name": "Guinea-Bissau",
+   "Country Code": "GNB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1874309
+ },
+ {
+   "Country Name": "Equatorial Guinea",
+   "Country Code": "GNQ",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1308974
+ },
+ {
+   "Country Name": "Greece",
+   "Country Code": "GRC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 10731726
+ },
+ {
+   "Country Name": "Grenada",
+   "Country Code": "GRD",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 111454
+ },
+ {
+   "Country Name": "Greenland",
+   "Country Code": "GRL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 56025
+ },
+ {
+   "Country Name": "Guatemala",
+   "Country Code": "GTM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 17247807
+ },
+ {
+   "Country Name": "Guam",
+   "Country Code": "GUM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 165768
+ },
+ {
+   "Country Name": "Guyana",
+   "Country Code": "GUY",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 779004
+ },
+ {
+   "Country Name": "High income",
+   "Country Code": "HIC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1210312147
+ },
+ {
+   "Country Name": "Hong Kong SAR, China",
+   "Country Code": "HKG",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 7451000
+ },
+ {
+   "Country Name": "Honduras",
+   "Country Code": "HND",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 9587522
+ },
+ {
+   "Country Name": "Heavily indebted poor countries (HIPC)",
+   "Country Code": "HPC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 780234406
+ },
+ {
+   "Country Name": "Croatia",
+   "Country Code": "HRV",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4087843
+ },
+ {
+   "Country Name": "Haiti",
+   "Country Code": "HTI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 11123176
+ },
+ {
+   "Country Name": "Hungary",
+   "Country Code": "HUN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 9775564
+ },
+ {
+   "Country Name": "IBRD only",
+   "Country Code": "IBD",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4772284113
+ },
+ {
+   "Country Name": "IDA & IBRD total",
+   "Country Code": "IBT",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 6412522234
+ },
+ {
+   "Country Name": "IDA total",
+   "Country Code": "IDA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1640238121
+ },
+ {
+   "Country Name": "IDA blend",
+   "Country Code": "IDB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 555830605
+ },
+ {
+   "Country Name": "Indonesia",
+   "Country Code": "IDN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 267663435
+ },
+ {
+   "Country Name": "IDA only",
+   "Country Code": "IDX",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1084407516
+ },
+ {
+   "Country Name": "Isle of Man",
+   "Country Code": "IMN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 84077
+ },
+ {
+   "Country Name": "India",
+   "Country Code": "IND",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1352617328
+ },
+ {
+   "Country Name": "Ireland",
+   "Country Code": "IRL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4867309
+ },
+ {
+   "Country Name": "Iran, Islamic Rep.",
+   "Country Code": "IRN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 81800269
+ },
+ {
+   "Country Name": "Iraq",
+   "Country Code": "IRQ",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 38433600
+ },
+ {
+   "Country Name": "Iceland",
+   "Country Code": "ISL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 352721
+ },
+ {
+   "Country Name": "Israel",
+   "Country Code": "ISR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 8882800
+ },
+ {
+   "Country Name": "Italy",
+   "Country Code": "ITA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 60421760
+ },
+ {
+   "Country Name": "Jamaica",
+   "Country Code": "JAM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2934855
+ },
+ {
+   "Country Name": "Jordan",
+   "Country Code": "JOR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 9956011
+ },
+ {
+   "Country Name": "Japan",
+   "Country Code": "JPN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 126529100
+ },
+ {
+   "Country Name": "Kazakhstan",
+   "Country Code": "KAZ",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 18272430
+ },
+ {
+   "Country Name": "Kenya",
+   "Country Code": "KEN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 51393010
+ },
+ {
+   "Country Name": "Kyrgyz Republic",
+   "Country Code": "KGZ",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 6322800
+ },
+ {
+   "Country Name": "Cambodia",
+   "Country Code": "KHM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 16249798
+ },
+ {
+   "Country Name": "Kiribati",
+   "Country Code": "KIR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 115847
+ },
+ {
+   "Country Name": "St. Kitts and Nevis",
+   "Country Code": "KNA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 52441
+ },
+ {
+   "Country Name": "Korea, Rep.",
+   "Country Code": "KOR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 51606633
+ },
+ {
+   "Country Name": "Kuwait",
+   "Country Code": "KWT",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4137309
+ },
+ {
+   "Country Name": "Latin America & Caribbean (excluding high income)",
+   "Country Code": "LAC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 609013934
+ },
+ {
+   "Country Name": "Lao PDR",
+   "Country Code": "LAO",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 7061507
+ },
+ {
+   "Country Name": "Lebanon",
+   "Country Code": "LBN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 6848925
+ },
+ {
+   "Country Name": "Liberia",
+   "Country Code": "LBR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4818977
+ },
+ {
+   "Country Name": "Libya",
+   "Country Code": "LBY",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 6678567
+ },
+ {
+   "Country Name": "St. Lucia",
+   "Country Code": "LCA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 181889
+ },
+ {
+   "Country Name": "Latin America & Caribbean",
+   "Country Code": "LCN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 641357515
+ },
+ {
+   "Country Name": "Least developed countries: UN classification",
+   "Country Code": "LDC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1009662578
+ },
+ {
+   "Country Name": "Low income",
+   "Country Code": "LIC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 705417321
+ },
+ {
+   "Country Name": "Liechtenstein",
+   "Country Code": "LIE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 37910
+ },
+ {
+   "Country Name": "Sri Lanka",
+   "Country Code": "LKA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 21670000
+ },
+ {
+   "Country Name": "Lower middle income",
+   "Country Code": "LMC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 3022905169
+ },
+ {
+   "Country Name": "Low & middle income",
+   "Country Code": "LMY",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 6383958209
+ },
+ {
+   "Country Name": "Lesotho",
+   "Country Code": "LSO",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2108132
+ },
+ {
+   "Country Name": "Late-demographic dividend",
+   "Country Code": "LTE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2288665963
+ },
+ {
+   "Country Name": "Lithuania",
+   "Country Code": "LTU",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2801543
+ },
+ {
+   "Country Name": "Luxembourg",
+   "Country Code": "LUX",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 607950
+ },
+ {
+   "Country Name": "Latvia",
+   "Country Code": "LVA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1927174
+ },
+ {
+   "Country Name": "Macao SAR, China",
+   "Country Code": "MAC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 631636
+ },
+ {
+   "Country Name": "St. Martin (French part)",
+   "Country Code": "MAF",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 37264
+ },
+ {
+   "Country Name": "Morocco",
+   "Country Code": "MAR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 36029138
+ },
+ {
+   "Country Name": "Monaco",
+   "Country Code": "MCO",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 38682
+ },
+ {
+   "Country Name": "Moldova",
+   "Country Code": "MDA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2706049
+ },
+ {
+   "Country Name": "Madagascar",
+   "Country Code": "MDG",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 26262368
+ },
+ {
+   "Country Name": "Maldives",
+   "Country Code": "MDV",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 515696
+ },
+ {
+   "Country Name": "Middle East & North Africa",
+   "Country Code": "MEA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 448912859
+ },
+ {
+   "Country Name": "Mexico",
+   "Country Code": "MEX",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 126190788
+ },
+ {
+   "Country Name": "Marshall Islands",
+   "Country Code": "MHL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 58413
+ },
+ {
+   "Country Name": "Middle income",
+   "Country Code": "MIC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 5678540888
+ },
+ {
+   "Country Name": "North Macedonia",
+   "Country Code": "MKD",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2082958
+ },
+ {
+   "Country Name": "Mali",
+   "Country Code": "MLI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 19077690
+ },
+ {
+   "Country Name": "Malta",
+   "Country Code": "MLT",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 484630
+ },
+ {
+   "Country Name": "Myanmar",
+   "Country Code": "MMR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 53708395
+ },
+ {
+   "Country Name": "Middle East & North Africa (excluding high income)",
+   "Country Code": "MNA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 382896715
+ },
+ {
+   "Country Name": "Montenegro",
+   "Country Code": "MNE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 622227
+ },
+ {
+   "Country Name": "Mongolia",
+   "Country Code": "MNG",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 3170208
+ },
+ {
+   "Country Name": "Northern Mariana Islands",
+   "Country Code": "MNP",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 56882
+ },
+ {
+   "Country Name": "Mozambique",
+   "Country Code": "MOZ",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 29495962
+ },
+ {
+   "Country Name": "Mauritania",
+   "Country Code": "MRT",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4403319
+ },
+ {
+   "Country Name": "Mauritius",
+   "Country Code": "MUS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1265303
+ },
+ {
+   "Country Name": "Malawi",
+   "Country Code": "MWI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 18143315
+ },
+ {
+   "Country Name": "Malaysia",
+   "Country Code": "MYS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 31528585
+ },
+ {
+   "Country Name": "North America",
+   "Country Code": "NAC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 364290258
+ },
+ {
+   "Country Name": "Namibia",
+   "Country Code": "NAM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2448255
+ },
+ {
+   "Country Name": "New Caledonia",
+   "Country Code": "NCL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 284060
+ },
+ {
+   "Country Name": "Niger",
+   "Country Code": "NER",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 22442948
+ },
+ {
+   "Country Name": "Nigeria",
+   "Country Code": "NGA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 195874740
+ },
+ {
+   "Country Name": "Nicaragua",
+   "Country Code": "NIC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 6465513
+ },
+ {
+   "Country Name": "Netherlands",
+   "Country Code": "NLD",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 17231624
+ },
+ {
+   "Country Name": "Norway",
+   "Country Code": "NOR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 5311916
+ },
+ {
+   "Country Name": "Nepal",
+   "Country Code": "NPL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 28087871
+ },
+ {
+   "Country Name": "Nauru",
+   "Country Code": "NRU",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 12704
+ },
+ {
+   "Country Name": "New Zealand",
+   "Country Code": "NZL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4841000
+ },
+ {
+   "Country Name": "OECD members",
+   "Country Code": "OED",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1303529456
+ },
+ {
+   "Country Name": "Oman",
+   "Country Code": "OMN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4829483
+ },
+ {
+   "Country Name": "Other small states",
+   "Country Code": "OSS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 30758989
+ },
+ {
+   "Country Name": "Pakistan",
+   "Country Code": "PAK",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 212215030
+ },
+ {
+   "Country Name": "Panama",
+   "Country Code": "PAN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4176873
+ },
+ {
+   "Country Name": "Peru",
+   "Country Code": "PER",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 31989256
+ },
+ {
+   "Country Name": "Philippines",
+   "Country Code": "PHL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 106651922
+ },
+ {
+   "Country Name": "Palau",
+   "Country Code": "PLW",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 17907
+ },
+ {
+   "Country Name": "Papua New Guinea",
+   "Country Code": "PNG",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 8606316
+ },
+ {
+   "Country Name": "Poland",
+   "Country Code": "POL",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 37974750
+ },
+ {
+   "Country Name": "Pre-demographic dividend",
+   "Country Code": "PRE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 919485393
+ },
+ {
+   "Country Name": "Puerto Rico",
+   "Country Code": "PRI",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 3195153
+ },
+ {
+   "Country Name": "Korea, Dem. People’s Rep.",
+   "Country Code": "PRK",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 25549819
+ },
+ {
+   "Country Name": "Portugal",
+   "Country Code": "PRT",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 10283822
+ },
+ {
+   "Country Name": "Paraguay",
+   "Country Code": "PRY",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 6956071
+ },
+ {
+   "Country Name": "West Bank and Gaza",
+   "Country Code": "PSE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 4569087
+ },
+ {
+   "Country Name": "Pacific island small states",
+   "Country Code": "PSS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2457367
+ },
+ {
+   "Country Name": "French Polynesia",
+   "Country Code": "PYF",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 277679
+ },
+ {
+   "Country Name": "Qatar",
+   "Country Code": "QAT",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2781677
+ },
+ {
+   "Country Name": "Romania",
+   "Country Code": "ROU",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 19466145
+ },
+ {
+   "Country Name": "Russia",
+   "Country Code": "RUS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 144478050
+ },
+ {
+   "Country Name": "Rwanda",
+   "Country Code": "RWA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 12301939
+ },
+ {
+   "Country Name": "South Asia",
+   "Country Code": "SAS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1814388744
+ },
+ {
+   "Country Name": "Saudi Arabia",
+   "Country Code": "SAU",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 33699947
+ },
+ {
+   "Country Name": "Sudan",
+   "Country Code": "SDN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 41801533
+ },
+ {
+   "Country Name": "Senegal",
+   "Country Code": "SEN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 15854360
+ },
+ {
+   "Country Name": "Singapore",
+   "Country Code": "SGP",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 5638676
+ },
+ {
+   "Country Name": "Solomon Islands",
+   "Country Code": "SLB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 652858
+ },
+ {
+   "Country Name": "Sierra Leone",
+   "Country Code": "SLE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 7650154
+ },
+ {
+   "Country Name": "El Salvador",
+   "Country Code": "SLV",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 6420744
+ },
+ {
+   "Country Name": "San Marino",
+   "Country Code": "SMR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 33785
+ },
+ {
+   "Country Name": "Somalia",
+   "Country Code": "SOM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 15008154
+ },
+ {
+   "Country Name": "Serbia",
+   "Country Code": "SRB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 6982604
+ },
+ {
+   "Country Name": "Sub-Saharan Africa (excluding high income)",
+   "Country Code": "SSA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1078209758
+ },
+ {
+   "Country Name": "South Sudan",
+   "Country Code": "SSD",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 10975920
+ },
+ {
+   "Country Name": "Sub-Saharan Africa",
+   "Country Code": "SSF",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1078306520
+ },
+ {
+   "Country Name": "Small states",
+   "Country Code": "SST",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 40575321
+ },
+ {
+   "Country Name": "Sao Tome and Principe",
+   "Country Code": "STP",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 211028
+ },
+ {
+   "Country Name": "Suriname",
+   "Country Code": "SUR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 575991
+ },
+ {
+   "Country Name": "Slovak Republic",
+   "Country Code": "SVK",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 5446771
+ },
+ {
+   "Country Name": "Slovenia",
+   "Country Code": "SVN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2073894
+ },
+ {
+   "Country Name": "Sweden",
+   "Country Code": "SWE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 10175214
+ },
+ {
+   "Country Name": "Eswatini",
+   "Country Code": "SWZ",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1136191
+ },
+ {
+   "Country Name": "Sint Maarten (Dutch part)",
+   "Country Code": "SXM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 40654
+ },
+ {
+   "Country Name": "Seychelles",
+   "Country Code": "SYC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 96762
+ },
+ {
+   "Country Name": "Syrian Arab Republic",
+   "Country Code": "SYR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 16906283
+ },
+ {
+   "Country Name": "Turks and Caicos Islands",
+   "Country Code": "TCA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 37665
+ },
+ {
+   "Country Name": "Chad",
+   "Country Code": "TCD",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 15477751
+ },
+ {
+   "Country Name": "East Asia & Pacific (IDA & IBRD countries)",
+   "Country Code": "TEA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2056064424
+ },
+ {
+   "Country Name": "Europe & Central Asia (IDA & IBRD countries)",
+   "Country Code": "TEC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 459865205
+ },
+ {
+   "Country Name": "Togo",
+   "Country Code": "TGO",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 7889094
+ },
+ {
+   "Country Name": "Thailand",
+   "Country Code": "THA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 69428524
+ },
+ {
+   "Country Name": "Tajikistan",
+   "Country Code": "TJK",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 9100837
+ },
+ {
+   "Country Name": "Turkmenistan",
+   "Country Code": "TKM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 5850908
+ },
+ {
+   "Country Name": "Latin America & the Caribbean (IDA & IBRD countries)",
+   "Country Code": "TLA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 625569713
+ },
+ {
+   "Country Name": "Timor-Leste",
+   "Country Code": "TLS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1267972
+ },
+ {
+   "Country Name": "Middle East & North Africa (IDA & IBRD countries)",
+   "Country Code": "TMN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 378327628
+ },
+ {
+   "Country Name": "Tonga",
+   "Country Code": "TON",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 103197
+ },
+ {
+   "Country Name": "South Asia (IDA & IBRD)",
+   "Country Code": "TSA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1814388744
+ },
+ {
+   "Country Name": "Sub-Saharan Africa (IDA & IBRD countries)",
+   "Country Code": "TSS",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1078306520
+ },
+ {
+   "Country Name": "Trinidad and Tobago",
+   "Country Code": "TTO",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1389858
+ },
+ {
+   "Country Name": "Tunisia",
+   "Country Code": "TUN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 11565204
+ },
+ {
+   "Country Name": "Turkey",
+   "Country Code": "TUR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 82319724
+ },
+ {
+   "Country Name": "Tuvalu",
+   "Country Code": "TUV",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 11508
+ },
+ {
+   "Country Name": "Tanzania",
+   "Country Code": "TZA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 56318348
+ },
+ {
+   "Country Name": "Uganda",
+   "Country Code": "UGA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 42723139
+ },
+ {
+   "Country Name": "Ukraine",
+   "Country Code": "UKR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 44622516
+ },
+ {
+   "Country Name": "Upper middle income",
+   "Country Code": "UMC",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 2655635719
+ },
+ {
+   "Country Name": "Uruguay",
+   "Country Code": "URY",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 3449299
+ },
+ {
+   "Country Name": "United States",
+   "Country Code": "USA",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 326687501
+ },
+ {
+   "Country Name": "Uzbekistan",
+   "Country Code": "UZB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 32955400
+ },
+ {
+   "Country Name": "St. Vincent and the Grenadines",
+   "Country Code": "VCT",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 110210
+ },
+ {
+   "Country Name": "Venezuela, RB",
+   "Country Code": "VEN",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 28870195
+ },
+ {
+   "Country Name": "British Virgin Islands",
+   "Country Code": "VGB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 29802
+ },
+ {
+   "Country Name": "Virgin Islands (U.S.)",
+   "Country Code": "VIR",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 106977
+ },
+ {
+   "Country Name": "Vietnam",
+   "Country Code": "VNM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 95540395
+ },
+ {
+   "Country Name": "Vanuatu",
+   "Country Code": "VUT",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 292680
+ },
+ {
+   "Country Name": "World",
+   "Country Code": "WLD",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 7594270356
+ },
+ {
+   "Country Name": "Samoa",
+   "Country Code": "WSM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 196130
+ },
+ {
+   "Country Name": "Kosovo",
+   "Country Code": "XKX",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 1845300
+ },
+ {
+   "Country Name": "Yemen, Rep.",
+   "Country Code": "YEM",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 28498687
+ },
+ {
+   "Country Name": "South Africa",
+   "Country Code": "ZAF",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 57779622
+ },
+ {
+   "Country Name": "Zambia",
+   "Country Code": "ZMB",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 17351822
+ },
+ {
+   "Country Name": "Zimbabwe",
+   "Country Code": "ZWE",
+   "Indicator Name": "Population, total",
+   "Indicator Code": "SP.POP.TOTL",
+   "2018": 14439018
+ }
+]
