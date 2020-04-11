@@ -10,10 +10,10 @@ import SwiftUI
 
 extension View {
     
-    func roundedBackground(cornerRadius: CGFloat = 12) -> some View {
+    func roundedBackground(cornerRadius: CGFloat = 12, color: Color = .tertiarySystemBackground) -> some View {
         background(
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                .foregroundColor(.tertiarySystemBackground)
+                .fill(color)
                 .opacity(0.8)
         )
     }
