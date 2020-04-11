@@ -38,16 +38,23 @@ struct WhatsNew: View {
         func deviationRow(kind: DataKind, deviations: [Deviation], color: Color) -> some View {
             return VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("\(kind.id) jump/fall")
+                    Image(systemName: "person.2")
+                        .frame(width: 24)
+                    Text(kind.id)
                     Spacer()
                     Text("(\(deviations.count.formattedGrouped))")
                         .font(.subheadline)
                 }
                 .foregroundColor(color)
                 
-                Text(deviations.map { $0.country }.joined(separator: ", "))
-                    .foregroundColor(.secondary)
-                    .font(.footnote)
+                HStack {
+                    Image(systemName: "map")
+                        .frame(width: 24)
+                    Text(deviations.map { $0.country }.joined(separator: ", "))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .foregroundColor(.secondary)
+                .font(.footnote)
             }
             .contentShape(Rectangle())
             .padding(12)
@@ -61,8 +68,11 @@ struct WhatsNew: View {
         
         return VStack(spacing: 8) {
             
-            Text("Significant Deviations")
-                .font(.subheadline)
+            HStack {
+                Image(systemName: "exclamationmark.circle")
+                Text("Significant Deviations")
+            }
+            .font(.subheadline)
             
             confirmedDeviations.count > 0
                 ? deviationRow(kind: .confirmedDaily, deviations: confirmedDeviations, color: .systemYellow)
@@ -84,6 +94,7 @@ struct WhatsNew: View {
                     .foregroundColor(.systemRed)
                 updated
             }
+        .padding(8)
             .foregroundColor(.secondary)
             .font(.caption)
         }
@@ -95,11 +106,11 @@ struct WhatsNew: View {
     
     var world: some View {
         
-        func item(name: String, valueStr: String, percent: Double? = nil) -> some View {
+        func item(name: String, valueStr: String, percent: String? = nil) -> some View {
             VStack {
                 Text(valueStr)
                     .font(.subheadline)
-                Text(percent == nil ? " " : percent!.formattedPercentage)
+                Text(percent ?? " ")
                     .font(.caption)
                     .opacity(0.6)
                 Text(name)
@@ -109,8 +120,11 @@ struct WhatsNew: View {
         }
         
         return VStack(spacing: 16) {
-            Text("World")
-                .font(.subheadline)
+            HStack {
+                Image(systemName: "globe")
+                Text("World")
+            }
+            .font(.subheadline)
             
             HStack {
                 VStack(spacing: 12) {
@@ -135,7 +149,7 @@ struct WhatsNew: View {
                 
                 Spacer()
                 VStack(spacing: 12) {
-                    item(name: "new", valueStr: coronaStore.coronaOutbreak.totalNewConfirmed, percent: 1)
+                    item(name: "new", valueStr: coronaStore.coronaOutbreak.totalNewConfirmed, percent: "TBD%")
                         .foregroundColor(.systemOrange)
                         .padding(8)
                         .roundedBackground(cornerRadius: 8, color: cardColor)
@@ -144,7 +158,7 @@ struct WhatsNew: View {
                             self.showAllCountriesLineChart = true
                     }
                     
-                    item(name: "new", valueStr: coronaStore.coronaOutbreak.totalNewConfirmed, percent: 1)
+                    item(name: "new", valueStr: coronaStore.coronaOutbreak.totalNewConfirmed, percent: "TBD%")
                         .foregroundColor(.systemOrange)
                         .padding(8)
                         .roundedBackground(cornerRadius: 8, color: cardColor)
@@ -156,18 +170,18 @@ struct WhatsNew: View {
                 
                 Spacer()
                 VStack(spacing: 12) {
-                    item(name: "current", valueStr: coronaStore.coronaOutbreak.totalCurrentConfirmed, percent: 1)
+                    item(name: "current", valueStr: coronaStore.coronaOutbreak.totalCurrentConfirmed, percent: "TBD%")
                         .foregroundColor(.systemPurple)
                         .padding(8)
                     
-                    item(name: "current", valueStr: coronaStore.coronaOutbreak.totalCurrentConfirmed, percent: 1)
+                    item(name: "current", valueStr: coronaStore.coronaOutbreak.totalCurrentConfirmed, percent: "TBD%")
                         .foregroundColor(.systemPurple)
                         .padding(8)
                 }
                 
                 Spacer()
                 VStack(spacing: 12) {
-                    item(name: "recovered", valueStr: coronaStore.coronaOutbreak.totalRecovered, percent: 1)
+                    item(name: "recovered", valueStr: coronaStore.coronaOutbreak.totalRecovered, percent: "TBD%")
                         .foregroundColor(.systemGreen)
                         .padding(8)
                     

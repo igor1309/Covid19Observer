@@ -62,9 +62,13 @@ struct CountryList: View {
     
     var body: some View {
         VStack(spacing: 6) {
-            Text("Significant changes in \(kind.id)")
-                .multilineTextAlignment(.center)
-                .font(.title)
+            VStack {
+                Text("Significant changes in")
+//                    .font(.subheadline)
+                Text(kind.id)
+                    .font(.title)
+            }
+                .padding(.top)
                 .padding(/*[.top, .horizontal]*/)
             
             HStack(alignment: .firstTextBaseline) {
