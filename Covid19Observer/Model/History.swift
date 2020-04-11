@@ -12,34 +12,25 @@ import SwiftPI
 /// <#Description#>
 struct History: Codable {
     
-    struct CaseRow: Codable, Identifiable {
-        var id: String { provinceState + "/" + countryRegion }
-        
-        var provinceState, countryRegion: String
-        var name: String { provinceState + "/" + countryRegion }
-        var points: [Date: Int]
-        var series: [Int]
-    }
-    
     let filename: String
     let url: URL
     
     private(set) var countryCases: [CaseRow]
     
     private var lastSyncDate: Date
-    
-    var timeSinceUpdateStr: String { lastSyncDate.hoursMunutesTillNow }
-    
-    var isDataOld: Bool { lastSyncDate.distance(to: Date()) > 6 * 60 * 60 }
-    
     var isUpdateCompleted: Bool?
     
-    init(saveIn filename: String, url: URL) {
+    var deviations: [Deviation]
+    let deviationThreshold: CGFloat
+    
+    init(saveIn filename: String, url: URL, deviationThreshold: CGFloat) {
         self.countryCases = []
         self.lastSyncDate = .distantPast
         self.isUpdateCompleted = nil
         self.filename = filename
         self.url = url
+        self.deviations = []
+        self.deviationThreshold = deviationThreshold
     }
 }
 
@@ -65,39 +56,80 @@ extension History {
         self.lastSyncDate = Date()
         self.isUpdateCompleted = true
         
+        self.countDeviations()
+        
         saveJSONToDocDir(data: self, filename: self.filename)
+    }
+    
+    mutating func countDeviations() {
+        
+        var devs = [Deviation]()
+        
+        for countryCase in countryCases {
+            
+            //  get daily change for last 7 days (or less if dataset is smaller)
+            
+            let last8days = Array(countryCase.series.suffix(8))
+            guard last8days.count > 0  else { continue }
+            
+            var dailyChange = [Int]()
+            
+            for i in 1..<last8days.count {
+                let change = last8days[i] - last8days[i-1]
+                dailyChange.append(change)
+            }
+            
+            //  calculate avg and compare with last
+            
+            let avg = dailyChange.reduce(CGFloat(0)) { $0 + CGFloat($1) } / CGFloat(dailyChange.count)
+            
+            let last = CGFloat(dailyChange.last!)
+            
+            let percent: CGFloat = 50/100
+            let isSignificantlyChanged = last >= avg * (1 + percent) || last <= avg * (1 - percent)
+            let isGreaterThanThreshold = last >= deviationThreshold || avg >= deviationThreshold
+            
+            if isSignificantlyChanged && isGreaterThanThreshold {
+                devs.append(Deviation(country: countryCase.countryRegion, avg: Double(avg), last: Double(last)))
+            }
+        }
+        
+        self.deviations = devs//.sorted(by: { $0.changePercentage > $1.changePercentage })
     }
 }
 
 extension History {
-
+    
+    var timeSinceUpdateStr: String { lastSyncDate.hoursMunutesTillNow }
+    var isDataOld: Bool { lastSyncDate.distance(to: Date()) > 6 * 60 * 60 }
+    
     var allCountriesTotals: [Int] {
         guard countryCases.count > 0 else { return [] }
-
+        
         var totals = Array(repeating: 0, count: countryCases[0].series.count)
-
+        
         for row in countryCases {
             for i in 0..<row.series.count {
                 totals[i] += row.series[i]
             }
         }
-
+        
         return totals
     }
     
     var allCountriesDailyChange: [Int] {
         guard allCountriesTotals.count > 1 else { return [] }
-
+        
         var daily = [Int]()
-
+        
         for i in 1..<allCountriesTotals.count {
             daily.append(allCountriesTotals[i] - allCountriesTotals[i-1])
         }
-
+        
         return daily
-
+        
     }
-
+    
     func dailyChange(for country: String) -> [Int] {
         let countryData = series(for: country)
         guard countryData.count > 1 else { return [] }
@@ -220,9 +252,9 @@ extension History {
             //  09.04.2020 из-за Sao Tome and Principe сбился парсинг
             //  пока причину не нашел
             //  размером можно пренебречь, поэтому удаляю
-//            guard row[1] != "Sao Tome and Principe" else {
-//                continue
-//            }
+            //            guard row[1] != "Sao Tome and Principe" else {
+            //                continue
+            //            }
             
             let provinceState = row[0]
             let countryRegion = row[1]

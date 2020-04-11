@@ -13,6 +13,9 @@ struct WhatsNew: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
+    var confirmedDeviations: [Deviation] { coronaStore.confirmedHistory.deviations }
+    var deathsDeviations: [Deviation] { coronaStore.deathsHistory.deviations }
+    
     var confirmed: some View {
         Section(header: Text("Confirmed".uppercased()),
                 footer: updated) {
@@ -41,32 +44,33 @@ struct WhatsNew: View {
     
     var deaths: some View {
         Section(header: Text("Deaths".uppercased()),
-                footer: Text("")) {
-                    VStack {
-                        Group {
-                            HStack {
-                                Text("Deaths")
-                                Spacer()
-                                Text(coronaStore.coronaOutbreak.totalDeaths)
-                            }
-                            .foregroundColor(.systemRed)
-                        
-                        HStack {
-                            Text("New, \((-5.3/100).formattedPercentage)")
-                            Spacer()
-                            Text(coronaStore.coronaOutbreak.totalNewConfirmed)
-                        }
-                        .foregroundColor(.systemOrange)
-                        
-                        HStack {
-                            Text("Current, \(5.3 > 0 ? "+" : "-")\((5.3/100).formattedPercentage)")
-                            Spacer()
-                            Text(coronaStore.coronaOutbreak.totalNewConfirmed)
-                        }
-                        .foregroundColor(.systemPurple)
-                        }
-                        .padding(.vertical, 6)
+                footer: Text("")
+        ) {
+            VStack {
+                Group {
+                    HStack {
+                        Text("Deaths")
+                        Spacer()
+                        Text(coronaStore.coronaOutbreak.totalDeaths)
                     }
+                    .foregroundColor(.systemRed)
+                    
+                    HStack {
+                        Text("New, \((-5.3/100).formattedPercentage)")
+                        Spacer()
+                        Text(coronaStore.coronaOutbreak.totalNewConfirmed)
+                    }
+                    .foregroundColor(.systemOrange)
+                    
+                    HStack {
+                        Text("Current, \(5.3 > 0 ? "+" : "-")\((5.3/100).formattedPercentage)")
+                        Spacer()
+                        Text(coronaStore.coronaOutbreak.totalNewConfirmed)
+                    }
+                    .foregroundColor(.systemPurple)
+                }
+                .padding(.vertical, 6)
+            }
         }
     }
     
@@ -80,38 +84,78 @@ struct WhatsNew: View {
                 : "Last update for History \(coronaStore.confirmedHistory.timeSinceUpdateStr) ago.")
     }
     
-    var deviations: some View {
-        Section(header: Text("Deviations".uppercased()),
-                footer: Text("7 days moving average deviations for more than 20%.")
-        ) {
-            NavigationLink(
-                destination: Text("<list if countries??>")
-            ) {
-                Text("confirmed cases: 7 countries")
+    @State private var listToShow: [Deviation] = []
+    @State private var showCountryList = false
+    @State private var kind: DataKind = .confirmedDaily
+    
+    func deviationRow(kind: DataKind, deviations: [Deviation], color: Color) -> some View {
+        return VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("\(kind.id) jump/fall")
+                Spacer()
+                Text("(\(deviations.count.formattedGrouped))")
+                    .font(.subheadline)
             }
+            .foregroundColor(color)
             
-            NavigationLink(
-                destination: Text("<list if countries??>")
-            ) {
-                Text("deaths: 5 countries")
-            }
-            
-            NavigationLink(
-                destination: Text("<list if countries??>")
-            ) {
-                Text("CFR ???? - надо ли?")
-            }
+            Text(deviations.map { $0.country }.joined(separator: ", "))
+                .foregroundColor(.secondary)
+                .font(.footnote)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            self.showCountryList = true
+            self.listToShow = deviations
+            self.kind = kind
         }
     }
     
+    var deviations: some View {
+        Section(header: Text("Significant Deviations".uppercased()),
+                footer: VStack(alignment: .leading) {
+                    Text("7 days moving average deviations for more than 50%.")
+                    Text("Based on history data, not current.\n")
+                        .foregroundColor(.systemRed)
+                    updated
+            }
+        ) {
+            confirmedDeviations.count > 0
+                ? deviationRow(kind: .confirmedDaily, deviations: confirmedDeviations, color: .systemOrange)
+                : nil
+            
+            deathsDeviations.count > 0
+                ? deviationRow(kind: .deathsDaily, deviations: deathsDeviations, color: .systemRed)
+                : nil
+            
+            confirmedDeviations.count == 0 && deathsDeviations.count == 0
+                ? Text("No significant changes in confirmed cases or deaths")
+                    .foregroundColor(.systemGreen)
+                    .font(.subheadline)
+                : nil
+            
+            Text("CFR ???? - надо ли?").foregroundColor(.systemTeal)
+        }
+        
+    }
+    
     var  body: some View {
-        NavigationView {
+        VStack {
+            Text("What's New")
+                .font(.title)
             Form {
+                deviations
+                    .sheet(isPresented: $showCountryList) {
+                        CountryList(kind: self.kind, deviations: self.listToShow)
+                            .environmentObject(self.coronaStore)
+                            .environmentObject(self.settings)
+                }
+                
+                updated
+                
                 confirmed
                 
                 deaths
                 
-                deviations
             }
             .navigationBarTitle(Text("What's New"))
         }

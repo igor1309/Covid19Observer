@@ -53,6 +53,9 @@
 		2A965356243360A4002A93A7 /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A965355243360A4002A93A7 /* NotificationDelegate.swift */; };
 		2A9974D3244125BB004FF043 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D2244125BB004FF043 /* WhatsNew.swift */; };
 		2A9974D6244126CF004FF043 /* MapColorCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D5244126CF004FF043 /* MapColorCodeView.swift */; };
+		2A9974D824419E54004FF043 /* Deviation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D724419E54004FF043 /* Deviation.swift */; };
+		2A9974DA24419EAB004FF043 /* CaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D924419EAB004FF043 /* CaseRow.swift */; };
+		2A9974DC2441ABBE004FF043 /* CountryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974DB2441ABBE004FF043 /* CountryList.swift */; };
 		2AAAC6EF242A384000C03E5B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAAC6EE242A384000C03E5B /* SettingsView.swift */; };
 		2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB947362430FCA4009C18ED /* MapWithLineChartView.swift */; };
 		2AB94739243126A1009C18ED /* CasesChartsIPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB94738243126A1009C18ED /* CasesChartsIPad.swift */; };
@@ -153,6 +156,9 @@
 		2A96535F24336208002A93A7 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		2A9974D2244125BB004FF043 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		2A9974D5244126CF004FF043 /* MapColorCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapColorCodeView.swift; sourceTree = "<group>"; };
+		2A9974D724419E54004FF043 /* Deviation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deviation.swift; sourceTree = "<group>"; };
+		2A9974D924419EAB004FF043 /* CaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseRow.swift; sourceTree = "<group>"; };
+		2A9974DB2441ABBE004FF043 /* CountryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryList.swift; sourceTree = "<group>"; };
 		2A9BE4A824314C8000CA23A4 /* C19 Observer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "C19 Observer.entitlements"; sourceTree = "<group>"; };
 		2AAAC6EE242A384000C03E5B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2AB947362430FCA4009C18ED /* MapWithLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWithLineChartView.swift; sourceTree = "<group>"; };
@@ -268,6 +274,8 @@
 				2A03BEF52428C04F0094852B /* CaseData.swift */,
 				2A03BEF12428C04F0094852B /* CaseAnnotations.swift */,
 				2A74F0B02428CB8400137694 /* History.swift */,
+				2A9974D924419EAB004FF043 /* CaseRow.swift */,
+				2A9974D724419E54004FF043 /* Deviation.swift */,
 				2A74F0AF2428CB8400137694 /* DoublingModel.swift */,
 				2AC7EB92243E634E00454FFA /* Axis.swift */,
 			);
@@ -384,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				2A9974D2244125BB004FF043 /* WhatsNew.swift */,
+				2A9974DB2441ABBE004FF043 /* CountryList.swift */,
 			);
 			path = "What's New";
 			sourceTree = "<group>";
@@ -518,6 +527,7 @@
 			files = (
 				2A03BF0B2428C04F0094852B /* CasesChartView.swift in Sources */,
 				2AE2C52F24389EFF00CC8476 /* New+Extensions.swift in Sources */,
+				2A9974D824419E54004FF043 /* Deviation.swift in Sources */,
 				2A03BF052428C04F0094852B /* CoronaStore.swift in Sources */,
 				2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */,
 				2A9974D6244126CF004FF043 /* MapColorCodeView.swift in Sources */,
@@ -548,6 +558,7 @@
 				2A03BF092428C04F0094852B /* Extension+View.swift in Sources */,
 				2A03BF122428C9890094852B /* TopTenBarChartVert.swift in Sources */,
 				2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */,
+				2A9974DC2441ABBE004FF043 /* CountryList.swift in Sources */,
 				2A74F0B92428CBB400137694 /* HeatedLineChart.swift in Sources */,
 				2AC7EB95243E63E100454FFA /* Array+Ext.swift in Sources */,
 				2A24A40C243B68BE0097C3EB /* MultiCharts.swift in Sources */,
@@ -555,6 +566,7 @@
 				2AE2C5312438A13700CC8476 /* TopHorizontalLine.swift in Sources */,
 				2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */,
 				2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */,
+				2A9974DA24419EAB004FF043 /* CaseRow.swift in Sources */,
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
 				2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */,
 				2AB9473B24312A8A009C18ED /* CaseBar.swift in Sources */,
@@ -727,7 +739,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -736,7 +748,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.34;
+				MARKETING_VERSION = 1.36;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;
@@ -750,7 +762,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -759,7 +771,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.34;
+				MARKETING_VERSION = 1.36;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;
