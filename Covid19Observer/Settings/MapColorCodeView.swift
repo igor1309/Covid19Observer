@@ -14,15 +14,10 @@ struct MapColorCodeView: View {
     let lowerLimits: [Int] = [100, 500, 1_000, 5_000, 10_000]
     
     var body: some View {
-        Section(header: Text("Map Color Code".uppercased()),
+        Section(header: Text("Lower Limit for Map Filter".uppercased()),
                 footer: Text("Select number (color) as a lower limit to filter pins on the map.")
         ) {
-            //                            VStack(alignment: .leading, spacing: 12) {
             Group {
-                Text("Lower Limit for Map Filter")
-                    .foregroundColor(coronaStore.filterColor)
-                    .padding(.trailing, 64)
-                
                 HStack {
                     ForEach(lowerLimits, id: \.self) { item in
                         Capsule()

@@ -122,6 +122,13 @@ struct PopulationView: View {
                             Image(systemName: "waveform.path.ecg")
                             Text("Show Chart")
                         }
+                        Button(action: {
+                            //  MARK: FINISH THIS - SHOW ON A MAP
+                            //
+                        }) {
+                            Image(systemName: "map")
+                            Text("Show on the Map")
+                        }
                     }
                 }
             }
@@ -135,8 +142,9 @@ struct PopulationView: View {
     }
     
     func showChart(_ item: PopulationElement) {
-        //  MARK: FINISH THIS
+        //  MARK: FINISH THIS FOR TERRITORIES THAT ARE NOT COUNTRIES
         //
+        
         let isThereSmthToShow = self.coronaStore.confirmedHistory.series(for: item.countryRegion).max() ?? 0 > 0
         
         if isThereSmthToShow {

@@ -24,7 +24,7 @@ struct WhatsNew: View {
             : "Last update for Cases \(coronaStore.timeSinceCasesUpdateStr) ago.")
             + Text(" ")
             + Text(coronaStore.confirmedHistory.timeSinceUpdateStr == "0min"
-                ? "History updated just now/"
+                ? "History updated just now."
                 : "Last update for History \(coronaStore.confirmedHistory.timeSinceUpdateStr) ago.")
     }
     
@@ -66,32 +66,41 @@ struct WhatsNew: View {
             }
         }
         
+        let hasConfirmedDeviations = confirmedDeviations.count > 0
+        let hasDeathsDeviations = deathsDeviations.count > 0
+        
         return VStack(spacing: 8) {
             
-            HStack {
-                Image(systemName: "exclamationmark.circle")
-                Text("Significant Deviations")
-            }
-            .font(.subheadline)
+            !(hasConfirmedDeviations || hasDeathsDeviations)
+                ? nil
+                : HStack {
+                    Image(systemName: "exclamationmark.circle")
+                    Text("Significant Deviations")
+                }
+                .font(.subheadline)
             
-            confirmedDeviations.count > 0
+            hasConfirmedDeviations
                 ? deviationRow(kind: .confirmedDaily, deviations: confirmedDeviations, color: .systemYellow)
                 : nil
             
-            deathsDeviations.count > 0
+            hasDeathsDeviations
                 ? deviationRow(kind: .deathsDaily, deviations: deathsDeviations, color: .systemRed)
                 : nil
             
-            confirmedDeviations.count == 0 && deathsDeviations.count == 0
+            !(hasConfirmedDeviations || hasDeathsDeviations)
                 ? Text("No significant changes in confirmed cases or deaths")
                     .foregroundColor(.systemGreen)
                     .font(.subheadline)
                 : nil
             
             VStack(alignment: .leading) {
-                Text("7 days moving average deviations for more than 50%.")
-                Text("Based on history data, not current.\n")
-                    .foregroundColor(.systemRed)
+                hasConfirmedDeviations || hasDeathsDeviations
+                    ? Group {
+                        Text("7 days moving average deviations for more than 50%.")
+                        Text("Based on history data, not current.\n")
+                            .foregroundColor(.systemRed)
+                        }
+                    : nil
                 updated
             }
             .padding(8)
@@ -258,17 +267,16 @@ struct WhatsNew: View {
                         .font(.title)
                         .padding(.top)
                     
-                    deviations
-                        .sheet(isPresented: $showCountryList) {
-                            CountryList(kind: self.kind, deviations: self.listToShow)
+                    world
+                        .sheet(isPresented: $showAllCountriesLineChart) {
+                            AllCountriesLineChart()
                                 .environmentObject(self.coronaStore)
                                 .environmentObject(self.settings)
                     }
                     
-                    
-                    world
-                        .sheet(isPresented: $showAllCountriesLineChart) {
-                            AllCountriesLineChart()
+                    deviations
+                        .sheet(isPresented: $showCountryList) {
+                            CountryList(kind: self.kind, deviations: self.listToShow)
                                 .environmentObject(self.coronaStore)
                                 .environmentObject(self.settings)
                     }

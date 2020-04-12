@@ -31,7 +31,7 @@ struct SettingsView: View {
     @State private var showDoublingTime = false
     
     var doublingSection: some View {
-        Section(header: Text("Doubling Time".uppercased()),
+        Section(/*header: Text("Doubling Time".uppercased()),*/
                 footer: Text("Show Doubling Time: time it takes for a population to double in size/value.")) {
                     Button("Doubling Time") {
                         self.showDoublingTime = true
@@ -45,8 +45,8 @@ struct SettingsView: View {
     
     @State private var showPopulation = false
     var populationSection: some View {
-        Section(header: Text("Population".uppercased()),
-                footer: Text("")) {
+        Section(/*header: Text("Population".uppercased()),*/
+                footer: Text("World population with search and filter.")) {
                     Button("Population") {
                         self.showPopulation = true
                     }
@@ -86,7 +86,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("Notifications".uppercased()),
+                Section(/*header: Text("Notifications".uppercased()),*/
                         footer: Text("Regular local notifications to get updated.")
                 ) {
                     
