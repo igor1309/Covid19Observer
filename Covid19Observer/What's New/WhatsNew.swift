@@ -94,7 +94,7 @@ struct WhatsNew: View {
                     .foregroundColor(.systemRed)
                 updated
             }
-        .padding(8)
+            .padding(8)
             .foregroundColor(.secondary)
             .font(.caption)
         }

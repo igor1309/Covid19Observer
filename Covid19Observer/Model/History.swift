@@ -12,6 +12,9 @@ import SwiftPI
 /// <#Description#>
 struct History: Codable {
     
+    /// нужно суммировать данные по провинциям в следующих странах
+    static let countriesWithRegions = ["Australia", "Canada", "China", "Denmark", "France", "Netherlands", "United Kingdom"]
+    
     let filename: String
     let url: URL
     
@@ -64,12 +67,32 @@ extension History {
     mutating func countDeviations() {
         
         var devs = [Deviation]()
+        var visitedCountries = [String]()
         
         for countryCase in countryCases {
             
+            let country = countryCase.countryRegion
+            
             //  get daily change for last 7 days (or less if dataset is smaller)
             
-            let last8days = Array(countryCase.series.suffix(8))
+            let last8days: [Int]
+            
+            /// страна с провинциями?
+            if History.countriesWithRegions.contains(country) {
+                /// если страна с провинциями, то собрать только если еще не собирал
+                if visitedCountries.contains(country) {
+                    /// уже собрано, переходить к след
+                    continue
+                } else {
+                    /// отметить собранной
+                    visitedCountries.append(country)
+                    /// собрать по всем провинциям
+                    last8days = Array(series(for: country).suffix(8))
+                }
+            } else {
+                last8days = Array(countryCase.series.suffix(8))
+            }
+            
             guard last8days.count > 0  else { continue }
             
             var dailyChange = [Int]()
@@ -90,7 +113,7 @@ extension History {
             let isGreaterThanThreshold = last >= deviationThreshold || avg >= deviationThreshold
             
             if isSignificantlyChanged && isGreaterThanThreshold {
-                devs.append(Deviation(country: countryCase.countryRegion, avg: Double(avg), last: Double(last)))
+                devs.append(Deviation(country: country, avg: Double(avg), last: Double(last)))
             }
         }
         
@@ -149,12 +172,9 @@ extension History {
         
         guard countryCases.count > 0 else { return [] }
         
-        /// нужно суммировать данные по провинциям в следующих странах
-        let countriesWithRegions = ["Australia", "Canada", "China", "Denmark", "France", "Netherlands", "United Kingdom"]
-        
         var filteredRow: CaseRow
         
-        if countriesWithRegions.contains(country) {
+        if History.countriesWithRegions.contains(country) {
             
             //  собрать все строки с этой страной в одну
             //  и заменить блок стран с провинциями этой страны на эту одну строку
