@@ -11,15 +11,15 @@ import SwiftUI
 struct CaseChart: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
-//    @Environment(\.horizontalSizeClass) var sizeClass
+    //    @Environment(\.horizontalSizeClass) var sizeClass
     
     let selectedType: CaseDataType
     let isBarsTappable: Bool
     let width: CGFloat
-
+    
     @State private var showLineChart = false
     @State private var selectedCountry = ""
-
+    
     let barHeight: CGFloat = 28
     
     var body: some View {
@@ -72,18 +72,17 @@ struct CaseChart: View {
                                     self.prepareHistoryData()
                                 }
                         }
-                        .sheet(isPresented: self.$showLineChart) {
-                            CasesLineChartView()
-                                .padding(.top, 6)
-                                .environmentObject(self.coronaStore)
-                                .environmentObject(self.settings)
-                        }
-                        
                     }
+                }
+                .sheet(isPresented: self.$showLineChart) {
+                    CasesLineChartView()
+                        .padding(.top, 6)
+                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.settings)
                 }
             }
         }
-//        .padding(sizeClass == .compact ? 0 : 8)
+        //        .padding(sizeClass == .compact ? 0 : 8)
     }
     
     func prepareHistoryData() {

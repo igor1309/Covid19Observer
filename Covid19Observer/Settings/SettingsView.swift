@@ -32,7 +32,7 @@ struct SettingsView: View {
     
     var doublingSection: some View {
         Section(header: Text("Doubling Time".uppercased()),
-                footer: Text("Show Doubling Time")) {
+                footer: Text("Show Doubling Time: time it takes for a population to double in size/value.")) {
                     Button("Doubling Time") {
                         self.showDoublingTime = true
                     }
@@ -43,10 +43,27 @@ struct SettingsView: View {
         }
     }
     
+    @State private var showPopulation = false
+    var populationSection: some View {
+        Section(header: Text("Population".uppercased()),
+                footer: Text("")) {
+                    Button("Population") {
+                        self.showPopulation = true
+                    }
+                    .sheet(isPresented: $showPopulation) {
+                        PopulationView()
+                            .environmentObject(self.coronaStore)
+                            .environmentObject(self.settings)
+                    }
+        }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
                 doublingSection
+                
+                populationSection
                 
                 LineChartSettingsSection()
                 
