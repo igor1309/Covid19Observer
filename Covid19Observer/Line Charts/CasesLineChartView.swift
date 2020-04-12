@@ -31,19 +31,14 @@ struct CasesLineChartView: View {
         }
     }
     
-//    @State private var steps = 0//10
+    //    @State private var steps = 0//10
     
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             
-            Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
-                ForEach(PrimeCountries.allCases, id: \.self)  { country in
-                    Text(country.iso2).tag(country.name)
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.top)
+            PrimeCountryPicker(selection: $coronaStore.selectedCountry)
+                .padding(.top)
             
             Button(action: {
                 self.showCountryPicker = true
@@ -62,23 +57,13 @@ struct CasesLineChartView: View {
                 CountryPicker().environmentObject(self.coronaStore)
             }
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    CountryCasesHeader()
-                    
-                    VStack {
-                        Text(coronaStore.confirmedHistory.last(for: coronaStore.selectedCountry).formattedGrouped)
-                        Text("last in history")
-                            .font(.caption)
-                    }
-                    .background(Color.tertiarySystemBackground)
-                }
+            CountryCasesHeader()
                 .padding(.bottom, 4)
-            }
             
             if series.isNotEmpty {
                 
                 DataKindPicker(selectedDataKind: $settings.selectedDataKind)
+                
                 
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0))//, steps: steps)
@@ -93,33 +78,33 @@ struct CasesLineChartView: View {
             } else {
                 Spacer()
             }
-
+            
             /// показать данные за последние 14 дней
-//                Text(series
-//                    .suffix(min(14, series.count))
-//                    .map { String($0) }
-//                    .joined(separator: ", ")
-//                    //  MARK: FINISH THIS
-//                    //  показать последюнюю дату в серии
-//                    //+ " " + coronaStore.confirmedHistory.rows[0].series.last
-//                )
-//                    .foregroundColor(.tertiary)
-//                    .font(.caption)
-//                    .padding(.bottom, 6)
+            //                Text(series
+            //                    .suffix(min(14, series.count))
+            //                    .map { String($0) }
+            //                    .joined(separator: ", ")
+            //                    //  MARK: FINISH THIS
+            //                    //  показать последюнюю дату в серии
+            //                    //+ " " + coronaStore.confirmedHistory.rows[0].series.last
+            //                )
+            //                    .foregroundColor(.tertiary)
+            //                    .font(.caption)
+            //                    .padding(.bottom, 6)
         }
         .transition(.opacity)
         .padding(.horizontal)
         .padding(.bottom, 6)
-//        .onAppear {
-//            self.coronaStore.updateEmptyOrOldStore()
-//            
-//            //  MARK: FINISH THIS
-//            //
-//            
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                self.steps = 10
-//            }
-//        }
+        //        .onAppear {
+        //            self.coronaStore.updateEmptyOrOldStore()
+        //
+        //            //  MARK: FINISH THIS
+        //            //
+        //
+        //            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        //                self.steps = 10
+        //            }
+        //        }
     }
 }
 

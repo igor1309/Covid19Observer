@@ -28,9 +28,9 @@ struct CaseChart: View {
         case .confirmed:
             maximum = CGFloat(coronaStore.currentCases.map { $0.confirmed }.max() ?? 1)
         case .new:
-            maximum = CGFloat(coronaStore.currentCases.map { $0.newConfirmed }.max() ?? 1)
+            maximum = CGFloat(coronaStore.currentCases.map { $0.confirmedNew }.max() ?? 1)
         case .current:
-            maximum = CGFloat(coronaStore.currentCases.map { $0.currentConfirmed }.max() ?? 1)
+            maximum = CGFloat(coronaStore.currentCases.map { $0.confirmedCurrent }.max() ?? 1)
         case .deaths:
             maximum = CGFloat(coronaStore.currentCases.map { $0.deaths }.max() ?? 1)
         case .cfr:

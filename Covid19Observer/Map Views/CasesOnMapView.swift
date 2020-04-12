@@ -46,8 +46,6 @@ struct CasesOnMapView: View {
                 Text("COVID-19 Data by John Hopkins")
                     .font(.subheadline).bold()
                 
-                CasesHeaderButton()
-                
                 Divider()
                 
                 Picker(selection: $coronaStore.caseType, label: Text("Select by Provincee or Country")) {
@@ -74,11 +72,7 @@ struct CasesOnMapView: View {
                             .foregroundColor(.secondary)
                             .font(.footnote)
                     }
-                    
-                    Spacer()
-                    
-                    CasesHeaderButton()
-                    
+                                        
                     Spacer()
                     
                     Picker(selection: $coronaStore.caseType, label: Text("Select by Provincee or Country")) {

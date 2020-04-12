@@ -39,22 +39,22 @@ struct ContentView: View {
             WhatsNew()
                 .tabItem {
                     Image(systemName: "doc.text.magnifyingglass")
-                    Text("New")
+                    Text("Dashboard")
             }
             .tag(0)
             
             barChart
                 .padding()
                 .tabItem {
-                    Image(systemName: "chart.bar")
-                    Text("Chart")
+                    Image(systemName: "text.alignleft")
+                    Text("World")
             }
             .tag(1)
             
             lineChart
                 .tabItem {
                     Image(systemName: "waveform.path.ecg")
-                    Text("History")
+                    Text("Country")
             }
             .tag(2)
             

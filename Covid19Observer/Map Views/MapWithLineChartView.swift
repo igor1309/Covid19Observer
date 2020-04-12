@@ -45,15 +45,7 @@ struct MapWithLineChartView: View {
                     //                }
                     .frame(width: geo.size.width * 2 / 3)
                 
-                VStack {
-                    CasesHeaderButton()
-                        .padding(.horizontal)
-                    
-                    Divider()
-                    
-                    CasesLineChartView()
-//                        .frame(width: geo.size.width / 3)
-                }
+                CasesLineChartView()
             }
         }
     }

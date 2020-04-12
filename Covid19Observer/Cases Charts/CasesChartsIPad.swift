@@ -15,7 +15,6 @@ struct CasesChartsIPad: View {
 
     var body: some View {
         VStack {
-            CasesHeader()
             
             if coronaStore.currentCases.isNotEmpty {
                 GeometryReader { geo in

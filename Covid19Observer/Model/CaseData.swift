@@ -13,12 +13,16 @@ struct CaseData: Identifiable, Hashable {
     var name: String
     var confirmed: Int
     var confirmedStr: String
-    var newConfirmed: Int
-    var newConfirmedStr: String
-    var currentConfirmed: Int
-    var currentConfirmedStr: String
+    var confirmedNew: Int
+    var confirmedNewStr: String
+    var confirmedCurrent: Int
+    var confirmedCurrentStr: String
     var deaths: Int
     var deathsStr: String
+    var deathsNew: Int
+    var deathsNewStr: String
+    var deathsCurrent: Int
+    var deathsCurrentStr: String
     var cfr: Double
     var cfrStr: String
 }

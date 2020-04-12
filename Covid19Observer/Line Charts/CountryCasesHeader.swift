@@ -7,51 +7,63 @@
 //
 
 import SwiftUI
+import SwiftPI
 
 struct CountryCasesHeader: View {
     @EnvironmentObject var coronaStore: CoronaStore
     
+    private var countryOutbreak: Outbreak {
+        coronaStore.selectedCountryOutbreak
+    }
+    
+    private func item(valueStr: String, name: String, color: Color) -> some View {
+        return VStack {
+            Text(valueStr)
+                .font(.headline)
+            Text(name)
+        }
+        .foregroundColor(color)
+    }
+    
     var body: some View {
-        HStack {
-            VStack {
-                Text("\(coronaStore.selectedCountryOutbreak.confirmed)")
-                    .font(.headline)
-                Text("confirmed")
+        let deathsPerMillon = 2.formattedGrouped
+        
+        return HStack {
+            VStack(spacing: 4) {
+                item(valueStr: countryOutbreak.confirmed, name: "confirmed", color: CaseDataType.confirmed.color)
+                
+                item(valueStr: countryOutbreak.deaths, name: "deaths", color: CaseDataType.deaths.color)
             }
-            .foregroundColor(CaseDataType.confirmed.color)
             
             Spacer()
-            VStack {
-                Text("\(coronaStore.selectedCountryOutbreak.newConfirmed)")
-                    .font(.headline)
-                Text("new")
+            VStack(spacing: 4) {
+                item(valueStr: countryOutbreak.confirmedNew, name: "new", color: CaseDataType.new.color)
+                
+                item(valueStr: countryOutbreak.deathsNew, name: "new", color: CaseDataType.new.color)
             }
-            .foregroundColor(CaseDataType.new.color)
             
             Spacer()
-            VStack {
-                Text("\(coronaStore.selectedCountryOutbreak.currentConfirmed)")
-                    .font(.headline)
-                Text("current")
+            VStack(spacing: 4) {
+                item(valueStr: countryOutbreak.confirmedCurrent, name: "current", color: CaseDataType.current.color)
+                
+                item(valueStr: countryOutbreak.deathsCurrent, name: "current", color: CaseDataType.current.color)
             }
-            .foregroundColor(CaseDataType.current.color)
-            
             
             Spacer()
-            VStack {
-                Text("\(coronaStore.selectedCountryOutbreak.deaths)")
-                    .font(.headline)
-                Text("deaths")
+            VStack(spacing: 4) {
+                item(valueStr: deathsPerMillon, name: "d per 1m", color: CaseDataType.cfr.color)
+                
+                item(valueStr: countryOutbreak.cfr, name: "CFR", color: CaseDataType.cfr.color)
             }
-            .foregroundColor(CaseDataType.deaths.color)
             
             Spacer()
-            VStack {
-                Text("\(coronaStore.selectedCountryOutbreak.cfr)")
-                    .font(.headline)
-                Text("CFR")
+            VStack(spacing: 4) {
+                item(valueStr: coronaStore.confirmedHistory.last(for: coronaStore.selectedCountry).formattedGrouped, name: "last in history", color: .secondary)
+                    .background(Color.tertiarySystemBackground)
+                
+                item(valueStr: coronaStore.confirmedHistory.last(for: coronaStore.selectedCountry).formattedGrouped, name: "last in history", color: .secondary)
+                    .background(Color.tertiarySystemBackground)
             }
-            .foregroundColor(CaseDataType.cfr.color)
         }
         .font(.caption)
     }

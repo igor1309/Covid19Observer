@@ -45,9 +45,9 @@ struct CaseBar: View {
         case .confirmed:
             return CGFloat(coronaStore.currentCases[index].confirmed)
         case .new:
-            return CGFloat(coronaStore.currentCases[index].newConfirmed)
+            return CGFloat(coronaStore.currentCases[index].confirmedNew)
         case .current:
-            return CGFloat(coronaStore.currentCases[index].currentConfirmed)
+            return CGFloat(coronaStore.currentCases[index].confirmedCurrent)
         case .deaths:
             return CGFloat(coronaStore.currentCases[index].deaths)
         case .cfr:
@@ -60,9 +60,9 @@ struct CaseBar: View {
         case .confirmed:
             return coronaStore.currentCases[index].confirmedStr
         case .new:
-            return coronaStore.currentCases[index].newConfirmedStr
+            return coronaStore.currentCases[index].confirmedNewStr
         case .current:
-            return coronaStore.currentCases[index].currentConfirmedStr
+            return coronaStore.currentCases[index].confirmedCurrentStr
         case .deaths:
             return coronaStore.currentCases[index].deathsStr
         case .cfr:

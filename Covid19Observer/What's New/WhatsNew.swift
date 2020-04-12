@@ -137,7 +137,7 @@ struct WhatsNew: View {
             
             HStack {
                 VStack(spacing: 12) {
-                    item(name: "confirmed", valueStr: coronaStore.coronaOutbreak.totalCases, percent: nil)
+                    item(name: "confirmed", valueStr: coronaStore.outbreak.confirmed, percent: nil)
                         .foregroundColor(.systemYellow)
                         .padding(8)
                         .roundedBackground(cornerRadius: 8, color: cardColor)
@@ -146,7 +146,7 @@ struct WhatsNew: View {
                             self.showAllCountriesLineChart = true
                     }
                     
-                    item(name: "deaths", valueStr: coronaStore.coronaOutbreak.totalDeaths, percent: nil)
+                    item(name: "deaths", valueStr: coronaStore.outbreak.deaths, percent: nil)
                         .foregroundColor(.systemRed)
                         .padding(8)
                         .roundedBackground(cornerRadius: 8, color: cardColor)
@@ -158,7 +158,7 @@ struct WhatsNew: View {
                 
                 Spacer()
                 VStack(spacing: 12) {
-                    item(name: "new", valueStr: coronaStore.coronaOutbreak.totalNewConfirmed, percent: "TBD%")
+                    item(name: "new", valueStr: coronaStore.outbreak.confirmedNew, percent: "TBD%")
                         .foregroundColor(.systemOrange)
                         .padding(8)
                         .roundedBackground(cornerRadius: 8, color: cardColor)
@@ -167,7 +167,7 @@ struct WhatsNew: View {
                             self.showAllCountriesLineChart = true
                     }
                     
-                    item(name: "new", valueStr: coronaStore.coronaOutbreak.totalNewConfirmed, percent: "TBD%")
+                    item(name: "new", valueStr: coronaStore.outbreak.deathsNew, percent: "TBD%")
                         .foregroundColor(.systemOrange)
                         .padding(8)
                         .roundedBackground(cornerRadius: 8, color: cardColor)
@@ -179,22 +179,22 @@ struct WhatsNew: View {
                 
                 Spacer()
                 VStack(spacing: 12) {
-                    item(name: "current", valueStr: coronaStore.coronaOutbreak.totalCurrentConfirmed, percent: "TBD%")
+                    item(name: "current", valueStr: coronaStore.outbreak.confirmedCurrent, percent: "TBD%")
                         .foregroundColor(.systemPurple)
                         .padding(8)
                     
-                    item(name: "current", valueStr: coronaStore.coronaOutbreak.totalCurrentConfirmed, percent: "TBD%")
+                    item(name: "current", valueStr: coronaStore.outbreak.deathsCurrent, percent: "TBD%")
                         .foregroundColor(.systemPurple)
                         .padding(8)
                 }
                 
                 Spacer()
                 VStack(spacing: 12) {
-                    item(name: "recovered", valueStr: coronaStore.coronaOutbreak.totalRecovered, percent: "TBD%")
+                    item(name: "recovered", valueStr: coronaStore.outbreak.recovered, percent: "TBD%")
                         .foregroundColor(.systemGreen)
                         .padding(8)
                     
-                    item(name: "CFR", valueStr: coronaStore.coronaOutbreak.cfr)
+                    item(name: "CFR", valueStr: coronaStore.outbreak.cfr)
                         .foregroundColor(.systemTeal)
                         .padding(8)
                         .roundedBackground(cornerRadius: 8, color: cardColor)
@@ -256,8 +256,6 @@ struct WhatsNew: View {
         }
         .font(.subheadline)
     }
-    
-    @Environment(\.horizontalSizeClass) var sizeClass
     
     var  body: some View {
         VStack {

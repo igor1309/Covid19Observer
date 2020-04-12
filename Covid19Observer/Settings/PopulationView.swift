@@ -16,10 +16,6 @@ struct PopulationView: View {
     @State private var showLineChart = false
     @State private var selectedCountry = ""
     
-    let population = Bundle.main
-        .decode(Population.self, from: "population.json")
-        .sorted(by: { $0.combinedKey < $1.combinedKey })
-    
     @State private var searchText = ""
     
     @State private var selectedFilter = FilterKind.countries
@@ -96,7 +92,7 @@ struct PopulationView: View {
             .padding(.horizontal)
             
             List {
-                ForEach(population.filter { filterFunc($0) } ) { item in
+                ForEach(coronaStore.population.filter { filterFunc($0) } ) { item in
                     
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(alignment: .firstTextBaseline) {
