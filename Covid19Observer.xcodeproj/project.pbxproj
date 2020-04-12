@@ -73,6 +73,7 @@
 		2ACF1C722430B4EC0045C531 /* CountryCasesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */; };
 		2AD13AAC243FB1EB00B61CCE /* HistoryTableIPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD13AAB243FB1EB00B61CCE /* HistoryTableIPad.swift */; };
 		2AD693BB2443493300F550A0 /* PrimeCountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */; };
+		2AD693BD2443B59200F550A0 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BC2443B59200F550A0 /* Dashboard.swift */; };
 		2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */; };
 		2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */; };
 		2AE2C50D243723B800CC8476 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50C243723B800CC8476 /* Date+Extensions.swift */; };
@@ -180,6 +181,7 @@
 		2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCasesHeader.swift; sourceTree = "<group>"; };
 		2AD13AAB243FB1EB00B61CCE /* HistoryTableIPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableIPad.swift; sourceTree = "<group>"; };
 		2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeCountryPicker.swift; sourceTree = "<group>"; };
+		2AD693BC2443B59200F550A0 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCasesCharts.swift; sourceTree = "<group>"; };
 		2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettings.swift; sourceTree = "<group>"; };
 		2AE2C50C243723B800CC8476 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -241,7 +243,6 @@
 				2A445F34242931A1007C6846 /* WORK IN PROGRESS */,
 				2A03BEDD2428BC6F0094852B /* ContentView.swift */,
 				2A9974D4244125D0004FF043 /* What's New */,
-				2AB9474024313EC7009C18ED /* Case Headers */,
 				2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */,
 				2AFF26E9242B50E300DAC856 /* Cases Charts */,
 				2A03BEFF2428C04F0094852B /* Map Views */,
@@ -403,16 +404,10 @@
 			isa = PBXGroup;
 			children = (
 				2A9974D2244125BB004FF043 /* WhatsNew.swift */,
+				2AD693BC2443B59200F550A0 /* Dashboard.swift */,
 				2A9974DB2441ABBE004FF043 /* CountryList.swift */,
 			);
 			path = "What's New";
-			sourceTree = "<group>";
-		};
-		2AB9474024313EC7009C18ED /* Case Headers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Case Headers";
 			sourceTree = "<group>";
 		};
 		2AE2C5362439DA7700CC8476 /* Charting */ = {
@@ -537,6 +532,7 @@
 			files = (
 				2A03BF0B2428C04F0094852B /* CasesChartView.swift in Sources */,
 				2AE2C52F24389EFF00CC8476 /* New+Extensions.swift in Sources */,
+				2AD693BD2443B59200F550A0 /* Dashboard.swift in Sources */,
 				2A9974D824419E54004FF043 /* Deviation.swift in Sources */,
 				2A03BF052428C04F0094852B /* CoronaStore.swift in Sources */,
 				2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */,
@@ -751,7 +747,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -774,7 +770,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;

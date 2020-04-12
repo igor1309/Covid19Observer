@@ -14,6 +14,7 @@ import SwiftUI
 import Combine
 import SwiftPI
 
+
 typealias Outbreak = (
     confirmed: String,
     confirmedNew: String,
@@ -26,22 +27,30 @@ typealias Outbreak = (
     cfr: String
 )
 
-//typealias CoronaOutbreak = (
-//    totalConfirmed: String,
-//    totalConfirmedNew: String,
-//    totalConfirmedCurrent: String,
-//    totalRecovered: String,
-//    totalDeaths: String,
-//    totalDeathsNew: String,
-//    totalDeathsCurrent: String,
-//    deathsPerMillion: String,
-//    cfr: String)
 
 class CoronaStore: ObservableObject {
     
     let population = Bundle.main
         .decode(Population.self, from: "population.json")
         .sorted(by: { $0.combinedKey < $1.combinedKey })
+    
+    /// Return population for the country and for the world if country is nil. `Regions and territories are not yet supported`.
+    /// - Parameter country: country name
+    /// - Returns: population for the country and for the world if country is nil
+    func populationOf(country: String?) -> Int {
+        guard let country = country else {
+            return population
+                .filter { $0.uid < 1000 }
+                .reduce(0, { $0 + $1.population! })
+        }
+        
+        guard let pop = population
+            .first(where: {
+                $0.combinedKey == country && $0.uid < 1000
+            }) else { return 0 }
+        
+        return pop.population ?? 0
+    }
     
     @Published var caseType: CaseType { didSet { processCases() }}
     
@@ -106,34 +115,43 @@ class CoronaStore: ObservableObject {
     var selectedCountryOutbreak: Outbreak {
         if let countryCase = currentCases.first(where: { $0.name == selectedCountry }) {
             
-            
+print(countryCase)
             //  MARK: FINISH THIS
             //
-            let deathsPerMillion = 1
+            let population = populationOf(country: selectedCountry)
+print("population \(population)")
+            let deathsPerMillion: Int
+            if population == 0 {
+                deathsPerMillion = 0
+            } else {
+print("countryCase.deaths \(countryCase.deaths)")
+                deathsPerMillion = countryCase.deaths / population * 1_000_000
+            }
             
             return (confirmed: countryCase.confirmedStr,
                     confirmedNew: countryCase.confirmedNewStr,
                     confirmedCurrent: countryCase.confirmedCurrentStr,
                     //  MARK: FINISH THIS
-                    //
+                //
                 recovered: "0",
-                    deaths: countryCase.deathsStr,
-                    deathsNew: countryCase.deathsNewStr,
-                    deathsCurrent: countryCase.deathsCurrentStr,
-                    deathsPerMillion: deathsPerMillion.formattedGrouped,
-                    cfr: countryCase.cfrStr)
+                deaths: countryCase.deathsStr,
+                deathsNew: countryCase.deathsNewStr,
+                deathsCurrent: countryCase.deathsCurrentStr,
+                deathsPerMillion: deathsPerMillion.formattedGrouped,
+                cfr: countryCase.cfrStr)
+            
         } else {
             return (confirmed: "...",
                     confirmedNew: "...",
                     confirmedCurrent: "...",
                     //  MARK: FINISH THIS
-                                    //
+                //
                 recovered: "???",
-                                deaths: "...",
-                    deathsNew: "...",
-                    deathsCurrent: "...",
-                    deathsPerMillion: "...",
-                    cfr: "...")
+                deaths: "...",
+                deathsNew: "...",
+                deathsCurrent: "...",
+                deathsPerMillion: "...",
+                cfr: "...")
         }
     }
     
@@ -252,7 +270,7 @@ class CoronaStore: ObservableObject {
         updateEmptyOrOldStore()
         
         processCases()
-        countNewAndCurrentCases()
+        countNewAndCurrent()
     }
     
     func updateEmptyOrOldStore() {
@@ -260,14 +278,14 @@ class CoronaStore: ObservableObject {
             print("Cases Data empty or old, need to fetch")
             isCasesUpdateCompleted = false
             updateCasesData() { _ in
-                self.countNewAndCurrentCases()
+                self.countNewAndCurrent()
             }
         }
         
         if confirmedHistory.countryCases.isEmpty || confirmedHistory.isDataOld || deathsHistory.countryCases.isEmpty || deathsHistory.isDataOld {
             print("History Data empty or old, need to fetch")
             updateHistoryData() {
-                self.countNewAndCurrentCases()
+                self.countNewAndCurrent()
             }
         }
     }
@@ -336,18 +354,21 @@ class CoronaStore: ObservableObject {
         .store(in: &storage)
     }
     
-    private func countNewAndCurrentCases() {
+    private func countNewAndCurrent() {
         var totalConfirmedNew = 0
-        var totalCurrentConfirmed = 0
+        var totalConfirmedCurrent = 0
         
         var totalDeathsNew = 0
         var totalDeathsCurrent = 0
         
         for index in currentCases.indices {
+            
+            let name = currentCases[index].name
+            
             //  Confirmed Cases
             
-            let confirmedLast = confirmedHistory.last(for: currentCases[index].name)
-            let confirmedPrevious = confirmedHistory.previous(for: currentCases[index].name)
+            let confirmedLast = confirmedHistory.last(for: name)
+            let confirmedPrevious = confirmedHistory.previous(for: name)
             
             let confirmedNew = confirmedLast - confirmedPrevious
             currentCases[index].confirmedNew = confirmedNew
@@ -358,13 +379,13 @@ class CoronaStore: ObservableObject {
             currentCases[index].confirmedCurrentStr = comfirmedCurrent.formattedGrouped
             
             totalConfirmedNew += confirmedNew
-            totalCurrentConfirmed += comfirmedCurrent
+            totalConfirmedCurrent += comfirmedCurrent
             
             
             //  Deaths
             
-            let deathsLast = deathsHistory.last(for: currentCases[index].name)
-            let deathsPrevious = deathsHistory.previous(for: currentCases[index].name)
+            let deathsLast = deathsHistory.last(for: name)
+            let deathsPrevious = deathsHistory.previous(for: name)
             
             let deathsNew = deathsLast - deathsPrevious
             currentCases[index].deathsNew = deathsNew
@@ -376,14 +397,14 @@ class CoronaStore: ObservableObject {
             
             totalDeathsNew += deathsNew
             totalDeathsCurrent += deathsCurrent
-
+            
         }
         
         self.outbreak.confirmedNew = totalConfirmedNew.formattedGrouped
-        self.outbreak.confirmedCurrent = totalCurrentConfirmed.formattedGrouped
+        self.outbreak.confirmedCurrent = totalConfirmedCurrent.formattedGrouped
         
-        self.outbreak.deathsNew = totalConfirmedNew.formattedGrouped
-        self.outbreak.deathsCurrent = totalCurrentConfirmed.formattedGrouped
+        self.outbreak.deathsNew = totalDeathsNew.formattedGrouped
+        self.outbreak.deathsCurrent = totalDeathsCurrent.formattedGrouped
     }
     
     private func processCases() {
@@ -424,8 +445,9 @@ class CoronaStore: ObservableObject {
                     confirmedNewStr: "n/a",
                     confirmedCurrent: 0,
                     confirmedCurrentStr: "n/a",
-                    deaths: 0,
-                    deathsStr: "n/a",
+                    deaths: deaths,
+                    deathsStr: deaths.formattedGrouped,
+                    //  MARK: count new and current cases is called separately
                     deathsNew: 0,
                     deathsNewStr: "n/a",
                     deathsCurrent: 0,
@@ -441,11 +463,14 @@ class CoronaStore: ObservableObject {
         worldCaseFatalityRate = totalCases == 0 ? 0 : Double(totalDeaths) / Double(totalCases)
         self.outbreak.cfr = worldCaseFatalityRate.formattedPercentageWithDecimals
         
+        //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
         self.caseAnnotations = caseAnnotations.filter { $0.value > (isFiltered ? mapFilterLowerLimit : 0) }
         
         //        if isFiltered && caseAnnotations.count > maxBars {
         //            caseData = Array(caseData.prefix(upTo: maxBars))
         //        }
+        
+        //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
         self.currentCases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
         //        self.cases = caseData
     }

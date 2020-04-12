@@ -18,9 +18,7 @@ struct CasesChartView: View {
     @State private var showTable = false
     
     @State private var columnWidths: [Int: CGFloat] = [:]
-
-    //  MARK: FINISH THIS
-    //
+    
     var widget: some View {
         
         func row(title: String, value: String, color: Color) -> some View {
@@ -55,39 +53,34 @@ struct CasesChartView: View {
         .padding(.bottom)
     }
     
-    
     var body: some View {
-        VStack {
-            
-            CaseDataTypePicker(selection: $selectedType)
-            
+        ZStack {
             if coronaStore.currentCases.isNotEmpty {
-                
-                ZStack(alignment: .bottomTrailing) {
-                    GeometryReader { geo in
-                        ScrollView(.vertical, showsIndicators: false) {
-                            
-                            CaseChart(
-                                selectedType: self.selectedType,
-                                isBarsTappable: true,
-                                width: geo.size.width
-                            )
-                        }
-                    }
-                    
-                    widget
-                }
-            } else {
                 VStack {
-                    Spacer()
+                    CaseDataTypePicker(selection: $selectedType)
                     
-                    Button(action: {
-                        self.settings.selectedTab = 4
-                    }) {
-                        Text("No data to display\n\nPlease go to Settings and tap Update")
+                    ZStack(alignment: .bottomTrailing) {
+                        GeometryReader { geo in
+                            ScrollView(.vertical, showsIndicators: false) {
+                                
+                                CaseChart(
+                                    selectedType: self.selectedType,
+                                    isBarsTappable: true,
+                                    width: geo.size.width
+                                )
+                            }
+                        }
+                        
+                        widget
                     }
-                    
-                    Spacer()
+                }
+                
+            } else {
+                Button(action: {
+                    self.settings.selectedTab = 4
+                }) {
+                    Text("No data to display\nPlease go to Update section in Settings")
+                        .lineSpacing(12)
                 }
             }
         }

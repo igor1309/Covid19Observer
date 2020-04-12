@@ -111,102 +111,7 @@ struct WhatsNew: View {
     }
     
     
-    @State private var showAllCountriesLineChart = false
     
-    var world: some View {
-        
-        func item(name: String, valueStr: String, percent: String? = nil) -> some View {
-            VStack {
-                Text(valueStr)
-                    .font(.subheadline)
-                Text(percent ?? " ")
-                    .font(.caption)
-                    .opacity(0.6)
-                Text(name)
-                    .font(.caption2)
-            }
-            .contentShape(Rectangle())
-        }
-        
-        return VStack(spacing: 16) {
-            HStack {
-                Image(systemName: "globe")
-                Text("World")
-            }
-            .font(.subheadline)
-            
-            HStack {
-                VStack(spacing: 12) {
-                    item(name: "confirmed", valueStr: coronaStore.outbreak.confirmed, percent: nil)
-                        .foregroundColor(.systemYellow)
-                        .padding(8)
-                        .roundedBackground(cornerRadius: 8, color: cardColor)
-                        .onTapGesture {
-                            self.settings.selectedDataKind = .confirmedTotal
-                            self.showAllCountriesLineChart = true
-                    }
-                    
-                    item(name: "deaths", valueStr: coronaStore.outbreak.deaths, percent: nil)
-                        .foregroundColor(.systemRed)
-                        .padding(8)
-                        .roundedBackground(cornerRadius: 8, color: cardColor)
-                        .onTapGesture {
-                            self.settings.selectedDataKind = .deathsTotal
-                            self.showAllCountriesLineChart = true
-                    }
-                }
-                
-                Spacer()
-                VStack(spacing: 12) {
-                    item(name: "new", valueStr: coronaStore.outbreak.confirmedNew, percent: "TBD%")
-                        .foregroundColor(.systemOrange)
-                        .padding(8)
-                        .roundedBackground(cornerRadius: 8, color: cardColor)
-                        .onTapGesture {
-                            self.settings.selectedDataKind = .confirmedDaily
-                            self.showAllCountriesLineChart = true
-                    }
-                    
-                    item(name: "new", valueStr: coronaStore.outbreak.deathsNew, percent: "TBD%")
-                        .foregroundColor(.systemOrange)
-                        .padding(8)
-                        .roundedBackground(cornerRadius: 8, color: cardColor)
-                        .onTapGesture {
-                            self.settings.selectedDataKind = .deathsDaily
-                            self.showAllCountriesLineChart = true
-                    }
-                }
-                
-                Spacer()
-                VStack(spacing: 12) {
-                    item(name: "current", valueStr: coronaStore.outbreak.confirmedCurrent, percent: "TBD%")
-                        .foregroundColor(.systemPurple)
-                        .padding(8)
-                    
-                    item(name: "current", valueStr: coronaStore.outbreak.deathsCurrent, percent: "TBD%")
-                        .foregroundColor(.systemPurple)
-                        .padding(8)
-                }
-                
-                Spacer()
-                VStack(spacing: 12) {
-                    item(name: "recovered", valueStr: coronaStore.outbreak.recovered, percent: "TBD%")
-                        .foregroundColor(.systemGreen)
-                        .padding(8)
-                    
-                    item(name: "CFR", valueStr: coronaStore.outbreak.cfr)
-                        .foregroundColor(.systemTeal)
-                        .padding(8)
-                        .roundedBackground(cornerRadius: 8, color: cardColor)
-                        .onTapGesture {
-                            self.settings.selectedDataKind = .cfr
-                            self.showAllCountriesLineChart = true
-                    }
-                }
-            }
-        }
-        .padding()
-    }
     
     
     @State private var showLineChart = false
@@ -265,12 +170,10 @@ struct WhatsNew: View {
                         .font(.title)
                         .padding(.top)
                     
-                    world
-                        .sheet(isPresented: $showAllCountriesLineChart) {
-                            AllCountriesLineChart()
-                                .environmentObject(self.coronaStore)
-                                .environmentObject(self.settings)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        Dashboard()
                     }
+                        
                     
                     deviations
                         .sheet(isPresented: $showCountryList) {

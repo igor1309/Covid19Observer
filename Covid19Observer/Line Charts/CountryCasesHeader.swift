@@ -26,9 +26,7 @@ struct CountryCasesHeader: View {
     }
     
     var body: some View {
-        let deathsPerMillon = 2.formattedGrouped
-        
-        return HStack {
+        HStack(spacing: 8) {
             VStack(spacing: 4) {
                 item(valueStr: countryOutbreak.confirmed, name: "confirmed", color: CaseDataType.confirmed.color)
                 
@@ -51,7 +49,7 @@ struct CountryCasesHeader: View {
             
             Spacer()
             VStack(spacing: 4) {
-                item(valueStr: deathsPerMillon, name: "d per 1m", color: CaseDataType.cfr.color)
+                item(valueStr: countryOutbreak.deathsPerMillion, name: "d per 1m", color: CaseDataType.cfr.color)
                 
                 item(valueStr: countryOutbreak.cfr, name: "CFR", color: CaseDataType.cfr.color)
             }

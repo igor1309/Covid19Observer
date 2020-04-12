@@ -19,16 +19,18 @@ struct CaseBar: View {
     let barHeight: CGFloat
     
     var body: some View {
-        ZStack(alignment: .leading) {
-            self.selectedType.color
-                .frame(width: width / maximum * self.caseData(self.selectedType, for: index), height: self.barHeight)
-                .cornerRadius(6)
-                .saturation(self.coronaStore.currentCases[index].name == "China" ? 0.3 : 1)
-            
-            self.textLabel(name: "\(self.coronaStore.currentCases[index].name): \(self.caseDataStr(self.selectedType, for: index))",
-                width: width / maximum * self.caseData(self.selectedType, for: index),
-                maxWidth: width)
-        }
+        maximum != 0
+            ? ZStack(alignment: .leading) {
+                self.selectedType.color
+                    .frame(width: width / maximum * self.caseData(self.selectedType, for: index), height: self.barHeight)
+                    .cornerRadius(6)
+                    .saturation(self.coronaStore.currentCases[index].name == "China" ? 0.3 : 1)
+                
+                self.textLabel(name: "\(self.coronaStore.currentCases[index].name): \(self.caseDataStr(self.selectedType, for: index))",
+                    width: width / maximum * self.caseData(self.selectedType, for: index),
+                    maxWidth: width)
+                }
+            : nil
     }
     
     func textLabel(name: String, width: CGFloat, maxWidth: CGFloat) -> some View {

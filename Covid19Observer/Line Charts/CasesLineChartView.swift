@@ -57,13 +57,14 @@ struct CasesLineChartView: View {
                 CountryPicker().environmentObject(self.coronaStore)
             }
             
-            CountryCasesHeader()
-                .padding(.bottom, 4)
+            ScrollView(.horizontal, showsIndicators: false) {
+                CountryCasesHeader()
+            }
+            .padding(.bottom, 4)
             
             if series.isNotEmpty {
                 
                 DataKindPicker(selectedDataKind: $settings.selectedDataKind)
-                
                 
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0))//, steps: steps)
@@ -94,17 +95,7 @@ struct CasesLineChartView: View {
         }
         .transition(.opacity)
         .padding(.horizontal)
-        .padding(.bottom, 6)
-        //        .onAppear {
-        //            self.coronaStore.updateEmptyOrOldStore()
-        //
-        //            //  MARK: FINISH THIS
-        //            //
-        //
-        //            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        //                self.steps = 10
-        //            }
-        //        }
+        .padding(.bottom, 12)
     }
 }
 

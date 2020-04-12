@@ -24,6 +24,7 @@ struct CaseChart: View {
     
     var body: some View {
         let maximum: CGFloat
+        
         switch selectedType {
         case .confirmed:
             maximum = CGFloat(coronaStore.currentCases.map { $0.confirmed }.max() ?? 1)
@@ -97,7 +98,7 @@ struct CaseChart_Previews: PreviewProvider {
             Color.black.edgesIgnoringSafeArea(.all)
             
             ScrollView(.horizontal) {
-                CaseChart(selectedType: CaseDataType.confirmed, isBarsTappable: true, width: 350)
+                CaseChart(selectedType: CaseDataType.confirmed, isBarsTappable: true, width: 300)
             }
             .border(Color.pink)
             .padding(.horizontal)
@@ -105,5 +106,6 @@ struct CaseChart_Previews: PreviewProvider {
         .environmentObject(CoronaStore())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
+//        .previewLayout(.sizeThatFits)
     }
 }
