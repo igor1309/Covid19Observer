@@ -162,9 +162,7 @@ struct WhatsNew: View {
     }
     
     var body: some View {
-        let worldPopulation = Double(coronaStore.populationOf(country: nil))
-        
-        return VStack {
+        VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     Text("What's New")
@@ -174,9 +172,6 @@ struct WhatsNew: View {
                     HStack {
                         Image(systemName: "globe")
                         Text("World")
-                        Text(worldPopulation.formattedGrouped)
-                            .foregroundColor(.tertiary)
-                            .font(.footnote)
                     }
                     .font(.subheadline)
                     

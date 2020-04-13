@@ -20,6 +20,15 @@ struct PopulationView: View {
     
     @State private var selectedFilter = FilterKind.countries
     
+    private enum FilterKind: String, CaseIterable, Hashable {
+        case countries = "Countries"
+        case us = "US+"
+        case canada = "Canada+"
+        case china = "China+"
+        
+        var id: String { rawValue }
+    }
+    
     private func filterFunc(_ item: PopulationElement) -> Bool {
         let searchCondition = searchText.count > 2
             ? item.countryRegion.contains(searchText)
@@ -40,16 +49,7 @@ struct PopulationView: View {
         return searchCondition && selection
     }
     
-    private enum FilterKind: String, CaseIterable, Hashable {
-        case countries = "Countries"
-        case us = "US+"
-        case canada = "Canada+"
-        case china = "China+"
-        
-        var id: String { rawValue }
-    }
-    
-    var searchField: some View {
+    private var searchField: some View {
         HStack {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.tertiary)
@@ -73,59 +73,74 @@ struct PopulationView: View {
         .padding(.horizontal)
     }
     
-    var body: some View {
-        VStack {
+    private func row(for item: PopulationElement) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(item.combinedKey)
+                
+                Spacer()
+                Text("\(item.population ?? 0)")
+                    .font(.subheadline)
+            }
             
+            Text("iso2: \(item.iso2) | iso3 \(item.iso3) | uid \(item.uid) | fips \(item.fips ?? 0)")
+                .foregroundColor(.tertiary)
+                .font(.footnote)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            self.showChart(item)
+        }
+        .contextMenu {
+            Button(action: {
+                self.showChart(item)
+            }) {
+                Image(systemName: "waveform.path.ecg")
+                Text("Show Chart")
+            }
+            Button(action: {
+                //  MARK: FINISH THIS - SHOW ON A MAP
+                //
+            }) {
+                Image(systemName: "map")
+                Text("Show on the Map")
+            }
+        }
+    }
+    
+    private var header: some View {
+        let worldPopulation = Double(coronaStore.populationOf(country: nil))
+        
+        return HStack(alignment: .firstTextBaseline) {
             Text("Population")
                 .font(.title)
                 .padding(.top)
-            
-            searchField
-            
-            Picker(selection: $selectedFilter, label: Text("Filter Options")) {
-                ForEach(FilterKind.allCases, id: \.self) { option in
-                    Text(option.id).tag(option)
-                }
+            Text(worldPopulation.formattedGrouped)
+                .foregroundColor(.tertiary)
+                .font(.subheadline)
+        }
+    }
+    
+    private var picker: some View {
+        Picker(selection: $selectedFilter, label: Text("Filter Options")) {
+            ForEach(FilterKind.allCases, id: \.self) { option in
+                Text(option.id).tag(option)
             }
-            .labelsHidden()
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal)
+        }
+        .labelsHidden()
+        .pickerStyle(SegmentedPickerStyle())
+        .padding(.horizontal)
+    }
+    
+    var body: some View {
+        VStack {
+            header
+            searchField
+            picker
             
             List {
-                ForEach(coronaStore.population.filter { filterFunc($0) } ) { item in
-                    
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(alignment: .firstTextBaseline) {
-                            Text(item.combinedKey)
-                            
-                            Spacer()
-                            Text("\(item.population ?? 0)")
-                                .font(.subheadline)
-                        }
-                        
-                        Text("iso2: \(item.iso2) | iso3 \(item.iso3) | uid \(item.uid) | fips \(item.fips ?? 0)")
-                            .foregroundColor(.tertiary)
-                            .font(.footnote)
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        self.showChart(item)
-                    }
-                    .contextMenu {
-                        Button(action: {
-                            self.showChart(item)
-                        }) {
-                            Image(systemName: "waveform.path.ecg")
-                            Text("Show Chart")
-                        }
-                        Button(action: {
-                            //  MARK: FINISH THIS - SHOW ON A MAP
-                            //
-                        }) {
-                            Image(systemName: "map")
-                            Text("Show on the Map")
-                        }
-                    }
+                ForEach(coronaStore.population.filter { filterFunc($0) }) { item in
+                    self.row(for: item)
                 }
             }
             .sheet(isPresented: self.$showLineChart) {
