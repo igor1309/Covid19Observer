@@ -58,7 +58,7 @@ struct CaseChart: View {
                     
                     Color.systemTeal
                         .frame(width: 0.5)
-                        .offset(x: width / maximum * CGFloat(self.coronaStore.worldCaseFatalityRate))
+                        .offset(x: width / maximum * CGFloat(self.coronaStore.outbreak.cfr))
                         .opacity(0.6)
                 }
                 

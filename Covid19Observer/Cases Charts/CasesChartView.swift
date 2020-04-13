@@ -35,17 +35,17 @@ struct CasesChartView: View {
             .foregroundColor(color)
         }
         
-        var outbreak: Outbrk { coronaStore.outbrk }
+        var outbreak: Outbreak { coronaStore.outbreak }
         
         return VStack(alignment: .leading, spacing: 3) {
             
-            row(title: "Confirmed", value: outbreak.confirmed, color: CaseDataType.confirmed.color)
+            row(title: "Confirmed", value: outbreak.confirmedStr, color: CaseDataType.confirmed.color)
             
-            row(title: "Current", value: outbreak.confirmedCurrent, color: CaseDataType.current.color)
+            row(title: "Current", value: outbreak.confirmedCurrentStr, color: CaseDataType.current.color)
             
-            row(title: "New", value: outbreak.confirmedNew, color: CaseDataType.new.color)
+            row(title: "New", value: outbreak.confirmedNewStr, color: CaseDataType.new.color)
             
-            row(title: "Deaths", value: outbreak.deaths, color: CaseDataType.deaths.color)
+            row(title: "Deaths", value: outbreak.deathsStr, color: CaseDataType.deaths.color)
         }
         .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
         .font(.system(.caption, design: .monospaced))

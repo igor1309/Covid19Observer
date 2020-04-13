@@ -11,20 +11,44 @@ import SwiftUI
 struct CaseData: Identifiable, Hashable {
     var id = UUID()
     var name: String
+    
+    ///  `Confirmed Cases`
+    
     var confirmed: Int
-    var confirmedStr: String
     var confirmedNew: Int
-    var confirmedNewStr: String
     var confirmedCurrent: Int
-    var confirmedCurrentStr: String
+    
+    ///  `Recovered`
+    
+    // MARK: FINISH THIS
+    var recovered: Int
+    
+    ///  `Deaths`
+    
     var deaths: Int
-    var deathsStr: String
     var deathsNew: Int
-    var deathsNewStr: String
     var deathsCurrent: Int
-    var deathsCurrentStr: String
-    var cfr: Double
-    var cfrStr: String
+}
+
+extension CaseData {
+    //  Percentages calculations and properties for Views: …Str: String
+    
+    ///  `Confirmed Cases`
+    
+    var confirmedStr: String { confirmed.formattedGrouped }
+    var confirmedNewStr: String { confirmedNew.formattedGrouped }
+    var confirmedCurrentStr: String { confirmedCurrent.formattedGrouped }
+
+    ///  `Deaths`
+
+    var deathsStr: String { deaths.formattedGrouped }
+    var deathsNewStr: String { deathsNew.formattedGrouped }
+    var deathsCurrentStr: String { deathsCurrent.formattedGrouped }
+
+    ///  `Case Fatality Rate`
+    
+    var cfr: Double { confirmed == 0 ? 0 : Double(deaths) / Double(confirmed) }
+    var cfrStr: String { cfr.formattedPercentageWithDecimals }
 }
 
 

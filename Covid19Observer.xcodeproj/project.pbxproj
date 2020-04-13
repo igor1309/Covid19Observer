@@ -33,6 +33,7 @@
 		2A445F3124292E94007C6846 /* AxisY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3024292E94007C6846 /* AxisY.swift */; };
 		2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A445F3224292F1A007C6846 /* GraphGridShape.swift */; };
 		2A4E35EB2432294900F84C72 /* NotificationSettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E35EA2432294900F84C72 /* NotificationSettingsSection.swift */; };
+		2A566E5E24449AAF006BEA02 /* Outbreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E5D24449AAF006BEA02 /* Outbreak.swift */; };
 		2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */; };
 		2A6607FF242BF7060056C849 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FE242BF7060056C849 /* MapView.swift */; };
 		2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A660800242CC7720056C849 /* CaseAnnotationView.swift */; };
@@ -137,6 +138,7 @@
 		2A445F3024292E94007C6846 /* AxisY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisY.swift; sourceTree = "<group>"; };
 		2A445F3224292F1A007C6846 /* GraphGridShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGridShape.swift; sourceTree = "<group>"; };
 		2A4E35EA2432294900F84C72 /* NotificationSettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsSection.swift; sourceTree = "<group>"; };
+		2A566E5D24449AAF006BEA02 /* Outbreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Outbreak.swift; sourceTree = "<group>"; };
 		2A56BB4F24307D580082FF21 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		2A6607FE242BF7060056C849 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				2A234EE32434EF830003C302 /* TimePeriod.swift */,
 				2AE2C50E2437376500CC8476 /* PrimeCountries.swift */,
 				2A03BEF42428C04F0094852B /* CoronaStore.swift */,
+				2A566E5D24449AAF006BEA02 /* Outbreak.swift */,
 				2A03BEF22428C04F0094852B /* Corona.swift */,
 				2A03BEF52428C04F0094852B /* CaseData.swift */,
 				2A03BEF12428C04F0094852B /* CaseAnnotations.swift */,
@@ -555,6 +558,7 @@
 				2AD693BB2443493300F550A0 /* PrimeCountryPicker.swift in Sources */,
 				2A234EE42434EF830003C302 /* TimePeriod.swift in Sources */,
 				2AB9473D24312B9C009C18ED /* CaseChart.swift in Sources */,
+				2A566E5E24449AAF006BEA02 /* Outbreak.swift in Sources */,
 				2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */,
 				2A74F0BB2428CBB400137694 /* LineGraphShape.swift in Sources */,
 				2A03BF082428C04F0094852B /* PreferenceKeys.swift in Sources */,

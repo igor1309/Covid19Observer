@@ -12,7 +12,7 @@ import SwiftPI
 struct CountryCasesHeader: View {
     @EnvironmentObject var coronaStore: CoronaStore
     
-    private var countryOutbreak: Outbrk {
+    private var countryOutbreak: Outbreak {
         coronaStore.selectedCountryOutbreak
     }
     
@@ -28,30 +28,30 @@ struct CountryCasesHeader: View {
     var body: some View {
         HStack(spacing: 8) {
             VStack(spacing: 4) {
-                item(valueStr: countryOutbreak.confirmed, name: "confirmed", color: CaseDataType.confirmed.color)
+                item(valueStr: countryOutbreak.confirmedStr, name: "confirmed", color: CaseDataType.confirmed.color)
                 
-                item(valueStr: countryOutbreak.deaths, name: "deaths", color: CaseDataType.deaths.color)
+                item(valueStr: countryOutbreak.deathsStr, name: "deaths", color: CaseDataType.deaths.color)
             }
             
             Spacer()
             VStack(spacing: 4) {
-                item(valueStr: countryOutbreak.confirmedNew, name: "new", color: CaseDataType.new.color)
+                item(valueStr: countryOutbreak.confirmedNewStr, name: "new", color: CaseDataType.new.color)
                 
-                item(valueStr: countryOutbreak.deathsNew, name: "new", color: CaseDataType.new.color)
+                item(valueStr: countryOutbreak.deathsNewStr, name: "new", color: CaseDataType.new.color)
             }
             
             Spacer()
             VStack(spacing: 4) {
-                item(valueStr: countryOutbreak.confirmedCurrent, name: "current", color: CaseDataType.current.color)
+                item(valueStr: countryOutbreak.confirmedCurrentStr, name: "current", color: CaseDataType.current.color)
                 
-                item(valueStr: countryOutbreak.deathsCurrent, name: "current", color: CaseDataType.current.color)
+                item(valueStr: countryOutbreak.deathsCurrentStr, name: "current", color: CaseDataType.current.color)
             }
             
             Spacer()
             VStack(spacing: 4) {
-                item(valueStr: countryOutbreak.deathsPerMillion, name: "d per 1m", color: CaseDataType.cfr.color)
+                item(valueStr: countryOutbreak.deathsPerMillionStr, name: "d per 1m", color: CaseDataType.cfr.color)
                 
-                item(valueStr: countryOutbreak.cfr, name: "CFR", color: CaseDataType.cfr.color)
+                item(valueStr: countryOutbreak.cfrStr, name: "CFR", color: CaseDataType.cfr.color)
             }
             
             Spacer()
