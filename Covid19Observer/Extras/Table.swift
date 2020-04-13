@@ -19,6 +19,7 @@ struct Table: View {
     func cellFor(row: Int, col: Int) -> some View {
         Text(cells[row][col])
             .foregroundColor(row == 0 ? .systemOrange : .primary)
+            .fixedSize()
             .widthPreference(column: col)
             .frame(width: columnWidths[col], height: height, alignment: .trailing)
             //            .frame(width: 64, height: height, alignment: .trailing)

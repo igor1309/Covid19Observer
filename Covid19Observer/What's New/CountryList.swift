@@ -18,7 +18,7 @@ struct CountryList: View {
     var deviations: [Deviation]
     
     @State private var showCountryDetails = false
-    @State private var columnWidths: [Int: CGFloat] = [:]
+    @State private var columnWidths: [Int: CGFloat] = [200:100]
     
     func deviationRow(deviation: Deviation, kind: DataKind) -> some View {
                 

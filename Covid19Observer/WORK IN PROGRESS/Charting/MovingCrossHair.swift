@@ -104,6 +104,7 @@ struct MovingCrossHair: View {
                     .roundedBackground(cornerRadius: 8)
                     .offset(legendOffset(from: currentOffset))
                     .padding(8)
+                    .fixedSize()
                     .widthPref()
                     .heightPref()
                     

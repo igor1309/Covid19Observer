@@ -111,6 +111,7 @@ struct TapPointer: View {
             .roundedBackground(cornerRadius: 8)
             .offset(pointerLegendOffset(from: pointerOffset))
             .padding(8)
+            .fixedSize()
             .widthPref()
             .heightPref()
         }
@@ -177,6 +178,7 @@ struct TapPointer: View {
                 }
                 : nil
         }
+        .fixedSize()
         .widthPref()
         .heightPref()
         .onPreferenceChange(WidthPref.self) { self.size.width = $0 }

@@ -23,11 +23,14 @@ struct Dashboard: View {
             VStack {
                 Text(valueStr)
                     .font(.subheadline)
+                    .fixedSize()
                 Text(percent ?? " ")
                     .font(.caption)
+                    .fixedSize()
                     .opacity(0.6)
                 Text(name)
                     .font(.caption2)
+                    .fixedSize()
             }
             .foregroundColor(color)
             .contentShape(Rectangle())
