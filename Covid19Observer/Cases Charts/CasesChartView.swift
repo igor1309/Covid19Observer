@@ -35,7 +35,7 @@ struct CasesChartView: View {
             .foregroundColor(color)
         }
         
-        var outbreak: Outbreak { coronaStore.outbreak }
+        var outbreak: Outbrk { coronaStore.outbrk }
         
         return VStack(alignment: .leading, spacing: 3) {
             

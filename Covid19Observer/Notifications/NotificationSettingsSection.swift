@@ -94,7 +94,7 @@ struct NotificationSettingsSection: View {
         let content = UNMutableNotificationContent()
         content.title = "Updated"
         content.subtitle = Date().toString(format: "dd.MM.yyyy h:ss")
-        content.body = "Total Confirmed: \(self.coronaStore.outbreak.confirmed)\nTotal Deaths: \(self.coronaStore.outbreak.deaths)\nCase Fatality Rate: \(self.coronaStore.outbreak.cfr)"
+        content.body = "Total Confirmed: \(self.coronaStore.outbrk.confirmed)\nTotal Deaths: \(self.coronaStore.outbrk.deaths)\nCase Fatality Rate: \(self.coronaStore.outbrk.cfr)"
         /// https://www.hackingwithswift.com/read/21/2/scheduling-notifications-unusernotificationcenter-and-unnotificationrequest
         content.categoryIdentifier = "casesUpdate"
         content.sound = UNNotificationSound.default

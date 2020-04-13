@@ -12,7 +12,7 @@ import SwiftPI
 struct CountryCasesHeader: View {
     @EnvironmentObject var coronaStore: CoronaStore
     
-    private var countryOutbreak: Outbreak {
+    private var countryOutbreak: Outbrk {
         coronaStore.selectedCountryOutbreak
     }
     

@@ -14,11 +14,103 @@ import SwiftUI
 import Combine
 import SwiftPI
 
+struct Outbreak {
+    
+    /// `Population` - world or country
+    
+    var population: Int
+    
+    ///  `Confirmed Cases`
+    
+    var confirmed: Int
+    var confirmedNew: Int
+    var confirmedCurrent: Int
+    
+    ///  `Recovered`
+    
+    var recovered: Int
+    
+    ///  `Deaths`
+    
+    var deaths: Int
+    var deathsNew: Int
+    var deathsCurrent: Int
+}
 
-typealias Outbreak = (
+extension Outbreak {
+    init() {
+        self = Outbreak(population: 0, confirmed: 0, confirmedNew: 0, confirmedCurrent: 0, recovered: 0, deaths: 0, deathsNew: 0, deathsCurrent: 0)
+    }
+    
+    //  Percentages calculations and properties for Views: …Str: String
+    
+    /// `Population` - world or country
+    
+    var populationStr: String { population.formattedGrouped }
+    
+    ///  `Confirmed Cases`
+    
+    var confirmedStr: String { confirmed.formattedGrouped }
+    var confirmedNewStr: String { confirmedNew.formattedGrouped }
+    var confirmedCurrentStr: String { confirmedCurrent.formattedGrouped }
+    
+    var confirmedToPopulation: Double { population == 0 ? 0 : Double(confirmed) / Double(population) }
+    var confirmedToPopulationStr: String { confirmedToPopulation.formattedPercentageWithDecimals }
+    
+    var confirmedNewToConfirmed: Double {
+        let base = confirmed - confirmedNew - confirmedCurrent
+        return base == 0 ? 0 : Double(confirmedNew) / Double(base)
+    }
+    var confirmedNewToConfirmedStr: String { confirmedNewToConfirmed.formattedPercentageWithDecimals }
+
+    var confirmedCurrentToConfirmed: Double {
+        let base = confirmed - confirmedCurrent
+        return base == 0 ? 0 : Double(confirmedCurrent) / Double(base)
+    }
+    var confirmedCurrentToConfirmedStr: String { confirmedCurrentToConfirmed.formattedPercentageWithDecimals }
+    
+    ///  `Recovered`
+    
+    var recoveredStr: String { recovered.formattedGrouped }
+    
+    var recoveredToConfirmed: Double { Double(recovered) / Double(confirmed) }
+    var recoveredToConfirmedStr: String { recoveredToConfirmed.formattedPercentageWithDecimals }
+
+    ///  `Deaths`
+    
+    var deathsStr: String { deaths.formattedGrouped }
+    var deathsNewStr: String { deathsNew.formattedGrouped }
+    var deathsCurrentStr: String { deathsCurrent.formattedGrouped }
+    
+    var deathsToPopulation: Double { Double(deaths) / Double(population) }
+    var deathsToPopulationStr: String { deathsToPopulation.formattedPercentageWithDecimals }
+    
+    var deathsNewToDeaths: Double {
+        let base = deaths - deathsNew - deathsCurrent
+        return base == 0 ? 0 : Double(deathsNew) / Double(base)
+    }
+    var deathsNewToDeathsStr: String { deathsNewToDeaths.formattedPercentageWithDecimals }
+
+    var deathsCurrentToDeaths: Double {
+        let base = deaths - deathsCurrent
+        return base == 0 ? 0 : Double(deathsCurrent) / Double(base)
+    }
+    var deathsCurrentToDeathsStr: String { deathsCurrentToDeaths.formattedPercentageWithDecimals }
+    
+    var deathsPerMillion: Double { Double(deaths) * 1_000_000 / Double(population) }
+    var deathsPerMillionStr: String { "\(deathsPerMillion.formattedGrouped) per 1m" }
+    
+    ///  `Case Fatality Rate`
+    
+    var cfr: Double { confirmed == 0 ? 0 : Double(deaths) / Double(confirmed) }
+    var cfrStr: String { cfr.formattedPercentageWithDecimals}
+}
+
+typealias Outbrk = (
     confirmed: String,
     confirmedPercent: String,
     confirmedNew: String,
+//    confirmedNewPercent: String,
     confirmedCurrent: String,
     recovered: String,
     deaths: String,
@@ -29,30 +121,11 @@ typealias Outbreak = (
     cfr: String
 )
 
-
 class CoronaStore: ObservableObject {
     
     let population = Bundle.main
         .decode(Population.self, from: "population.json")
         .sorted(by: { $0.combinedKey < $1.combinedKey })
-    
-    /// Return population for the country and for the world if country is nil. `Regions and territories are not yet supported`.
-    /// - Parameter country: country name
-    /// - Returns: population for the country and for the world if country is nil
-    func populationOf(country: String?) -> Int {
-        guard let country = country else {
-            return population
-                .filter { $0.uid < 1000 }
-                .reduce(0, { $0 + $1.population! })
-        }
-        
-        guard let pop = population
-            .first(where: {
-                $0.combinedKey == country && $0.uid < 1000
-            }) else { return 0 }
-        
-        return pop.population ?? 0
-    }
     
     @Published var caseType: CaseType { didSet { processCases() }}
     
@@ -61,7 +134,8 @@ class CoronaStore: ObservableObject {
     
     @Published private(set) var currentCases = [CaseData]()
     @Published private(set) var caseAnnotations = [CaseAnnotation]()
-    @Published private(set) var outbreak: Outbreak = (
+    @Published private(set) var outbreak: Outbreak
+    @Published private(set) var outbrk: Outbrk = (
         confirmed: "...",
         confirmedPercent: "...",
         confirmedNew: "...",
@@ -79,15 +153,15 @@ class CoronaStore: ObservableObject {
     func total(for caseDataType: CaseDataType) -> String {
         switch caseDataType {
         case .confirmed:
-            return outbreak.confirmed
+            return outbrk.confirmed
         case .new:
-            return outbreak.confirmedNew
+            return outbrk.confirmedNew
         case .current:
-            return outbreak.confirmedCurrent
+            return outbrk.confirmedCurrent
         case .deaths:
-            return outbreak.deaths
+            return outbrk.deaths
         case .cfr:
-            return outbreak.cfr
+            return outbrk.cfr
         }
     }
     
@@ -116,7 +190,7 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    var selectedCountryOutbreak: Outbreak {
+    var selectedCountryOutbreak: Outbrk {
         if let countryCase = currentCases.first(where: { $0.name == selectedCountry }) {
             
 print(countryCase)
@@ -273,6 +347,10 @@ print("countryCase.deaths \(countryCase.deaths)")
             url: deathsURL,
             deviationThreshold: 10)
         
+        /// initialize empty and calc in processCases()
+        outbreak = Outbreak()
+            
+            
         /// load saved history data
         confirmedHistory.load()
         deathsHistory.load()
@@ -281,7 +359,6 @@ print("countryCase.deaths \(countryCase.deaths)")
         updateEmptyOrOldStore()
         
         processCases()
-        countNewAndCurrent()
     }
     
     func updateEmptyOrOldStore() {
@@ -411,11 +488,21 @@ print("countryCase.deaths \(countryCase.deaths)")
             
         }
         
-        self.outbreak.confirmedNew = totalConfirmedNew.formattedGrouped
-        self.outbreak.confirmedCurrent = totalConfirmedCurrent.formattedGrouped
+        outbrk.confirmedNew = totalConfirmedNew.formattedGrouped
+        outbrk.confirmedCurrent = totalConfirmedCurrent.formattedGrouped
         
-        self.outbreak.deathsNew = totalDeathsNew.formattedGrouped
-        self.outbreak.deathsCurrent = totalDeathsCurrent.formattedGrouped
+        outbrk.deathsNew = totalDeathsNew.formattedGrouped
+        outbrk.deathsCurrent = totalDeathsCurrent.formattedGrouped
+        
+        
+        /// other properties of outkreak set in processCases()
+        outbreak.confirmedNew = totalConfirmedNew
+        outbreak.confirmedCurrent = totalConfirmedCurrent
+        
+        outbreak.deathsNew = totalDeathsNew
+        outbreak.deathsCurrent = totalDeathsCurrent
+
+        
     }
     
     private func processCases() {
@@ -451,14 +538,14 @@ print("countryCase.deaths \(countryCase.deaths)")
                     name: title,
                     confirmed: confirmed,
                     confirmedStr: confirmed.formattedGrouped,
-                    //  MARK: count new and current cases is called separately
+                    //  MARK: count new and current cases is called separately in countNewAndCurrent()
                     confirmedNew: 0,
                     confirmedNewStr: "n/a",
                     confirmedCurrent: 0,
                     confirmedCurrentStr: "n/a",
                     deaths: deaths,
                     deathsStr: deaths.formattedGrouped,
-                    //  MARK: count new and current cases is called separately
+                    //  MARK: count new and current cases is called separately in countNewAndCurrent()
                     deathsNew: 0,
                     deathsNewStr: "n/a",
                     deathsCurrent: 0,
@@ -472,24 +559,32 @@ print("countryCase.deaths \(countryCase.deaths)")
         let confirmedPercent = Double(totalCases) / worldPopulation
         let totalDeathsPercent = Double(totalDeaths) / worldPopulation
         
-        self.outbreak.confirmed = totalCases.formattedGrouped
-        self.outbreak.confirmedPercent = confirmedPercent.formattedPercentageWithDecimals
-        self.outbreak.deaths = totalDeaths.formattedGrouped
-        self.outbreak.deathsPercent = totalDeathsPercent.formattedPercentageWithDecimals
-        self.outbreak.recovered = totalRecovered.formattedGrouped
-        self.worldCaseFatalityRate = totalCases == 0 ? 0 : Double(totalDeaths) / Double(totalCases)
-        self.outbreak.cfr = worldCaseFatalityRate.formattedPercentageWithDecimals
+        //  MARK: count new and current cases is called separately in countNewAndCurrent()
+        outbreak.population = populationOf(country: nil)
+        outbreak.confirmed = totalCases
+        outbreak.recovered = totalRecovered
+        outbreak.deaths = totalDeaths
+        
+        outbrk.confirmed = totalCases.formattedGrouped
+        outbrk.confirmedPercent = confirmedPercent.formattedPercentageWithDecimals
+        outbrk.deaths = totalDeaths.formattedGrouped
+        outbrk.deathsPercent = totalDeathsPercent.formattedPercentageWithDecimals
+        outbrk.recovered = totalRecovered.formattedGrouped
+        worldCaseFatalityRate = totalCases == 0 ? 0 : Double(totalDeaths) / Double(totalCases)
+        outbrk.cfr = worldCaseFatalityRate.formattedPercentageWithDecimals
         
         //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
-        self.caseAnnotations = caseAnnotations.filter { $0.value > (isFiltered ? mapFilterLowerLimit : 0) }
+        caseAnnotations = caseAnnotations.filter { $0.value > (isFiltered ? mapFilterLowerLimit : 0) }
         
         //        if isFiltered && caseAnnotations.count > maxBars {
         //            caseData = Array(caseData.prefix(upTo: maxBars))
         //        }
         
         //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
-        self.currentCases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
+        currentCases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
         //        self.cases = caseData
+        
+        countNewAndCurrent()
     }
     
     private var confirmedHistoryStorage = [AnyCancellable]()
@@ -528,6 +623,24 @@ extension CoronaStore {
 }
 
 extension CoronaStore {
+    
+    /// Return population for the country and for the world if country is nil. `Regions and territories are not yet supported`.
+    /// - Parameter country: country name
+    /// - Returns: population for the country and for the world if country is nil
+    func populationOf(country: String?) -> Int {
+        guard let country = country else {
+            return population
+                .filter { $0.uid < 1000 }
+                .reduce(0, { $0 + $1.population! })
+        }
+        
+        guard let pop = population
+            .first(where: {
+                $0.combinedKey == country && $0.uid < 1000
+            }) else { return 0 }
+        
+        return pop.population ?? 0
+    }
     
     func colorCode(for number: Int) -> UIColor {
         
