@@ -50,6 +50,7 @@ struct CasesTableView: View {
                                     Text(self.coronaStore.currentCases[index].confirmedStr)
                                         .foregroundColor(.systemYellow)
                                         .padding(.trailing, 6)
+                                        .fixedSize()
                                         .widthPreference(column: 1)
                                         .frame(width: self.columnWidths[1], alignment: .trailing)
                                     
@@ -57,6 +58,7 @@ struct CasesTableView: View {
                                         .foregroundColor(.systemRed)
                                         .padding(.leading, 12)
                                         .padding(.trailing, 6)
+                                        .fixedSize()
                                         .widthPreference(column: 2)
                                         .frame(width: self.columnWidths[2], alignment: .trailing)
                                     
@@ -64,6 +66,7 @@ struct CasesTableView: View {
                                         .foregroundColor(.systemTeal)
                                         .padding(.leading, 12)
                                         .padding(.trailing, 6)
+                                        .fixedSize()
                                         .widthPreference(column: 3)
                                         .frame(width: self.columnWidths[3], alignment: .trailing)
                                 }

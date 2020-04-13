@@ -24,9 +24,11 @@ struct CasesChartView: View {
         func row(title: String, value: String, color: Color) -> some View {
             HStack {
                 Text(title)
+                    .fixedSize()
                     .widthPreference(column: 1)
                     .frame(width: columnWidths[1], alignment: .leading)
                 Text(value)
+                    .fixedSize()
                     .widthPreference(column: 2)
                     .frame(width: columnWidths[2], alignment: .trailing)
             }
