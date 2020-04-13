@@ -41,11 +41,13 @@ struct CasesChartView: View {
             
             row(title: "Confirmed", value: outbreak.confirmedStr, color: CaseDataType.confirmed.color)
             
-            row(title: "Current", value: outbreak.confirmedCurrentStr, color: CaseDataType.current.color)
-            
             row(title: "New", value: outbreak.confirmedNewStr, color: CaseDataType.new.color)
             
+            row(title: "Current", value: outbreak.confirmedCurrentStr, color: CaseDataType.current.color)
+            
             row(title: "Deaths", value: outbreak.deathsStr, color: CaseDataType.deaths.color)
+            
+            row(title: "CFR", value: outbreak.cfrStr, color: CaseDataType.cfr.color)
         }
         .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
         .font(.system(.caption, design: .monospaced))
