@@ -104,7 +104,7 @@ struct HeatedLineChart: View {
             } else {
                 VStack {
                     Spacer()
-                    Text("No Data")
+                    Text("No Data\n(check filter)")
                         .font(.headline)
                         .frame(maxWidth: .infinity, alignment: .center)
                     Spacer()

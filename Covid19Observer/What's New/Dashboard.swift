@@ -9,107 +9,99 @@
 import SwiftUI
 
 struct Dashboard: View {
-    let cardColor: Color = .tertiarySystemFill
-    
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
-    @State private var showAllCountriesLineChart = false
+    @State private var showChart = false
     @State private var columnWidths: [Int: CGFloat] = [:]
+    
+    var outbreak: Outbreak// { coronaStore.outbreak }
+    var forAllCountries: Bool
+    
+    let defaultCardColor: Color = .tertiarySystemFill
     
     var body: some View {
         
         func item(name: String, valueStr: String, percent: String? = nil, color: Color, col: Int, isTappable: Bool = false) -> some View {
             
-            VStack {
+            let cardColor = forAllCountries
+                ? isTappable ? defaultCardColor : .clear
+                : .clear
+            
+            return VStack {
                 Text(valueStr)
                     .font(.subheadline)
-                //                    .fixedSize()
                 Text(percent ?? " ")
                     .font(.caption)
-                    //                    .fixedSize()
                     .opacity(0.6)
                 Text(name)
                     .font(.caption2)
-                //                    .fixedSize()
             }
             .fixedSize()
             .foregroundColor(color)
             .contentShape(Rectangle())
             .widthPreference(column: col)
             .frame(width: self.columnWidths[col])
-            .padding(8)
-            .roundedBackground(cornerRadius: 8, color: isTappable ? cardColor : .clear)
+            .padding(forAllCountries ? 8 : 0)
+            .roundedBackground(cornerRadius: 8, color: cardColor)
         }
         
-        var outbreak: Outbreak { coronaStore.outbreak }
+        let vSpacing: CGFloat = forAllCountries ? 12 : 6
+        let hSpacing: CGFloat = forAllCountries ? 12 : 18
         
-        let worldPopulation = Double(coronaStore.populationOf(country: nil))
-        
-        return VStack(spacing: 16) {
-            HStack {
-                Image(systemName: "globe")
-                Text("World")
-                Text(worldPopulation.formattedGrouped)
-                    .foregroundColor(.tertiary)
-                    .font(.footnote)
-            }
-            .font(.subheadline)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    VStack(spacing: 12) {
-                        item(name: "confirmed", valueStr: outbreak.confirmedStr, percent: outbreak.confirmedToPopulationStr, color: CaseDataType.confirmed.color, col: 101, isTappable: true)
-                            .onTapGesture {
-                                self.settings.selectedDataKind = .confirmedTotal
-                                self.showAllCountriesLineChart = true
-                        }
-                        
-                        
-                        item(name: "deaths", valueStr: outbreak.deathsStr, percent: outbreak.deathsToPopulationStr, color: CaseDataType.deaths.color, col: 101, isTappable: true)
-                            .onTapGesture {
-                                self.settings.selectedDataKind = .deathsTotal
-                                self.showAllCountriesLineChart = true
-                        }
+        return ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: hSpacing) {
+                VStack(spacing: vSpacing) {
+                    item(name: "confirmed", valueStr: outbreak.confirmedStr, percent: outbreak.confirmedToPopulationStr, color: CaseDataType.confirmed.color, col: 101, isTappable: true)
+                        .onTapGesture {
+                            self.settings.selectedDataKind = .confirmedTotal
+                            self.showChart = true
                     }
                     
-                    VStack(spacing: 12) {
-                        item(name: "new", valueStr: outbreak.confirmedNewStr, percent: outbreak.confirmedNewToConfirmedStr, color: CaseDataType.new.color, col: 102, isTappable: true)
-                            .onTapGesture {
-                                self.settings.selectedDataKind = .confirmedDaily
-                                self.showAllCountriesLineChart = true
-                        }
-                        
-                        item(name: "new", valueStr: outbreak.deathsNewStr, percent: outbreak.deathsNewToDeathsStr, color: CaseDataType.new.color, col: 102, isTappable: true)
-                            .onTapGesture {
-                                self.settings.selectedDataKind = .deathsDaily
-                                self.showAllCountriesLineChart = true
-                        }
+                    
+                    item(name: "deaths", valueStr: outbreak.deathsStr, percent: outbreak.deathsToPopulationStr, color: CaseDataType.deaths.color, col: 101, isTappable: true)
+                        .onTapGesture {
+                            self.settings.selectedDataKind = .deathsTotal
+                            self.showChart = true
+                    }
+                }
+                
+                VStack(spacing: vSpacing) {
+                    item(name: "new", valueStr: outbreak.confirmedNewStr, percent: outbreak.confirmedNewToConfirmedStr, color: CaseDataType.new.color, col: 102, isTappable: true)
+                        .onTapGesture {
+                            self.settings.selectedDataKind = .confirmedDaily
+                            self.showChart = true
                     }
                     
-                    VStack(spacing: 12) {
-                        item(name: "current", valueStr: outbreak.confirmedCurrentStr, percent: outbreak.confirmedCurrentToConfirmedStr, color: CaseDataType.current.color, col: 103)
-                        
-                        item(name: "current", valueStr: outbreak.deathsCurrentStr, percent: outbreak.deathsCurrentToDeathsStr, color: CaseDataType.current.color, col: 103)
+                    item(name: "new", valueStr: outbreak.deathsNewStr, percent: outbreak.deathsNewToDeathsStr, color: CaseDataType.new.color, col: 102, isTappable: true)
+                        .onTapGesture {
+                            self.settings.selectedDataKind = .deathsDaily
+                            self.showChart = true
                     }
+                }
+                
+                VStack(spacing: vSpacing) {
+                    item(name: "current", valueStr: outbreak.confirmedCurrentStr, percent: outbreak.confirmedCurrentToConfirmedStr, color: CaseDataType.current.color, col: 103)
                     
-                    VStack(spacing: 12) {
-                        item(name: "recovered", valueStr: outbreak.recoveredStr, percent: outbreak.recoveredToConfirmedStr, color: .systemGreen, col: 105)
-                        
-                        item(name: "CFR", valueStr: outbreak.cfrStr, percent: outbreak.deathsPerMillionStr, color: CaseDataType.cfr.color, col: 104, isTappable: true)
-                            .onTapGesture {
-                                self.settings.selectedDataKind = .cfr
-                                self.showAllCountriesLineChart = true
-                        }
+                    item(name: "current", valueStr: outbreak.deathsCurrentStr, percent: outbreak.deathsCurrentToDeathsStr, color: CaseDataType.current.color, col: 103)
+                }
+                
+                VStack(spacing: vSpacing) {
+                    item(name: "recovered", valueStr: outbreak.recoveredStr, percent: outbreak.recoveredToConfirmedStr, color: .systemGreen, col: 105)
+                    
+                    item(name: "CFR", valueStr: outbreak.cfrStr, percent: outbreak.deathsPerMillionStr, color: CaseDataType.cfr.color, col: 104, isTappable: true)
+                        .onTapGesture {
+                            self.settings.selectedDataKind = .cfr
+                            self.showChart = true
                     }
                 }
             }
-            .onPreferenceChange(WidthPreference.self) {
-                self.columnWidths = $0
-            }
         }
-        .padding()
-        .sheet(isPresented: $showAllCountriesLineChart) {
+        .onPreferenceChange(WidthPreference.self) {
+            self.columnWidths = $0
+        }
+        .padding(forAllCountries ? .all : .trailing)
+        .sheet(isPresented: forAllCountries ? $showChart : .constant(false)) {
             AllCountriesLineChart()
                 .environmentObject(self.coronaStore)
                 .environmentObject(self.settings)
@@ -118,11 +110,16 @@ struct Dashboard: View {
 }
 
 struct Dashboard_Previews: PreviewProvider {
+    static var coronaStore = CoronaStore()
     static var previews: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
             
-            Dashboard()
+            VStack {
+                Dashboard(outbreak: coronaStore.outbreak, forAllCountries: true)
+                
+                Dashboard(outbreak: coronaStore.selectedCountryOutbreak, forAllCountries: false)
+            }
         }
         .environmentObject(CoronaStore())
         .environmentObject(Settings())

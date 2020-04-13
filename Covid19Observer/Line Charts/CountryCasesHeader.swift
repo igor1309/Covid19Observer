@@ -17,45 +17,47 @@ struct CountryCasesHeader: View {
     }
     
     private func item(valueStr: String, name: String, color: Color) -> some View {
-        return VStack {
+        return VStack(spacing: 0) {
             Text(valueStr)
-                .font(.headline)
+                .font(.subheadline)
             Text(name)
         }
         .foregroundColor(color)
     }
     
     var body: some View {
-        HStack(spacing: 8) {
-            VStack(spacing: 4) {
+        let vspacing: CGFloat = 6
+        
+        return HStack(spacing: 16) {
+            VStack(spacing: vspacing) {
                 item(valueStr: countryOutbreak.confirmedStr, name: "confirmed", color: CaseDataType.confirmed.color)
                 
                 item(valueStr: countryOutbreak.deathsStr, name: "deaths", color: CaseDataType.deaths.color)
             }
             
-            Spacer()
-            VStack(spacing: 4) {
+            //            Spacer()
+            VStack(spacing: vspacing) {
                 item(valueStr: countryOutbreak.confirmedNewStr, name: "new", color: CaseDataType.new.color)
                 
                 item(valueStr: countryOutbreak.deathsNewStr, name: "new", color: CaseDataType.new.color)
             }
             
-            Spacer()
-            VStack(spacing: 4) {
+            //            Spacer()
+            VStack(spacing: vspacing) {
                 item(valueStr: countryOutbreak.confirmedCurrentStr, name: "current", color: CaseDataType.current.color)
                 
                 item(valueStr: countryOutbreak.deathsCurrentStr, name: "current", color: CaseDataType.current.color)
             }
             
-            Spacer()
-            VStack(spacing: 4) {
+            //            Spacer()
+            VStack(spacing: vspacing) {
                 item(valueStr: countryOutbreak.deathsPerMillionStr, name: "d per 1m", color: CaseDataType.cfr.color)
                 
                 item(valueStr: countryOutbreak.cfrStr, name: "CFR", color: CaseDataType.cfr.color)
             }
             
-            Spacer()
-            VStack(spacing: 4) {
+            //            Spacer()
+            VStack(spacing: vspacing) {
                 item(valueStr: coronaStore.confirmedHistory.last(for: coronaStore.selectedCountry).formattedGrouped, name: "last in history", color: .secondary)
                     .background(Color.tertiarySystemBackground)
                 
@@ -69,7 +71,11 @@ struct CountryCasesHeader: View {
 
 struct CountryCasesHeader_Previews: PreviewProvider {
     static var previews: some View {
-        CountryCasesHeader()
-            .environmentObject(CoronaStore())
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            CountryCasesHeader()
+        }
+        .environmentObject(CoronaStore())
+        .environment(\.colorScheme, .dark)
     }
 }

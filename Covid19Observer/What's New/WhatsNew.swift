@@ -69,7 +69,7 @@ struct WhatsNew: View {
         let hasConfirmedDeviations = confirmedDeviations.count > 0
         let hasDeathsDeviations = deathsDeviations.count > 0
         
-        return VStack(spacing: 8) {
+        return VStack {
             
             !(hasConfirmedDeviations || hasDeathsDeviations)
                 ? nil
@@ -111,9 +111,6 @@ struct WhatsNew: View {
     }
     
     
-    
-    
-    
     @State private var showLineChart = false
     @State private var showTable = false
     
@@ -129,7 +126,8 @@ struct WhatsNew: View {
                     
                     Text("Charts".uppercased())
                 }
-                .padding()
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
                 .roundedBackground(cornerRadius: 8, color: cardColor)
             }
             .sheet(isPresented: $showLineChart) {
@@ -148,7 +146,8 @@ struct WhatsNew: View {
                     
                     Text("Table".uppercased())
                 }
-                .padding()
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
                 .roundedBackground(cornerRadius: 8, color: cardColor)
             }
             .sheet(isPresented: $showTable) {
@@ -162,15 +161,29 @@ struct WhatsNew: View {
         .font(.subheadline)
     }
     
-    var  body: some View {
-        VStack {
+    var body: some View {
+        let worldPopulation = Double(coronaStore.populationOf(country: nil))
+        
+        return VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     Text("What's New")
                         .font(.title)
                         .padding(.top)
                     
-                    Dashboard()                        
+                    HStack {
+                        Image(systemName: "globe")
+                        Text("World")
+                        Text(worldPopulation.formattedGrouped)
+                            .foregroundColor(.tertiary)
+                            .font(.footnote)
+                    }
+                    .font(.subheadline)
+                    
+                    Dashboard(outbreak: coronaStore.outbreak, forAllCountries: true)                        
+                    
+                    chartAndTableButtons
+                        .padding(.vertical, 8)
                     
                     deviations
                         .sheet(isPresented: $showCountryList) {
@@ -178,9 +191,6 @@ struct WhatsNew: View {
                                 .environmentObject(self.coronaStore)
                                 .environmentObject(self.settings)
                     }
-                    
-                    chartAndTableButtons
-                        .padding(.vertical)
                 }
             }
         }

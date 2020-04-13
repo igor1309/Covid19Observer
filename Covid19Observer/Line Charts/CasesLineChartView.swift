@@ -57,14 +57,17 @@ struct CasesLineChartView: View {
                 CountryPicker().environmentObject(self.coronaStore)
             }
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                CountryCasesHeader()
-            }
-            .padding(.bottom, 4)
+            Dashboard(outbreak: coronaStore.selectedCountryOutbreak, forAllCountries: false)
+            
+//            ScrollView(.horizontal, showsIndicators: false) {
+//                CountryCasesHeader()
+//            }
+//            .padding(.bottom, 4)
             
             if series.isNotEmpty {
                 
                 DataKindPicker(selectedDataKind: $settings.selectedDataKind)
+                    .padding(.vertical, 6)
                 
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0))//, steps: steps)
