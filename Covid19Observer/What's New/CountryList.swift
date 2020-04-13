@@ -9,78 +9,79 @@
 import SwiftUI
 import SwiftPI
 
-struct DeviationRow: View {
+struct CountryList: View {
+    
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
+
+    var kind: DataKind
+    var deviations: [Deviation]
     
     @State private var showCountryDetails = false
+    @State private var columnWidths: [Int: CGFloat] = [:]
     
-    var deviation: Deviation
-    var kind: DataKind
-    
-    var change: Double { deviation.last / deviation.avg - 1 }
-    var color: Color {
-        change >= 1 ? .systemRed
-            : change >= 0.5 ? .systemOrange
-            : change < 0 ? .systemTeal
-            : .secondary
-    }
-    
-    var body: some View {
-        HStack(alignment: .firstTextBaseline) {
+    func deviationRow(deviation: Deviation, kind: DataKind) -> some View {
+                
+        var change: Double { deviation.last / deviation.avg - 1 }
+        var color: Color {
+            change >= 1 ? .systemRed
+                : change >= 0.5 ? .systemOrange
+                : change < 0 ? .systemTeal
+                : .secondary
+        }
+        
+        return HStack(alignment: .firstTextBaseline) {
             Text(deviation.country)
             Spacer()
             Group {
-                Text(deviation.avg.formattedGrouped)
-                    .frame(width: 72, alignment: .trailing)
-                Text(deviation.last.formattedGrouped)
-                    .frame(width: 72, alignment: .trailing)
-                Text(change.formattedPercentage)
-                    .frame(width: 60, alignment: .trailing)
+                cell(text: deviation.avg.formattedGrouped, col: 200)
+                cell(text: deviation.last.formattedGrouped, col: 201)
+                cell(text: change.formattedPercentage, col: 202)
             }
             .font(.subheadline)
         }
-        .foregroundColor(color)
-        .contentShape(Rectangle())
-        .onTapGesture {
-            self.coronaStore.selectedCountry = self.deviation.country
-            self.settings.selectedDataKind = self.kind
-            self.showCountryDetails = true
-        }
-        .sheet(isPresented: self.$showCountryDetails) {
-            CasesLineChartView()
-                .padding(.top, 6)
-                .environmentObject(self.coronaStore)
-                .environmentObject(self.settings)
+            .foregroundColor(color)
+            .padding(.vertical, 8)
+            .padding(.horizontal)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                self.coronaStore.selectedCountry = deviation.country
+                self.settings.selectedDataKind = kind
+                self.showCountryDetails = true
+            }
+            .sheet(isPresented: self.$showCountryDetails) {
+                CasesLineChartView()
+                    .padding(.top, 6)
+                    .environmentObject(self.coronaStore)
+                    .environmentObject(self.settings)
         }
     }
-}
-
-struct CountryList: View {
-    var kind: DataKind
-    var deviations: [Deviation]
+    
+    func cell(text: String, col: Int) -> some View {
+        Text(text)
+            .fixedSize()
+            .widthPreference(column: col)
+            .frame(width: columnWidths[col], alignment: .trailing)
+            .padding(.leading)
+    }
     
     var body: some View {
         VStack(spacing: 6) {
             VStack {
                 Text("Significant changes in")
-//                    .font(.subheadline)
                 Text(kind.id)
                     .font(.title)
             }
-                .padding(.top)
-                .padding(/*[.top, .horizontal]*/)
+            .padding(.top)
+            .padding(/*[.top, .horizontal]*/)
             
             HStack(alignment: .firstTextBaseline) {
                 Text("Country")
                 Spacer()
                 Group {
-                    Text("7d avg")
-                        .frame(width: 72, alignment: .trailing)
-                    Text("last")
-                        .frame(width: 72, alignment: .trailing)
-                    Text("change")
-                        .frame(width: 60, alignment: .trailing)
+                    cell(text: "7d avg", col: 200)
+                    cell(text: "laset", col: 201)
+                    cell(text: "change", col: 202)
                 }
             }
             .foregroundColor(.secondary)
@@ -90,14 +91,13 @@ struct CountryList: View {
             ScrollView(.vertical) {
                 VStack {
                     ForEach(deviations.indices) { ix in
-                        DeviationRow(deviation: self.deviations[ix], kind: self.kind)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal)
+                        self.deviationRow(deviation: self.deviations[ix], kind: self.kind)
                             .background(ix % 2 == 0 ? Color.secondarySystemBackground : .clear)
                     }
                 }
             }
         }
+        .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
     }
 }
 

@@ -39,27 +39,29 @@ struct Dashboard: View {
         
         var outbreak: Outbreak { coronaStore.outbreak }
         
+        let worldPopulation = Double(coronaStore.populationOf(country: nil))
+        
         return VStack(spacing: 16) {
             HStack {
                 Image(systemName: "globe")
                 Text("World")
-                Text(coronaStore.populationOf(country: nil).formattedGrouped)
+                Text(worldPopulation.formattedGrouped)
                     .foregroundColor(.tertiary)
                     .font(.footnote)
             }
             .font(.subheadline)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
+                HStack(spacing: 12) {
                     VStack(spacing: 12) {
-                        item(name: "confirmed", valueStr: outbreak.confirmed, percent: nil, color: CaseDataType.confirmed.color, col: 1, isTappable: true)
+                        item(name: "confirmed", valueStr: outbreak.confirmed, percent: outbreak.confirmedPercent, color: CaseDataType.confirmed.color, col: 1, isTappable: true)
                             .onTapGesture {
                                 self.settings.selectedDataKind = .confirmedTotal
                                 self.showAllCountriesLineChart = true
                         }
                         
                         
-                        item(name: "deaths", valueStr: outbreak.deaths, percent: nil, color: CaseDataType.deaths.color, col: 1, isTappable: true)
+                        item(name: "deaths", valueStr: outbreak.deaths, percent: outbreak.deathsPercent, color: CaseDataType.deaths.color, col: 1, isTappable: true)
                             .onTapGesture {
                                 self.settings.selectedDataKind = .deathsTotal
                                 self.showAllCountriesLineChart = true

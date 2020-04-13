@@ -17,10 +17,12 @@ import SwiftPI
 
 typealias Outbreak = (
     confirmed: String,
+    confirmedPercent: String,
     confirmedNew: String,
     confirmedCurrent: String,
     recovered: String,
     deaths: String,
+    deathsPercent: String,
     deathsNew: String,
     deathsCurrent: String,
     deathsPerMillion: String,
@@ -61,10 +63,12 @@ class CoronaStore: ObservableObject {
     @Published private(set) var caseAnnotations = [CaseAnnotation]()
     @Published private(set) var outbreak: Outbreak = (
         confirmed: "...",
+        confirmedPercent: "...",
         confirmedNew: "...",
         confirmedCurrent: "...",
         recovered: "...",
         deaths: "...",
+        deathsPercent: "...",
         deathsNew: "...",
         deathsCurrent: "...",
         //  MARK: FINISH THIS
@@ -118,23 +122,28 @@ class CoronaStore: ObservableObject {
 print(countryCase)
             //  MARK: FINISH THIS
             //
-            let population = populationOf(country: selectedCountry)
+            let population = Double(populationOf(country: selectedCountry))
 print("population \(population)")
             let deathsPerMillion: Int
             if population == 0 {
                 deathsPerMillion = 0
             } else {
 print("countryCase.deaths \(countryCase.deaths)")
-                deathsPerMillion = countryCase.deaths / population * 1_000_000
+                deathsPerMillion = countryCase.deaths / Int(population) * 1_000_000
             }
             
+            let confirmedPercent = Double(countryCase.confirmed) / population
+            let deathsPercent = Double(countryCase.deaths) / population
+            
             return (confirmed: countryCase.confirmedStr,
+                    confirmedPercent: confirmedPercent.formattedPercentageWithDecimals,
                     confirmedNew: countryCase.confirmedNewStr,
                     confirmedCurrent: countryCase.confirmedCurrentStr,
                     //  MARK: FINISH THIS
                 //
                 recovered: "0",
                 deaths: countryCase.deathsStr,
+                deathsPercent: deathsPercent.formattedPercentageWithDecimals,
                 deathsNew: countryCase.deathsNewStr,
                 deathsCurrent: countryCase.deathsCurrentStr,
                 deathsPerMillion: deathsPerMillion.formattedGrouped,
@@ -142,12 +151,14 @@ print("countryCase.deaths \(countryCase.deaths)")
             
         } else {
             return (confirmed: "...",
+                    confirmedPercent: "...",
                     confirmedNew: "...",
                     confirmedCurrent: "...",
                     //  MARK: FINISH THIS
                 //
                 recovered: "???",
                 deaths: "...",
+                deathsPercent: "...",
                 deathsNew: "...",
                 deathsCurrent: "...",
                 deathsPerMillion: "...",
@@ -457,10 +468,16 @@ print("countryCase.deaths \(countryCase.deaths)")
             ))
         }
         
-        self.outbreak.confirmed = "\(totalCases.formattedGrouped)"
-        self.outbreak.deaths = "\(totalDeaths.formattedGrouped)"
-        self.outbreak.recovered = "\(totalRecovered.formattedGrouped)"
-        worldCaseFatalityRate = totalCases == 0 ? 0 : Double(totalDeaths) / Double(totalCases)
+        let worldPopulation = Double(populationOf(country: nil))
+        let confirmedPercent = Double(totalCases) / worldPopulation
+        let totalDeathsPercent = Double(totalDeaths) / worldPopulation
+        
+        self.outbreak.confirmed = totalCases.formattedGrouped
+        self.outbreak.confirmedPercent = confirmedPercent.formattedPercentageWithDecimals
+        self.outbreak.deaths = totalDeaths.formattedGrouped
+        self.outbreak.deathsPercent = totalDeathsPercent.formattedPercentageWithDecimals
+        self.outbreak.recovered = totalRecovered.formattedGrouped
+        self.worldCaseFatalityRate = totalCases == 0 ? 0 : Double(totalDeaths) / Double(totalCases)
         self.outbreak.cfr = worldCaseFatalityRate.formattedPercentageWithDecimals
         
         //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????

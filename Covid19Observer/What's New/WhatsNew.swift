@@ -170,10 +170,7 @@ struct WhatsNew: View {
                         .font(.title)
                         .padding(.top)
                     
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        Dashboard()
-                    }
-                        
+                    Dashboard()                        
                     
                     deviations
                         .sheet(isPresented: $showCountryList) {
