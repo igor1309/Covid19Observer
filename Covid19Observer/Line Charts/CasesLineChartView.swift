@@ -16,26 +16,50 @@ struct CasesLineChartView: View {
     
     @State private var showCountryPicker = false
     
+    @State private var appendCurrent = false
+    
     var series: [Int] {
         switch settings.selectedDataKind {
         case .confirmedTotal:
-            return coronaStore.confirmedHistory.series(for: coronaStore.selectedCountry)
+            var series = coronaStore.confirmedHistory.series(for: coronaStore.selectedCountry)
+            if appendCurrent {
+            let last = coronaStore.selectedCountryOutbreak.confirmed
+                series.append(last)
+            }
+            return series
         case .confirmedDaily:
-            return coronaStore.confirmedHistory.dailyChange(for: coronaStore.selectedCountry)
+            var series = coronaStore.confirmedHistory.dailyChange(for: coronaStore.selectedCountry)
+            if appendCurrent {
+            let last = coronaStore.selectedCountryOutbreak.confirmedCurrent
+                series.append(last)
+            }
+            return series
         case .deathsTotal:
-            return coronaStore.deathsHistory.series(for: coronaStore.selectedCountry)
+            var series = coronaStore.deathsHistory.series(for: coronaStore.selectedCountry)
+            if appendCurrent {
+            let last = coronaStore.selectedCountryOutbreak.deaths
+                series.append(last)
+            }
+            return series
         case .deathsDaily:
-            return coronaStore.deathsHistory.dailyChange(for: coronaStore.selectedCountry)
+            var series = coronaStore.deathsHistory.dailyChange(for: coronaStore.selectedCountry)
+            if appendCurrent {
+            let last = coronaStore.selectedCountryOutbreak.deathsCurrent
+                series.append(last)
+            }
+            return series
         case .cfr:
+            //  MARK: FIX THIS
+            //
             return coronaStore.allCountriesCFR
         }
     }
     
-    //    @State private var steps = 0//10
-    
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        
+        
+        return VStack(alignment: .leading, spacing: 8) {
             
             PrimeCountryPicker(selection: $coronaStore.selectedCountry)
                 .padding(.top)
@@ -57,12 +81,14 @@ struct CasesLineChartView: View {
                 CountryPicker().environmentObject(self.coronaStore)
             }
             
-            Dashboard(outbreak: coronaStore.selectedCountryOutbreak, forAllCountries: false)
-            
-//            ScrollView(.horizontal, showsIndicators: false) {
-//                CountryCasesHeader()
-//            }
-//            .padding(.bottom, 4)
+            ZStack(alignment: .topTrailing) {
+                Dashboard(outbreak: coronaStore.selectedCountryOutbreak, forAllCountries: false)
+                
+                ToolBarButton(systemName: appendCurrent ? "sun.max.fill" : "sun.min") {
+                    self.appendCurrent.toggle()
+                }
+                .foregroundColor(appendCurrent ? .purple : .secondary)
+            }
             
             if series.isNotEmpty {
                 

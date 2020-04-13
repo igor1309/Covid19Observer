@@ -27,6 +27,7 @@ class CoronaStore: ObservableObject {
     
     @Published private(set) var currentCases = [CaseData]()
     @Published private(set) var caseAnnotations = [CaseAnnotation]()
+    
     @Published private(set) var outbreak: Outbreak
     
     @Published private(set) var isCasesUpdateCompleted = true
