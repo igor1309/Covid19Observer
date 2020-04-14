@@ -56,7 +56,7 @@
 		2A9974D3244125BB004FF043 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D2244125BB004FF043 /* WhatsNew.swift */; };
 		2A9974D6244126CF004FF043 /* MapColorCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D5244126CF004FF043 /* MapColorCodeView.swift */; };
 		2A9974D824419E54004FF043 /* Deviation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D724419E54004FF043 /* Deviation.swift */; };
-		2A9974DA24419EAB004FF043 /* CaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D924419EAB004FF043 /* CaseRow.swift */; };
+		2A9974DA24419EAB004FF043 /* CountryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D924419EAB004FF043 /* CountryRow.swift */; };
 		2A9974DC2441ABBE004FF043 /* CountryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974DB2441ABBE004FF043 /* CountryList.swift */; };
 		2A9974E024426F5A004FF043 /* Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974DF24426F5A004FF043 /* Population.swift */; };
 		2A9974E4244270A3004FF043 /* population.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A9974E3244270A3004FF043 /* population.json */; };
@@ -165,7 +165,7 @@
 		2A9974D2244125BB004FF043 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		2A9974D5244126CF004FF043 /* MapColorCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapColorCodeView.swift; sourceTree = "<group>"; };
 		2A9974D724419E54004FF043 /* Deviation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deviation.swift; sourceTree = "<group>"; };
-		2A9974D924419EAB004FF043 /* CaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseRow.swift; sourceTree = "<group>"; };
+		2A9974D924419EAB004FF043 /* CountryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryRow.swift; sourceTree = "<group>"; };
 		2A9974DB2441ABBE004FF043 /* CountryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryList.swift; sourceTree = "<group>"; };
 		2A9974DF24426F5A004FF043 /* Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Population.swift; sourceTree = "<group>"; };
 		2A9974E3244270A3004FF043 /* population.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = population.json; sourceTree = "<group>"; };
@@ -287,7 +287,7 @@
 				2A03BEF52428C04F0094852B /* CaseData.swift */,
 				2A03BEF12428C04F0094852B /* CaseAnnotations.swift */,
 				2A74F0B02428CB8400137694 /* History.swift */,
-				2A9974D924419EAB004FF043 /* CaseRow.swift */,
+				2A9974D924419EAB004FF043 /* CountryRow.swift */,
 				2A9974D724419E54004FF043 /* Deviation.swift */,
 				2A74F0AF2428CB8400137694 /* DoublingModel.swift */,
 				2AC7EB92243E634E00454FFA /* Axis.swift */,
@@ -580,7 +580,7 @@
 				2AE2C5312438A13700CC8476 /* TopHorizontalLine.swift in Sources */,
 				2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */,
 				2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */,
-				2A9974DA24419EAB004FF043 /* CaseRow.swift in Sources */,
+				2A9974DA24419EAB004FF043 /* CountryRow.swift in Sources */,
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
 				2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */,
 				2AB9473B24312A8A009C18ED /* CaseBar.swift in Sources */,

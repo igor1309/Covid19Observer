@@ -198,7 +198,7 @@ class CoronaStore: ObservableObject {
             }
         }
         
-        if confirmedHistory.countryCases.isEmpty || confirmedHistory.isDataOld || deathsHistory.countryCases.isEmpty || deathsHistory.isDataOld {
+        if confirmedHistory.countryRows.isEmpty || confirmedHistory.isDataOld || deathsHistory.countryRows.isEmpty || deathsHistory.isDataOld {
             print("History Data empty or old, need to fetch")
             updateHistoryData() {
                 self.countNewAndCurrent()
@@ -344,8 +344,8 @@ class CoronaStore: ObservableObject {
                     title: title,
                     subtitle: "Confirmed \(confirmed.formattedGrouped)\n\(deaths.formattedGrouped) deaths\nCFR \(cfr.formattedPercentageWithDecimals)",
                     value: confirmed,
-                    coordinate: .init(latitude: cases.attributes.lat ?? 0.0,
-                                      longitude: cases.attributes.longField ?? 0.0),
+                    coordinate: .init(latitude: cases.attributes.latitude ?? 0.0,
+                                      longitude: cases.attributes.longitude ?? 0.0),
                     color: colorCode(for: confirmed)))
             
             totalCases += confirmed

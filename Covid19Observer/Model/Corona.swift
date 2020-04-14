@@ -27,8 +27,8 @@ struct CaseAttributes: Codable {
     let confirmed: Int?
     let countryRegion: String?
     let deaths: Int?
-    let lat: Double?
-    let longField: Double?
+    let latitude: Double?
+    let longitude: Double?
     let provinceState: String?
     let recovered: Int?
     
@@ -36,8 +36,8 @@ struct CaseAttributes: Codable {
         case confirmed = "Confirmed"
         case countryRegion = "Country_Region"
         case deaths = "Deaths"
-        case lat = "Lat"
-        case longField = "Long_"
+        case latitude = "Lat"
+        case longitude = "Long_"
         case provinceState = "Province_State"
         case recovered = "Recovered"
     }

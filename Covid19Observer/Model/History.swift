@@ -18,7 +18,10 @@ struct History: Codable {
     let filename: String
     let url: URL
     
-    private(set) var countryCases: [CaseRow]
+    /// значения на оси X (время как String в формате dd.MM.yyyy)
+    private(set) var xTime: [String]
+    
+    private(set) var countryRows: [CountryRow]
     
     private var lastSyncDate: Date
     var isUpdateCompleted: Bool?
@@ -27,7 +30,8 @@ struct History: Codable {
     let deviationThreshold: CGFloat
     
     init(saveIn filename: String, url: URL, deviationThreshold: CGFloat) {
-        self.countryCases = []
+        self.xTime = []
+        self.countryRows = []
         self.lastSyncDate = .distantPast
         self.isUpdateCompleted = nil
         self.filename = filename
@@ -53,9 +57,10 @@ extension History {
         
         guard casesCSV.isNotEmpty else { return }
         
-        let rows: [CaseRow] = parseCsvToCaseRows(casesCSV)
+//        let rows: [CountryRow] = parseCsvToCountryRows(casesCSV)
+        parseCsv(casesCSV)
         
-        self.countryCases = rows
+//        self.countryRows = rows
         self.lastSyncDate = Date()
         self.isUpdateCompleted = true
         
@@ -69,7 +74,7 @@ extension History {
         var devs = [Deviation]()
         var visitedCountries = [String]()
         
-        for countryCase in countryCases {
+        for countryCase in countryRows {
             
             let country = countryCase.countryRegion
             
@@ -127,11 +132,11 @@ extension History {
     var isDataOld: Bool { lastSyncDate.distance(to: Date()) > 6 * 60 * 60 }
     
     var allCountriesTotals: [Int] {
-        guard countryCases.count > 0 else { return [] }
+        guard countryRows.count > 0 else { return [] }
         
-        var totals = Array(repeating: 0, count: countryCases[0].series.count)
+        var totals = Array(repeating: 0, count: countryRows[0].series.count)
         
-        for row in countryCases {
+        for row in countryRows {
             for i in 0..<row.series.count {
                 totals[i] += row.series[i]
             }
@@ -170,22 +175,22 @@ extension History {
     //  НЕ СОБИРАЕТ POINTS!!
     func series(for country: String) -> [Int] {
         
-        guard countryCases.count > 0 else { return [] }
+        guard countryRows.count > 0 else { return [] }
         
-        var filteredRow: CaseRow
+        var filteredRow: CountryRow
         
         if History.countriesWithRegions.contains(country) {
             
             //  собрать все строки с этой страной в одну
             //  и заменить блок стран с провинциями этой страны на эту одну строку
             
-            let rowsForCountry = countryCases.filter { $0.countryRegion == country }
+            let rowsForCountry = countryRows.filter { $0.countryRegion == country }
             
             var series: [Int]
             series = []
             
             //  пройтись по всем столбцам
-            for i in 0 ..< countryCases[0].series.count {
+            for i in 0 ..< countryRows[0].series.count {
                 var s = 0
                 
                 //  и собрать суммы строк
@@ -198,16 +203,16 @@ extension History {
             }
             //  MARK: FIX THIS
             //  НЕ СОБИРАЕТ POINTS!!
-            filteredRow = CaseRow(provinceState: "", countryRegion: country, points: [:], series: series)
+            filteredRow = CountryRow(provinceState: "", countryRegion: country, points: [:], series: series)
             
         } else {
             
             //  если страна без провинций, то по ней данные только в одной строке
-            let filteredRows = countryCases.filter { $0.countryRegion == country }
+            let filteredRows = countryRows.filter { $0.countryRegion == country }
             if filteredRows.isNotEmpty {
                 filteredRow = filteredRows[0]
             } else {
-                filteredRow = CaseRow(provinceState: "", countryRegion: "", points: [:], series: [])
+                filteredRow = CountryRow(provinceState: "", countryRegion: "", points: [:], series: [])
             }
         }
         
@@ -231,7 +236,7 @@ extension History {
     }
     
     func series(forRegion region: String) -> [Int] {
-        let filtered = countryCases.filter { ($0.provinceState + $0.countryRegion) == region }
+        let filtered = countryRows.filter { ($0.provinceState + $0.countryRegion) == region }
         if filtered.isEmpty {
             return []
         } else {
@@ -257,41 +262,38 @@ extension History {
 
 extension History {
     
-    private func parseCsvToCaseRows(_ casesCsv: String) -> [CaseRow] {
+    /// Parse csv and put data from it into `xTime` and `countryRows` arrays
+    /// - Parameter casesCsv: downloaded csv
+    private mutating func parseCsv(_ casesCsv: String) {
         
         /// parse to table (array of rows)
         let table: [[String]] = parseCVStoTable(from: casesCsv)
         
-        var caseRows: [CaseRow] = []
+        var xTime = [String]()
+        var countryRows: [CountryRow] = []
         
         /// parse each row
         for i in 0 ..< table.count {
             let row = table[i]
             
-            //  MARK: FIX THIS!!!
-            //  09.04.2020 из-за Sao Tome and Principe сбился парсинг
-            //  пока причину не нашел
-            //  размером можно пренебречь, поэтому удаляю
-            //            guard row[1] != "Sao Tome and Principe" else {
-            //                continue
-            //            }
-            
             let provinceState = row[0]
             let countryRegion = row[1]
+            /// skip latitude and longitude ([2] & [3]
             
             var points: [Date: Int] = [:]
-            var series: [Int] = []
-            /// skip lat and long ([2] & [3]
+            var series = [Int] ()
             for j in 4 ..< row.count {
                 let date = dateFromStr(table[0][j])
+                xTime.append(date.toString())
                 points[date] = Int(row[j])
                 series.append(Int(row[j]) ?? 0)
             }
             
-            caseRows.append(CaseRow(provinceState: provinceState, countryRegion: countryRegion, points: points, series: series))
+            countryRows.append(CountryRow(provinceState: provinceState, countryRegion: countryRegion, points: points, series: series))
         }
         
-        return caseRows
+        self.xTime = xTime
+        self.countryRows = countryRows
     }
     
     private func parseCVStoTable(from csvStr: String) -> [[String]] {
@@ -383,11 +385,11 @@ extension History {
     
     ///    var allCountriesTotals: [Int]
     private func calcAllCountriesTotals() -> [Int] {
-        guard countryCases.count > 0 else { return [] }
+        guard countryRows.count > 0 else { return [] }
         
-        var totals = Array(repeating: 0, count: countryCases[0].series.count)
+        var totals = Array(repeating: 0, count: countryRows[0].series.count)
         
-        for row in countryCases {
+        for row in countryRows {
             for i in 0..<row.series.count {
                 totals[i] += row.series[i]
             }
