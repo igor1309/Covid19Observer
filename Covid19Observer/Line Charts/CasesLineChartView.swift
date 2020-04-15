@@ -16,7 +16,7 @@ struct CasesLineChartView: View {
     
     @State private var showCountryPicker = false
     
-    @State private var appendCurrent = false
+    @State private var appendCurrent = true
     
     var series: [Int] {
         switch settings.selectedDataKind {

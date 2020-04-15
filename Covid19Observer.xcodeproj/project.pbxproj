@@ -35,6 +35,14 @@
 		2A4E35EB2432294900F84C72 /* NotificationSettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E35EA2432294900F84C72 /* NotificationSettingsSection.swift */; };
 		2A566E5E24449AAF006BEA02 /* Outbreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E5D24449AAF006BEA02 /* Outbreak.swift */; };
 		2A566E622444A3A2006BEA02 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E612444A3A2006BEA02 /* BottomSheetView.swift */; };
+		2A566E682445D771006BEA02 /* LineChartShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E672445D771006BEA02 /* LineChartShape.swift */; };
+		2A566E6A2445D940006BEA02 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E692445D940006BEA02 /* LineChartView.swift */; };
+		2A566E6C2445E774006BEA02 /* LineChartGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E6B2445E774006BEA02 /* LineChartGroup.swift */; };
+		2A566E6E2445F5E8006BEA02 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E6D2445F5E8006BEA02 /* IndicatorView.swift */; };
+		2A566E702445FE09006BEA02 /* Range+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E6F2445FE09006BEA02 /* Range+Ext.swift */; };
+		2A566E722445FED6006BEA02 /* Date+Extt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E712445FED6006BEA02 /* Date+Extt.swift */; };
+		2A566E74244665D6006BEA02 /* RangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E73244665D6006BEA02 /* RangeView.swift */; };
+		2A566E7624472415006BEA02 /* SelectedCountriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E7524472415006BEA02 /* SelectedCountriesView.swift */; };
 		2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */; };
 		2A6607FF242BF7060056C849 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FE242BF7060056C849 /* MapView.swift */; };
 		2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A660800242CC7720056C849 /* CaseAnnotationView.swift */; };
@@ -141,6 +149,14 @@
 		2A4E35EA2432294900F84C72 /* NotificationSettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsSection.swift; sourceTree = "<group>"; };
 		2A566E5D24449AAF006BEA02 /* Outbreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Outbreak.swift; sourceTree = "<group>"; };
 		2A566E612444A3A2006BEA02 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		2A566E672445D771006BEA02 /* LineChartShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartShape.swift; sourceTree = "<group>"; };
+		2A566E692445D940006BEA02 /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		2A566E6B2445E774006BEA02 /* LineChartGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartGroup.swift; sourceTree = "<group>"; };
+		2A566E6D2445F5E8006BEA02 /* IndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
+		2A566E6F2445FE09006BEA02 /* Range+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Range+Ext.swift"; sourceTree = "<group>"; };
+		2A566E712445FED6006BEA02 /* Date+Extt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extt.swift"; sourceTree = "<group>"; };
+		2A566E73244665D6006BEA02 /* RangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeView.swift; sourceTree = "<group>"; };
+		2A566E7524472415006BEA02 /* SelectedCountriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCountriesView.swift; sourceTree = "<group>"; };
 		2A56BB4F24307D580082FF21 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		2A6607FE242BF7060056C849 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -332,6 +348,13 @@
 				2A74F0B72428CBB300137694 /* LineGraphGrid.swift */,
 				2A445F3224292F1A007C6846 /* GraphGridShape.swift */,
 				2A445F3024292E94007C6846 /* AxisY.swift */,
+				2A566E672445D771006BEA02 /* LineChartShape.swift */,
+				2A566E692445D940006BEA02 /* LineChartView.swift */,
+				2A566E6B2445E774006BEA02 /* LineChartGroup.swift */,
+				2A566E6D2445F5E8006BEA02 /* IndicatorView.swift */,
+				2A566E73244665D6006BEA02 /* RangeView.swift */,
+				2A566E6F2445FE09006BEA02 /* Range+Ext.swift */,
+				2A566E712445FED6006BEA02 /* Date+Extt.swift */,
 			);
 			path = "Line Charts";
 			sourceTree = "<group>";
@@ -374,6 +397,7 @@
 				2A96535324335810002A93A7 /* NotificationsSettingsView.swift */,
 				2A9974D5244126CF004FF043 /* MapColorCodeView.swift */,
 				2A9974E92442720B004FF043 /* PopulationView.swift */,
+				2A566E7524472415006BEA02 /* SelectedCountriesView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -536,6 +560,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A566E7624472415006BEA02 /* SelectedCountriesView.swift in Sources */,
+				2A566E74244665D6006BEA02 /* RangeView.swift in Sources */,
 				2A03BF0B2428C04F0094852B /* CasesChartView.swift in Sources */,
 				2AE2C52F24389EFF00CC8476 /* New+Extensions.swift in Sources */,
 				2AD693BD2443B59200F550A0 /* Dashboard.swift in Sources */,
@@ -554,11 +580,13 @@
 				2A445F3324292F1A007C6846 /* GraphGridShape.swift in Sources */,
 				2AE2C5332438D2C200CC8476 /* GridView.swift in Sources */,
 				2A965356243360A4002A93A7 /* NotificationDelegate.swift in Sources */,
+				2A566E6C2445E774006BEA02 /* LineChartGroup.swift in Sources */,
 				2AE2C53524393DEF00CC8476 /* TapPointer.swift in Sources */,
 				2AC7EB93243E634E00454FFA /* Axis.swift in Sources */,
 				2AE2C5132437417E00CC8476 /* Array+Extension.swift in Sources */,
 				2AC7EB8F243DCEC900454FFA /* Gradient+Extension.swift in Sources */,
 				2AD693BB2443493300F550A0 /* PrimeCountryPicker.swift in Sources */,
+				2A566E722445FED6006BEA02 /* Date+Extt.swift in Sources */,
 				2A234EE42434EF830003C302 /* TimePeriod.swift in Sources */,
 				2AB9473D24312B9C009C18ED /* CaseChart.swift in Sources */,
 				2A566E5E24449AAF006BEA02 /* Outbreak.swift in Sources */,
@@ -583,6 +611,7 @@
 				2A9974DA24419EAB004FF043 /* CountryRow.swift in Sources */,
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
 				2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */,
+				2A566E702445FE09006BEA02 /* Range+Ext.swift in Sources */,
 				2AB9473B24312A8A009C18ED /* CaseBar.swift in Sources */,
 				2AE2C53A2439DBF500CC8476 /* ChartGrid.swift in Sources */,
 				2A03BF022428C04F0094852B /* CaseAnnotations.swift in Sources */,
@@ -591,13 +620,16 @@
 				2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */,
 				2ACF1C722430B4EC0045C531 /* CountryCasesHeader.swift in Sources */,
 				2A4E35EB2432294900F84C72 /* NotificationSettingsSection.swift in Sources */,
+				2A566E6E2445F5E8006BEA02 /* IndicatorView.swift in Sources */,
 				2A24A410243C6AA10097C3EB /* DotChart.swift in Sources */,
 				2A74F0B52428CB8400137694 /* Settings.swift in Sources */,
 				2A9974E024426F5A004FF043 /* Population.swift in Sources */,
 				2A74F0C62428CE7B00137694 /* Table.swift in Sources */,
+				2A566E6A2445D940006BEA02 /* LineChartView.swift in Sources */,
 				2A24A40E243BA49A0097C3EB /* LineChart.swift in Sources */,
 				2AB94739243126A1009C18ED /* CasesChartsIPad.swift in Sources */,
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,
+				2A566E682445D771006BEA02 /* LineChartShape.swift in Sources */,
 				2AE2C53E243A877D00CC8476 /* AllCountriesLineChart.swift in Sources */,
 				2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */,
 				2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */,
@@ -755,7 +787,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -764,7 +796,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.37;
+				MARKETING_VERSION = 1.38;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;
@@ -778,7 +810,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -787,7 +819,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.37;
+				MARKETING_VERSION = 1.38;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;

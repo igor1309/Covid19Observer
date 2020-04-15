@@ -38,7 +38,7 @@ struct ContentView: View {
             
             WhatsNew()
                 .tabItem {
-                    Image(systemName: "doc.text.magnifyingglass")
+                    Image(systemName: "rectangle.3.offgrid")
                     Text("Dashboard")
             }
             .tag(0)

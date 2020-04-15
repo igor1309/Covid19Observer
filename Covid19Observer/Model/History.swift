@@ -43,6 +43,16 @@ struct History: Codable {
 
 extension History {
     
+    /// https://bestkora.com/IosDeveloper/swiftui-dlya-konkursnogo-zadaniya-telegram-10-24-marta-2019-goda/
+    /// - Parameter chart: <#chart description#>
+    /// - Returns: <#description#>
+    func chartIndex(chart: CountryRow) -> Int {
+        return countryRows.firstIndex(where: { $0.id == chart.id })!
+    }
+}
+
+extension History {
+    
     /// load  History from disk if there is saved data
     mutating func load() {
         if let history: History = loadJSONFromDocDir(self.filename) {

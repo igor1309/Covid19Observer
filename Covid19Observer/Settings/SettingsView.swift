@@ -58,12 +58,29 @@ struct SettingsView: View {
         }
     }
     
+    @State private var showSelectedCountries = false
+    var selectedCountriesSection: some View {
+        Section(/*header: Text("Population".uppercased()),*/
+                footer: Text("Select countries for Line Chart Quick Access.")) {
+                    Button("Selected Countries") {
+                        self.showSelectedCountries = true
+                    }
+                    .sheet(isPresented: $showSelectedCountries) {
+                        SelectedCountriesView()
+                            .environmentObject(self.coronaStore)
+                            .environmentObject(self.settings)
+                    }
+        }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
                 doublingSection
                 
                 populationSection
+                
+                selectedCountriesSection
                 
                 LineChartSettingsSection()
                 
