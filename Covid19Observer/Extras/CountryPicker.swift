@@ -30,12 +30,7 @@ struct CountryPicker: View {
                     .padding(.horizontal)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
-                    ForEach(PrimeCountries.allCases, id: \.self)  { country in
-                        Text(country.name).tag(country.name)
-                    }
-                }
-                .labelsHidden()
+                PrimeCountryPicker(selection: $coronaStore.selectedCountry)
                 
                 Spacer()
             }

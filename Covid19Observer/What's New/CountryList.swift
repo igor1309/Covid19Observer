@@ -13,7 +13,7 @@ struct CountryList: View {
     
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
-
+    
     var kind: DataKind
     var deviations: [Deviation]
     
@@ -21,7 +21,7 @@ struct CountryList: View {
     @State private var columnWidths: [Int: CGFloat] = [200:100]
     
     func deviationRow(deviation: Deviation, kind: DataKind) -> some View {
-                
+        
         var change: Double { deviation.last / deviation.avg - 1 }
         var color: Color {
             change >= 1 ? .systemRed
@@ -40,20 +40,20 @@ struct CountryList: View {
             }
             .font(.subheadline)
         }
-            .foregroundColor(color)
-            .padding(.vertical, 8)
-            .padding(.horizontal)
-            .contentShape(Rectangle())
-            .onTapGesture {
-                self.coronaStore.selectedCountry = deviation.country
-                self.settings.selectedDataKind = kind
-                self.showCountryDetails = true
-            }
-            .sheet(isPresented: self.$showCountryDetails) {
-                CasesLineChartView()
-                    .padding(.top, 6)
-                    .environmentObject(self.coronaStore)
-                    .environmentObject(self.settings)
+        .foregroundColor(color)
+        .padding(.vertical, 8)
+        .padding(.horizontal)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            self.coronaStore.selectedCountry = deviation.country
+            self.settings.selectedDataKind = kind
+            self.showCountryDetails = true
+        }
+        .sheet(isPresented: self.$showCountryDetails) {
+            CasesLineChartView()
+                .padding(.top, 6)
+                .environmentObject(self.coronaStore)
+                .environmentObject(self.settings)
         }
     }
     
@@ -104,8 +104,9 @@ struct CountryList: View {
 struct CountryList_Previews: PreviewProvider {
     static var deviations: [Deviation] {
         var devs = [Deviation]()
-        for country in PrimeCountries.allCases {
-            devs.append(Deviation(country: country.name, avg: 30, last: 40))
+        let countries = ["Russia", "US", "Italy", "Germany", "France", "Finland", "Spain", "China"]
+        for country in countries {
+            devs.append(Deviation(country: country, avg: 30, last: 40))
         }
         return devs
     }
