@@ -9,11 +9,23 @@
 import SwiftUI
 
 struct PrimeCountryPicker: View {
+    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
+    
     @Binding var selection: String
-
+    
     var body: some View {
-        Picker(selection: $selection, label: Text("Selected Country")) {
-            ForEach(PrimeCountries.allCases, id: \.self)  { country in
+        let country = Binding<Country>(
+            get: {
+                let iso2 = self.coronaStore.countriesWithIso2[self.selection]!
+                return Country(name: self.selection, iso2: iso2)
+        },
+            set: {
+                self.selection = $0.name
+        })
+        
+        return Picker(selection: country, label: Text("Selected Country")) {
+            ForEach(settings.selectedCountries, id: \.self)  { country in
                 Text(country.iso2).tag(country.name)
             }
         }
@@ -24,7 +36,13 @@ struct PrimeCountryPicker: View {
 
 struct PrimeCountryPicker_Previews: PreviewProvider {
     @State static var selection = "Russia"
+    
     static var previews: some View {
-        PrimeCountryPicker(selection: $selection)
+        NavigationView {
+            PrimeCountryPicker(selection: $selection)
+        }
+        .environmentObject(CoronaStore())
+        .environmentObject(Settings())
+        .environment(\.colorScheme, .dark)
     }
 }

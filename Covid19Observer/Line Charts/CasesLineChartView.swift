@@ -23,28 +23,28 @@ struct CasesLineChartView: View {
         case .confirmedTotal:
             var series = coronaStore.confirmedHistory.series(for: coronaStore.selectedCountry)
             if appendCurrent {
-            let last = coronaStore.selectedCountryOutbreak.confirmed
+                let last = coronaStore.selectedCountryOutbreak.confirmed
                 series.append(last)
             }
             return series
         case .confirmedDaily:
-            var series = coronaStore.confirmedHistory.dailyChange(for: coronaStore.selectedCountry)
+        var series = coronaStore.confirmedHistory.dailyChange(for: coronaStore.selectedCountry)
             if appendCurrent {
-            let last = coronaStore.selectedCountryOutbreak.confirmedCurrent
+                let last = coronaStore.selectedCountryOutbreak.confirmedCurrent
                 series.append(last)
             }
             return series
         case .deathsTotal:
-            var series = coronaStore.deathsHistory.series(for: coronaStore.selectedCountry)
+        var series = coronaStore.deathsHistory.series(for: coronaStore.selectedCountry)
             if appendCurrent {
-            let last = coronaStore.selectedCountryOutbreak.deaths
+                let last = coronaStore.selectedCountryOutbreak.deaths
                 series.append(last)
             }
             return series
         case .deathsDaily:
-            var series = coronaStore.deathsHistory.dailyChange(for: coronaStore.selectedCountry)
+        var series = coronaStore.deathsHistory.dailyChange(for: coronaStore.selectedCountry)
             if appendCurrent {
-            let last = coronaStore.selectedCountryOutbreak.deathsCurrent
+                let last = coronaStore.selectedCountryOutbreak.deathsCurrent
                 series.append(last)
             }
             return series
@@ -58,27 +58,47 @@ struct CasesLineChartView: View {
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
         
+        let isInSelected = settings.selectedCountries.map { $0.name }.contains(coronaStore.selectedCountry)
         
         return VStack(alignment: .leading, spacing: 8) {
             
             PrimeCountryPicker(selection: $coronaStore.selectedCountry)
                 .padding(.top)
             
-            Button(action: {
-                self.showCountryPicker = true
-            }) {
+            ZStack(alignment: .trailing) {
                 HStack {
-                    Text(coronaStore.selectedCountry)
-                        .font(.title)
-                        .lineLimit(1)
-                        .layoutPriority(1)
+                    Button(action: {
+                        self.showCountryPicker = true
+                    }) {
+                        HStack {
+                            Text(coronaStore.selectedCountry)
+                                .font(.title)
+                                .lineLimit(1)
+                                .layoutPriority(1)
+                            
+                            Image(systemName: "arrowshape.turn.up.right")
+                                .font(.headline)
+                        }
+                    }
+                    .sheet(isPresented: $showCountryPicker) {
+                        CountryPicker().environmentObject(self.coronaStore)
+                    }
+                    .layoutPriority(1)
                     
-                    Image(systemName: "arrowshape.turn.up.right")
-                        .font(.headline)
+                    Spacer()
                 }
-            }
-            .sheet(isPresented: $showCountryPicker) {
-                CountryPicker().environmentObject(self.coronaStore)
+                
+                ToolBarButton(systemName: isInSelected ? "star.fill" : "star") {
+                    if isInSelected {
+                        let index = self.settings.selectedCountries.firstIndex { $0.name == self.coronaStore.selectedCountry }!
+                        self.settings.selectedCountries.remove(at: index)
+                    } else {
+                        let iso2 = self.coronaStore.countriesWithIso2[self.coronaStore.selectedCountry]!
+                        self.settings.selectedCountries.append(Country(name: self.coronaStore.selectedCountry, iso2: iso2))
+                    }
+                }
+                .foregroundColor(appendCurrent ? .systemOrange : .secondary)
+                .font(.subheadline)
             }
             
             ZStack(alignment: .topTrailing) {
@@ -87,7 +107,7 @@ struct CasesLineChartView: View {
                 ToolBarButton(systemName: appendCurrent ? "sun.max.fill" : "sun.min") {
                     self.appendCurrent.toggle()
                 }
-                .foregroundColor(appendCurrent ? .purple : .secondary)
+                .foregroundColor(appendCurrent ? .systemPurple : .secondary)
             }
             
             if series.isNotEmpty {

@@ -17,59 +17,34 @@ struct SelectedCountriesView: View {
     @State private var showPopulation = false
     
     var body: some View {
-        VStack {
-            ZStack {
-                HStack {
-                    editMode?.wrappedValue == .active
-                        ? Button("Done") {
-                            withAnimation {
-                                self.editMode?.wrappedValue = .inactive
-                            }
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(settings.selectedCountries, id: \.self) { country in
+                        HStack(alignment: .firstTextBaseline) {
+                            Text(country.name)
+                            Spacer()
+                            Text(country.iso2)
+                                .foregroundColor(.secondary)
+                                .font(.footnote)
                         }
-                        .padding(.leading)
-                        .offset(y: -16)
-                        : nil
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        self.showPopulation = true
-                    }) {
-                        Image(systemName: "plus")
-                            .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
                     }
-                    .offset(y: -16)
-                    .sheet(isPresented: $showPopulation) {
-                        PopulationView()
-                            .environmentObject(self.coronaStore)
-                            .environmentObject(self.settings)
-                    }
+                    .onMove(perform: move)
+                    .onDelete(perform: delete)
                 }
-                
-                Text("Selected Countries")
-                    .font(.title)
             }
-            .padding(.top)
-            
-            List {
-                ForEach(settings.selectedCountries, id: \.self) { country in
-                    HStack(alignment: .firstTextBaseline) {
-                        Text(country.name)
-                        Spacer()
-                        Text(country.iso2)
-                            .foregroundColor(.secondary)
-                            .font(.footnote)
-                    }
-                    .contentShape(Rectangle())
-                    .onLongPressGesture {
-                        withAnimation {
-                            self.editMode?.wrappedValue = .active == self.editMode?.wrappedValue ? .inactive : .active
-                        }
-                    }
+            .navigationBarTitle("Selected Countries")
+            .navigationBarItems(
+                leading: EditButton(),
+                trailing: TrailingButtonSFSymbol("plus") {
+                    self.showPopulation = true
                 }
-                .onMove(perform: move)
-                .onDelete(perform: delete)
-            }
+                .sheet(isPresented: $showPopulation) {
+                    PopulationView()
+                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.settings)
+            })
         }
     }
     

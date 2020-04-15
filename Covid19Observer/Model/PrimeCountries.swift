@@ -6,6 +6,10 @@
 //  Copyright © 2020 Igor Malyarov. All rights reserved.
 //
 
+
+//  MARK: DELETE IF NOT USED
+//
+//  MARK: RENAME selectedCountries
 enum PrimeCountries: CaseIterable {
     ///https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/UID_ISO_FIPS_LookUp_Table.csv
     

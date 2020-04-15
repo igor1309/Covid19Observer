@@ -20,6 +20,8 @@ class CoronaStore: ObservableObject {
         .decode(Population.self, from: "population.json")
         .sorted(by: { $0.combinedKey < $1.combinedKey })
     
+    let countriesWithIso2: [String: String]
+    
     @Published var caseType: CaseType { didSet { processCases() }}
     
     @Published private(set) var confirmedHistory: History
@@ -131,6 +133,12 @@ class CoronaStore: ObservableObject {
     }
     
     init() {
+        countriesWithIso2 = population
+            .filter { $0.uid < 1_000 }
+            .reduce(into: [String: String]()) {
+                $0[$1.combinedKey] = $1.iso2
+        }
+        
         /// UserDefaults returns 0 if app is new/reinstalled.cleaned up
         if mapFilterLowerLimit == 0 { mapFilterLowerLimit = 100 }
         

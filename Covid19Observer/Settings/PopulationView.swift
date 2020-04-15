@@ -14,7 +14,7 @@ struct PopulationView: View {
     @EnvironmentObject var settings: Settings
     
     @State private var showLineChart = false
-    @State private var selectedCountry = ""
+    @State private var selectedCountry = Country(name: "", iso2: "")
     
     @State private var searchText = ""
     
@@ -74,7 +74,7 @@ struct PopulationView: View {
     }
     
     private func row(for item: PopulationElement) -> some View {
-        let isSelected = settings.selectedCountries.map { $0.name }.contains(item.id)
+        let isInSelected = settings.selectedCountries.map { $0.name }.contains(item.id)
         
         return VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline) {
@@ -90,8 +90,8 @@ struct PopulationView: View {
                     .foregroundColor(.tertiary)
                     .font(.footnote)
                 Spacer()
-                Image(systemName: isSelected ? "star.fill" : "star")
-                    .foregroundColor(isSelected ? .systemOrange : .secondary)
+                Image(systemName: isInSelected ? "star.fill" : "star")
+                    .foregroundColor(isInSelected ? .systemOrange : .secondary)
                     .font(.footnote)
             }
         }
@@ -117,15 +117,15 @@ struct PopulationView: View {
             /// показывать меню добавления удаления стран из особого списка только при показе списка стран
             selectedFilter == .countries
                 ? Button(action: {
-                    if isSelected {
+                    if isInSelected {
                         let index = self.settings.selectedCountries.firstIndex { $0.name == item.id }!
                         self.settings.selectedCountries.remove(at: index)
                     } else {
                         self.settings.selectedCountries.append(Country(name: item.id, iso2: item.iso2))
                     }
                 }) {
-                    Image(systemName: isSelected ? "star" : "star.fill")
-                    Text(isSelected ? "Remove from Selected" : "Add to Selected")
+                    Image(systemName: isInSelected ? "star" : "star.fill")
+                    Text(isInSelected ? "Remove from Selected" : "Add to Selected")
                     }
                 : nil
         }
