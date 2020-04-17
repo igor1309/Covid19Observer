@@ -47,7 +47,7 @@ struct AllCountriesLineChart: View {
                 : nil
             
             ZStack(alignment: .topLeading) {
-                HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0))//, steps: steps)
+                HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.confirmedLineChartLimit : 0))//, steps: steps)
                 
                 ToolBarButton(systemName: "line.horizontal.3.decrease") {
                     self.settings.isLineChartFiltered.toggle()

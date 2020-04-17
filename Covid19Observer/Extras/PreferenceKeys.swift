@@ -71,4 +71,23 @@ extension View {
                                 value: geo.size.height)
         })
     }
+    
+    /// https://swiftui-lab.com/view-extensions-for-better-code-readability/
+    public func saveWidth(column: Int) -> some View {
+        background(GeometryReader { geo in
+            Color.clear.preference(key: WidthPreference.self,
+                                   value: [column: geo.size.width])
+        })
+    }
+    
+    public func retrieveWidth(column: Int, _ size: Binding<CGFloat>) -> some View {
+        onPreferenceChange(WidthPreference.self) { preferences in
+            DispatchQueue.main.async {
+                // The async is used to prevent a possible blocking loop,
+                // due to the child and the ancestor modifying each other.
+                size.wrappedValue = preferences[column] ?? .zero
+            }
+        }
+    }
+    
 }

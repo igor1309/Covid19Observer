@@ -12,6 +12,8 @@ import SwiftPI
 struct LineChartSettingsSection: View {
     @EnvironmentObject var settings: Settings
     
+    @State private var width: CGFloat = 100
+    
     var body: some View {
         Section(header: Text("Line Chart Options".uppercased()), footer: Text("adfgdafgaf")
         ) {
@@ -20,18 +22,36 @@ struct LineChartSettingsSection: View {
             }
             
             if settings.isLineChartFiltered {
-                HStack {
-                    Text("Limit")
-                    
-                    Spacer()
-                    
-                    Picker("Line Chart Limit", selection: $settings.lineChartLimit) {
-                        ForEach([10, 50, 100, 1000], id: \.self) { qty in
-                            Text(qty.formattedGrouped).tag(qty)
+                Group {
+                    HStack {
+                        Text("Confirmed")
+                            .frame(width: width, alignment: .leading)
+                        
+                        Spacer()
+                        
+                        Picker("Line Chart Confirmed Limit", selection: $settings.confirmedLineChartLimit) {
+                            ForEach([10, 50, 100, 1000], id: \.self) { qty in
+                                Text(qty.formattedGrouped).tag(qty)
+                            }
                         }
+                        .labelsHidden()
+                        .pickerStyle(SegmentedPickerStyle())
                     }
-                    .labelsHidden()
-                    .pickerStyle(SegmentedPickerStyle())
+                    
+                    HStack {
+                        Text("Deaths")
+                                .frame(width: width, alignment: .leading)
+                        
+                        Spacer()
+                        
+                        Picker("Line Chart Deaths Limit", selection: $settings.deathsLineChartLimit) {
+                            ForEach([5, 10, 50, 100], id: \.self) { qty in
+                                Text(qty.formattedGrouped).tag(qty)
+                            }
+                        }
+                        .labelsHidden()
+                        .pickerStyle(SegmentedPickerStyle())
+                    }
                 }
             }
         }

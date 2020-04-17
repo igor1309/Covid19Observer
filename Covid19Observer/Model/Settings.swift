@@ -45,9 +45,15 @@ final class Settings: ObservableObject {
         }
     }
     
-    @Published var lineChartLimit: Int {
+    @Published var confirmedLineChartLimit: Int {
         didSet {
-            UserDefaults.standard.set(lineChartLimit, forKey: "lineChartLimit")
+            UserDefaults.standard.set(confirmedLineChartLimit, forKey: "confirmedLineChartLimit")
+        }
+    }
+
+    @Published var deathsLineChartLimit: Int {
+        didSet {
+            UserDefaults.standard.set(deathsLineChartLimit, forKey: "deathsLineChartLimit")
         }
     }
 
@@ -79,11 +85,18 @@ final class Settings: ObservableObject {
             initialNumber = savedInitialNumber
         }
         
-        let savedLineChartLimit = UserDefaults.standard.integer(forKey: "lineChartLimit")
-        if savedLineChartLimit == 0 {
-            lineChartLimit = 50
+        let savedConfirmedLineChartLimit = UserDefaults.standard.integer(forKey: "confirmedLineChartLimit")
+        if savedConfirmedLineChartLimit == 0 {
+            confirmedLineChartLimit = 50
         } else {
-            lineChartLimit = savedLineChartLimit
+            confirmedLineChartLimit = savedConfirmedLineChartLimit
+        }
+        
+        let savedDeathsLineChartLimit = UserDefaults.standard.integer(forKey: "deathsLineChartLimit")
+        if savedDeathsLineChartLimit == 0 {
+            deathsLineChartLimit = 10
+        } else {
+            deathsLineChartLimit = savedDeathsLineChartLimit
         }
         
         let selectedDataKindID = UserDefaults.standard.string(forKey: "selectedDataKind") ?? ""
