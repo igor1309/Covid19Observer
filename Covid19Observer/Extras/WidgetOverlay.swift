@@ -8,34 +8,6 @@
 
 import SwiftUI
 
-extension CGSize {
-//    static func +(_ left: CGSize, _ right: CGSize) -> CGSize {
-//        return CGSize(width: left.width + right.width,
-//                      height: left.height + right.height)
-//    }
-//
-    static func -(_ left: CGSize, _ right: CGSize) -> CGSize {
-        return CGSize(width: left.width - right.width,
-                      height: left.height - right.height)
-    }
-}
-
-struct SizePreferenceKey: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        value = nextValue()
-    }
-}
-
-extension View {
-    func sizePreference() -> some View {
-        background(GeometryReader { geo in
-            Color.clear
-                .preference(key: SizePreferenceKey.self, value: geo.size)
-        })
-    }
-}
-
 struct WidgetOverlay<Content: View>: View {
     
     let content: () -> Content
@@ -92,6 +64,7 @@ struct WidgetOverlay<Content: View>: View {
 }
 
 struct WidgetOverlay_Previews: PreviewProvider {
+    
     static var widget: some View {
         WidgetOverlay {
             ZStack(alignment: .topLeading) {

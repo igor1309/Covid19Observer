@@ -14,8 +14,3 @@ extension View {
                                         to: nil, from: nil, for: nil)
     }
 }
-
-func +(left: CGSize, right: CGSize) -> CGSize {
-    CGSize(width: left.width + right.width,
-           height: left.height + right.height)
-}

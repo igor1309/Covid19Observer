@@ -45,6 +45,7 @@
 		2A566E7624472415006BEA02 /* SelectedCountriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E7524472415006BEA02 /* SelectedCountriesView.swift */; };
 		2A566E7824478BB0006BEA02 /* MagnificationGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E7724478BB0006BEA02 /* MagnificationGestureView.swift */; };
 		2A624CC62449C29A000FAB28 /* WidgetOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A624CC52449C29A000FAB28 /* WidgetOverlay.swift */; };
+		2A624CCA2449C8B9000FAB28 /* PrefKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A624CC92449C8B9000FAB28 /* PrefKey.swift */; };
 		2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */; };
 		2A6607FF242BF7060056C849 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FE242BF7060056C849 /* MapView.swift */; };
 		2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A660800242CC7720056C849 /* CaseAnnotationView.swift */; };
@@ -161,6 +162,7 @@
 		2A566E7724478BB0006BEA02 /* MagnificationGestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnificationGestureView.swift; sourceTree = "<group>"; };
 		2A56BB4F24307D580082FF21 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2A624CC52449C29A000FAB28 /* WidgetOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetOverlay.swift; sourceTree = "<group>"; };
+		2A624CC92449C8B9000FAB28 /* PrefKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefKey.swift; sourceTree = "<group>"; };
 		2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		2A6607FE242BF7060056C849 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		2A660800242CC7720056C849 /* CaseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseAnnotationView.swift; sourceTree = "<group>"; };
@@ -262,8 +264,9 @@
 				2A9BE4A824314C8000CA23A4 /* C19 Observer.entitlements */,
 				2A03BED92428BC6F0094852B /* AppDelegate.swift */,
 				2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */,
-				2A445F34242931A1007C6846 /* WORK IN PROGRESS */,
 				2A03BEDD2428BC6F0094852B /* ContentView.swift */,
+				2A445F34242931A1007C6846 /* WORK IN PROGRESS */,
+				2A624CCB2449C97B000FAB28 /* Shapes */,
 				2A9974D4244125D0004FF043 /* What's New */,
 				2ACF1C6D2430A7830045C531 /* CaseDataTypePicker.swift */,
 				2AFF26E9242B50E300DAC856 /* Cases Charts */,
@@ -324,6 +327,9 @@
 		2A03BEF82428C04F0094852B /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */,
+				2AE2C53F243B0BEB00CC8476 /* DataKindPicker.swift */,
+				2A624CC52449C29A000FAB28 /* WidgetOverlay.swift */,
 				2A74F0C22428CE7B00137694 /* Table.swift */,
 				2A74F0C42428CE7B00137694 /* CountryPicker.swift */,
 				2A74F0C32428CE7B00137694 /* Extensions.swift */,
@@ -340,23 +346,11 @@
 			isa = PBXGroup;
 			children = (
 				2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */,
-				2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */,
 				2AE2C53D243A877D00CC8476 /* AllCountriesLineChart.swift */,
-				2AE2C53F243B0BEB00CC8476 /* DataKindPicker.swift */,
 				2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */,
 				2A74F0B62428CBB300137694 /* HeatedLineChart.swift */,
-				2A74F0B82428CBB300137694 /* LineGraphShape.swift */,
 				2A74F0B72428CBB300137694 /* LineGraphGrid.swift */,
-				2A445F3224292F1A007C6846 /* GraphGridShape.swift */,
 				2A445F3024292E94007C6846 /* AxisY.swift */,
-				2A566E672445D771006BEA02 /* LineChartShape.swift */,
-				2A566E692445D940006BEA02 /* LineChartView.swift */,
-				2A566E6B2445E774006BEA02 /* LineChartGroup.swift */,
-				2A566E6D2445F5E8006BEA02 /* IndicatorView.swift */,
-				2A566E73244665D6006BEA02 /* RangeView.swift */,
-				2A566E7724478BB0006BEA02 /* MagnificationGestureView.swift */,
-				2A566E6F2445FE09006BEA02 /* Range+Ext.swift */,
-				2A566E712445FED6006BEA02 /* Date+Extt.swift */,
 			);
 			path = "Line Charts";
 			sourceTree = "<group>";
@@ -369,7 +363,6 @@
 				2A6607FE242BF7060056C849 /* MapView.swift */,
 				2A660800242CC7720056C849 /* CaseAnnotationView.swift */,
 				2A03BF002428C04F0094852B /* MapViewsOLD.swift */,
-				2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */,
 			);
 			path = "Map Views";
 			sourceTree = "<group>";
@@ -379,16 +372,53 @@
 			children = (
 				2A03BF112428C9890094852B /* TopTenBarChartVert.swift */,
 				2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */,
-				2A24A411243C6BC10097C3EB /* CG+Extensions.swift */,
-				2AC7EB94243E63E100454FFA /* Array+Ext.swift */,
-				2AC7EB8E243DCEC900454FFA /* Gradient+Extension.swift */,
-				2A566E612444A3A2006BEA02 /* BottomSheetView.swift */,
+				2A624CC82449C820000FAB28 /* EXTENSIONS */,
 				2AE2C548243B528000CC8476 /* Logistic */,
 				2AE2C5362439DA7700CC8476 /* Charting */,
-				2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */,
 				2AD13AAB243FB1EB00B61CCE /* HistoryTableIPad.swift */,
+				2A624CC72449C7E7000FAB28 /* TESTING */,
 			);
 			path = "WORK IN PROGRESS";
+			sourceTree = "<group>";
+		};
+		2A624CC72449C7E7000FAB28 /* TESTING */ = {
+			isa = PBXGroup;
+			children = (
+				2A566E612444A3A2006BEA02 /* BottomSheetView.swift */,
+				2A566E7724478BB0006BEA02 /* MagnificationGestureView.swift */,
+				2A566E692445D940006BEA02 /* LineChartView.swift */,
+				2A566E6B2445E774006BEA02 /* LineChartGroup.swift */,
+				2A566E6D2445F5E8006BEA02 /* IndicatorView.swift */,
+				2A566E73244665D6006BEA02 /* RangeView.swift */,
+			);
+			path = TESTING;
+			sourceTree = "<group>";
+		};
+		2A624CC82449C820000FAB28 /* EXTENSIONS */ = {
+			isa = PBXGroup;
+			children = (
+				2AC7EB8E243DCEC900454FFA /* Gradient+Extension.swift */,
+				2A624CC92449C8B9000FAB28 /* PrefKey.swift */,
+				2AC7EB94243E63E100454FFA /* Array+Ext.swift */,
+				2AE2C52E24389EFF00CC8476 /* New+Extensions.swift */,
+				2A24A411243C6BC10097C3EB /* CG+Extensions.swift */,
+				2A566E6F2445FE09006BEA02 /* Range+Ext.swift */,
+				2A566E712445FED6006BEA02 /* Date+Extt.swift */,
+				2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */,
+			);
+			path = EXTENSIONS;
+			sourceTree = "<group>";
+		};
+		2A624CCB2449C97B000FAB28 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				2A74F0B82428CBB300137694 /* LineGraphShape.swift */,
+				2A445F3224292F1A007C6846 /* GraphGridShape.swift */,
+				2A566E672445D771006BEA02 /* LineChartShape.swift */,
+				2AE2C5282438762500CC8476 /* LeftVerticalLine.swift */,
+				2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */,
+			);
+			path = Shapes;
 			sourceTree = "<group>";
 		};
 		2A660802242D352D0056C849 /* Settings */ = {
@@ -472,9 +502,6 @@
 			children = (
 				2AB94738243126A1009C18ED /* CasesChartsIPad.swift */,
 				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
-				2A624CC52449C29A000FAB28 /* WidgetOverlay.swift */,
-				2AE2C5282438762500CC8476 /* LeftVerticalLine.swift */,
-				2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */,
 				2AB9473C24312B9C009C18ED /* CaseChart.swift */,
 				2AB9473A24312A8A009C18ED /* CaseBar.swift */,
 			);
@@ -601,6 +628,7 @@
 				2A74F0B42428CB8400137694 /* History.swift in Sources */,
 				2A03BF092428C04F0094852B /* Extension+View.swift in Sources */,
 				2A03BF122428C9890094852B /* TopTenBarChartVert.swift in Sources */,
+				2A624CCA2449C8B9000FAB28 /* PrefKey.swift in Sources */,
 				2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */,
 				2A9974DC2441ABBE004FF043 /* CountryList.swift in Sources */,
 				2A74F0B92428CBB400137694 /* HeatedLineChart.swift in Sources */,
@@ -791,7 +819,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -814,7 +842,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;

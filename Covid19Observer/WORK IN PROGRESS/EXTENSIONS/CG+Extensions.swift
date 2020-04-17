@@ -9,6 +9,18 @@
 import SwiftUI
 
 extension CGSize {
+    
+    static func +(_ left: CGSize, _ right: CGSize) -> CGSize {
+        return CGSize(width: left.width + right.width,
+                      height: left.height + right.height)
+    }
+
+    static func -(_ left: CGSize, _ right: CGSize) -> CGSize {
+        return CGSize(width: left.width - right.width,
+                      height: left.height - right.height)
+    }
+
+    
     /// Translates offset in iOS flipped-coordinate space to normal (as in Core Graphics) coordinate.
     /// In the default Core Graphics coordinate space, the origin is located in the lower-left corner of the rectangle and the rectangle extends towards the upper-right corner.
     /// - Parameter offset: offset (CGSize)
