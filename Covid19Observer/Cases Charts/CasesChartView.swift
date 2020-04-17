@@ -76,8 +76,9 @@ struct CasesChartView: View {
                                 )
                             }
                         }
+                        .overlay(WidgetOverlay { self.widget })
                         
-                        widget
+//                        widget
                     }
                 }
                 

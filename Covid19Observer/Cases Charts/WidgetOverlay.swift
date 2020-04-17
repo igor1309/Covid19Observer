@@ -65,7 +65,7 @@ struct WidgetOverlay<Content: View>: View {
         }
         
         return content()
-            .padding()
+//            .padding()
             .fixedSize()
             .sizePreference()
             .frame(width: size.width, height: size.height)
