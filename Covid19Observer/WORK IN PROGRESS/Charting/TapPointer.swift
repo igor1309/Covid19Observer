@@ -9,11 +9,11 @@
 import SwiftUI
 
 struct TapPointer: View {
-
+    
     let points: [CGPoint]
     let is2D: Bool
     let plotArea: CGRect
-        
+    
     init(points: [CGPoint], plotArea: CGRect? = nil, is2D: Bool) {
         self.points = points
         self.is2D = is2D
@@ -24,27 +24,13 @@ struct TapPointer: View {
         }
     }
     
-    @State private var size: CGSize = .zero
+    @State private var viewSize: CGSize = .zero
+    @State private var showPointer = false
+    @State private var prevTranslation: CGSize = .zero
     @State private var currentOffset: CGSize = .zero
-    @State private var offset: CGSize = .zero
-
-    var tapPoint: some View {
-        ZStack {
-            Circle()
-                .fill(Color.primary)
-                .frame(width: 4, height: 4)
-            
-            VStack(alignment: .leading) {
-                Text("x: \(Int(offset.width)) : \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: plotArea).x))")
-                Text("y: \(Int(offset.height)) :  \(Int(currentOffset.rescaleOffsetToPoint(from: size, into: plotArea).y))")
-            }
-            .font(.caption)
-        }
-        .padding(8)
-        .offset(currentOffset)
-    }
-    
+    @State private var offsetDELETE: CGSize = .zero
     @State private var legendSize: CGSize = .zero
+    
     var pointer: some View {
         
         let strokeColor = Color.systemGray2
@@ -53,24 +39,27 @@ struct TapPointer: View {
         
         let nearestPoint =
             currentOffset
-                .rescaleOffsetToPoint(from: size,
+                .rescaleOffsetToPoint(from: viewSize,
                                       into: plotArea)
                 .nearestPoint(points: points, is2D: is2D)
         let pointerOffset =
             nearestPoint
                 .rescaleToOffset(sourceSpace: plotArea,
-                                 targetViewSize: size)
+                                 targetViewSize: viewSize)
         
-        func pointerLegendOffset(from offset: CGSize) -> CGSize {
-            var newOffset = offset
+        /// correct pointer legend offset to keep within view (chart area) bounds
+        /// - Parameter pointerOffset: pointerOffset
+        /// - Returns: corrected offset
+        func pointerLegendOffset(for pointerOffset: CGSize) -> CGSize {
+            var newOffset = pointerOffset
             
-            if offset.width + legendSize.width > size.width / 2 {
+            if pointerOffset.width + legendSize.width > viewSize.width / 2 {
                 newOffset.width -= legendSize.width / 2
             } else {
                 newOffset.width += legendSize.width / 2
             }
             
-            if offset.height - legendSize.height / 1 < -size.height / 2 {
+            if pointerOffset.height - legendSize.height / 1 < -viewSize.height / 2 {
                 newOffset.height += legendSize.height / 2
             } else {
                 newOffset.height -= legendSize.height / 2
@@ -79,54 +68,61 @@ struct TapPointer: View {
             return newOffset
         }
         
-        return ZStack {
+        var verticalLine: some View {
             VerticalLine()
                 .stroke(strokeColor, style: style)
                 .opacity(0.5)
                 .background(Color.systemGray6.opacity(0.01))
                 .frame(width: lineWidth)
                 .offset(x: pointerOffset.width)
-            
+        }
+        
+        var horizontalLine: some View {
             HorizontalLine()
                 .stroke(strokeColor, style: style)
                 .opacity(0.5)
                 .background(Color.systemGray6.opacity(0.01))
                 .frame(height: lineWidth)
                 .offset(y: pointerOffset.height)
-            
+        }
+        
+        var dot: some View {
             Circle()
                 .fill(Color.orange)
                 .frame(width: 10, height: 10)
                 .offset(pointerOffset)
-            
+        }
+        
+        var legend: some View {
             VStack(alignment: .leading) {
                 Text("x: " + Double(nearestPoint.x).formattedGrouped)
                 Text("y: " + Double(nearestPoint.y).formattedGrouped)
             }
-            .fixedSize()
-            .padding(8)
             .foregroundColor(.secondary)
             .font(.caption)
-            .roundedBackground(cornerRadius: 8)
-            .offset(pointerLegendOffset(from: pointerOffset))
+            .fixedSize()
             .padding(8)
-                .saveSize(viewId: 112)
+            .roundedBackground(cornerRadius: 8)
+            .offset(pointerLegendOffset(for: pointerOffset))
+            .padding(8)
+            .saveSize(viewId: 112)
+        }
+        
+        return ZStack {
+            verticalLine
+            horizontalLine
+            dot
+            legend
         }
         .retrieveSize(viewId: 112, $legendSize)
     }
     
-    @State private var prevTranslation: CGSize = .zero
-    
-
-    @State private var showPointer = false
-    @State private var pointerSize: CGSize = .zero
-
     var body: some View {
         let drag = DragGesture()
             .onChanged { value in
                 withAnimation(.spring()) {
                     let translation = value.translation - self.prevTranslation
-                    self.currentOffset = self.offset + translation
+                    self.currentOffset = self.currentOffset + translation
                     self.prevTranslation = value.translation
                 }
         }
@@ -145,9 +141,8 @@ struct TapPointer: View {
                 case .second((), let drag):
                     if let drag = drag {
                         withAnimation(.spring()) {
-                            self.currentOffset.width = drag.location.x - self.size.width / 2
-                            self.currentOffset.height = drag.location.y - self.size.height / 2
-                            self.offset = self.currentOffset
+                            self.currentOffset.width = drag.location.x - self.viewSize.width / 2
+                            self.currentOffset.height = drag.location.y - self.viewSize.height / 2
                         }
                     }
                 default:
@@ -163,21 +158,14 @@ struct TapPointer: View {
                 .gesture(tap)
                 .saveSize(viewId: 111)
             
-//             showPointer ? tapPoint : nil
-            
             showPointer
                 ? pointer
-                    // MARK: -FINISH THIS
-                    // DRAG НУЖНО ПОЧИНИТЬ
-                    // gesture grad писалась для произвольной точки
-                    // вероятно для nearestPoint нужно изменить математику
                     .gesture(drag)
-                    /// turn off pointer with double tap
+                    /// turn off (hide) pointer with double tap
                     .onTapGesture(count: 2) { self.showPointer = false }
                 : nil
         }
-        .retrieveSize(viewId: 111, $size)
-        .retrieveSize(viewId: 112, $pointerSize)
+        .retrieveSize(viewId: 111, $viewSize)
     }
 }
 
@@ -188,7 +176,7 @@ struct TapPointer_Previews: PreviewProvider {
         CGPoint(x: 10, y: 0),
         CGPoint(x: 20, y: 40),
         CGPoint(x: 30, y: 30),
-                CGPoint(x: 48, y: 100),
+        CGPoint(x: 48, y: 100),
         //        CGPoint(x: 50, y: 140),
         CGPoint(x: 50, y: 180),
         CGPoint(x: 80, y: 200),
@@ -198,7 +186,7 @@ struct TapPointer_Previews: PreviewProvider {
     
     static var previews: some View {
         ZStack {
-            //            Color.black.edgesIgnoringSafeArea(.all)
+            Color.black.edgesIgnoringSafeArea(.all)
             
             ZStack {
                 
