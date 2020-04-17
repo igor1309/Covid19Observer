@@ -27,8 +27,6 @@ struct TapPointer: View {
     @State private var size: CGSize = .zero
     @State private var currentOffset: CGSize = .zero
     @State private var offset: CGSize = .zero
-    @State private var showCrosshair = false
-    @State private var legendSize: CGSize = .zero
 
     var tapPoint: some View {
         ZStack {
@@ -46,6 +44,7 @@ struct TapPointer: View {
         .offset(currentOffset)
     }
     
+    @State private var legendSize: CGSize = .zero
     var pointer: some View {
         
         let strokeColor = Color.systemGray2
@@ -111,17 +110,17 @@ struct TapPointer: View {
             .roundedBackground(cornerRadius: 8)
             .offset(pointerLegendOffset(from: pointerOffset))
             .padding(8)
-            .sizePreference()
-            .widthPref()
-            .heightPref()
+                .saveSize(viewId: 112)
         }
-        
+        .retrieveSize(viewId: 112, $legendSize)
     }
     
     @State private var prevTranslation: CGSize = .zero
     
+
+    @State private var showPointer = false
     @State private var pointerSize: CGSize = .zero
-    
+
     var body: some View {
         let drag = DragGesture()
             .onChanged { value in
@@ -132,8 +131,6 @@ struct TapPointer: View {
                 }
         }
         .onEnded { value in
-//            self.currentOffset = self.offset + drag.translation
-//            self.offset = self.currentOffset
             self.prevTranslation = .zero
         }
         
@@ -141,8 +138,8 @@ struct TapPointer: View {
         let tap = TapGesture(count: 1)
             .sequenced(before: tapDrag)
             .onEnded { value in
-                if !self.showCrosshair {
-                    self.showCrosshair = true
+                if !self.showPointer {
+                    self.showPointer = true
                 }
                 switch value {
                 case .second((), let drag):
@@ -162,36 +159,25 @@ struct TapPointer: View {
             
             /// Shape не будет регистрировать тапы на фоне
             /// поэтому нужна суперпрозрачная подложка (.clear не рабоатет)
-            Color.black.opacity(0.1)
-//                .background(Color.gray.opacity(0.001))
+            Color.black.opacity(0.001)
                 .gesture(tap)
+                .saveSize(viewId: 111)
             
-//             showCrosshair ? tapPoint : nil
+//             showPointer ? tapPoint : nil
             
-            showCrosshair ?
-                pointer
+            showPointer
+                ? pointer
                     // MARK: -FINISH THIS
+                    // DRAG НУЖНО ПОЧИНИТЬ
                     // gesture grad писалась для произвольной точки
                     // вероятно для nearestPoint нужно изменить математику
                     .gesture(drag)
-                    .onTapGesture(count: 2) {
-                        self.showCrosshair = false
-                }
-            
-                .frame(width: pointerSize.width, height: pointerSize.height)
-                    
-                //  .onPreferenceChange(WidthPref.self) { self.legendSize.width = $0 }
-                //  .onPreferenceChange(HeightPref.self) { self.legendSize.height = $0 }
-                
+                    /// turn off pointer with double tap
+                    .onTapGesture(count: 2) { self.showPointer = false }
                 : nil
         }
-//        .fixedSize()
-        .sizePreference()
-        .onPreferenceChange(SizePreferenceKey.self) { self.size = $0 }
-        .widthPref()
-        .heightPref()
-        .onPreferenceChange(WidthPref.self) { self.size.width = $0 }
-        .onPreferenceChange(HeightPref.self) { self.size.height = $0 }
+        .retrieveSize(viewId: 111, $size)
+        .retrieveSize(viewId: 112, $pointerSize)
     }
 }
 

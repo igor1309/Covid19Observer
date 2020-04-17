@@ -10,6 +10,7 @@
 		2A0256212449DC780081D177 /* AppendCurrentToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0256202449DC780081D177 /* AppendCurrentToggle.swift */; };
 		2A0256232449DD460081D177 /* LineChartFilterToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0256222449DD460081D177 /* LineChartFilterToggle.swift */; };
 		2A025625244A4F2F0081D177 /* SaveRetrieveBounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A025624244A4F2F0081D177 /* SaveRetrieveBounds.swift */; };
+		2A025627244A55B90081D177 /* SaveRetrieveSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A025626244A55B90081D177 /* SaveRetrieveSize.swift */; };
 		2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BED92428BC6F0094852B /* AppDelegate.swift */; };
 		2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */; };
 		2A03BEDE2428BC6F0094852B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEDD2428BC6F0094852B /* ContentView.swift */; };
@@ -128,6 +129,7 @@
 		2A0256202449DC780081D177 /* AppendCurrentToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendCurrentToggle.swift; sourceTree = "<group>"; };
 		2A0256222449DD460081D177 /* LineChartFilterToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartFilterToggle.swift; sourceTree = "<group>"; };
 		2A025624244A4F2F0081D177 /* SaveRetrieveBounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRetrieveBounds.swift; sourceTree = "<group>"; };
+		2A025626244A55B90081D177 /* SaveRetrieveSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRetrieveSize.swift; sourceTree = "<group>"; };
 		2A03BED62428BC6F0094852B /* C19 Observer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "C19 Observer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A03BED92428BC6F0094852B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 				2AE2C53F243B0BEB00CC8476 /* DataKindPicker.swift */,
 				2A624CC52449C29A000FAB28 /* WidgetOverlay.swift */,
 				2A025624244A4F2F0081D177 /* SaveRetrieveBounds.swift */,
+				2A025626244A55B90081D177 /* SaveRetrieveSize.swift */,
 				2A74F0C22428CE7B00137694 /* Table.swift */,
 				2A74F0C42428CE7B00137694 /* CountryPicker.swift */,
 				2A74F0C32428CE7B00137694 /* Extensions.swift */,
@@ -664,6 +667,7 @@
 				2ACF1C722430B4EC0045C531 /* CountryCasesHeader.swift in Sources */,
 				2A4E35EB2432294900F84C72 /* NotificationSettingsSection.swift in Sources */,
 				2A566E6E2445F5E8006BEA02 /* IndicatorView.swift in Sources */,
+				2A025627244A55B90081D177 /* SaveRetrieveSize.swift in Sources */,
 				2A24A410243C6AA10097C3EB /* DotChart.swift in Sources */,
 				2A74F0B52428CB8400137694 /* Settings.swift in Sources */,
 				2A9974E024426F5A004FF043 /* Population.swift in Sources */,

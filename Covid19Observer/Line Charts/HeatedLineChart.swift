@@ -58,15 +58,6 @@ struct HeatedLineChart: View {
                 HStack {
                     ZStack(alignment: .leading) {
                         
-                        AxisY(axisY: axisY, labelColor: settings.isLineChartFiltered ? Color.orange : .secondary)
-                            .opacity(0.6)
-                            .onLongPressGesture {
-                                //  MARK: ADD HAPTIC
-                                withAnimation(.interactiveSpring()) {
-                                    self.settings.isLineChartFiltered.toggle()
-                                }
-                        }
-                        
                         GridShape(steps: axisY.steps)
                             .stroke(Color.systemGray4, style: StrokeStyle(lineWidth: 0.5, dash: [10, 5]))
                         
@@ -95,6 +86,15 @@ struct HeatedLineChart: View {
                                                        lineJoin: .round))
                         
                         TapPointer(points: points, plotArea: plotArea, is2D: false)
+                        
+                        AxisY(axisY: axisY, labelColor: settings.isLineChartFiltered ? Color.orange : .secondary)
+                            .opacity(0.6)
+                            .onLongPressGesture {
+                                //  MARK: ADD HAPTIC
+                                withAnimation(.interactiveSpring()) {
+                                    self.settings.isLineChartFiltered.toggle()
+                                }
+                        }
                     }
                     
                     //                    AxisY(axisY: axisY)
