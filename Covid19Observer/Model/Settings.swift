@@ -15,9 +15,9 @@ struct Country: Hashable {
 
 final class Settings: ObservableObject {
     
-    @Published var selectedCountries: [Country] {
+    @Published var primeCountries: [Country] {
         didSet {
-            UserDefaults.standard.set(selectedCountries, forKey: "selectedCountries")
+            UserDefaults.standard.set(primeCountries, forKey: "primeCountries")
         }
     }
     
@@ -52,18 +52,18 @@ final class Settings: ObservableObject {
     }
     
     init() {
-        let countries: [Country] = UserDefaults.standard.array(forKey: "selectedCountries") as? [Country] ?? []
+        let countries: [Country] = UserDefaults.standard.array(forKey: "primeCountries") as? [Country] ?? []
         if countries.isEmpty {
-            selectedCountries = [Country(name: "Russia", iso2: "RU"),
-                                 Country(name: "US", iso2: "US"),
-                                 Country(name: "Italy", iso2: "IT"),
-                                 Country(name: "Germany", iso2: "DE"),
-                                 Country(name: "France", iso2: "FR"),
-                                 Country(name: "Finland", iso2: "FI"),
-                                 Country(name: "Spain", iso2: "ES"),
-                                 Country(name: "China", iso2: "CN")]
+            primeCountries = [Country(name: "Russia", iso2: "RU"),
+                              Country(name: "US", iso2: "US"),
+                              Country(name: "Italy", iso2: "IT"),
+                              Country(name: "Germany", iso2: "DE"),
+                              Country(name: "France", iso2: "FR"),
+                              Country(name: "Finland", iso2: "FI"),
+                              Country(name: "Spain", iso2: "ES"),
+                              Country(name: "China", iso2: "CN")]
         } else {
-            selectedCountries = countries
+            primeCountries = countries
         }
         
         let savedInitialNumber = UserDefaults.standard.double(forKey: "initialNumber")

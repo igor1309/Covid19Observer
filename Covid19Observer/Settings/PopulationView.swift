@@ -74,7 +74,7 @@ struct PopulationView: View {
     }
     
     private func row(for item: PopulationElement) -> some View {
-        let isInSelected = settings.selectedCountries.map { $0.name }.contains(item.id)
+        let isInSelected = settings.primeCountries.map { $0.name }.contains(item.id)
         
         return VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline) {
@@ -104,7 +104,7 @@ struct PopulationView: View {
                 self.showChart(item)
             }) {
                 Image(systemName: "waveform.path.ecg")
-                Text("Show Chart")
+                Text("Show COVID-19 Chart")
             }
             Button(action: {
                 //  MARK: FINISH THIS - SHOW ON A MAP
@@ -118,10 +118,10 @@ struct PopulationView: View {
             selectedFilter == .countries
                 ? Button(action: {
                     if isInSelected {
-                        let index = self.settings.selectedCountries.firstIndex { $0.name == item.id }!
-                        self.settings.selectedCountries.remove(at: index)
+                        let index = self.settings.primeCountries.firstIndex { $0.name == item.id }!
+                        self.settings.primeCountries.remove(at: index)
                     } else {
-                        self.settings.selectedCountries.append(Country(name: item.id, iso2: item.iso2))
+                        self.settings.primeCountries.append(Country(name: item.id, iso2: item.iso2))
                     }
                 }) {
                     Image(systemName: isInSelected ? "star" : "star.fill")

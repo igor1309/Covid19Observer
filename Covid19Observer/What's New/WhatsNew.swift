@@ -36,26 +36,28 @@ struct WhatsNew: View {
     var deviations: some View {
         
         func deviationRow(kind: DataKind, deviations: [Deviation], color: Color) -> some View {
-            return VStack(alignment: .leading, spacing: 8) {
-                HStack {
+            HStack(alignment: .firstTextBaseline) {
                     Image(systemName: "person.2")
                         .frame(width: 24)
-                    Text(kind.id)
-                    Spacer()
-                    Text("(\(deviations.count.formattedGrouped))")
                         .font(.subheadline)
-                }
-                .foregroundColor(color)
-                
-                HStack {
-                    Image(systemName: "map")
-                        .frame(width: 24)
-                    Text(deviations.map { $0.country }.joined(separator: ", "))
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .foregroundColor(.secondary)
-                .font(.footnote)
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text(kind.id)
+                            Spacer()
+                            Text("(\(deviations.count.formattedGrouped))")
+                        }
+                        .font(.subheadline)
+Divider()
+                        /// Paul Hudson : better than .joined(separator: ", ")
+                        Text(ListFormatter.localizedString(byJoining: deviations.map { $0.country }))
+//                        Text(deviations.map { $0.country }.joined(separator: ", "))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .foregroundColor(.secondary)
+                            .font(.footnote)
+                    }
             }
+            .foregroundColor(color)
             .contentShape(Rectangle())
             .padding(12)
             .roundedBackground(cornerRadius: 8, color: cardColor)

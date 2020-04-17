@@ -25,7 +25,7 @@ struct PrimeCountryPicker: View {
         })
         
         return Picker(selection: country, label: Text("Selected Country")) {
-            ForEach(settings.selectedCountries, id: \.self)  { country in
+            ForEach(settings.primeCountries, id: \.self)  { country in
                 Text(country.iso2).tag(country.name)
             }
         }

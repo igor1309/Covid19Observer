@@ -21,7 +21,7 @@ struct RangeViewWrapper: View {
             VStack {
                 Slider(value: self.$lowerBound, in: 0...1)
                 Slider(value: self.$upperBound, in: 0...1)
-
+                
                 RangeView(rangeWidth: geo.size.width,
                           rangeHeight: self.height,
                           lowerBound: self.$lowerBound,
@@ -44,9 +44,9 @@ struct RangeView: View {
     
     let minRectWidth: CGFloat = 12
     
-    var leadingViewWidth: CGFloat { rangeWidth * lowerBound }
-    var centerViewWidth: CGFloat { rangeWidth * (upperBound - lowerBound) }
-        var trailingViewWidth: CGFloat { rangeWidth * (1 - upperBound) }
+    var leadingViewWidth:  CGFloat { rangeWidth * lowerBound }
+    var centerViewWidth:   CGFloat { rangeWidth * (upperBound - lowerBound) }
+    var trailingViewWidth: CGFloat { rangeWidth * (1 - upperBound) }
     
     var leadingView: some View {
         ZStack(alignment: .trailing) {
@@ -64,7 +64,7 @@ struct RangeView: View {
             withAnimation(.linear) {
                 let translationX = value.translation.width
                 let normalizedTranslationDelta = (translationX - self.prevTranslation) / self.rangeWidth
-                self.lowerBound = self.lowerBound + normalizedTranslationDelta
+                self.lowerBound += normalizedTranslationDelta
                 self.prevTranslation = translationX
             }
         }
@@ -82,8 +82,8 @@ struct RangeView: View {
                     withAnimation(.linear) {
                         let translationX = value.translation.width
                         let normalizedTranslationDelta = (translationX - self.prevTranslation) / self.rangeWidth
-                        self.lowerBound = self.lowerBound + normalizedTranslationDelta
-                        self.upperBound = self.upperBound + normalizedTranslationDelta
+                        self.lowerBound += normalizedTranslationDelta
+                        self.upperBound += normalizedTranslationDelta
                         self.prevTranslation = translationX
                     }
             }
@@ -102,42 +102,46 @@ struct RangeView: View {
                 .padding(.vertical, 6)
                 .padding(.leading, 3)
         }
-            //        .frame(width: trailingViewWidth)
-            .gesture(DragGesture(minimumDistance: 1)
-                .onChanged { value in
-                    //                    withAnimation(.linear) {
-                    let translationX = value.translation.width
-                    let normalizedTranslationDelta = (translationX - self.prevTranslation) / self.rangeWidth
-                    self.upperBound = self.upperBound + normalizedTranslationDelta
-                    self.prevTranslation = translationX
-                    //                    }
-            }
-            .onEnded { value in
-                self.prevTranslation = 0.0
-            })
+        .frame(width: trailingViewWidth)
+        .gesture(DragGesture(minimumDistance: 1)
+        .onChanged { value in
+            //                    withAnimation(.linear) {
+            let translationX = value.translation.width
+            let normalizedTranslationDelta = (translationX - self.prevTranslation) / self.rangeWidth
+            self.upperBound += normalizedTranslationDelta
+            self.prevTranslation = translationX
+            //                    }
+        }
+        .onEnded { value in
+            self.prevTranslation = 0.0
+        })
     }
     
     var body: some View {
         VStack {
             HStack(spacing: 0) {
-                Rectangle()
-                    .fill(Color.pink)
+//                Rectangle()
+//                    .fill(Color.orange)
+//                    .frame(width: rangeWidth - trailingViewWidth)
+//                    .gesture(DragGesture(minimumDistance: 1)
+//                        .onChanged { value in
+//                            //                    withAnimation(.linear) {
+//                            let translationX = value.translation.width
+//                            let normalizedTranslationDelta = (translationX - self.prevTranslation) / self.rangeWidth
+//                            self.upperBound = self.upperBound + normalizedTranslationDelta
+//                            self.prevTranslation = translationX
+//                            //                    }
+//                    }
+//                    .onEnded { value in
+//                        self.prevTranslation = 0.0
+//                    })
                 
-                Rectangle()
-                    .fill(Color.orange)
-                    .frame(width: trailingViewWidth)
-                    .gesture(DragGesture(minimumDistance: 1)
-                        .onChanged { value in
-                            //                    withAnimation(.linear) {
-                            let translationX = value.translation.width
-                            let normalizedTranslationDelta = (translationX - self.prevTranslation) / self.rangeWidth
-                            self.upperBound = self.upperBound + normalizedTranslationDelta
-                            self.prevTranslation = translationX
-                            //                    }
-                    }
-                    .onEnded { value in
-                        self.prevTranslation = 0.0
-                    })
+//                Rectangle()
+//                    .fill(Color.pink)
+                
+                leadingView
+//                Color.red
+                trailingView
             }
             .frame(height: rangeHeight)
             

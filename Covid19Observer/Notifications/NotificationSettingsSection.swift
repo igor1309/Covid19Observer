@@ -263,7 +263,7 @@ struct NotificationSettingsSection: View {
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
             
             DispatchQueue.main.async {
-                self.pendingNotifications = requests.map { $0.identifier }.joined(separator: ", ")
+                self.pendingNotifications = ListFormatter.localizedString(byJoining: requests.map { $0.identifier })
                 self.notificationsSettings.isAlertScheduled = requests.filter { $0.identifier == "covid-19-cases-observer-updates" }.map { $0.content }.isNotEmpty
             }
         }

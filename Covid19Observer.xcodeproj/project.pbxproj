@@ -43,6 +43,7 @@
 		2A566E722445FED6006BEA02 /* Date+Extt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E712445FED6006BEA02 /* Date+Extt.swift */; };
 		2A566E74244665D6006BEA02 /* RangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E73244665D6006BEA02 /* RangeView.swift */; };
 		2A566E7624472415006BEA02 /* SelectedCountriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E7524472415006BEA02 /* SelectedCountriesView.swift */; };
+		2A566E7824478BB0006BEA02 /* MagnificationGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E7724478BB0006BEA02 /* MagnificationGestureView.swift */; };
 		2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */; };
 		2A6607FF242BF7060056C849 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FE242BF7060056C849 /* MapView.swift */; };
 		2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A660800242CC7720056C849 /* CaseAnnotationView.swift */; };
@@ -156,6 +157,7 @@
 		2A566E712445FED6006BEA02 /* Date+Extt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extt.swift"; sourceTree = "<group>"; };
 		2A566E73244665D6006BEA02 /* RangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeView.swift; sourceTree = "<group>"; };
 		2A566E7524472415006BEA02 /* SelectedCountriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCountriesView.swift; sourceTree = "<group>"; };
+		2A566E7724478BB0006BEA02 /* MagnificationGestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnificationGestureView.swift; sourceTree = "<group>"; };
 		2A56BB4F24307D580082FF21 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		2A6607FE242BF7060056C849 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				2A566E6B2445E774006BEA02 /* LineChartGroup.swift */,
 				2A566E6D2445F5E8006BEA02 /* IndicatorView.swift */,
 				2A566E73244665D6006BEA02 /* RangeView.swift */,
+				2A566E7724478BB0006BEA02 /* MagnificationGestureView.swift */,
 				2A566E6F2445FE09006BEA02 /* Range+Ext.swift */,
 				2A566E712445FED6006BEA02 /* Date+Extt.swift */,
 			);
@@ -639,6 +642,7 @@
 				2A03BF072428C04F0094852B /* CasesTableView.swift in Sources */,
 				2A03BF062428C04F0094852B /* CaseData.swift in Sources */,
 				2AE2C540243B0BEB00CC8476 /* DataKindPicker.swift in Sources */,
+				2A566E7824478BB0006BEA02 /* MagnificationGestureView.swift in Sources */,
 				2A9974E8244270FC004FF043 /* Bundle+Extension.swift in Sources */,
 				2A74F0BF2428CE3E00137694 /* DoublingTimeView.swift in Sources */,
 				2AAAC6EF242A384000C03E5B /* SettingsView.swift in Sources */,

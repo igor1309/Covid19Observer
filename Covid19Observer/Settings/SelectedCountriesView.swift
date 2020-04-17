@@ -20,7 +20,7 @@ struct SelectedCountriesView: View {
         NavigationView {
             VStack {
                 List {
-                    ForEach(settings.selectedCountries, id: \.self) { country in
+                    ForEach(settings.primeCountries, id: \.self) { country in
                         HStack(alignment: .firstTextBaseline) {
                             Text(country.name)
                             Spacer()
@@ -34,7 +34,7 @@ struct SelectedCountriesView: View {
                     .onDelete(perform: delete)
                 }
             }
-            .navigationBarTitle("Selected Countries")
+            .navigationBarTitle("Prime Countries")
             .navigationBarItems(
                 leading: EditButton(),
                 trailing: TrailingButtonSFSymbol("plus") {
@@ -49,11 +49,11 @@ struct SelectedCountriesView: View {
     }
     
     func move(from source: IndexSet, to destination: Int) {
-        settings.selectedCountries.move(fromOffsets: source, toOffset: destination)
+        settings.primeCountries.move(fromOffsets: source, toOffset: destination)
     }
     
     func delete(at offsets: IndexSet) {
-        settings.selectedCountries.remove(atOffsets: offsets)
+        settings.primeCountries.remove(atOffsets: offsets)
     }
 }
 

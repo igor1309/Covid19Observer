@@ -59,10 +59,10 @@ struct SettingsView: View {
     }
     
     @State private var showSelectedCountries = false
-    var selectedCountriesSection: some View {
+    var primeCountriesSection: some View {
         Section(/*header: Text("Population".uppercased()),*/
                 footer: Text("Select countries for Line Chart Quick Access.")) {
-                    Button("Selected Countries") {
+                    Button("Prime Countries") {
                         self.showSelectedCountries = true
                     }
                     .sheet(isPresented: $showSelectedCountries) {
@@ -80,7 +80,7 @@ struct SettingsView: View {
                 
                 populationSection
                 
-                selectedCountriesSection
+                primeCountriesSection
                 
                 LineChartSettingsSection()
                 

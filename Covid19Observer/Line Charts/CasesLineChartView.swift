@@ -58,7 +58,7 @@ struct CasesLineChartView: View {
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
         
-        let isInSelected = settings.selectedCountries.map { $0.name }.contains(coronaStore.selectedCountry)
+        let isInSelected = settings.primeCountries.map { $0.name }.contains(coronaStore.selectedCountry)
         
         return VStack(alignment: .leading, spacing: 8) {
             
@@ -90,11 +90,11 @@ struct CasesLineChartView: View {
                 
                 ToolBarButton(systemName: isInSelected ? "star.fill" : "star") {
                     if isInSelected {
-                        let index = self.settings.selectedCountries.firstIndex { $0.name == self.coronaStore.selectedCountry }!
-                        self.settings.selectedCountries.remove(at: index)
+                        let index = self.settings.primeCountries.firstIndex { $0.name == self.coronaStore.selectedCountry }!
+                        self.settings.primeCountries.remove(at: index)
                     } else {
                         let iso2 = self.coronaStore.countriesWithIso2[self.coronaStore.selectedCountry]!
-                        self.settings.selectedCountries.append(Country(name: self.coronaStore.selectedCountry, iso2: iso2))
+                        self.settings.primeCountries.append(Country(name: self.coronaStore.selectedCountry, iso2: iso2))
                     }
                 }
                 .foregroundColor(appendCurrent ? .systemOrange : .secondary)
