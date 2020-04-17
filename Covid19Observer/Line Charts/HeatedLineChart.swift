@@ -36,12 +36,11 @@ struct HeatedLineChart: View {
         
         for i in 0..<points.count {
             let slice = points.prefix(i + 1).suffix(7)
-//            print("slice: \(slice)")
             let avg = slice.reduce(CGFloat(0)) { $0 + $1.y } / CGFloat(slice.count)
             let point = CGPoint(x: points[i].x, y: avg)
             maPoints.append(point)
         }
-
+        
         return maPoints
     }
     
@@ -78,7 +77,7 @@ struct HeatedLineChart: View {
                                                        lineCap: .round,
                                                        lineJoin: .round))
                             .opacity(0.3)
-
+                        
                         DotChart(points: points, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
                             .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
@@ -102,12 +101,11 @@ struct HeatedLineChart: View {
                     }
                 }
             } else {
-                VStack {
-                    Spacer()
-                    Text("No Data\n(check filter)")
+                ZStack {
+                    Color.quaternarySystemFill
+                    Text("No Data to display.\nPlease check the Filter.")
+                        .foregroundColor(.secondary)
                         .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    Spacer()
                 }
             }
         }
@@ -116,8 +114,13 @@ struct HeatedLineChart: View {
 
 struct HeatedLineChart_Previews: PreviewProvider {
     static var previews: some View {
-        HeatedLineChart(series:            [833,977,1261,1766,2337,3150,3736,4335,5186,5621,6088,6593,7041,7314,7478,7513,7755,7869,7979,8086,8162,8236])
-            //            .border(Color.pink)
-            .padding()
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            
+            HeatedLineChart(series:            [833,977,1261,1766,2337,3150,3736,4335,5186,5621,6088,6593,7041,7314,7478,7513,7755,7869,7979,8086,8162,8236])
+                //            .border(Color.pink)
+                .padding()
+        }
+        .environment(\.colorScheme, .dark)
     }
 }

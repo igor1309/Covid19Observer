@@ -103,7 +103,7 @@ struct CasesChartView_Previews: PreviewProvider {
             Color.black.edgesIgnoringSafeArea(.all)
             
             CasesChartView()
-                .padding()
+                .padding(.horizontal)
         }
         .environmentObject(CoronaStore())
         .environmentObject(Settings())

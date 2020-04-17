@@ -15,6 +15,14 @@ struct Country: Hashable {
 
 final class Settings: ObservableObject {
     
+    @Published var appendCurrent: Bool = UserDefaults.standard.bool(forKey: "appendCurrent") {
+        didSet {
+            UserDefaults.standard.set(appendCurrent, forKey: "appendCurrent")
+        }
+    }
+    
+
+    
     @Published var primeCountries: [Country] {
         didSet {
             UserDefaults.standard.set(primeCountries, forKey: "primeCountries")

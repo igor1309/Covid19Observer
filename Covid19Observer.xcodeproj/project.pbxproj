@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A0256212449DC780081D177 /* AppendCurrentToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0256202449DC780081D177 /* AppendCurrentToggle.swift */; };
+		2A0256232449DD460081D177 /* LineChartFilterToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0256222449DD460081D177 /* LineChartFilterToggle.swift */; };
 		2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BED92428BC6F0094852B /* AppDelegate.swift */; };
 		2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */; };
 		2A03BEDE2428BC6F0094852B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEDD2428BC6F0094852B /* ContentView.swift */; };
@@ -122,6 +124,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A0256202449DC780081D177 /* AppendCurrentToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendCurrentToggle.swift; sourceTree = "<group>"; };
+		2A0256222449DD460081D177 /* LineChartFilterToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartFilterToggle.swift; sourceTree = "<group>"; };
 		2A03BED62428BC6F0094852B /* C19 Observer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "C19 Observer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A03BED92428BC6F0094852B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -328,6 +332,8 @@
 			isa = PBXGroup;
 			children = (
 				2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */,
+				2A0256202449DC780081D177 /* AppendCurrentToggle.swift */,
+				2A0256222449DD460081D177 /* LineChartFilterToggle.swift */,
 				2AE2C53F243B0BEB00CC8476 /* DataKindPicker.swift */,
 				2A624CC52449C29A000FAB28 /* WidgetOverlay.swift */,
 				2A74F0C22428CE7B00137694 /* Table.swift */,
@@ -620,6 +626,7 @@
 				2A234EE42434EF830003C302 /* TimePeriod.swift in Sources */,
 				2AB9473D24312B9C009C18ED /* CaseChart.swift in Sources */,
 				2A566E5E24449AAF006BEA02 /* Outbreak.swift in Sources */,
+				2A0256212449DC780081D177 /* AppendCurrentToggle.swift in Sources */,
 				2A03BF0E2428C04F0094852B /* CasesOnMapView.swift in Sources */,
 				2A74F0BB2428CBB400137694 /* LineGraphShape.swift in Sources */,
 				2A03BF082428C04F0094852B /* PreferenceKeys.swift in Sources */,
@@ -633,6 +640,7 @@
 				2A9974DC2441ABBE004FF043 /* CountryList.swift in Sources */,
 				2A74F0B92428CBB400137694 /* HeatedLineChart.swift in Sources */,
 				2AC7EB95243E63E100454FFA /* Array+Ext.swift in Sources */,
+				2A0256232449DD460081D177 /* LineChartFilterToggle.swift in Sources */,
 				2A24A40C243B68BE0097C3EB /* MultiCharts.swift in Sources */,
 				2A9974EA2442720B004FF043 /* PopulationView.swift in Sources */,
 				2A03BF032428C04F0094852B /* Corona.swift in Sources */,

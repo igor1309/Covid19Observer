@@ -44,7 +44,7 @@ struct ContentView: View {
             .tag(0)
             
             barChart
-                .padding()
+                .padding(.horizontal)
                 .tabItem {
                     Image(systemName: "text.alignleft")
                     Text("World")

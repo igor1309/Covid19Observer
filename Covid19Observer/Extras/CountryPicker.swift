@@ -9,12 +9,36 @@
 import SwiftUI
 
 struct CountryPicker: View {
-    @EnvironmentObject var coronaStore: CoronaStore
     @Environment(\.presentationMode) var presentation
+    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var settings: Settings
+    
+    @State private var showSelectedCountries = false
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(alignment: .leading, spacing: 16) {
+                
+                HStack {
+                    Text("Prime Countries")
+                    
+                    Button("(edit)") {
+                        self.showSelectedCountries = true
+                    }
+                    .sheet(isPresented: $showSelectedCountries) {
+                        SelectedCountriesView()
+                            .environmentObject(self.coronaStore)
+                            .environmentObject(self.settings)
+                    }
+                }
+                
+                PrimeCountryPicker(selection: $coronaStore.selectedCountry)
+                Divider()
+                
+                //                Spacer()
+                
+                Text("All Countries")
+                
                 Picker(selection: $coronaStore.selectedCountry, label: Text("Selected Country")) {
                     ForEach(coronaStore.countryRegions, id: \.self) { countryRegion in
                         //  ForEach(coronaStore.currentCases.provinceStateCountryRegions, id: \.self) { countryRegion in
@@ -24,16 +48,9 @@ struct CountryPicker: View {
                 .labelsHidden()
                 
                 Spacer()
-                Divider()
                 
-                Text("Prime Countries")
-                    .padding(.horizontal)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                PrimeCountryPicker(selection: $coronaStore.selectedCountry)
-                
-                Spacer()
             }
+            .padding([.horizontal, .top])
             .navigationBarTitle("Select Country")
             .navigationBarItems(trailing: Button("Done") {
                 self.presentation.wrappedValue.dismiss()
@@ -45,5 +62,8 @@ struct CountryPicker: View {
 struct CountryPicker_Previews: PreviewProvider {
     static var previews: some View {
         CountryPicker()
+            .environmentObject(CoronaStore())
+            .environmentObject(Settings())
+            .environment(\.colorScheme, .dark)
     }
 }

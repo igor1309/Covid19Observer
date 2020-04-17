@@ -16,6 +16,43 @@ import SwiftPI
 
 class CoronaStore: ObservableObject {
     
+    func series(for dataKind: DataKind, appendCurrent: Bool) -> [Int] {
+        var series: [Int]
+        
+        switch dataKind {
+        case .confirmedTotal:
+            series = confirmedHistory.series(for: selectedCountry)
+            if appendCurrent {
+                let last = selectedCountryOutbreak.confirmed
+                series.append(last)
+            }
+        case .confirmedDaily:
+            series = confirmedHistory.dailyChange(for: selectedCountry)
+            if appendCurrent {
+                let last = selectedCountryOutbreak.confirmedCurrent
+                series.append(last)
+            }
+        case .deathsTotal:
+            series = deathsHistory.series(for: selectedCountry)
+            if appendCurrent {
+                let last = selectedCountryOutbreak.deaths
+                series.append(last)
+            }
+        case .deathsDaily:
+            series = deathsHistory.dailyChange(for: selectedCountry)
+            if appendCurrent {
+                let last = selectedCountryOutbreak.deathsCurrent
+                series.append(last)
+            }
+        case .cfr:
+            //  MARK: FIX THIS
+            //
+            return allCountriesCFR
+        }
+        
+        return series
+    }
+    
     let population = Bundle.main
         .decode(Population.self, from: "population.json")
         .sorted(by: { $0.combinedKey < $1.combinedKey })
@@ -185,8 +222,8 @@ class CoronaStore: ObservableObject {
         
         /// initialize empty and calc in processCases()
         outbreak = Outbreak()
-            
-            
+        
+        
         /// load saved history data
         confirmedHistory.load()
         deathsHistory.load()
@@ -327,7 +364,7 @@ class CoronaStore: ObservableObject {
         
         outbreak.deathsNew = totalDeathsNew
         outbreak.deathsCurrent = totalDeathsCurrent
-
+        
         
     }
     
@@ -374,7 +411,7 @@ class CoronaStore: ObservableObject {
                     deathsCurrent: 0//,
             ))
         }
-                
+        
         
         //  MARK: count new and current cases is called separately in countNewAndCurrent()
         outbreak.population = populationOf(country: nil)
@@ -449,7 +486,7 @@ extension CoronaStore {
         }
     }
     
-
+    
     /// Return population for the country and for the world if country is nil. `Regions and territories are not yet supported`.
     /// - Parameter country: country name
     /// - Returns: population for the country and for the world if country is nil
