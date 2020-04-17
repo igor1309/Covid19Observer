@@ -13,18 +13,17 @@ struct HeatedLineChart: View {
     let series: [Int]
     let lineWidth: CGFloat = 4
     
-    @State private var animated = false
+    //  MARK: FINISH THIS CHANGE TO FALSE FOR ANIMATION
+    @State private var animated = true
     
     var points: [CGPoint] {
-        var pointSeries = [CGPoint]()
-        
         guard series.isNotEmpty else { return [] }
         
+        var pointSeries = [CGPoint]()
         for i in 0..<series.count {
             pointSeries.append(CGPoint(x: CGFloat(i),
                                        y: CGFloat(series[i])))
         }
-        
         return pointSeries
     }
     
@@ -33,16 +32,19 @@ struct HeatedLineChart: View {
         guard points.isNotEmpty else { return [] }
         
         var maPoints = [CGPoint]()
-        
-        for i in 0..<points.count {
+                for i in 0..<points.count {
             let slice = points.prefix(i + 1).suffix(7)
             let avg = slice.reduce(CGFloat(0)) { $0 + $1.y } / CGFloat(slice.count)
             let point = CGPoint(x: points[i].x, y: avg)
             maPoints.append(point)
         }
-        
         return maPoints
     }
+    
+    
+    let heatGradient = LinearGradient(gradient: Gradient.temperetureGradient,
+                                             startPoint: .bottom,
+                                             endPoint: .top)
     
     var body: some View {
         let axisX = Axis(for: points.map { $0.x })
@@ -60,9 +62,7 @@ struct HeatedLineChart: View {
                         
                         LineChart(points: movingAvgPoints, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
-                            .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
-                                                   startPoint: .bottom,
-                                                   endPoint: .top),
+                            .stroke(heatGradient,
                                     style: StrokeStyle(lineWidth: 3,
                                                        lineCap: .round,
                                                        lineJoin: .round))
@@ -70,9 +70,7 @@ struct HeatedLineChart: View {
                         
                         LineChart(points: points, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
-                            .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
-                                                   startPoint: .bottom,
-                                                   endPoint: .top),
+                            .stroke(heatGradient,
                                     style: StrokeStyle(lineWidth: 0.5,
                                                        lineCap: .round,
                                                        lineJoin: .round))
@@ -80,9 +78,7 @@ struct HeatedLineChart: View {
                         
                         DotChart(points: points, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
-                            .stroke(LinearGradient(gradient: Gradient.temperetureGradient,
-                                                   startPoint: .bottom,
-                                                   endPoint: .top),
+                            .stroke(heatGradient,
                                     style: StrokeStyle(lineWidth: lineWidth,
                                                        lineCap: .round,
                                                        lineJoin: .round))
