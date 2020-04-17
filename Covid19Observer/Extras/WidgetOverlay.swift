@@ -13,15 +13,15 @@ struct WidgetOverlay<Content: View>: View {
     let content: () -> Content
     
     @State private var widgetOffset: CGSize = .zero
-    @State private var prevTransition: CGSize = .zero
-    @State private var size: CGSize = .zero
+    @State private var prevTranslation: CGSize = .zero
+    @State private var size: CGRect = .zero
     
     func widget(in rect: CGSize) -> some View {
         let drag = DragGesture()
             .onChanged { value in
                 withAnimation(.spring()) {
-                    let translation = value.translation - self.prevTransition
-                    self.prevTransition = value.translation
+                    let translation = value.translation - self.prevTranslation
+                    self.prevTranslation = value.translation
                     self.widgetOffset = self.widgetOffset + translation
                     /// contain within bounds
                     self.widgetOffset.width = max(-(rect.width - self.size.width),
@@ -33,22 +33,22 @@ struct WidgetOverlay<Content: View>: View {
                 }
         }
         .onEnded {_ in
-            self.prevTransition = .zero
+            self.prevTranslation = .zero
         }
         
         return content()
 //            .padding()
             .fixedSize()
-            .sizePreference()
+            //  .sizePreference()
+            .saveBounds(viewId: 101)
             .frame(width: size.width, height: size.height)
             .offset(widgetOffset)
             .gesture(drag)
             .onTapGesture(count: 2) {
                 self.widgetOffset = .zero
         }
-        .onPreferenceChange(SizePreferenceKey.self) { size in
-            self.size = size
-        }
+//        .onPreferenceChange(SizePreferenceKey.self) { self.size = $0 }
+        .retrieveBounds(viewId: 101, $size)
     }
     
     var body: some View {

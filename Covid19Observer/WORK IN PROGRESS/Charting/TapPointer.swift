@@ -111,23 +111,30 @@ struct TapPointer: View {
             .roundedBackground(cornerRadius: 8)
             .offset(pointerLegendOffset(from: pointerOffset))
             .padding(8)
-            .fixedSize()
+            .sizePreference()
             .widthPref()
             .heightPref()
         }
         
     }
     
+    @State private var prevTranslation: CGSize = .zero
+    
+    @State private var pointerSize: CGSize = .zero
+    
     var body: some View {
         let drag = DragGesture()
-            .onChanged { drag in
+            .onChanged { value in
                 withAnimation(.spring()) {
-                    self.currentOffset = self.offset + drag.translation
+                    let translation = value.translation - self.prevTranslation
+                    self.currentOffset = self.offset + translation
+                    self.prevTranslation = value.translation
                 }
         }
-        .onEnded { drag in
-            self.currentOffset = self.offset + drag.translation
-            self.offset = self.currentOffset
+        .onEnded { value in
+//            self.currentOffset = self.offset + drag.translation
+//            self.offset = self.currentOffset
+            self.prevTranslation = .zero
         }
         
         let tapDrag = DragGesture(minimumDistance: 0)
@@ -155,11 +162,11 @@ struct TapPointer: View {
             
             /// Shape не будет регистрировать тапы на фоне
             /// поэтому нужна суперпрозрачная подложка (.clear не рабоатет)
-            Color.black.opacity(0.001)
-                .background(Color.gray.opacity(0.001))
+            Color.black.opacity(0.1)
+//                .background(Color.gray.opacity(0.001))
                 .gesture(tap)
             
-            // showCrosshair ? tapPoint : nil
+//             showCrosshair ? tapPoint : nil
             
             showCrosshair ?
                 pointer
@@ -170,15 +177,17 @@ struct TapPointer: View {
                     .onTapGesture(count: 2) {
                         self.showCrosshair = false
                 }
-                .onPreferenceChange(WidthPref.self) {
-                    self.legendSize.width = $0
-                }
-                .onPreferenceChange(HeightPref.self) {
-                    self.legendSize.height = $0
-                }
+            
+                .frame(width: pointerSize.width, height: pointerSize.height)
+                    
+                //  .onPreferenceChange(WidthPref.self) { self.legendSize.width = $0 }
+                //  .onPreferenceChange(HeightPref.self) { self.legendSize.height = $0 }
+                
                 : nil
         }
-        .fixedSize()
+//        .fixedSize()
+        .sizePreference()
+        .onPreferenceChange(SizePreferenceKey.self) { self.size = $0 }
         .widthPref()
         .heightPref()
         .onPreferenceChange(WidthPref.self) { self.size.width = $0 }
@@ -193,7 +202,7 @@ struct TapPointer_Previews: PreviewProvider {
         CGPoint(x: 10, y: 0),
         CGPoint(x: 20, y: 40),
         CGPoint(x: 30, y: 30),
-        //        CGPoint(x: 40, y: 60),
+                CGPoint(x: 48, y: 100),
         //        CGPoint(x: 50, y: 140),
         CGPoint(x: 50, y: 180),
         CGPoint(x: 80, y: 200),

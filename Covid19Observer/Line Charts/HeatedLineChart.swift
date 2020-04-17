@@ -61,6 +61,7 @@ struct HeatedLineChart: View {
                         AxisY(axisY: axisY, labelColor: settings.isLineChartFiltered ? Color.orange : .secondary)
                             .opacity(0.6)
                             .onLongPressGesture {
+                                //  MARK: ADD HAPTIC
                                 withAnimation(.interactiveSpring()) {
                                     self.settings.isLineChartFiltered.toggle()
                                 }
