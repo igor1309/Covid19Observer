@@ -47,6 +47,8 @@ struct CasesChartView: View {
             
             row(title: "Deaths", value: outbreak.deathsStr, color: CaseDataType.deaths.color)
             
+            row(title: "Deaths New", value: outbreak.deathsNewStr, color: CaseDataType.new.color)
+            
             row(title: "CFR", value: outbreak.cfrStr, color: CaseDataType.cfr.color)
         }
         .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }

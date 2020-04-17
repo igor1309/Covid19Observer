@@ -44,6 +44,7 @@
 		2A566E74244665D6006BEA02 /* RangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E73244665D6006BEA02 /* RangeView.swift */; };
 		2A566E7624472415006BEA02 /* SelectedCountriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E7524472415006BEA02 /* SelectedCountriesView.swift */; };
 		2A566E7824478BB0006BEA02 /* MagnificationGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A566E7724478BB0006BEA02 /* MagnificationGestureView.swift */; };
+		2A624CC62449C29A000FAB28 /* WidgetOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A624CC52449C29A000FAB28 /* WidgetOverlay.swift */; };
 		2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */; };
 		2A6607FF242BF7060056C849 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6607FE242BF7060056C849 /* MapView.swift */; };
 		2A660801242CC7720056C849 /* CaseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A660800242CC7720056C849 /* CaseAnnotationView.swift */; };
@@ -159,6 +160,7 @@
 		2A566E7524472415006BEA02 /* SelectedCountriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCountriesView.swift; sourceTree = "<group>"; };
 		2A566E7724478BB0006BEA02 /* MagnificationGestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnificationGestureView.swift; sourceTree = "<group>"; };
 		2A56BB4F24307D580082FF21 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2A624CC52449C29A000FAB28 /* WidgetOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetOverlay.swift; sourceTree = "<group>"; };
 		2A6607FC242BF2730056C849 /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		2A6607FE242BF7060056C849 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		2A660800242CC7720056C849 /* CaseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseAnnotationView.swift; sourceTree = "<group>"; };
@@ -470,6 +472,7 @@
 			children = (
 				2AB94738243126A1009C18ED /* CasesChartsIPad.swift */,
 				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
+				2A624CC52449C29A000FAB28 /* WidgetOverlay.swift */,
 				2AE2C5282438762500CC8476 /* LeftVerticalLine.swift */,
 				2AE2C5302438A13700CC8476 /* TopHorizontalLine.swift */,
 				2AB9473C24312B9C009C18ED /* CaseChart.swift */,
@@ -608,6 +611,7 @@
 				2AE2C5312438A13700CC8476 /* TopHorizontalLine.swift in Sources */,
 				2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */,
 				2A74F0B32428CB8400137694 /* DoublingModel.swift in Sources */,
+				2A624CC62449C29A000FAB28 /* WidgetOverlay.swift in Sources */,
 				2A9974DA24419EAB004FF043 /* CountryRow.swift in Sources */,
 				2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */,
 				2A6607FD242BF2730056C849 /* MapKit+Extensions.swift in Sources */,
