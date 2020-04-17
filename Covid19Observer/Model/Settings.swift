@@ -21,8 +21,6 @@ final class Settings: ObservableObject {
         }
     }
     
-
-    
     @Published var primeCountries: [Country] {
         didSet {
             UserDefaults.standard.set(primeCountries, forKey: "primeCountries")

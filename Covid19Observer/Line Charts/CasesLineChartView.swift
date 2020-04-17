@@ -86,16 +86,20 @@ struct CasesLineChartView: View {
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.lineChartLimit : 0))
                     
-                    LineChartFilterToggle()
-                        .padding(.top, 6)
+//                    LineChartFilterToggle()
+//                        .padding(.top, 6)
                 }
                 
             } else {
                 ZStack {
                     Color.quaternarySystemFill
-                    Text ("No Data to display.\nPlease update the Dataset.")
-                        .foregroundColor(.secondary)
-                        .font(.headline)
+                    VStack {
+                        Text ("No Data to display.\nPlease update the Dataset.")
+                            .foregroundColor(.secondary)
+                            .font(.headline)
+                        
+                        LineChartFilterToggle()
+                    }
                 }
                 
             }

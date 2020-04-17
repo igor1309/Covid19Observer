@@ -10,6 +10,8 @@ import SwiftUI
 import SwiftPI
 
 struct HeatedLineChart: View {
+    @EnvironmentObject var settings: Settings
+    
     let series: [Int]
     let lineWidth: CGFloat = 4
     
@@ -32,7 +34,7 @@ struct HeatedLineChart: View {
         guard points.isNotEmpty else { return [] }
         
         var maPoints = [CGPoint]()
-                for i in 0..<points.count {
+        for i in 0..<points.count {
             let slice = points.prefix(i + 1).suffix(7)
             let avg = slice.reduce(CGFloat(0)) { $0 + $1.y } / CGFloat(slice.count)
             let point = CGPoint(x: points[i].x, y: avg)
@@ -43,8 +45,8 @@ struct HeatedLineChart: View {
     
     
     let heatGradient = LinearGradient(gradient: Gradient.temperetureGradient,
-                                             startPoint: .bottom,
-                                             endPoint: .top)
+                                      startPoint: .bottom,
+                                      endPoint: .top)
     
     var body: some View {
         let axisX = Axis(for: points.map { $0.x })
@@ -54,7 +56,15 @@ struct HeatedLineChart: View {
         return VStack {
             if series.isNotEmpty {
                 HStack {
-                    ZStack {
+                    ZStack(alignment: .leading) {
+                        
+                        AxisY(axisY: axisY, labelColor: settings.isLineChartFiltered ? Color.orange : .secondary)
+                            .opacity(0.6)
+                            .onLongPressGesture {
+                                withAnimation(.interactiveSpring()) {
+                                    self.settings.isLineChartFiltered.toggle()
+                                }
+                        }
                         
                         GridShape(steps: axisY.steps)
                             .stroke(Color.systemGray4, style: StrokeStyle(lineWidth: 0.5, dash: [10, 5]))
@@ -86,7 +96,7 @@ struct HeatedLineChart: View {
                         TapPointer(points: points, plotArea: plotArea, is2D: false)
                     }
                     
-                    AxisY(axisY: axisY)
+                    //                    AxisY(axisY: axisY)
                 }
                 .padding(lineWidth / 2)
                 .onAppear {
@@ -99,9 +109,13 @@ struct HeatedLineChart: View {
             } else {
                 ZStack {
                     Color.quaternarySystemFill
-                    Text("No Data to display.\nPlease check the Filter.")
-                        .foregroundColor(.secondary)
-                        .font(.headline)
+                    VStack {
+                        Text("No Data to display.\nPlease check the Filter.")
+                            .foregroundColor(.secondary)
+                            .font(.headline)
+                        
+                        LineChartFilterToggle()
+                    }
                 }
             }
         }
@@ -117,6 +131,7 @@ struct HeatedLineChart_Previews: PreviewProvider {
                 //            .border(Color.pink)
                 .padding()
         }
+        .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }
 }
