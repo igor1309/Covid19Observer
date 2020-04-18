@@ -128,21 +128,32 @@ class CoronaStore: ObservableObject {
     
     //  MARK: MAP Stuff
     
-    var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
+    @Published var mapOptions: MapOptions {
         didSet {
-            UserDefaults.standard.set(isFiltered, forKey: "isFiltered")
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(mapOptions) {
+                UserDefaults.standard.set(encoded, forKey: "mapOptions")
+            }
+            
             processCases()
         }
     }
-    
-    var filterColor: Color { Color(colorCode(for: mapFilterLowerLimit)) }
-    
-    var mapFilterLowerLimit = UserDefaults.standard.integer(forKey: "mapFilterLowerLimit") {
-        didSet {
-            UserDefaults.standard.set(mapFilterLowerLimit, forKey: "mapFilterLowerLimit")
-            processCases()
-        }
-    }
+
+//    var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
+//        didSet {
+//            UserDefaults.standard.set(isFiltered, forKey: "isFiltered")
+//            processCases()
+//        }
+//    }
+//
+//    var filterColor: Color { Color(MapOptions.colorCode(for: mapFilterLowerLimit)) }
+//
+//    var mapFilterLowerLimit = UserDefaults.standard.integer(forKey: "mapFilterLowerLimit") {
+//        didSet {
+//            UserDefaults.standard.set(mapFilterLowerLimit, forKey: "mapFilterLowerLimit")
+//            processCases()
+//        }
+//    }
     
     
     //  MARK: CoronaResponse
@@ -185,22 +196,31 @@ class CoronaStore: ObservableObject {
         return allCFR
     }
     
+    
     init() {
         countriesWithIso2 = population
             .filter { $0.uid < 1_000 }
-            .reduce(into: [String: String]()) {
-                $0[$1.combinedKey] = $1.iso2
+            .reduce(into: [String: String]()) { $0[$1.combinedKey] = $1.iso2 }
+        
+        
+        /// Map Options
+        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
+        if let savedOptions = UserDefaults.standard.object(forKey: "mapOptions") as? Data {
+            if let loadedOptions = try? JSONDecoder().decode(MapOptions.self, from: savedOptions) {
+                mapOptions = loadedOptions
+            } else {
+                mapOptions = MapOptions()
+            }
+        } else {
+            mapOptions = MapOptions()
         }
-        
-        /// UserDefaults returns 0 if app is new/reinstalled.cleaned up
-        if mapFilterLowerLimit == 0 { mapFilterLowerLimit = 100 }
-        
+                
         
         /// always start with Country, not Region
         caseType = CaseType.byCountry
         
         
-        /// load Cases from disk
+        /// load `Cases` from disk
         /// Cases by Region
         if let response: CoronaResponse = loadJSONFromDocDir("byRegion.json") {
             responseCacheByRegion = response
@@ -222,27 +242,26 @@ class CoronaStore: ObservableObject {
         
         
         ///  https://github.com/CSSEGISandData/COVID-19
-        /// confirmed cases dataset
+        /// confirmed cases dataset URL
         let confirmedURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")!
-        /// deaths dataset
+        /// deaths dataset URL
         let deathsURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")!
         
         
-        /// initialize history data
-        confirmedHistory = History(
-            saveIn: "confirmedHistory.json",
-            url: confirmedURL,
-            deviationThreshold: 100)
-        deathsHistory = History(
-            saveIn: "deathsHistory.json",
-            url: deathsURL,
-            deviationThreshold: 10)
+        /// initialize `history` data
+        confirmedHistory = History(saveIn: "confirmedHistory.json",
+                                   url: confirmedURL,
+                                   deviationThreshold: 100)
+        deathsHistory = History(saveIn: "deathsHistory.json",
+                                url: deathsURL,
+                                deviationThreshold: 10)
         
         /// initialize empty and calc in processCases()
         outbreak = Outbreak()
         
         
-        /// load saved history data
+        //  MARK: НЕТ ЛИ ЗДЕСЬ ДВОЙНОГО ЧТЕНИЯ ЗАПИСИ?????
+        /// `load saved` history data
         confirmedHistory.load()
         deathsHistory.load()
         
@@ -426,7 +445,7 @@ class CoronaStore: ObservableObject {
                     value: confirmed,
                     coordinate: .init(latitude: cases.attributes.latitude ?? 0.0,
                                       longitude: cases.attributes.longitude ?? 0.0),
-                    color: colorCode(for: confirmed)))
+                    color: MapOptions.colorCode(for: confirmed)))
             
             totalCases += confirmed
             totalDeaths += cases.attributes.deaths ?? 0
@@ -456,7 +475,7 @@ class CoronaStore: ObservableObject {
         
         
         //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
-        self.caseAnnotations = caseAnnotations.filter { $0.value > (isFiltered ? mapFilterLowerLimit : 0) }
+        self.caseAnnotations = caseAnnotations.filter { $0.value > (mapOptions.isFiltered ? mapOptions.lowerLimit : 0) }
         
         
         //  MARK: DELETE AFTER DEBUG
@@ -469,7 +488,7 @@ class CoronaStore: ObservableObject {
         //        }
         
         //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
-        self.currentCases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
+        self.currentCases = caseData.filter { $0.confirmed > (mapOptions.isFiltered ? mapOptions.lowerLimit : 0) }
         //        self.cases = caseData
         
         countNewAndCurrent()
@@ -544,30 +563,5 @@ extension CoronaStore {
             }) else { return 0 }
         
         return pop.population ?? 0
-    }
-    
-    
-    func colorCode(for number: Int) -> UIColor {
-        
-        let color: UIColor
-        
-        switch number {
-        case 0...99:
-            color = .systemGray
-        case 100...499:
-            color = .systemGreen
-        case 500...999:
-            color = .systemBlue
-        case 1_000...4_999:
-            color = .systemYellow
-        case 5_000...9_999:
-            color = .systemOrange
-        case 10_000...:
-            color = .systemRed
-        default:
-            color = .systemFill
-        }
-        
-        return color
     }
 }

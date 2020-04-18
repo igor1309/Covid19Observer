@@ -41,8 +41,7 @@ final class Settings: ObservableObject {
         
         /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
         if let savedOptions = UserDefaults.standard.object(forKey: "chartOptions") as? Data {
-            let decoder = JSONDecoder()
-            if let loadedOptions = try? decoder.decode(ChartOptions.self, from: savedOptions) {
+            if let loadedOptions = try? JSONDecoder().decode(ChartOptions.self, from: savedOptions) {
                 chartOptions = loadedOptions
             } else {
                 chartOptions = ChartOptions()

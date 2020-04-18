@@ -36,21 +36,21 @@ struct CasesChartWidget: View {
         
         return VStack(alignment: .leading, spacing: 3) {
             Group {
-            row(title: "Confirmed", value: outbreak.confirmedStr, color: CaseDataType.confirmed.color)
-            
-            row(title: "New", value: outbreak.confirmedNewStr, color: CaseDataType.new.color)
-            
-            row(title: "Current", value: outbreak.confirmedCurrentStr, color: CaseDataType.current.color)
-            
-            row(title: "Deaths", value: outbreak.deathsStr, color: CaseDataType.deaths.color)
-            
-            row(title: "Deaths New", value: outbreak.deathsNewStr, color: CaseDataType.new.color)
-            
-            row(title: "CFR", value: outbreak.cfrStr, color: CaseDataType.cfr.color)
-            
-            Divider()
-                .padding(.top, 3)
-                .frame(maxWidth: spacing + (columnWidths[1] ?? 0) + (columnWidths[2] ?? 0))
+                row(title: "Confirmed", value: outbreak.confirmedStr, color: CaseDataType.confirmed.color)
+                
+                row(title: "New", value: outbreak.confirmedNewStr, color: CaseDataType.new.color)
+                
+                row(title: "Current", value: outbreak.confirmedCurrentStr, color: CaseDataType.current.color)
+                
+                row(title: "Deaths", value: outbreak.deathsStr, color: CaseDataType.deaths.color)
+                
+                row(title: "Deaths New", value: outbreak.deathsNewStr, color: CaseDataType.new.color)
+                
+                row(title: "CFR", value: outbreak.cfrStr, color: CaseDataType.cfr.color)
+                
+                Divider()
+                    .padding(.top, 3)
+                    .frame(maxWidth: spacing + (columnWidths[1] ?? 0) + (columnWidths[2] ?? 0))
             }
             .contentShape(Rectangle())
             .onLongPressGesture {
@@ -81,12 +81,12 @@ struct CasesChartWidget: View {
 struct CasesChartWidget_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-//            Color.black.edgesIgnoringSafeArea(.all)
+            Color.black.edgesIgnoringSafeArea(.all)
             
             CasesChartWidget()
         }
         .environmentObject(CoronaStore())
         .environmentObject(Settings())
-//        .environment(\.colorScheme, .dark)
+        .environment(\.colorScheme, .dark)
     }
 }

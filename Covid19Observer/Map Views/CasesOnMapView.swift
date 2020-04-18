@@ -40,9 +40,9 @@ struct CasesOnMapView: View {
     
     var filterButton: some View {
         ToolBarButton(systemName: "line.horizontal.3.decrease") {
-            self.coronaStore.isFiltered.toggle()
+            self.coronaStore.mapOptions.isFiltered.toggle()
         }
-        .foregroundColor(coronaStore.isFiltered ? coronaStore.filterColor : .secondary)
+        .foregroundColor(coronaStore.mapOptions.isFiltered ? coronaStore.mapOptions.filterColor : .secondary)
     }
     
     var updateButton: some View {

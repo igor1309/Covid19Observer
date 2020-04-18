@@ -96,6 +96,7 @@
 		2AD39F04244B2ACF00E9B4F8 /* MapHeaderCompact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F03244B2ACF00E9B4F8 /* MapHeaderCompact.swift */; };
 		2AD39F06244B2C2000E9B4F8 /* MapHeaderRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F05244B2C2000E9B4F8 /* MapHeaderRegular.swift */; };
 		2AD39F08244B95FA00E9B4F8 /* CasesChartWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F07244B95FA00E9B4F8 /* CasesChartWidget.swift */; };
+		2AD39F0A244B9B0B00E9B4F8 /* MapOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F09244B9B0B00E9B4F8 /* MapOptions.swift */; };
 		2AD693BB2443493300F550A0 /* PrimeCountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */; };
 		2AD693BD2443B59200F550A0 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BC2443B59200F550A0 /* Dashboard.swift */; };
 		2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */; };
@@ -226,6 +227,7 @@
 		2AD39F03244B2ACF00E9B4F8 /* MapHeaderCompact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHeaderCompact.swift; sourceTree = "<group>"; };
 		2AD39F05244B2C2000E9B4F8 /* MapHeaderRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHeaderRegular.swift; sourceTree = "<group>"; };
 		2AD39F07244B95FA00E9B4F8 /* CasesChartWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesChartWidget.swift; sourceTree = "<group>"; };
+		2AD39F09244B9B0B00E9B4F8 /* MapOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptions.swift; sourceTree = "<group>"; };
 		2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeCountryPicker.swift; sourceTree = "<group>"; };
 		2AD693BC2443B59200F550A0 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCasesCharts.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				2A025628244AEF0C0081D177 /* ChartOptions.swift */,
+				2AD39F09244B9B0B00E9B4F8 /* MapOptions.swift */,
 				2A74F0B12428CB8400137694 /* Settings.swift */,
 				2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */,
 				2A02562A244AF9D50081D177 /* Country.swift */,
@@ -660,6 +663,7 @@
 				2AE2C542243B336D00CC8476 /* LogisticCurve.swift in Sources */,
 				2A74F0B42428CB8400137694 /* History.swift in Sources */,
 				2A03BF092428C04F0094852B /* Extension+View.swift in Sources */,
+				2AD39F0A244B9B0B00E9B4F8 /* MapOptions.swift in Sources */,
 				2A03BF122428C9890094852B /* TopTenBarChartVert.swift in Sources */,
 				2A624CCA2449C8B9000FAB28 /* PrefKey.swift in Sources */,
 				2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */,
