@@ -11,6 +11,8 @@ import Foundation
 struct ChartOptions: Codable {
     var dataKind: DataKind = .confirmedDaily
     
+    var appendCurrent: Bool = false
+    
     var isFiltered: Bool = false
     var confirmedLimit: Int = 50
     var deathsLimit: Int = 10

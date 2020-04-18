@@ -12,10 +12,10 @@ struct AppendCurrentToggle: View {
     @EnvironmentObject var settings: Settings
     
     var body: some View {
-        ToolBarButton(systemName: settings.appendCurrent ? "sun.max.fill" : "sun.min") {
-            self.settings.appendCurrent.toggle()
+        ToolBarButton(systemName: settings.chartOptions.appendCurrent ? "sun.max.fill" : "sun.min") {
+            self.settings.chartOptions.appendCurrent.toggle()
         }
-        .foregroundColor(settings.appendCurrent ? .systemPurple : .secondary)
+        .foregroundColor(settings.chartOptions.appendCurrent ? .systemPurple : .secondary)
     }
 }
 

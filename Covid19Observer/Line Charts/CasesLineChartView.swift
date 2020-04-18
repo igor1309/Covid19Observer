@@ -63,7 +63,7 @@ struct CasesLineChartView: View {
 
         let series = coronaStore
             .series(for: settings.chartOptions.dataKind,
-                    appendCurrent: settings.appendCurrent)
+                    appendCurrent: settings.chartOptions.appendCurrent)
             .filtered(limit: settings.chartOptions.lineChartLimit)
         
         return VStack(alignment: .leading, spacing: 8) {
