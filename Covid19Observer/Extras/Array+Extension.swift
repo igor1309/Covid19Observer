@@ -10,6 +10,10 @@ import Foundation
 import SwiftUI
 
 extension Array where Element == Int {
+    
+    /// Filter (remove) first elements of the array that are less than limit
+    /// - Parameter limit: limit
+    /// - Returns: filteredarray
     func filtered(limit: Int) -> Array {
         var copy = self
         while !copy.isEmpty {
@@ -24,6 +28,10 @@ extension Array where Element == Int {
 }
 
 extension Array where Element == CGPoint {
+    
+    /// Filter (remove) first elements of the array that are less than limit
+    /// - Parameter limit: limit
+    /// - Returns: filtered array
     func filtered(limit: Int) -> Array {
         var copy = self
         while !copy.isEmpty {

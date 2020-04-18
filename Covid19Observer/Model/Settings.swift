@@ -15,6 +15,17 @@ struct Country: Hashable {
 
 final class Settings: ObservableObject {
     
+    var lineChartLimit: Int {
+        switch selectedDataKind {
+        case .cfr:
+            return 0
+        case .deathsTotal, .deathsDaily:
+            return isLineChartFiltered ? deathsLineChartLimit : 0
+        default:
+            return isLineChartFiltered ? confirmedLineChartLimit : 0
+        }
+    }
+    
     @Published var appendCurrent: Bool = UserDefaults.standard.bool(forKey: "appendCurrent") {
         didSet {
             UserDefaults.standard.set(appendCurrent, forKey: "appendCurrent")

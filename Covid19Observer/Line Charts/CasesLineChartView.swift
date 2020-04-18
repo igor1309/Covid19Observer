@@ -60,21 +60,11 @@ struct CasesLineChartView: View {
         
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
-        let limit: Int
-            
-        switch settings.selectedDataKind {
-        case .cfr:
-            limit = 0
-        case .deathsTotal, .deathsDaily:
-            limit = settings.isLineChartFiltered ? settings.deathsLineChartLimit : 0
-        default:
-            limit = settings.isLineChartFiltered ? settings.confirmedLineChartLimit : 0
-        }
-        
+
         let series = coronaStore
             .series(for: settings.selectedDataKind,
                     appendCurrent: settings.appendCurrent)
-            .filtered(limit: limit)
+            .filtered(limit: settings.lineChartLimit)
         
         return VStack(alignment: .leading, spacing: 8) {
             
@@ -99,8 +89,8 @@ struct CasesLineChartView: View {
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(series: series)
                     
-//                    LineChartFilterToggle()
-//                        .padding(.top, 6)
+                    //LineChartFilterToggle()
+                    //    .padding(.top, 6)
                 }
                 
             } else {
