@@ -477,12 +477,7 @@ class CoronaStore: ObservableObject {
         //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
         self.caseAnnotations = caseAnnotations.filter { $0.value > (mapOptions.isFiltered ? mapOptions.lowerLimit : 0) }
         
-        
-        //  MARK: DELETE AFTER DEBUG
-        print("Annotations after filter (first 3):")
-        print(caseAnnotations.prefix(3))
-        
-        
+
         //        if isFiltered && caseAnnotations.count > maxBars {
         //            caseData = Array(caseData.prefix(upTo: maxBars))
         //        }
