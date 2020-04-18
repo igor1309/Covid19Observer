@@ -195,11 +195,13 @@ class CoronaStore: ObservableObject {
         /// UserDefaults returns 0 if app is new/reinstalled.cleaned up
         if mapFilterLowerLimit == 0 { mapFilterLowerLimit = 100 }
         
+        
         /// always start with Country, not Region
         caseType = CaseType.byCountry
         
+        
         /// load Cases from disk
-        /// Cases by Country
+        /// Cases by Region
         if let response: CoronaResponse = loadJSONFromDocDir("byRegion.json") {
             responseCacheByRegion = response
             print("corona response by Region loaded from JSON-file on disk")
@@ -208,7 +210,7 @@ class CoronaStore: ObservableObject {
             print("no JSON-file with corona response by Region on disk, set to empty cases")
         }
         
-        /// Cases by Region
+        /// Cases by Country
         if let response: CoronaResponse = loadJSONFromDocDir("byCountry.json") {
             responseCacheByCountry = response
             print("corona response by Country loaded from JSON-file on disk")

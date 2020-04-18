@@ -34,9 +34,9 @@ struct CountryList: View {
             Text(deviation.country)
             Spacer()
             Group {
-                cell(text: deviation.avg.formattedGrouped, col: 200)
-                cell(text: deviation.last.formattedGrouped, col: 201)
-                cell(text: change.formattedPercentage, col: 202)
+                cell(text: deviation.avg.formattedGrouped, col: 220)
+                cell(text: deviation.last.formattedGrouped, col: 221)
+                cell(text: change.formattedPercentage, col: 222)
             }
             .font(.subheadline)
         }
@@ -79,9 +79,9 @@ struct CountryList: View {
                 Text("Country")
                 Spacer()
                 Group {
-                    cell(text: "7d avg", col: 200)
-                    cell(text: "laset", col: 201)
-                    cell(text: "change", col: 202)
+                    cell(text: "7d avg", col: 220)
+                    cell(text: "laset", col: 221)
+                    cell(text: "change", col: 222)
                 }
             }
             .foregroundColor(.secondary)

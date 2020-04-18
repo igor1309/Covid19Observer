@@ -10,19 +10,6 @@ import SwiftUI
 import MapKit
 import SwiftPI
 
-struct ToolBarButton: View {
-    var systemName: String
-    var action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            Image(systemName: systemName)
-                .padding(10)
-                .roundedBackground(cornerRadius: 8)
-        }
-    }
-}
-
 struct CasesOnMapView: View {
     @Environment(\.horizontalSizeClass) var sizeClass
     @EnvironmentObject var coronaStore: CoronaStore
@@ -39,59 +26,16 @@ struct CasesOnMapView: View {
     @State private var showAlert = false
     
     var header: some View {
-        VStack {
+        Group {
             if sizeClass == .compact {
-                VStack(spacing: 10) {
+                MapHeaderCompact()
                 
-                Text("COVID-19 Data by John Hopkins")
-                    .font(.subheadline).bold()
-                
-                Divider()
-                
-                Picker(selection: $coronaStore.caseType, label: Text("Select by Provincee or Country")) {
-                    ForEach(CaseType.allCases, id: \.self) { type in
-                        Text(type.id).tag(type)
-                    }
-                }
-                .labelsHidden()
-                .pickerStyle(SegmentedPickerStyle())
-                
-            }
-            .font(.footnote)
-            .padding()
-            .roundedBackground()
-            .padding(.top, 6)
-                .padding(.horizontal)
             } else {
-                HStack(spacing: 10) {
-                    
-                    VStack(alignment: .leading) {
-                        Text("COVID-19")
-                            .font(.subheadline).bold()
-                        Text("Data by John Hopkins")
-                            .foregroundColor(.secondary)
-                            .font(.footnote)
-                    }
-                                        
-                    Spacer()
-                    
-                    Picker(selection: $coronaStore.caseType, label: Text("Select by Provincee or Country")) {
-                        ForEach(CaseType.allCases, id: \.self) { type in
-                            Text(type.id).tag(type)
-                        }
-                    }
-                    .labelsHidden()
-                    .pickerStyle(SegmentedPickerStyle())
-                    
-                }
-            .fixedSize(horizontal: false, vertical: true)
-                .font(.footnote)
-                .padding()
-                .roundedBackground()
-                .padding(.top, 6)
-                    .padding(.horizontal)
+                MapHeaderRegular()
             }
         }
+        .padding(.top, 6)
+        .padding(.horizontal)
     }
     
     var shortToolBar: some View {

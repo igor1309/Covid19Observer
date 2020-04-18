@@ -24,7 +24,7 @@ struct CasesTableView: View {
                 Text(col1)
                     .foregroundColor(isHeader ? .secondary : .primary)
                     .font(isHeader ? .caption : .subheadline)
-                    .padding(.leading, 6)
+                    .padding(.leading, isHeader ? 12 : 6)
                     .lineLimit(1)
                     .truncationMode(.tail)
                 
@@ -53,7 +53,7 @@ struct CasesTableView: View {
                         .padding(.trailing, 6)
                         .fixedSize()
                         .widthPreference(column: 83)
-                        .frame(width: self.columnWidths[83], alignment: isHeader ? .leading : .trailing)
+                        .frame(width: self.columnWidths[83], alignment: isHeader ? .center : .trailing)
                 }
                 .font(isHeader ? .caption : .system(.footnote, design: .monospaced))
             }
@@ -62,6 +62,7 @@ struct CasesTableView: View {
         return NavigationView {
             VStack {
                 row(col1: "Country", col2: "Confirmed", col3: "Deaths", col4: "CFR", isHeader: true)
+                    .padding(.top)
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
