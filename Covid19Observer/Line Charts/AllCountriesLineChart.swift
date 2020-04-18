@@ -16,7 +16,7 @@ struct AllCountriesLineChart: View {
 //    @State private var steps = 0
     
     var series: [Int] {
-        switch settings.selectedDataKind {
+        switch settings.chartOptions.dataKind {
         case .confirmedTotal:
             return coronaStore.confirmedHistory.allCountriesTotals
         case .confirmedDaily:
@@ -33,14 +33,14 @@ struct AllCountriesLineChart: View {
     var body: some View {
         VStack {
             
-            Text("All Countries \(settings.selectedDataKind.id)")
+            Text("All Countries \(settings.chartOptions.dataKind.id)")
                 .foregroundColor(.systemOrange)
                 .font(.headline)
                 .padding(.bottom, 6)
             
-            DataKindPicker(selectedDataKind: $settings.selectedDataKind)
+            DataKindPicker(selectedDataKind: $settings.chartOptions.dataKind)
             
-            settings.selectedDataKind == .cfr
+            settings.chartOptions.dataKind == .cfr
                 ? Text("TO BE DONE")
                     .foregroundColor(.red)
                     .font(.title)

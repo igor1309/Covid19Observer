@@ -54,14 +54,14 @@ struct Dashboard: View {
                 VStack(spacing: vSpacing) {
                     item(name: "confirmed", valueStr: outbreak.confirmedStr, percent: outbreak.confirmedToPopulationStr, color: CaseDataType.confirmed.color, col: 101, isTappable: true)
                         .onTapGesture {
-                            self.settings.selectedDataKind = .confirmedTotal
+                            self.settings.chartOptions.dataKind = .confirmedTotal
                             self.showChart = true
                     }
                     
                     
                     item(name: "deaths", valueStr: outbreak.deathsStr, percent: outbreak.deathsToPopulationStr, color: CaseDataType.deaths.color, col: 101, isTappable: true)
                         .onTapGesture {
-                            self.settings.selectedDataKind = .deathsTotal
+                            self.settings.chartOptions.dataKind = .deathsTotal
                             self.showChart = true
                     }
                 }
@@ -69,13 +69,13 @@ struct Dashboard: View {
                 VStack(spacing: vSpacing) {
                     item(name: "new", valueStr: outbreak.confirmedNewStr, percent: outbreak.confirmedNewToConfirmedStr, color: CaseDataType.new.color, col: 102, isTappable: true)
                         .onTapGesture {
-                            self.settings.selectedDataKind = .confirmedDaily
+                            self.settings.chartOptions.dataKind = .confirmedDaily
                             self.showChart = true
                     }
                     
                     item(name: "new", valueStr: outbreak.deathsNewStr, percent: outbreak.deathsNewToDeathsStr, color: CaseDataType.new.color, col: 102, isTappable: true)
                         .onTapGesture {
-                            self.settings.selectedDataKind = .deathsDaily
+                            self.settings.chartOptions.dataKind = .deathsDaily
                             self.showChart = true
                     }
                 }
@@ -91,7 +91,7 @@ struct Dashboard: View {
                     
                     item(name: "CFR", valueStr: outbreak.cfrStr, percent: outbreak.deathsPerMillionStr, color: CaseDataType.cfr.color, col: 104, isTappable: true)
                         .onTapGesture {
-                            self.settings.selectedDataKind = .cfr
+                            self.settings.chartOptions.dataKind = .cfr
                             self.showChart = true
                     }
                 }

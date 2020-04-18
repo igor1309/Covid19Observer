@@ -9,14 +9,14 @@
 import Foundation
 
 struct ChartOptions: Codable {
-    var selectedDataKind: DataKind = .confirmedDaily
+    var dataKind: DataKind = .confirmedDaily
     
     var isFiltered: Bool = false
     var confirmedLimit: Int = 50
     var deathsLimit: Int = 10
     
     var lineChartLimit: Int {
-        switch selectedDataKind {
+        switch dataKind {
         case .cfr:
             return 0
         case .deathsTotal, .deathsDaily:

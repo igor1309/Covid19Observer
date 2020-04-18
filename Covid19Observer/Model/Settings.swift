@@ -39,20 +39,12 @@ final class Settings: ObservableObject {
         }
     }
 
-    //  Line Chart Options
-    
     @Published var chartOptions: ChartOptions {
         didSet {
             let encoder = JSONEncoder()
             if let encoded = try? encoder.encode(chartOptions) {
                 UserDefaults.standard.set(encoded, forKey: "chartOptions")
             }
-        }
-    }
-    
-    @Published var selectedDataKind: DataKind {
-        didSet {
-            UserDefaults.standard.set(selectedDataKind.id, forKey: "selectedDataKind")
         }
     }
     
@@ -90,13 +82,6 @@ final class Settings: ObservableObject {
             initialNumber = 5
         } else {
             initialNumber = savedInitialNumber
-        }
-                
-        let selectedDataKindID = UserDefaults.standard.string(forKey: "selectedDataKind") ?? ""
-        if selectedDataKindID.isEmpty {
-            selectedDataKind = .confirmedDaily
-        } else {
-            selectedDataKind = DataKind(rawValue: selectedDataKindID) ?? .confirmedDaily
         }
     }
 }

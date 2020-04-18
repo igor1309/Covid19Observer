@@ -62,7 +62,7 @@ struct CasesLineChartView: View {
     var body: some View {
 
         let series = coronaStore
-            .series(for: settings.selectedDataKind,
+            .series(for: settings.chartOptions.dataKind,
                     appendCurrent: settings.appendCurrent)
             .filtered(limit: settings.chartOptions.lineChartLimit)
         
@@ -83,7 +83,7 @@ struct CasesLineChartView: View {
             
             if series.isNotEmpty {
                 
-                DataKindPicker(selectedDataKind: $settings.selectedDataKind)
+                DataKindPicker(selectedDataKind: $settings.chartOptions.dataKind)
                     .padding(.vertical, 6)
                 
                 ZStack(alignment: .topLeading) {

@@ -46,7 +46,7 @@ struct CountryList: View {
         .contentShape(Rectangle())
         .onTapGesture {
             self.coronaStore.selectedCountry = deviation.country
-            self.settings.selectedDataKind = kind
+            self.settings.chartOptions.dataKind = kind
             self.showCountryDetails = true
         }
         .sheet(isPresented: self.$showCountryDetails) {
