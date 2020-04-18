@@ -46,9 +46,6 @@ struct HistoryTableIPad: View {
                 }
             }
         }
-        .onAppear {
-            self.coronaStore.updateEmptyOrOldStore()
-        }
     }
 }
 

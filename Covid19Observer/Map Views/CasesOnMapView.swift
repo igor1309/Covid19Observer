@@ -17,7 +17,7 @@ struct CasesOnMapView: View {
     
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var selectedPlace: CaseAnnotation?
-    @State private var showingPlaceDetails = false
+    @State private var showPlaceDetails = false
     
     @State private var showTable = false
     @State private var showDoublingTime = false
@@ -38,31 +38,39 @@ struct CasesOnMapView: View {
         .padding(.horizontal)
     }
     
+    var filterButton: some View {
+        ToolBarButton(systemName: "line.horizontal.3.decrease") {
+            self.coronaStore.isFiltered.toggle()
+        }
+        .foregroundColor(coronaStore.isFiltered ? coronaStore.filterColor : .secondary)
+    }
+    
+    var updateButton: some View {
+        ToolBarButton(systemName: "arrow.2.circlepath") {
+            self.showAlert = true
+        }
+        .actionSheet(isPresented: $showAlert) {
+            ActionSheet(title: Text("Reload".uppercased()),
+                        message: Text("Reload data? Internet connection required."),
+                        buttons: [
+                            .cancel(),
+                            .destructive(Text("Yes, reload")) {
+                                //  MARK: FINISH THIS
+                                //
+                                self.coronaStore.updateCasesData() { _ in }
+                                print("to be done")
+                            }]
+            )
+        }
+    }
+    
     var shortToolBar: some View {
         HStack {
-            ToolBarButton(systemName: "line.horizontal.3.decrease") {
-                self.coronaStore.isFiltered.toggle()
-            }
-            .foregroundColor(coronaStore.isFiltered ? coronaStore.filterColor : .secondary)
+            filterButton
             
             Spacer()
             
-            ToolBarButton(systemName: "arrow.2.circlepath") {
-                self.showAlert = true
-            }
-            .actionSheet(isPresented: $showAlert) {
-                ActionSheet(title: Text("Reload".uppercased()),
-                            message: Text("Reload data? Internet connection required."),
-                            buttons: [
-                                .cancel(),
-                                .destructive(Text("Yes, reload")) {
-                                    //  MARK: FINISH THIS
-                                    //
-                                    self.coronaStore.updateCasesData() { _ in }
-                                    print("to be done")
-                                }]
-                )
-            }
+            updateButton
         }
         .padding(.horizontal)
         .padding(.bottom, 32)
@@ -71,10 +79,7 @@ struct CasesOnMapView: View {
     var longToolBar: some View {
         HStack {
             Group {
-                ToolBarButton(systemName: "line.horizontal.3.decrease") {
-                    self.coronaStore.isFiltered.toggle()
-                }
-                .foregroundColor(coronaStore.isFiltered ? coronaStore.filterColor : .secondary)
+                filterButton
                 
                 Spacer()
                 
@@ -94,6 +99,7 @@ struct CasesOnMapView: View {
                 }
                 .sheet(isPresented: $showCasesChart) {
                     CasesChartView()
+                        .padding()
                         .environmentObject(self.coronaStore)
                 }
                 
@@ -106,6 +112,7 @@ struct CasesOnMapView: View {
                 }
                 .sheet(isPresented: $showTable) {
                     CasesTableView()
+                        .padding()
                         .environmentObject(self.coronaStore)
                         .environmentObject(self.settings)
                 }
@@ -122,21 +129,7 @@ struct CasesOnMapView: View {
                 
                 Spacer()
                 
-                ToolBarButton(systemName: "arrow.2.circlepath") {
-                    self.showAlert = true
-                }
-                .actionSheet(isPresented: $showAlert) {
-                    ActionSheet(title: Text("Reload".uppercased()),
-                                message: Text("Reload data? Internet connection required."),
-                                buttons: [
-                                    .cancel(),
-                                    .destructive(Text("Yes, reload")) {
-                                        //  MARK: FINISH THIS
-                                        self.coronaStore.updateCasesData() { _ in }
-                                        print("to be done")
-                                    }]
-                    )
-                }
+                updateButton
             }
         }
         .padding(6)
@@ -145,32 +138,43 @@ struct CasesOnMapView: View {
         .padding(.bottom, 32)
     }
     
+    var mapView: some View {
+        MapView(
+            caseAnnotations: coronaStore.caseAnnotations,
+            centerCoordinate: $centerCoordinate,
+            selectedPlace: $selectedPlace,
+            selectedCountry: $coronaStore.selectedCountry,
+            showingPlaceDetails: $showPlaceDetails)
+            
+            .edgesIgnoringSafeArea(.all)
+            .sheet(isPresented: $showPlaceDetails) {
+                CasesLineChartView(forAllCountries: false)
+                    .padding(.vertical)
+                    .environmentObject(self.coronaStore)
+                    .environmentObject(self.settings)
+        }
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             ZStack(alignment: .top) {
-                
-                MapView(
-                    caseAnnotations: coronaStore.caseAnnotations,
-                    centerCoordinate: $centerCoordinate,
-                    selectedPlace: $selectedPlace,
-                    selectedCountry: $coronaStore.selectedCountry,
-                    showingPlaceDetails: $showingPlaceDetails)
-                    .edgesIgnoringSafeArea(.all)
-                    .sheet(isPresented: $showingPlaceDetails) {
-                        CasesLineChartView(forAllCountries: false)
-                            .environmentObject(self.coronaStore)
-                }
-                
-                
+                mapView
                 header
             }
-            
-            //  longToolBar
-            
-            shortToolBar
+            if sizeClass == .compact {
+                shortToolBar
+            } else {
+                longToolBar
+                    .fixedSize()
+            }
         }
         .onAppear {
-            self.coronaStore.updateEmptyOrOldStore()
+            if self.coronaStore.caseAnnotations.isEmpty {
+                print("!! MapView: Empty Map Annotations!!!!")
+            } else {
+                print("Annotations:")
+                print(self.coronaStore.caseAnnotations)
+            }
         }
     }
 }

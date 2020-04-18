@@ -91,9 +91,6 @@ struct CasesChartView: View {
                 }
             }
         }
-        .onAppear {
-            self.coronaStore.updateEmptyOrOldStore()
-        }
     }
 }
 

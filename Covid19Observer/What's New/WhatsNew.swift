@@ -177,6 +177,10 @@ Divider()
                         Text("World")
                     }
                     .font(.subheadline)
+                    //  MARK: REMOVE AFTER DEBUG
+                        .onLongPressGesture {
+                            print("annotations: \(self.coronaStore.caseAnnotations.prefix(3))")
+                    }
                     
                     Dashboard(outbreak: coronaStore.outbreak, forAllCountries: true)                        
                     

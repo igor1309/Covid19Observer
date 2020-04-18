@@ -27,7 +27,7 @@ struct MapHeaderCompact: View {
             Text("Updated \(updated)")
                 .foregroundColor(.tertiary)
                 .font(.caption)
-                .padding(.top, 6)
+                .padding(.top, 4)
             
             CaseTypePicker()
         }

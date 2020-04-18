@@ -418,6 +418,7 @@ class CoronaStore: ObservableObject {
             let cfr = confirmed == 0 ? 0 : Double(deaths) / Double(confirmed)
             let title = cases.attributes.provinceState ?? cases.attributes.countryRegion ?? ""
             
+        
             caseAnnotations.append(
                 CaseAnnotation(
                     title: title,
@@ -455,14 +456,20 @@ class CoronaStore: ObservableObject {
         
         
         //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
-        caseAnnotations = caseAnnotations.filter { $0.value > (isFiltered ? mapFilterLowerLimit : 0) }
+        self.caseAnnotations = caseAnnotations.filter { $0.value > (isFiltered ? mapFilterLowerLimit : 0) }
+        
+        
+        //  MARK: DELETE AFTER DEBUG
+        print("Annotations after filter (first 3):")
+        print(caseAnnotations.prefix(3))
+        
         
         //        if isFiltered && caseAnnotations.count > maxBars {
         //            caseData = Array(caseData.prefix(upTo: maxBars))
         //        }
         
         //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
-        currentCases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
+        self.currentCases = caseData.filter { $0.confirmed > (isFiltered ? mapFilterLowerLimit : 0) }
         //        self.cases = caseData
         
         countNewAndCurrent()
