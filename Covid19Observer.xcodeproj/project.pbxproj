@@ -95,6 +95,7 @@
 		2AD39F02244B26E500E9B4F8 /* CaseTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F01244B26E500E9B4F8 /* CaseTypePicker.swift */; };
 		2AD39F04244B2ACF00E9B4F8 /* MapHeaderCompact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F03244B2ACF00E9B4F8 /* MapHeaderCompact.swift */; };
 		2AD39F06244B2C2000E9B4F8 /* MapHeaderRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F05244B2C2000E9B4F8 /* MapHeaderRegular.swift */; };
+		2AD39F08244B95FA00E9B4F8 /* CasesChartWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F07244B95FA00E9B4F8 /* CasesChartWidget.swift */; };
 		2AD693BB2443493300F550A0 /* PrimeCountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */; };
 		2AD693BD2443B59200F550A0 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BC2443B59200F550A0 /* Dashboard.swift */; };
 		2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */; };
@@ -224,6 +225,7 @@
 		2AD39F01244B26E500E9B4F8 /* CaseTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseTypePicker.swift; sourceTree = "<group>"; };
 		2AD39F03244B2ACF00E9B4F8 /* MapHeaderCompact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHeaderCompact.swift; sourceTree = "<group>"; };
 		2AD39F05244B2C2000E9B4F8 /* MapHeaderRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHeaderRegular.swift; sourceTree = "<group>"; };
+		2AD39F07244B95FA00E9B4F8 /* CasesChartWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesChartWidget.swift; sourceTree = "<group>"; };
 		2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeCountryPicker.swift; sourceTree = "<group>"; };
 		2AD693BC2443B59200F550A0 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCasesCharts.swift; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 			children = (
 				2AB94738243126A1009C18ED /* CasesChartsIPad.swift */,
 				2A03BEFD2428C04F0094852B /* CasesChartView.swift */,
+				2AD39F07244B95FA00E9B4F8 /* CasesChartWidget.swift */,
 				2AB9473C24312B9C009C18ED /* CaseChart.swift */,
 				2AB9473A24312A8A009C18ED /* CaseBar.swift */,
 			);
@@ -641,6 +644,7 @@
 				2A566E6C2445E774006BEA02 /* LineChartGroup.swift in Sources */,
 				2AE2C53524393DEF00CC8476 /* TapPointer.swift in Sources */,
 				2AC7EB93243E634E00454FFA /* Axis.swift in Sources */,
+				2AD39F08244B95FA00E9B4F8 /* CasesChartWidget.swift in Sources */,
 				2AE2C5132437417E00CC8476 /* Array+Extension.swift in Sources */,
 				2AC7EB8F243DCEC900454FFA /* Gradient+Extension.swift in Sources */,
 				2AD693BB2443493300F550A0 /* PrimeCountryPicker.swift in Sources */,
@@ -855,7 +859,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -878,7 +882,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;

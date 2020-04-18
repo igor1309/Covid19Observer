@@ -16,51 +16,9 @@ struct CasesChartView: View {
     
     @State private var selectedType = CaseDataType.confirmed
     @State private var showTable = false
-    
-    @State private var columnWidths: [Int: CGFloat] = [:]
-    
-    var widget: some View {
         
-        func row(title: String, value: String, color: Color) -> some View {
-            HStack {
-                Text(title)
-                    .fixedSize()
-                    .widthPreference(column: 1)
-                    .frame(width: columnWidths[1], alignment: .leading)
-                Text(value)
-                    .fixedSize()
-                    .widthPreference(column: 2)
-                    .frame(width: columnWidths[2], alignment: .trailing)
-            }
-            .foregroundColor(color)
-        }
-        
-        var outbreak: Outbreak { coronaStore.outbreak }
-        
-        return VStack(alignment: .leading, spacing: 3) {
-            
-            row(title: "Confirmed", value: outbreak.confirmedStr, color: CaseDataType.confirmed.color)
-            
-            row(title: "New", value: outbreak.confirmedNewStr, color: CaseDataType.new.color)
-            
-            row(title: "Current", value: outbreak.confirmedCurrentStr, color: CaseDataType.current.color)
-            
-            row(title: "Deaths", value: outbreak.deathsStr, color: CaseDataType.deaths.color)
-            
-            row(title: "Deaths New", value: outbreak.deathsNewStr, color: CaseDataType.new.color)
-            
-            row(title: "CFR", value: outbreak.cfrStr, color: CaseDataType.cfr.color)
-        }
-        .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
-        .font(.system(.caption, design: .monospaced))
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
-        .roundedBackground(cornerRadius: 8, color: .secondarySystemBackground)
-        .padding(.bottom)
-    }
-    
     var body: some View {
-        ZStack {
+        Group {
             if coronaStore.currentCases.isNotEmpty {
                 VStack {
                     CaseDataTypePicker(selection: $selectedType)
@@ -76,9 +34,7 @@ struct CasesChartView: View {
                                 )
                             }
                         }
-                        .overlay(WidgetOverlay { self.widget })
-                        
-//                        widget
+                        .overlay(WidgetOverlay { CasesChartWidget() })
                     }
                 }
                 
