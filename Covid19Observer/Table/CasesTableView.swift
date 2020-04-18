@@ -13,78 +13,76 @@ struct CasesTableView: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
-    @State private var selection = CaseDataType.confirmed
     @State private var columnWidths: [Int: CGFloat] = [:]
     @State private var showLineChart = false
     
     var body: some View {
-        NavigationView {
-            VStack {
-                //  MARK: - FINISH THIS
-                //
-                CaseDataTypePicker(selection: $selection)
-                    //                Picker(selection: .constant(""), label: Text("Table Sort Options")) {
-                    //                    ForEach(CaseDataType.allCases, id: \.self) { item in
-                    //                        Text(item.id).tag(item)
-                    //                    }
-                    //                }
-                    //                .labelsHidden()
-                    //                .pickerStyle(SegmentedPickerStyle())
-//                    .padding(.horizontal)
-                //                .padding(.bottom, 3)
+        
+        func row(col1: String, col2: String, col3: String, col4: String, isHeader: Bool = false) -> some View {
+            return HStack {
                 
-                //                Divider()
+                Text(col1)
+                    .foregroundColor(isHeader ? .secondary : .primary)
+                    .font(isHeader ? .caption : .subheadline)
+                    .padding(.leading, 6)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                
+                Spacer()
+                
+                Group {
+                    Text(col2)
+                        .foregroundColor(isHeader ? .secondary : .systemYellow)
+                        .padding(.leading, 12)
+                        .padding(.trailing, 6)
+                        .fixedSize()
+                        .widthPreference(column: 81)
+                        .frame(width: self.columnWidths[81], alignment: isHeader ? .leading : .trailing)
+                    
+                    Text(col3)
+                        .foregroundColor(isHeader ? .secondary : .systemRed)
+                        .padding(.leading, 12)
+                        .padding(.trailing, 6)
+                        .fixedSize()
+                        .widthPreference(column: 82)
+                        .frame(width: self.columnWidths[82], alignment: isHeader ? .leading : .trailing)
+                    
+                    Text(col4)
+                        .foregroundColor(isHeader ? .secondary : .systemTeal)
+                        .padding(.leading, 12)
+                        .padding(.trailing, 6)
+                        .fixedSize()
+                        .widthPreference(column: 83)
+                        .frame(width: self.columnWidths[83], alignment: isHeader ? .leading : .trailing)
+                }
+                .font(isHeader ? .caption : .system(.footnote, design: .monospaced))
+            }
+        }
+        
+        return NavigationView {
+            VStack {
+                row(col1: "Country", col2: "Confirmed", col3: "Deaths", col4: "CFR", isHeader: true)
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
                         ForEach(coronaStore.currentCases.indices, id: \.self) { index in
-                            HStack {
-                                Text("\(index + 1). \(self.coronaStore.currentCases[index].name)")
-                                    .padding(.leading, 6)
-                                    .lineLimit(1)
-                                    .truncationMode(.tail)
-                                
-                                Spacer()
-                                
-                                Group {
-                                    Text(self.coronaStore.currentCases[index].confirmedStr)
-                                        .foregroundColor(.systemYellow)
-                                        .padding(.trailing, 6)
-                                        .fixedSize()
-                                        .widthPreference(column: 1)
-                                        .frame(width: self.columnWidths[1], alignment: .trailing)
-                                    
-                                    Text(self.coronaStore.currentCases[index].deathsStr)
-                                        .foregroundColor(.systemRed)
-                                        .padding(.leading, 12)
-                                        .padding(.trailing, 6)
-                                        .fixedSize()
-                                        .widthPreference(column: 2)
-                                        .frame(width: self.columnWidths[2], alignment: .trailing)
-                                    
-                                    Text(self.coronaStore.currentCases[index].cfrStr)
-                                        .foregroundColor(.systemTeal)
-                                        .padding(.leading, 12)
-                                        .padding(.trailing, 6)
-                                        .fixedSize()
-                                        .widthPreference(column: 3)
-                                        .frame(width: self.columnWidths[3], alignment: .trailing)
-                                }
-                                .font(.system(.footnote, design: .monospaced))
-                            }
-                            .padding(.vertical, 10)
-                            .contentShape(Rectangle())
-                            .background(self.coronaStore.currentCases[index].name == "Russia" ? Color.systemBlue.opacity(0.3) : Color.clear)
-                            .background(index.isMultiple(of: 2) ? Color.secondarySystemBackground : .clear)
-                            .contextMenu {
-                                Button(action: {
-                                    self.prepareHistoryData(for: index)
-                                }) {
-                                    HStack {
-                                        Text("Show History Chart")
-                                        Image(systemName: "waveform.path.ecg")
+                            row(col1: "\(index + 1). \(self.coronaStore.currentCases[index].name)",
+                                col2: self.coronaStore.currentCases[index].confirmedStr,
+                                col3: self.coronaStore.currentCases[index].deathsStr,
+                                col4: self.coronaStore.currentCases[index].cfrStr)
+                                .padding(.vertical, 10)
+                                .contentShape(Rectangle())
+                                .background(self.coronaStore.currentCases[index].name == "Russia" ? Color.systemBlue.opacity(0.3) : Color.clear)
+                                .background(index.isMultiple(of: 2) ? Color.secondarySystemBackground : .clear)
+                                .contextMenu {
+                                    Button(action: {
+                                        self.prepareHistoryData(for: index)
+                                    }) {
+                                        HStack {
+                                            Text("Show History Chart")
+                                            Image(systemName: "waveform.path.ecg")
+                                        }
                                     }
-                                }
                             }
                             .onTapGesture {
                                 self.prepareHistoryData(for: index)
@@ -96,9 +94,9 @@ struct CasesTableView: View {
                             }
                         }
                     }
-                    .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
                 }
             }
+            .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
                 //            .padding([.horizontal, .top])
                 .navigationBarTitle("Cases Data")
                 .navigationBarItems(trailing: Button("Done") {

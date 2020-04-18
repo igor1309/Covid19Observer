@@ -315,10 +315,26 @@ class CoronaStore: ObservableObject {
                 switch caseType {
                 case .byRegion:
                     self.responseCacheByRegion = response
-                    saveJSONToDocDir(data: response, filename: "byRegion.json")
+                    
+                    /// save to local file if data is not empty
+                    if response.features.isNotEmpty {
+                        saveJSONToDocDir(data: response, filename: "byRegion.json")
+                    } else {
+                        //  MARK: FIX THIS
+                        //  сделать переменную-буфер ошибок и выводить её в Settings или как-то еще
+                        print("response is empty")
+                    }
                 case .byCountry:
                     self.responseCacheByCountry = response
-                    saveJSONToDocDir(data: response, filename: "byCountry.json")
+                    
+                    /// save to local file if data is not empty
+                    if response.features.isNotEmpty {
+                        saveJSONToDocDir(data: response, filename: "byCountry.json")
+                    } else {
+                        //  MARK: FIX THIS
+                        //  сделать переменную-буфер ошибок и выводить её в Settings или как-то еще
+                        print("response is empty")
+                    }
                 }
                 
                 self.processCases()

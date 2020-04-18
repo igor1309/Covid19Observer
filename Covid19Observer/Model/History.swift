@@ -76,7 +76,14 @@ extension History {
         
         self.countDeviations()
         
-        saveJSONToDocDir(data: self, filename: self.filename)
+        /// save to local file if data is not empty
+        if countryRows.isNotEmpty {
+            saveJSONToDocDir(data: self, filename: self.filename)
+        } else {
+            //  MARK: FIX THIS
+            //  сделать переменную-буфер ошибок и выводить её в Settings или как-то еще
+            print("history data is empty")
+        }
     }
     
     mutating func countDeviations() {
