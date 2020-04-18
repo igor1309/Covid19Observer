@@ -168,14 +168,6 @@ struct CasesOnMapView: View {
                     .fixedSize()
             }
         }
-        .onAppear {
-            if self.coronaStore.caseAnnotations.isEmpty {
-                print("!! MapView: Empty Map Annotations!!!!")
-            } else {
-                print("Annotations:")
-                print(self.coronaStore.caseAnnotations)
-            }
-        }
     }
 }
 struct CasesOnMapView_Previews: PreviewProvider {

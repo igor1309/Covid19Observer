@@ -441,7 +441,10 @@ class CoronaStore: ObservableObject {
             caseAnnotations.append(
                 CaseAnnotation(
                     title: title,
-                    subtitle: "Confirmed \(confirmed.formattedGrouped)\n\(deaths.formattedGrouped) deaths\nCFR \(cfr.formattedPercentageWithDecimals)",
+                    subtitle: "n/a",
+                    confirmed: "Confirmed \(confirmed.formattedGrouped)",
+                    deaths: "\(deaths.formattedGrouped) deaths",
+                    cfr: "CFR \(cfr.formattedPercentageWithDecimals)",
                     value: confirmed,
                     coordinate: .init(latitude: cases.attributes.latitude ?? 0.0,
                                       longitude: cases.attributes.longitude ?? 0.0),
