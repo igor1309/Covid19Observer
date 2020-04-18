@@ -133,7 +133,8 @@ Divider()
                 .roundedBackground(cornerRadius: 8, color: cardColor)
             }
             .sheet(isPresented: $showLineChart) {
-                AllCountriesLineChart()
+//                AllCountriesLineChart()
+                CasesLineChartView(forAllCountries: true)
                     .environmentObject(self.coronaStore)
                     .environmentObject(self.settings)
             }

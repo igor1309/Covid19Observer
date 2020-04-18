@@ -8,18 +8,7 @@
 
 import SwiftUI
 
-struct Country: Hashable {
-    var name: String
-    var iso2: String
-}
-
 final class Settings: ObservableObject {
-    
-    @Published var primeCountries: [Country] {
-        didSet {
-            UserDefaults.standard.set(primeCountries, forKey: "primeCountries")
-        }
-    }
     
     @Published var selectedTab = UserDefaults.standard.integer(forKey: "selectedTab") {
         didSet {
@@ -27,12 +16,6 @@ final class Settings: ObservableObject {
         }
     }
     
-    @Published var initialNumber: Double {
-        didSet {
-            UserDefaults.standard.set(initialNumber, forKey: "initialNumber")
-        }
-    }
-
     @Published var chartOptions: ChartOptions {
         didSet {
             let encoder = JSONEncoder()
@@ -42,6 +25,18 @@ final class Settings: ObservableObject {
         }
     }
     
+    @Published var primeCountries: [Country] {
+        didSet {
+            UserDefaults.standard.set(primeCountries, forKey: "primeCountries")
+        }
+    }
+    
+    @Published var initialDoublingNumber: Double {
+        didSet {
+            UserDefaults.standard.set(initialDoublingNumber, forKey: "initialNumber")
+        }
+    }
+
     init() {
         
         /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
@@ -73,9 +68,9 @@ final class Settings: ObservableObject {
         
         let savedInitialNumber = UserDefaults.standard.double(forKey: "initialNumber")
         if savedInitialNumber == 0 {
-            initialNumber = 5
+            initialDoublingNumber = 5
         } else {
-            initialNumber = savedInitialNumber
+            initialDoublingNumber = savedInitialNumber
         }
     }
 }

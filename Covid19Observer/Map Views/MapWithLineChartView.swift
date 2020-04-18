@@ -45,7 +45,7 @@ struct MapWithLineChartView: View {
                     //                }
                     .frame(width: geo.size.width * 2 / 3)
                 
-                CasesLineChartView()
+                CasesLineChartView(forAllCountries: false)
             }
         }
     }

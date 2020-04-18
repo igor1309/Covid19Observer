@@ -16,41 +16,57 @@ import SwiftPI
 
 class CoronaStore: ObservableObject {
     
-    func series(for dataKind: DataKind, appendCurrent: Bool) -> [Int] {
-        var series: [Int]
+    func series(for dataKind: DataKind, appendCurrent: Bool, forAllCountries: Bool = false) -> [Int] {
         
-        switch dataKind {
-        case .confirmedTotal:
-            series = confirmedHistory.series(for: selectedCountry)
-            if appendCurrent {
-                let last = selectedCountryOutbreak.confirmed
-                series.append(last)
+        if forAllCountries {
+            switch dataKind {
+            case .confirmedTotal:
+                return confirmedHistory.allCountriesTotals
+            case .confirmedDaily:
+                return confirmedHistory.allCountriesDailyChange
+            case .deathsTotal:
+                return deathsHistory.allCountriesTotals
+            case .deathsDaily:
+                return deathsHistory.allCountriesDailyChange
+            case .cfr:
+                return allCountriesCFR
             }
-        case .confirmedDaily:
-            series = confirmedHistory.dailyChange(for: selectedCountry)
-            if appendCurrent {
-                let last = selectedCountryOutbreak.confirmedCurrent
-                series.append(last)
+        } else {
+            var series: [Int]
+            
+            switch dataKind {
+            case .confirmedTotal:
+                series = confirmedHistory.series(for: selectedCountry)
+                if appendCurrent {
+                    let last = selectedCountryOutbreak.confirmed
+                    series.append(last)
+                }
+            case .confirmedDaily:
+                series = confirmedHistory.dailyChange(for: selectedCountry)
+                if appendCurrent {
+                    let last = selectedCountryOutbreak.confirmedCurrent
+                    series.append(last)
+                }
+            case .deathsTotal:
+                series = deathsHistory.series(for: selectedCountry)
+                if appendCurrent {
+                    let last = selectedCountryOutbreak.deaths
+                    series.append(last)
+                }
+            case .deathsDaily:
+                series = deathsHistory.dailyChange(for: selectedCountry)
+                if appendCurrent {
+                    let last = selectedCountryOutbreak.deathsCurrent
+                    series.append(last)
+                }
+            case .cfr:
+                //  MARK: FIX THIS
+                //
+                return allCountriesCFR
             }
-        case .deathsTotal:
-            series = deathsHistory.series(for: selectedCountry)
-            if appendCurrent {
-                let last = selectedCountryOutbreak.deaths
-                series.append(last)
-            }
-        case .deathsDaily:
-            series = deathsHistory.dailyChange(for: selectedCountry)
-            if appendCurrent {
-                let last = selectedCountryOutbreak.deathsCurrent
-                series.append(last)
-            }
-        case .cfr:
-            //  MARK: FIX THIS
-            //
-            return allCountriesCFR
+            
+            return series
         }
-        
-        return series
     }
     
     let population = Bundle.main

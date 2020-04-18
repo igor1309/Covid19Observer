@@ -76,7 +76,7 @@ struct CaseChart: View {
                     }
                 }
                 .sheet(isPresented: self.$showLineChart) {
-                    CasesLineChartView()
+                    CasesLineChartView(forAllCountries: false)
                         .padding(.top, 6)
                         .environmentObject(self.coronaStore)
                         .environmentObject(self.settings)

@@ -12,6 +12,7 @@
 		2A025625244A4F2F0081D177 /* SaveRetrieveBounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A025624244A4F2F0081D177 /* SaveRetrieveBounds.swift */; };
 		2A025627244A55B90081D177 /* SaveRetrieveSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A025626244A55B90081D177 /* SaveRetrieveSize.swift */; };
 		2A025629244AEF0C0081D177 /* ChartOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A025628244AEF0C0081D177 /* ChartOptions.swift */; };
+		2A02562B244AF9D50081D177 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A02562A244AF9D50081D177 /* Country.swift */; };
 		2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BED92428BC6F0094852B /* AppDelegate.swift */; };
 		2A03BEDC2428BC6F0094852B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */; };
 		2A03BEDE2428BC6F0094852B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A03BEDD2428BC6F0094852B /* ContentView.swift */; };
@@ -106,7 +107,6 @@
 		2AE2C5382439DA8A00CC8476 /* Chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5372439DA8A00CC8476 /* Chart.swift */; };
 		2AE2C53A2439DBF500CC8476 /* ChartGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5392439DBF500CC8476 /* ChartGrid.swift */; };
 		2AE2C53C243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */; };
-		2AE2C53E243A877D00CC8476 /* AllCountriesLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53D243A877D00CC8476 /* AllCountriesLineChart.swift */; };
 		2AE2C540243B0BEB00CC8476 /* DataKindPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C53F243B0BEB00CC8476 /* DataKindPicker.swift */; };
 		2AE2C542243B336D00CC8476 /* LogisticCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C541243B336D00CC8476 /* LogisticCurve.swift */; };
 		2AE2C545243B347400CC8476 /* RealModule in Frameworks */ = {isa = PBXBuildFile; productRef = 2AE2C544243B347400CC8476 /* RealModule */; };
@@ -132,6 +132,7 @@
 		2A025624244A4F2F0081D177 /* SaveRetrieveBounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRetrieveBounds.swift; sourceTree = "<group>"; };
 		2A025626244A55B90081D177 /* SaveRetrieveSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveRetrieveSize.swift; sourceTree = "<group>"; };
 		2A025628244AEF0C0081D177 /* ChartOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartOptions.swift; sourceTree = "<group>"; };
+		2A02562A244AF9D50081D177 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		2A03BED62428BC6F0094852B /* C19 Observer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "C19 Observer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A03BED92428BC6F0094852B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2A03BEDB2428BC6F0094852B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -231,7 +232,6 @@
 		2AE2C5372439DA8A00CC8476 /* Chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chart.swift; sourceTree = "<group>"; };
 		2AE2C5392439DBF500CC8476 /* ChartGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartGrid.swift; sourceTree = "<group>"; };
 		2AE2C53B243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingNearestPointWithHeatedLineChart_Previews.swift; sourceTree = "<group>"; };
-		2AE2C53D243A877D00CC8476 /* AllCountriesLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCountriesLineChart.swift; sourceTree = "<group>"; };
 		2AE2C53F243B0BEB00CC8476 /* DataKindPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataKindPicker.swift; sourceTree = "<group>"; };
 		2AE2C541243B336D00CC8476 /* LogisticCurve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogisticCurve.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -311,6 +311,7 @@
 				2A025628244AEF0C0081D177 /* ChartOptions.swift */,
 				2A74F0B12428CB8400137694 /* Settings.swift */,
 				2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */,
+				2A02562A244AF9D50081D177 /* Country.swift */,
 				2A234EE32434EF830003C302 /* TimePeriod.swift */,
 				2A03BEF42428C04F0094852B /* CoronaStore.swift */,
 				2A566E5D24449AAF006BEA02 /* Outbreak.swift */,
@@ -361,7 +362,6 @@
 			isa = PBXGroup;
 			children = (
 				2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */,
-				2AE2C53D243A877D00CC8476 /* AllCountriesLineChart.swift */,
 				2ACF1C712430B4EC0045C531 /* CountryCasesHeader.swift */,
 				2A74F0B62428CBB300137694 /* HeatedLineChart.swift */,
 				2A74F0B72428CBB300137694 /* LineGraphGrid.swift */,
@@ -619,6 +619,7 @@
 				2AE2C53C243A120900CC8476 /* TestingNearestPointWithHeatedLineChart_Previews.swift in Sources */,
 				2AE2C5152437446700CC8476 /* LineChartSettingsSection.swift in Sources */,
 				2A96535424335810002A93A7 /* NotificationsSettingsView.swift in Sources */,
+				2A02562B244AF9D50081D177 /* Country.swift in Sources */,
 				2A03BEDA2428BC6F0094852B /* AppDelegate.swift in Sources */,
 				2AC7EB91243DD5FE00454FFA /* GridShape.swift in Sources */,
 				2A74F0C02428CE3E00137694 /* WikiQuoteView.swift in Sources */,
@@ -680,7 +681,6 @@
 				2AB94739243126A1009C18ED /* CasesChartsIPad.swift in Sources */,
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,
 				2A566E682445D771006BEA02 /* LineChartShape.swift in Sources */,
-				2AE2C53E243A877D00CC8476 /* AllCountriesLineChart.swift in Sources */,
 				2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */,
 				2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */,
 				2AE2C5292438762500CC8476 /* LeftVerticalLine.swift in Sources */,

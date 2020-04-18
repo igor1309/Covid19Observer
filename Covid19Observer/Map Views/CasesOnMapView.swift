@@ -138,7 +138,7 @@ struct CasesOnMapView: View {
                     self.showLineChart = true
                 }
                 .sheet(isPresented: $showLineChart) {
-                    CasesLineChartView()
+                    CasesLineChartView(forAllCountries: false)
                         .environmentObject(self.coronaStore)
                         .environmentObject(self.settings)
                 }
@@ -213,7 +213,7 @@ struct CasesOnMapView: View {
                     showingPlaceDetails: $showingPlaceDetails)
                     .edgesIgnoringSafeArea(.all)
                     .sheet(isPresented: $showingPlaceDetails) {
-                        CasesLineChartView()
+                        CasesLineChartView(forAllCountries: false)
                             .environmentObject(self.coronaStore)
                 }
                 

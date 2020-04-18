@@ -50,7 +50,7 @@ struct CountryList: View {
             self.showCountryDetails = true
         }
         .sheet(isPresented: self.$showCountryDetails) {
-            CasesLineChartView()
+            CasesLineChartView(forAllCountries: false)
                 .padding(.top, 6)
                 .environmentObject(self.coronaStore)
                 .environmentObject(self.settings)

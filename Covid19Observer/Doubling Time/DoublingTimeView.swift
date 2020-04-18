@@ -21,7 +21,7 @@ struct DoublingTimeView: View {
                         VStack(alignment: .leading) {
                             Text("Initial Number")
                             
-                            Picker(selection: $settings.initialNumber, label: Text("Initial Number")) {
+                            Picker(selection: $settings.initialDoublingNumber, label: Text("Initial Number")) {
                                 ForEach(DoublingModel.initialNumbers, id: \.self) { no in
                                     Text(no.formattedGrouped)
                                 }
@@ -45,7 +45,7 @@ struct DoublingTimeView: View {
                     
                     
                     Table(headers: DoublingModel.rowHeaders(),
-                          cells: DoublingModel.DoublingCells(initialNumber: settings.initialNumber))
+                          cells: DoublingModel.DoublingCells(initialNumber: settings.initialDoublingNumber))
                     
                     Divider()
                         .padding(.vertical)
@@ -65,7 +65,7 @@ struct DoublingTimeView: View {
                     HStack {
                         Text("Initial Number")
                         
-                        Picker(selection: $settings.initialNumber, label: Text("Initial Number")) {
+                        Picker(selection: $settings.initialDoublingNumber, label: Text("Initial Number")) {
                             ForEach(DoublingModel.initialNumbers, id: \.self) { no in
                                 Text(no.formattedGrouped)
                             }
@@ -83,7 +83,7 @@ struct DoublingTimeView: View {
                         .padding(.trailing, 8)
                     
                     Table(headers: DoublingModel.rowHeaders(),
-                          cells: DoublingModel.DoublingCells(initialNumber: settings.initialNumber))
+                          cells: DoublingModel.DoublingCells(initialNumber: settings.initialDoublingNumber))
                     
                     Divider()
                         .padding(.vertical)

@@ -14,6 +14,8 @@ struct CasesLineChartView: View {
     @EnvironmentObject var coronaStore: CoronaStore
     @EnvironmentObject var settings: Settings
     
+    var forAllCountries: Bool
+    
     @State private var showCountryPickerTable = false
     
     var countryPicker: some View {
@@ -58,28 +60,51 @@ struct CasesLineChartView: View {
         .font(.subheadline)
     }
         
+    var header: some View {
+        return Group {
+            if forAllCountries {
+                Text("All Countries \(settings.chartOptions.dataKind.id)")
+                    .foregroundColor(.systemOrange)
+                    .font(.headline)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top)//, 6)
+                    .padding(.bottom, 6)
+                
+                settings.chartOptions.dataKind == .cfr
+                    ? Text("TO BE DONE")
+                        .foregroundColor(.red)
+                        .font(.title)
+                    : nil
+
+            } else {
+                PrimeCountryPicker(selection: $coronaStore.selectedCountry)
+                
+                ZStack(alignment: .trailing) {
+                    countryPicker
+                    primeCountryToggle
+                }
+                
+                ZStack(alignment: .topTrailing) {
+                    Dashboard(outbreak: coronaStore.selectedCountryOutbreak, forAllCountries: false)
+                    
+                    AppendCurrentToggle()
+                }
+            }
+        }
+    }
+    
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
 
         let series = coronaStore
             .series(for: settings.chartOptions.dataKind,
-                    appendCurrent: settings.chartOptions.appendCurrent)
+                    appendCurrent: settings.chartOptions.appendCurrent,
+                    forAllCountries: forAllCountries)
             .filtered(limit: settings.chartOptions.lineChartLimit)
         
         return VStack(alignment: .leading, spacing: 8) {
             
-            PrimeCountryPicker(selection: $coronaStore.selectedCountry)
-            
-            ZStack(alignment: .trailing) {
-                countryPicker
-                primeCountryToggle
-            }
-            
-            ZStack(alignment: .topTrailing) {
-                Dashboard(outbreak: coronaStore.selectedCountryOutbreak, forAllCountries: false)
-                
-                AppendCurrentToggle()
-            }
+            header
             
             if series.isNotEmpty {
                 
@@ -115,10 +140,17 @@ struct CasesLineChartView: View {
 
 struct CasesLineChartView_Previews: PreviewProvider {
     static var previews: some View {
-        ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
-            
-            CasesLineChartView()
+        Group {
+            ZStack {
+                Color.black.edgesIgnoringSafeArea(.all)
+                
+                CasesLineChartView(forAllCountries: true)
+            }
+            ZStack {
+                Color.black.edgesIgnoringSafeArea(.all)
+                
+                CasesLineChartView(forAllCountries: false)
+            }
         }
         .environmentObject(CoronaStore())
         .environmentObject(Settings())

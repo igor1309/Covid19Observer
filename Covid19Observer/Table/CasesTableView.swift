@@ -90,7 +90,7 @@ struct CasesTableView: View {
                                 self.prepareHistoryData(for: index)
                             }
                             .sheet(isPresented: self.$showLineChart) {
-                                CasesLineChartView()
+                                CasesLineChartView(forAllCountries: false)
                                     .environmentObject(self.coronaStore)
                                     .environmentObject(self.settings)
                             }
