@@ -73,7 +73,17 @@ struct PopulationView: View {
         .padding(.horizontal)
     }
     
+    
     private func row(for item: PopulationElement) -> some View {
+        func togglePrimeCountry() {
+            if isInSelected {
+                let index = self.settings.primeCountries.firstIndex { $0.name == item.id }!
+                self.settings.primeCountries.remove(at: index)
+            } else {
+                self.settings.primeCountries.append(Country(name: item.id, iso2: item.iso2))
+            }
+        }
+        
         let isInSelected = settings.primeCountries.map { $0.name }.contains(item.id)
         
         return VStack(alignment: .leading, spacing: 6) {
@@ -81,6 +91,7 @@ struct PopulationView: View {
                 Text(item.combinedKey)
                 
                 Spacer()
+                
                 Text("\(item.population ?? 0)")
                     .font(.subheadline)
             }
@@ -89,10 +100,14 @@ struct PopulationView: View {
                 Text("iso2: \(item.iso2) | iso3 \(item.iso3) | uid \(item.uid) | fips \(item.fips ?? 0)")
                     .foregroundColor(.tertiary)
                     .font(.footnote)
+                
                 Spacer()
-                Image(systemName: isInSelected ? "star.fill" : "star")
-                    .foregroundColor(isInSelected ? .systemOrange : .secondary)
-                    .font(.footnote)
+                
+                if selectedFilter == .countries {
+                    Image(systemName: isInSelected ? "star.fill" : "star")
+                        .foregroundColor(isInSelected ? .systemOrange : .secondary)
+                        .font(.footnote)
+                }
             }
         }
         .contentShape(Rectangle())
@@ -115,19 +130,14 @@ struct PopulationView: View {
             }
             
             /// показывать меню добавления удаления стран из особого списка только при показе списка стран
-            selectedFilter == .countries
-                ? Button(action: {
-                    if isInSelected {
-                        let index = self.settings.primeCountries.firstIndex { $0.name == item.id }!
-                        self.settings.primeCountries.remove(at: index)
-                    } else {
-                        self.settings.primeCountries.append(Country(name: item.id, iso2: item.iso2))
-                    }
+            if selectedFilter == .countries {
+                Button(action: {
+                    togglePrimeCountry()
                 }) {
                     Image(systemName: isInSelected ? "star" : "star.fill")
                     Text(isInSelected ? "Remove from Selected" : "Add to Selected")
-                    }
-                : nil
+                }
+            }
         }
     }
     
