@@ -16,9 +16,9 @@ struct TestingTapPointerWithHeatedLineChart: View {
     @State private var selectedData = "change"
     var series: [Int] {
         if selectedData == "change" {
-            return coronaStore.confirmedHistory.dailyChange(for: coronaStore.selectedCountry).filtered(limit: settings.isLineChartFiltered ? settings.confirmedLineChartLimit : 0)
+            return coronaStore.confirmedHistory.dailyChange(for: coronaStore.selectedCountry).filtered(limit: settings.chartOptions.isFiltered ? settings.chartOptions.confirmedLimit : 0)
         } else {
-            return coronaStore.confirmedHistory.series(for: coronaStore.selectedCountry).filtered(limit: settings.isLineChartFiltered ? settings.confirmedLineChartLimit : 0)
+            return coronaStore.confirmedHistory.series(for: coronaStore.selectedCountry).filtered(limit: settings.chartOptions.isFiltered ? settings.chartOptions.confirmedLimit : 0)
         }
     }
     
@@ -40,7 +40,7 @@ struct TestingTapPointerWithHeatedLineChart: View {
     var body: some View {
         VStack {
             HStack {
-                Toggle("Limit", isOn: $settings.isLineChartFiltered)
+                Toggle("Limit", isOn: $settings.chartOptions.isFiltered)
                 
                 Spacer()
                 

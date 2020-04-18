@@ -15,17 +15,6 @@ struct Country: Hashable {
 
 final class Settings: ObservableObject {
     
-    var lineChartLimit: Int {
-        switch selectedDataKind {
-        case .cfr:
-            return 0
-        case .deathsTotal, .deathsDaily:
-            return isLineChartFiltered ? deathsLineChartLimit : 0
-        default:
-            return isLineChartFiltered ? confirmedLineChartLimit : 0
-        }
-    }
-    
     @Published var appendCurrent: Bool = UserDefaults.standard.bool(forKey: "appendCurrent") {
         didSet {
             UserDefaults.standard.set(appendCurrent, forKey: "appendCurrent")
@@ -49,25 +38,18 @@ final class Settings: ObservableObject {
             UserDefaults.standard.set(initialNumber, forKey: "initialNumber")
         }
     }
-    
-    @Published var isLineChartFiltered: Bool = UserDefaults.standard.bool(forKey: "isLineChartFiltered") {
-        didSet {
-            UserDefaults.standard.set(isLineChartFiltered, forKey: "isLineChartFiltered")
-        }
-    }
-    
-    @Published var confirmedLineChartLimit: Int {
-        didSet {
-            UserDefaults.standard.set(confirmedLineChartLimit, forKey: "confirmedLineChartLimit")
-        }
-    }
 
-    @Published var deathsLineChartLimit: Int {
+    //  Line Chart Options
+    
+    @Published var chartOptions: ChartOptions {
         didSet {
-            UserDefaults.standard.set(deathsLineChartLimit, forKey: "deathsLineChartLimit")
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(chartOptions) {
+                UserDefaults.standard.set(encoded, forKey: "chartOptions")
+            }
         }
     }
-
+    
     @Published var selectedDataKind: DataKind {
         didSet {
             UserDefaults.standard.set(selectedDataKind.id, forKey: "selectedDataKind")
@@ -75,6 +57,20 @@ final class Settings: ObservableObject {
     }
     
     init() {
+        
+        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
+        if let savedOptions = UserDefaults.standard.object(forKey: "chartOptions") as? Data {
+            let decoder = JSONDecoder()
+            if let loadedOptions = try? decoder.decode(ChartOptions.self, from: savedOptions) {
+                chartOptions = loadedOptions
+            } else {
+                chartOptions = ChartOptions()
+            }
+        } else {
+            chartOptions = ChartOptions()
+        }
+        
+        
         let countries: [Country] = UserDefaults.standard.array(forKey: "primeCountries") as? [Country] ?? []
         if countries.isEmpty {
             primeCountries = [Country(name: "Russia", iso2: "RU"),
@@ -95,21 +91,7 @@ final class Settings: ObservableObject {
         } else {
             initialNumber = savedInitialNumber
         }
-        
-        let savedConfirmedLineChartLimit = UserDefaults.standard.integer(forKey: "confirmedLineChartLimit")
-        if savedConfirmedLineChartLimit == 0 {
-            confirmedLineChartLimit = 50
-        } else {
-            confirmedLineChartLimit = savedConfirmedLineChartLimit
-        }
-        
-        let savedDeathsLineChartLimit = UserDefaults.standard.integer(forKey: "deathsLineChartLimit")
-        if savedDeathsLineChartLimit == 0 {
-            deathsLineChartLimit = 10
-        } else {
-            deathsLineChartLimit = savedDeathsLineChartLimit
-        }
-        
+                
         let selectedDataKindID = UserDefaults.standard.string(forKey: "selectedDataKind") ?? ""
         if selectedDataKindID.isEmpty {
             selectedDataKind = .confirmedDaily

@@ -60,7 +60,7 @@ enum CaseType: String, CaseIterable {
 }
 
 
-enum DataKind: String, CaseIterable {
+enum DataKind: String, CaseIterable, Codable {
     case confirmedTotal = "Confirmed Cases"
     case confirmedDaily = "Confirmed Cases Daily"
     case deathsTotal = "Deaths"

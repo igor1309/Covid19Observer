@@ -87,12 +87,12 @@ struct HeatedLineChart: View {
                         
                         TapPointer(points: points, plotArea: plotArea, is2D: false)
                         
-                        AxisY(axisY: axisY, labelColor: settings.isLineChartFiltered ? Color.orange : .secondary)
+                        AxisY(axisY: axisY, labelColor: settings.chartOptions.isFiltered ? Color.orange : .secondary)
                             .opacity(0.6)
                             .onLongPressGesture {
                                 //  MARK: ADD HAPTIC
                                 withAnimation(.interactiveSpring()) {
-                                    self.settings.isLineChartFiltered.toggle()
+                                    self.settings.chartOptions.isFiltered.toggle()
                                 }
                         }
                     }

@@ -17,11 +17,11 @@ struct LineChartSettingsSection: View {
     var body: some View {
         Section(header: Text("Line Chart Options".uppercased()), footer: Text("adfgdafgaf")
         ) {
-            Toggle(isOn: $settings.isLineChartFiltered) {
+            Toggle(isOn: $settings.chartOptions.isFiltered) {
                 Text("Filter Line Chart")
             }
             
-            if settings.isLineChartFiltered {
+            if settings.chartOptions.isFiltered {
                 Group {
                     HStack {
                         Text("Confirmed")
@@ -29,7 +29,7 @@ struct LineChartSettingsSection: View {
                         
                         Spacer()
                         
-                        Picker("Line Chart Confirmed Limit", selection: $settings.confirmedLineChartLimit) {
+                        Picker("Line Chart Confirmed Limit", selection: $settings.chartOptions.confirmedLimit) {
                             ForEach([10, 50, 100, 1000], id: \.self) { qty in
                                 Text(qty.formattedGrouped).tag(qty)
                             }
@@ -44,7 +44,7 @@ struct LineChartSettingsSection: View {
                         
                         Spacer()
                         
-                        Picker("Line Chart Deaths Limit", selection: $settings.deathsLineChartLimit) {
+                        Picker("Line Chart Deaths Limit", selection: $settings.chartOptions.deathsLimit) {
                             ForEach([5, 10, 50, 100], id: \.self) { qty in
                                 Text(qty.formattedGrouped).tag(qty)
                             }

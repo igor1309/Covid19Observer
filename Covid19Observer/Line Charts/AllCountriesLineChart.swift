@@ -47,12 +47,12 @@ struct AllCountriesLineChart: View {
                 : nil
             
             ZStack(alignment: .topLeading) {
-                HeatedLineChart(series: series.filtered(limit: settings.isLineChartFiltered ? settings.confirmedLineChartLimit : 0))//, steps: steps)
+                HeatedLineChart(series: series.filtered(limit: settings.chartOptions.isFiltered ? settings.chartOptions.confirmedLimit : 0))//, steps: steps)
                 
                 ToolBarButton(systemName: "line.horizontal.3.decrease") {
-                    self.settings.isLineChartFiltered.toggle()
+                    self.settings.chartOptions.isFiltered.toggle()
                 }
-                .foregroundColor(settings.isLineChartFiltered ? .systemOrange : .systemBlue)
+                .foregroundColor(settings.chartOptions.isFiltered ? .systemOrange : .systemBlue)
                 .padding(.top, 6)
             }
         }

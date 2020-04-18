@@ -13,9 +13,9 @@ struct LineChartFilterToggle: View {
         
         var body: some View {
             ToolBarButton(systemName: "line.horizontal.3.decrease") {
-                self.settings.isLineChartFiltered.toggle()
+                self.settings.chartOptions.isFiltered.toggle()
             }
-            .foregroundColor(settings.isLineChartFiltered ? .systemOrange : .systemBlue)
+            .foregroundColor(settings.chartOptions.isFiltered ? .systemOrange : .systemBlue)
         }
     }
 
