@@ -33,9 +33,9 @@ struct CountryPicker: View {
                 }
                 
                 PrimeCountryPicker(selection: $coronaStore.selectedCountry)
-                Divider()
                 
-                //                Spacer()
+                Divider()
+                    .padding(.vertical)
                 
                 Text("All Countries")
                 

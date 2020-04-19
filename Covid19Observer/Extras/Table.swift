@@ -18,15 +18,15 @@ struct Table: View {
     
     func cellFor(row: Int, col: Int) -> some View {
         Text(cells[row][col])
-            .foregroundColor(row == 0 ? .systemOrange : .primary)
+            .foregroundColor(row == 0 ? .systemTeal : .primary)
             .fixedSize()
             .widthPreference(column: col)
             .frame(width: columnWidths[col], height: height, alignment: .trailing)
-            //            .frame(width: 64, height: height, alignment: .trailing)
-            .padding(.leading, 12)
-            .padding(.trailing, 3)
+            .padding(.leading)
+            .padding(.trailing, 6)
+            .padding(.vertical, 3)
             .background(row.isMultiple(of: 2) ? Color.quaternarySystemFill : .clear)
-        //                    .border(Color.pink)
+//                            .border(Color.pink)
     }
     
     var body: some View {
@@ -34,10 +34,10 @@ struct Table: View {
             VStack(spacing: 0) {
                 ForEach(headers.indices, id: \.self) { row in
                     Text(self.headers[row])
-                        //                        .frame(width: self.columnWidths[-1], height: self.height, alignment: .leading)
                         .frame(width: 52, height: self.height, alignment: .leading)
                         .padding(.leading, 4)
                         .padding(.trailing, 6)
+                        .padding(.vertical, 3)
                         .background(row % 2 == 0 ? Color.quaternarySystemFill : .clear)
                     //                    .border(Color.pink)
                 }
@@ -62,7 +62,10 @@ struct Table: View {
 }
 struct Table_Previews: PreviewProvider {
     static var previews: some View {
-        Table(headers: ["head 1", "head 2"], cells: [["fkgjh", "aksjdghv"], ["asf", "s"]])
-        .padding()
+        NavigationView {
+            Table(headers: ["head 1", "head 2", "h3"], cells: [["fkgjh", "aksjdghv"], ["asf", "s"], ["sdf", "kfb adkf dffd"]])
+                .padding()
+        }
+        .environment(\.colorScheme, .dark)
     }
 }

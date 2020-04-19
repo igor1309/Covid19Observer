@@ -17,9 +17,9 @@ struct WikiQuoteView: View {
             
             Text("— Wikipedia")
                 .foregroundColor(.secondary)
-                .font(.subheadline)
+//                .font(.subheadline)
             
-            Spacer()
+//            Spacer()
         }
         .foregroundColor(.secondary)
         .font(.footnote)
