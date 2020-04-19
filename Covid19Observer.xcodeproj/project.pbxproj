@@ -97,6 +97,7 @@
 		2AD39F06244B2C2000E9B4F8 /* MapHeaderRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F05244B2C2000E9B4F8 /* MapHeaderRegular.swift */; };
 		2AD39F08244B95FA00E9B4F8 /* CasesChartWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F07244B95FA00E9B4F8 /* CasesChartWidget.swift */; };
 		2AD39F0A244B9B0B00E9B4F8 /* MapOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F09244B9B0B00E9B4F8 /* MapOptions.swift */; };
+		2AD39F0E244C3A2100E9B4F8 /* LineChartSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F0D244C3A2100E9B4F8 /* LineChartSettingsView.swift */; };
 		2AD693BB2443493300F550A0 /* PrimeCountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */; };
 		2AD693BD2443B59200F550A0 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BC2443B59200F550A0 /* Dashboard.swift */; };
 		2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */; };
@@ -228,6 +229,7 @@
 		2AD39F05244B2C2000E9B4F8 /* MapHeaderRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHeaderRegular.swift; sourceTree = "<group>"; };
 		2AD39F07244B95FA00E9B4F8 /* CasesChartWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesChartWidget.swift; sourceTree = "<group>"; };
 		2AD39F09244B9B0B00E9B4F8 /* MapOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptions.swift; sourceTree = "<group>"; };
+		2AD39F0D244C3A2100E9B4F8 /* LineChartSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartSettingsView.swift; sourceTree = "<group>"; };
 		2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeCountryPicker.swift; sourceTree = "<group>"; };
 		2AD693BC2443B59200F550A0 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCasesCharts.swift; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 			children = (
 				2AAAC6EE242A384000C03E5B /* SettingsView.swift */,
 				2AE2C5142437446700CC8476 /* LineChartSettingsSection.swift */,
+				2AD39F0D244C3A2100E9B4F8 /* LineChartSettingsView.swift */,
 				2A96535324335810002A93A7 /* NotificationsSettingsView.swift */,
 				2A9974D5244126CF004FF043 /* MapColorCodeView.swift */,
 				2A9974E92442720B004FF043 /* PopulationView.swift */,
@@ -707,6 +710,7 @@
 				2AB947372430FCA4009C18ED /* MapWithLineChartView.swift in Sources */,
 				2A74F0BA2428CBB400137694 /* LineGraphGrid.swift in Sources */,
 				2AE2C5292438762500CC8476 /* LeftVerticalLine.swift in Sources */,
+				2AD39F0E244C3A2100E9B4F8 /* LineChartSettingsView.swift in Sources */,
 				2A6607FF242BF7060056C849 /* MapView.swift in Sources */,
 				2A445F3124292E94007C6846 /* AxisY.swift in Sources */,
 				2A96535024333FD0002A93A7 /* Extension+Notification.Name.swift in Sources */,
@@ -863,7 +867,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 39;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;
@@ -886,7 +890,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Covid19Observer/C19 Observer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 39;
 				DEVELOPMENT_ASSET_PATHS = "\"Covid19Observer/Preview Content\"";
 				DEVELOPMENT_TEAM = VRVJ9YNRQU;
 				ENABLE_PREVIEWS = YES;

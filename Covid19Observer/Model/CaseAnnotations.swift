@@ -10,7 +10,6 @@ import MapKit
 
 class CaseAnnotation: NSObject, MKAnnotation {
     let title: String?
-    let subtitle: String?
     let confirmed: String?
     let deaths: String?
     let cfr: String?
@@ -18,9 +17,8 @@ class CaseAnnotation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
     let color: UIColor
     
-    init(title: String?, subtitle: String?, confirmed: String?, deaths: String?, cfr: String?, value: Int, coordinate: CLLocationCoordinate2D, color: UIColor) {
+    init(title: String?, confirmed: String?, deaths: String?, cfr: String?, value: Int, coordinate: CLLocationCoordinate2D, color: UIColor) {
         self.title = title
-        self.subtitle = subtitle
         self.confirmed = confirmed
         self.deaths = deaths
         self.cfr = cfr

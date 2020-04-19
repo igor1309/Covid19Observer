@@ -16,7 +16,7 @@ struct HeatedLineChart: View {
     let lineWidth: CGFloat = 4
     
     //  MARK: FINISH THIS CHANGE TO FALSE FOR ANIMATION
-    @State private var animated = true
+    @State private var animated = false
     
     var points: [CGPoint] {
         guard series.isNotEmpty else { return [] }

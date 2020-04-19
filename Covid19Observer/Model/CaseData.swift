@@ -115,7 +115,7 @@ enum CaseDataType: String, CaseIterable {
         case .confirmed:
             return .systemYellow
         case .new:
-            return .systemOrange
+            return Color("confirmed")//.systemOrange
         case .current:
             return .systemPurple
         case .deaths:

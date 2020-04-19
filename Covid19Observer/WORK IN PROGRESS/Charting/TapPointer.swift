@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct TapPointer: View {
+    @EnvironmentObject var settings: Settings
     
     let points: [CGPoint]
     let is2D: Bool
@@ -24,6 +25,8 @@ struct TapPointer: View {
         }
     }
     
+    @State private var showChartSettings = false
+
     @State private var viewSize: CGSize = .zero
     @State private var showPointer = false
     @State private var prevTranslation: CGSize = .zero
@@ -98,6 +101,7 @@ struct TapPointer: View {
                 Text("x: " + Double(nearestPoint.x).formattedGrouped)
                 Text("y: " + Double(nearestPoint.y).formattedGrouped)
             }
+            .contentShape(Rectangle())
             .foregroundColor(.secondary)
             .font(.caption)
             .fixedSize()
@@ -106,6 +110,13 @@ struct TapPointer: View {
             .offset(pointerLegendOffset(for: pointerOffset))
             .padding(8)
             .saveSize(viewId: 112)
+            .onLongPressGesture(minimumDuration: 1.5) {
+                    self.showChartSettings = true
+            }
+            .sheet(isPresented: $showChartSettings) {
+                LineChartSettingsView()
+                    .environmentObject(self.settings)
+            }
         }
         
         return ZStack {

@@ -441,7 +441,6 @@ class CoronaStore: ObservableObject {
             caseAnnotations.append(
                 CaseAnnotation(
                     title: title,
-                    subtitle: "n/a",
                     confirmed: "Confirmed \(confirmed.formattedGrouped)",
                     deaths: "\(deaths.formattedGrouped) deaths",
                     cfr: "CFR \(cfr.formattedPercentageWithDecimals)",
