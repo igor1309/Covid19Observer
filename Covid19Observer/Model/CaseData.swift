@@ -113,15 +113,15 @@ enum CaseDataType: String, CaseIterable {
     var color: Color {
         switch self {
         case .confirmed:
-            return .systemYellow
+            return .confirmed//.systemYellow
         case .new:
-            return Color("confirmed")//.systemOrange
+            return .new//.systemOrange
         case .current:
-            return .systemPurple
+            return .current//.systemPurple
         case .deaths:
-            return .systemRed
+            return .deaths//.systemRed
         case .cfr:
-            return .systemTeal
+            return .cfr//.systemTeal
         }
     }
 }

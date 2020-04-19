@@ -5,9 +5,9 @@
         "color-space" : "display-p3",
         "components" : {
           "alpha" : "1.000",
-          "blue" : "39",
-          "green" : "109",
-          "red" : "172"
+          "blue" : "52",
+          "green" : "156",
+          "red" : "188"
         }
       },
       "idiom" : "universal"
@@ -21,7 +21,7 @@
       ],
       "color" : {
         "platform" : "ios",
-        "reference" : "systemOrangeColor"
+        "reference" : "systemYellowColor"
       },
       "idiom" : "universal"
     }

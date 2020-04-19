@@ -34,21 +34,21 @@ struct CasesTableView: View {
                 
                 Group {
                     Text(col2)
-                        .foregroundColor(isHeader ? .secondary : .systemYellow)
+                        .foregroundColor(isHeader ? .secondary : .confirmed)
                         .padding(.horizontal, 6)
                         .fixedSize()
                         .widthPreference(column: 81)
                         .frame(width: self.columnWidths[81], alignment: isHeader ? .leading : .trailing)
                     
                     Text(col3)
-                        .foregroundColor(isHeader ? .secondary : .systemRed)
+                        .foregroundColor(isHeader ? .secondary : .deaths)
                         .padding(.horizontal, 6)
                         .fixedSize()
                         .widthPreference(column: 82)
                         .frame(width: self.columnWidths[82], alignment: isHeader ? .leading : .trailing)
                     
                     Text(col4)
-                        .foregroundColor(isHeader ? .secondary : .systemTeal)
+                        .foregroundColor(isHeader ? .secondary : .cfr)
                         .padding(.horizontal, 6)
                         .fixedSize()
                         .widthPreference(column: 83)

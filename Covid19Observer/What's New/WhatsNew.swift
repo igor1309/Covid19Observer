@@ -82,11 +82,11 @@ Divider()
                 .font(.subheadline)
             
             hasConfirmedDeviations
-                ? deviationRow(kind: .confirmedDaily, deviations: confirmedDeviations, color: .systemYellow)
+                ? deviationRow(kind: .confirmedDaily, deviations: confirmedDeviations, color: .confirmed)
                 : nil
             
             hasDeathsDeviations
-                ? deviationRow(kind: .deathsDaily, deviations: deathsDeviations, color: .systemRed)
+                ? deviationRow(kind: .deathsDaily, deviations: deathsDeviations, color: .deaths)
                 : nil
             
             !(hasConfirmedDeviations || hasDeathsDeviations)

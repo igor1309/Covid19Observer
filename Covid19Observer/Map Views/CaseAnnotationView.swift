@@ -22,21 +22,21 @@ class CaseAnnotationView: MKPinAnnotationView {
             confirmedLabel.text = caseAnnotation.confirmed ?? "NA"
             confirmedLabel.numberOfLines = 0
             confirmedLabel.font = .preferredFont(forTextStyle: .footnote)
-            confirmedLabel.textColor = UIColor(named: "confirmed")//.systemOrange
+            confirmedLabel.textColor = UIColor.confirmed
 
             let deathsLabel = UILabel()
             deathsLabel.translatesAutoresizingMaskIntoConstraints = false
             deathsLabel.text = caseAnnotation.deaths ?? "NA"
             deathsLabel.numberOfLines = 0
             deathsLabel.font = .preferredFont(forTextStyle: .footnote)
-            deathsLabel.textColor = UIColor(named: "deaths")//.systemRed
+            deathsLabel.textColor = UIColor.deaths
 
             let cfrLabel = UILabel()
             cfrLabel.translatesAutoresizingMaskIntoConstraints = false
             cfrLabel.text = caseAnnotation.cfr ?? "NA"
             cfrLabel.numberOfLines = 0
             cfrLabel.font = .preferredFont(forTextStyle: .footnote)
-            cfrLabel.textColor = UIColor(named: "cfr")//.systemTeal
+            cfrLabel.textColor = UIColor.cfr
 
 
             let stackView   = UIStackView()

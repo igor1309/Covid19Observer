@@ -91,7 +91,7 @@ struct TapPointer: View {
         
         var dot: some View {
             Circle()
-                .fill(Color.orange)
+                .fill(Color.systemOrange)
                 .frame(width: 10, height: 10)
                 .offset(pointerOffset)
         }
