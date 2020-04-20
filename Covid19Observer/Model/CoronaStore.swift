@@ -20,8 +20,8 @@ final class CoronaStore: ObservableObject {
         didSet { countOutbreak() }
     }
     
-    @Published private(set) var coronaByCountry: Corona = Corona(.byCountry, saveTo: "coronaByCountry.json")
-    @Published private(set) var coronaByRegion: Corona = Corona(.byRegion, saveTo: "coronaByRegion.json")
+    @Published private(set) var coronaByCountry = Corona(.byCountry, saveTo: "coronaByCountry.json")
+    @Published private(set) var coronaByRegion = Corona(.byRegion, saveTo: "coronaByRegion.json")
     
     @Published private(set) var confirmedHistory = History(
         saveTo: "confirmedHistory.json",
@@ -42,8 +42,7 @@ final class CoronaStore: ObservableObject {
     
     @Published var mapOptions: MapOptions {
         didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(mapOptions) {
+            if let encoded = try? JSONEncoder().encode(mapOptions) {
                 UserDefaults.standard.set(encoded, forKey: "mapOptions")
             }
             
@@ -67,23 +66,26 @@ final class CoronaStore: ObservableObject {
         
         
         /// Map Options
-        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
-        if let savedOptions = UserDefaults.standard.object(forKey: "mapOptions") as? Data {
-            if let loadedOptions = try? JSONDecoder().decode(MapOptions.self, from: savedOptions) {
-                mapOptions = loadedOptions
-            } else {
-                mapOptions = MapOptions()
-            }
-        } else {
-            mapOptions = MapOptions()
-        }
-                
-                
+//        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
+//        if let savedOptions = UserDefaults.standard.object(forKey: "mapOptions") as? Data {
+//            if let loadedOptions = try? JSONDecoder().decode(MapOptions.self, from: savedOptions) {
+//                mapOptions = loadedOptions
+//            } else {
+//                mapOptions = MapOptions()
+//            }
+//        } else {
+//            mapOptions = MapOptions()
+//        }
+        mapOptions = UserDefaults.standard.getObj(forKey: "mapOptions", /*castTo: MapOptions.self,*/ empty: MapOptions())
         
-        //  TESTING
-        populateCorona(completion: {
+        
+        //  MARK: как сделать publisher<Bool, Never> ? и объединить их: countOutbreak() и countNewAndCurrent() нужно считать после загрузки текущих данных (две Corona) и исторических (две History) — это 4(3) ассинхронных действия. Без объединения countOutbreak() и countNewAndCurrent() вызываются 4(3) раза!!
+        populateCorona {
             self.countOutbreak()
-        })
+        }
+        populateHistory {
+            self.countOutbreak()
+        }
         
         
         //  MARK: - что-то тут не то

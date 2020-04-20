@@ -18,8 +18,7 @@ final class Settings: ObservableObject {
     
     @Published var chartOptions: ChartOptions {
         didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(chartOptions) {
+            if let encoded = try? JSONEncoder().encode(chartOptions) {
                 UserDefaults.standard.set(encoded, forKey: "chartOptions")
             }
         }
@@ -39,16 +38,17 @@ final class Settings: ObservableObject {
 
     init() {
         
-        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
-        if let savedOptions = UserDefaults.standard.object(forKey: "chartOptions") as? Data {
-            if let loadedOptions = try? JSONDecoder().decode(ChartOptions.self, from: savedOptions) {
-                chartOptions = loadedOptions
-            } else {
-                chartOptions = ChartOptions()
-            }
-        } else {
-            chartOptions = ChartOptions()
-        }
+//        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
+//        if let savedOptions = UserDefaults.standard.object(forKey: "chartOptions") as? Data {
+//            if let loadedOptions = try? JSONDecoder().decode(ChartOptions.self, from: savedOptions) {
+//                chartOptions = loadedOptions
+//            } else {
+//                chartOptions = ChartOptions()
+//            }
+//        } else {
+//            chartOptions = ChartOptions()
+//        }
+        chartOptions = UserDefaults.standard.getObj(forKey: "chartOptions", empty: ChartOptions())
         
         
         let countries: [Country] = UserDefaults.standard.array(forKey: "primeCountries") as? [Country] ?? []

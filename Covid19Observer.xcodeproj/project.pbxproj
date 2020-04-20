@@ -105,6 +105,7 @@
 		2AD39F18244C990800E9B4F8 /* CoronaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F17244C990800E9B4F8 /* CoronaResponse.swift */; };
 		2AD39F1A244CD6F300E9B4F8 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F19244CD6F300E9B4F8 /* Example.swift */; };
 		2AD39F1C244D9C7000E9B4F8 /* HistoryKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F1B244D9C7000E9B4F8 /* HistoryKind.swift */; };
+		2AD39F1E244DC54900E9B4F8 /* ObjectSavable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD39F1D244DC54900E9B4F8 /* ObjectSavable.swift */; };
 		2AD693BB2443493300F550A0 /* PrimeCountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */; };
 		2AD693BD2443B59200F550A0 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD693BC2443B59200F550A0 /* Dashboard.swift */; };
 		2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */; };
@@ -244,6 +245,7 @@
 		2AD39F17244C990800E9B4F8 /* CoronaResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoronaResponse.swift; sourceTree = "<group>"; };
 		2AD39F19244CD6F300E9B4F8 /* Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 		2AD39F1B244D9C7000E9B4F8 /* HistoryKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryKind.swift; sourceTree = "<group>"; };
+		2AD39F1D244DC54900E9B4F8 /* ObjectSavable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectSavable.swift; sourceTree = "<group>"; };
 		2AD693BA2443493300F550A0 /* PrimeCountryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeCountryPicker.swift; sourceTree = "<group>"; };
 		2AD693BC2443B59200F550A0 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCasesCharts.swift; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				2AE2C50C243723B800CC8476 /* Date+Extensions.swift */,
 				2AE2C5122437417E00CC8476 /* Array+Extension.swift */,
 				2A9974E7244270FC004FF043 /* Bundle+Extension.swift */,
+				2AD39F1D244DC54900E9B4F8 /* ObjectSavable.swift */,
 			);
 			path = Extras;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				2A74F0C62428CE7B00137694 /* Table.swift in Sources */,
 				2A566E6A2445D940006BEA02 /* LineChartView.swift in Sources */,
 				2AD39F1C244D9C7000E9B4F8 /* HistoryKind.swift in Sources */,
+				2AD39F1E244DC54900E9B4F8 /* ObjectSavable.swift in Sources */,
 				2A24A40E243BA49A0097C3EB /* LineChart.swift in Sources */,
 				2AB94739243126A1009C18ED /* CasesChartsIPad.swift in Sources */,
 				2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */,
