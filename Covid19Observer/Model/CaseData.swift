@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CaseData: Identifiable, Hashable {
+struct CaseData: Identifiable, Hashable, Codable {
     var id = UUID()
     var name: String
     
@@ -49,79 +49,4 @@ extension CaseData {
     
     var cfr: Double { confirmed == 0 ? 0 : Double(deaths) / Double(confirmed) }
     var cfrStr: String { cfr.formattedPercentageWithDecimals }
-}
-
-
-enum CaseType: String, CaseIterable {
-    case byCountry = "Country"
-    case byRegion = "Region"
-    
-    var id: String { rawValue }
-}
-
-
-enum DataKind: String, CaseIterable, Codable {
-    case confirmedTotal = "Confirmed Cases"
-    case confirmedDaily = "Confirmed Cases Daily"
-    case deathsTotal = "Deaths"
-    case deathsDaily = "Deaths Daily"
-    case cfr = "Case Fatality Rate"
-    
-    var id: String { rawValue }
-    
-    var abbreviation: String {
-        switch self {
-        case .confirmedTotal:
-            return "Conf."
-        case .confirmedDaily:
-            return "Conf.D"
-        case .deathsTotal:
-            return "Deaths"
-        case .deathsDaily:
-            return "Deaths.D"
-        case .cfr:
-            return "CFR"
-        }
-    }
-}
-
-
-enum CaseDataType: String, CaseIterable {
-    case confirmed = "Confirmed Cases"
-    case new = "New Confirmed"
-    case current = "Current Confirmed"
-    case deaths = "Deaths"
-    case cfr = "Case Fatality Rate"//"CFR"
-    
-    var id: String { rawValue }
-    
-    var short: String {
-        switch self {
-        case .confirmed:
-            return "Conf."
-        case .new:
-            return "New"
-        case .current:
-            return "Cur."
-        case .deaths:
-            return "Deaths"
-        case .cfr:
-            return "CFR"
-        }
-    }
-    
-    var color: Color {
-        switch self {
-        case .confirmed:
-            return .confirmed//.systemYellow
-        case .new:
-            return .new//.systemOrange
-        case .current:
-            return .current//.systemPurple
-        case .deaths:
-            return .deaths//.systemRed
-        case .cfr:
-            return .cfr//.systemTeal
-        }
-    }
 }

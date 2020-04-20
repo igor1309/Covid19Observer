@@ -26,7 +26,7 @@ struct CasesTableView: View {
                 Text(col1)
                     .foregroundColor(isHeader ? .secondary : .primary)
                     .font(isHeader ? .caption : .subheadline)
-                    .padding(.leading, isHeader ? 12 : 6)
+                    .padding(.leading, isHeader ? 16 : 6)
                     .lineLimit(1)
                     .truncationMode(.tail)
                 
@@ -38,14 +38,14 @@ struct CasesTableView: View {
                         .padding(.horizontal, 6)
                         .fixedSize()
                         .widthPreference(column: 81)
-                        .frame(width: self.columnWidths[81], alignment: isHeader ? .leading : .trailing)
+                        .frame(width: self.columnWidths[81], alignment: isHeader ? .center : .trailing)
                     
                     Text(col3)
                         .foregroundColor(isHeader ? .secondary : .deaths)
                         .padding(.horizontal, 6)
                         .fixedSize()
                         .widthPreference(column: 82)
-                        .frame(width: self.columnWidths[82], alignment: isHeader ? .leading : .trailing)
+                        .frame(width: self.columnWidths[82], alignment: isHeader ? .center : .trailing)
                     
                     Text(col4)
                         .foregroundColor(isHeader ? .secondary : .cfr)
@@ -107,7 +107,8 @@ struct CasesTableView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
-            self.cases = self.coronaStore.currentCases
+//            self.cases = self.coronaStore.currentCases
+            self.cases = self.coronaStore.coronaByCountry.cases
         }
     }
     
@@ -116,7 +117,7 @@ struct CasesTableView: View {
     //  маркер по названию или индексу? - что лучше
     //  также используется в FlexibleCasesChart()
     func prepareHistoryData(for index: Int) {
-        self.coronaStore.selectedCountry = self.coronaStore.currentCases[index].name
+        self.coronaStore.selectedCountry = self.coronaStore.coronaByCountry.cases[index].name
         self.showLineChart = true
     }
 }

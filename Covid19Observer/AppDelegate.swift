@@ -11,11 +11,12 @@ import BackgroundTasks
 
 class AppRefreshOperation: Operation {
     override func main() {
-        let coronaStore = CoronaStore()
-        coronaStore.updateCasesData() { type in
-            NotificationCenter.default.post(name: .newCasesFetched,
-                                            object: type.id)
-        }
+        //  MARK: FINISH THIS
+//        let coronaStore = CoronaStore()
+//        coronaStore.updateCorona() { type in
+//            NotificationCenter.default.post(name: .newCasesFetched,
+//                                            object: type.id)
+//        }
     }
 }
 

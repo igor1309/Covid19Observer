@@ -117,7 +117,7 @@ struct SettingsView: View {
                         footer: Text("Data by John Hopkins.")
                 ) {
                     Button(action: {
-                        self.coronaStore.updateCasesData() { _ in }
+                        self.coronaStore.updateCorona { }
                     }) {
                         HStack {
                             Image(systemName: "arrow.2.circlepath")
@@ -140,7 +140,7 @@ struct SettingsView: View {
                     }
                     
                     Button(action: {
-                        self.coronaStore.updateHistoryData() { }
+                        self.coronaStore.updateHistory() { }
                     }) {
                         HStack {
                             Image(systemName: "arrow.2.circlepath.circle")

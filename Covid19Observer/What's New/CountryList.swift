@@ -51,7 +51,6 @@ struct CountryList: View {
         }
         .sheet(isPresented: self.$showCountryDetails) {
             CasesLineChartView(forAllCountries: false)
-                .padding(.top, 6)
                 .environmentObject(self.coronaStore)
                 .environmentObject(self.settings)
         }

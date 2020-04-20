@@ -19,7 +19,7 @@ struct CasesChartView: View {
         
     var body: some View {
         Group {
-            if coronaStore.currentCases.isNotEmpty {
+            if coronaStore.coronaByCountry.cases.isNotEmpty {
                 VStack {
                     CaseDataTypePicker(selection: $selectedType)
                     

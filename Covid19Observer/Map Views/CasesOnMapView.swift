@@ -57,7 +57,7 @@ struct CasesOnMapView: View {
                             .destructive(Text("Yes, reload")) {
                                 //  MARK: FINISH THIS
                                 //
-                                self.coronaStore.updateCasesData() { _ in }
+                                self.coronaStore.updateCorona() { }
                                 print("to be done")
                             }]
             )
@@ -140,7 +140,7 @@ struct CasesOnMapView: View {
     
     var mapView: some View {
         MapView(
-            caseAnnotations: coronaStore.caseAnnotations,
+            caseAnnotations: coronaStore.coronaByCountry.caseAnnotations,
             centerCoordinate: $centerCoordinate,
             selectedPlace: $selectedPlace,
             selectedCountry: $coronaStore.selectedCountry,
@@ -149,7 +149,6 @@ struct CasesOnMapView: View {
             .edgesIgnoringSafeArea(.all)
             .sheet(isPresented: $showPlaceDetails) {
                 CasesLineChartView(forAllCountries: false)
-                    .padding(.vertical)
                     .environmentObject(self.coronaStore)
                     .environmentObject(self.settings)
         }

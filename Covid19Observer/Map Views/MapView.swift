@@ -111,12 +111,11 @@ extension CaseAnnotation {
         CaseAnnotation(title: "London",
                        confirmed: nil, deaths: nil, cfr: nil,
                        value: 255,
-                       coordinate: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.13),
-                       color: .systemIndigo)
+                       coordinate: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.13))
     }
     static var moscow: CaseAnnotation {
         CaseAnnotation(title: "Moscow",
                        confirmed: nil, deaths: nil, cfr: nil,
-                       value: 300, coordinate: .moscow, color: .systemGray)
+                       value: 300, coordinate: .moscow)
     }
 }

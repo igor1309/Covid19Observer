@@ -33,7 +33,7 @@ struct MapWithLineChartView: View {
                 //  MARK: - FIX THIS
                 //  NEED REFACTOR MapView TO SEPARATE VIEW
                 MapView(
-                    caseAnnotations: self.coronaStore.caseAnnotations,
+                    caseAnnotations: self.coronaStore.coronaByCountry.caseAnnotations,
                     centerCoordinate: self.$centerCoordinate,
                     selectedPlace: self.$selectedPlace,
                     selectedCountry: self.$coronaStore.selectedCountry,

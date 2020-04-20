@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftPI
+import Combine
 
 /// <#Description#>
 struct History: Codable {
@@ -16,7 +17,7 @@ struct History: Codable {
     static let countriesWithRegions = ["Australia", "Canada", "China", "Denmark", "France", "Netherlands", "United Kingdom"]
     
     let filename: String
-    let url: URL
+    let kind: HistoryKind
     
     /// значения на оси X (время как String в формате dd.MM.yyyy)
     private(set) var xTime: [String]
@@ -29,22 +30,23 @@ struct History: Codable {
     var deviations: [Deviation]
     let deviationThreshold: CGFloat
     
-    init(saveIn filename: String, url: URL, deviationThreshold: CGFloat) {
+    init(saveTo filename: String, kind: HistoryKind, deviationThreshold: CGFloat) {
         self.xTime = []
         self.countryRows = []
         self.lastSyncDate = .distantPast
         self.isUpdateCompleted = nil
         self.filename = filename
-        self.url = url
+        self.kind = kind
         self.deviations = []
         self.deviationThreshold = deviationThreshold
+        
+        loadSavedHistory()
     }
 }
 
 extension History {
-    
-    /// https://bestkora.com/IosDeveloper/swiftui-dlya-konkursnogo-zadaniya-telegram-10-24-marta-2019-goda/
-    /// - Parameter chart: <#chart description#>
+    // MARK: FINISH THIS https://bestkora.com/IosDeveloper/swiftui-dlya-konkursnogo-zadaniya-telegram-10-24-marta-2019-goda/
+    /// - Parameter chart:
     /// - Returns: <#description#>
     func chartIndex(chart: CountryRow) -> Int {
         return countryRows.firstIndex(where: { $0.id == chart.id })!
@@ -52,18 +54,29 @@ extension History {
 }
 
 extension History {
-    
-    /// load  History from disk if there is saved data
-    mutating func load() {
-        if let history: History = loadJSONFromDocDir(self.filename) {
-            self = history
-            print("historical data loaded from \(self.filename) on disk")
+    func fetch() -> AnyPublisher<String, Never> {
+        
+        func emptyPublisher(completeImmediately: Bool = true) -> AnyPublisher<String, Never> {
+            Empty<String, Never>(completeImmediately: completeImmediately).eraseToAnyPublisher()
         }
+        
+        return URLSession.shared
+            .dataTaskPublisher(for: url)
+            .map { String(data: $0.data, encoding: .utf8)! }
+            .catch { error -> AnyPublisher<String, Never> in
+                print("☣️ error decoding: \(error)")
+                return emptyPublisher()
+        }
+        .receive(on: DispatchQueue.main)
+        .eraseToAnyPublisher()
     }
+}
+
+extension History {
     
     /// update history data from csv
     /// - Parameter casesCSV: fetched data in csv format
-    mutating func update(from casesCSV: String) {
+    mutating func update(from casesCSV: String, completion: @escaping () -> Void) {
         
         guard casesCSV.isNotEmpty else { return }
         
@@ -78,11 +91,16 @@ extension History {
         
         /// save to local file if data is not empty
         if countryRows.isNotEmpty {
+            print("saving history data to \(filename)")
             saveJSONToDocDir(data: self, filename: self.filename)
         } else {
             //  MARK: FIX THIS
             //  сделать переменную-буфер ошибок и выводить её в Settings или как-то еще
             print("history data is empty")
+        }
+        
+        DispatchQueue.main.async {
+            completion()
         }
     }
     
@@ -144,6 +162,8 @@ extension History {
 }
 
 extension History {
+    
+    var url: URL { kind.url }
     
     var timeSinceUpdateStr: String { lastSyncDate.hoursMunutesTillNow }
     var isDataOld: Bool { lastSyncDate.distance(to: Date()) > 6 * 60 * 60 }
@@ -430,3 +450,13 @@ extension History {
     }
 }
 
+extension History {
+    
+    /// load  History from disk if there is saved data
+    private mutating func loadSavedHistory() {
+        if let history: History = loadJSONFromDocDir(self.filename) {
+            self = history
+            print("historical data loaded from \(self.filename) on disk")
+        }
+    }    
+}

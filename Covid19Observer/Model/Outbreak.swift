@@ -9,7 +9,7 @@
 import Foundation
 import SwiftPI
 
-struct Outbreak {
+struct Outbreak: Codable {
     
     /// `Population` - world or country
     

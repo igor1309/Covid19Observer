@@ -14,7 +14,190 @@ import SwiftUI
 import Combine
 import SwiftPI
 
-class CoronaStore: ObservableObject {
+final class CoronaStore: ObservableObject {
+    
+    @Published var caseType = CaseType.byCountry {
+        didSet { countOutbreak() }
+    }
+    
+    @Published private(set) var coronaByCountry: Corona = Corona(.byCountry, saveTo: "coronaByCountry.json")
+    @Published private(set) var coronaByRegion: Corona = Corona(.byRegion, saveTo: "coronaByRegion.json")
+    
+    @Published private(set) var confirmedHistory = History(
+        saveTo: "confirmedHistory.json",
+        kind: .confirmed,
+        deviationThreshold: 100)
+    @Published private(set) var deathsHistory = History(
+        saveTo: "deathsHistory.json",
+        kind: .deaths,
+        deviationThreshold: 10)
+    
+    @Published private(set) var outbreak = Outbreak()
+    
+    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
+        didSet {
+            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
+        }
+    }
+    
+    @Published var mapOptions: MapOptions {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(mapOptions) {
+                UserDefaults.standard.set(encoded, forKey: "mapOptions")
+            }
+            
+            countOutbreak()
+        }
+    }
+
+    private var storage = [AnyCancellable]()
+
+    let population = Bundle.main
+        .decode(Population.self, from: "population.json")
+        .sorted(by: { $0.combinedKey < $1.combinedKey })
+    
+    let countriesWithIso2: [String: String]
+    
+    init() {
+        
+        countriesWithIso2 = population
+            .filter { $0.uid < 1_000 }
+            .reduce(into: [String: String]()) { $0[$1.combinedKey] = $1.iso2 }
+        
+        
+        /// Map Options
+        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
+        if let savedOptions = UserDefaults.standard.object(forKey: "mapOptions") as? Data {
+            if let loadedOptions = try? JSONDecoder().decode(MapOptions.self, from: savedOptions) {
+                mapOptions = loadedOptions
+            } else {
+                mapOptions = MapOptions()
+            }
+        } else {
+            mapOptions = MapOptions()
+        }
+                
+                
+        
+        //  TESTING
+        populateCorona(completion: {
+            self.countOutbreak()
+        })
+        
+        
+        //  MARK: - что-то тут не то
+        ///  updateEmptyOrOldStore должен содержать  какую-то `closure` ??
+        DispatchQueue.main.async {
+            /// update if data is empty or old
+            self.updateEmptyOrOldStore()
+        }
+    }
+}
+
+extension CoronaStore {
+    var isCasesUpdateCompleted: Bool {
+        coronaByCountry.isUpdateCompleted ?? false && coronaByRegion.isUpdateCompleted ?? false
+    }
+    
+    var isHistoryUpdateCompleted: Bool {
+        confirmedHistory.isUpdateCompleted ?? false && deathsHistory.isUpdateCompleted ?? false
+    }
+    
+    var selectedCountryPopulation: Int {
+        /// страна если uid < 1000
+        if let pop = population
+            .first(where: { $0.countryRegion == selectedCountry && $0.uid < 1000 })?
+            .population {
+            return pop
+        } else {
+            return 1
+        }
+    }
+    
+    var selectedCountryOutbreak: Outbreak {
+        guard let countryCase = coronaByCountry.cases.first(where: { $0.name == selectedCountry }) else { return Outbreak() }
+        
+        let population = populationOf(country: selectedCountry)
+        
+        return Outbreak(population: population,
+                        confirmed: countryCase.confirmed,
+                        confirmedNew: countryCase.confirmedNew,
+                        confirmedCurrent: countryCase.confirmedCurrent,
+                        recovered: countryCase.recovered,
+                        deaths: countryCase.deaths,
+                        deathsNew: countryCase.deathsNew,
+                        deathsCurrent: countryCase.deathsCurrent)
+    }
+    
+    var countryRegions: [String] { coronaByCountry.cases.map { $0.name }.sorted() }
+    
+    var timeSinceCasesUpdateStr: String { coronaByCountry.lastSyncDate.hoursMunutesTillNow }
+    
+    var allCountriesCFR: [Int] {
+        let confirmed = confirmedHistory.allCountriesTotals
+        let deaths = deathsHistory.allCountriesTotals
+        
+        var allCFR = [Int]()
+        for i in 00..<confirmed.count {
+            //  MARK: FINISH THIS
+            //  ГРАФИКЕ СТРОЯТСЯ ПО [Int] нужно переходить к CGFloat
+            let cfr = confirmed[i] == 0 ? 0 : 100 * 100 * deaths[i] / confirmed[i]
+            allCFR.append(cfr)
+        }
+        return allCFR
+    }
+}
+
+extension CoronaStore {
+    
+    func updateEmptyOrOldStore() {
+        if coronaByCountry.cases.isEmpty || coronaByCountry.isDataOld {
+            print("CoronaStore: Cases Data empty or old, need to fetch")
+            populateCorona() {
+                self.countNewAndCurrent()
+            }
+        }
+        
+        if confirmedHistory.countryRows.isEmpty || confirmedHistory.isDataOld || deathsHistory.countryRows.isEmpty || deathsHistory.isDataOld {
+            print("CoronaStore: History Data empty or old, need to fetch")
+            populateHistory() {
+                self.countNewAndCurrent()
+            }
+        }
+    }
+    
+    func updateCorona(completion: @escaping () -> Void) {
+        populateCorona() {
+            self.countOutbreak()
+            completion()
+        }
+    }
+    
+    private func populateCorona(completion: @escaping () -> Void) {
+        
+        coronaByCountry.isUpdateCompleted = false
+        coronaByRegion.isUpdateCompleted = false
+        
+        //  MARK: как сделать publisher<Bool, Never> ? и объединить их: countOutbreak() и countNewAndCurrent() нужно считать после загрузки текущих данных (две Corona) и исторических (две History) — это 4(3) ассинхронных действия. Без объединения countOutbreak() и countNewAndCurrent() вызываются 4(3) раза!!
+        
+        /// by `Country`
+        let countryPub = coronaByCountry.fetch()
+        
+        countryPub
+            .sink { response in
+                self.coronaByCountry.update(with: response, completion: completion)
+            }
+            .store(in: &storage)
+        
+        /// by `Region`
+        coronaByRegion
+            .fetch()
+            .sink { response in
+                self.coronaByRegion.update(with: response, completion: completion)
+            }
+            .store(in: &storage)
+    }
     
     func series(for dataKind: DataKind, appendCurrent: Bool, forAllCountries: Bool = false) -> [Int] {
         
@@ -69,303 +252,27 @@ class CoronaStore: ObservableObject {
         }
     }
     
-    let population = Bundle.main
-        .decode(Population.self, from: "population.json")
-        .sorted(by: { $0.combinedKey < $1.combinedKey })
-    
-    let countriesWithIso2: [String: String]
-    
-    @Published var caseType: CaseType { didSet { processCases() }}
-    
-    @Published private(set) var confirmedHistory: History
-    @Published private(set) var deathsHistory: History
-    
-    @Published private(set) var currentCases = [CaseData]()
-    @Published private(set) var caseAnnotations = [CaseAnnotation]()
-    
-    @Published private(set) var outbreak: Outbreak
-    
-    @Published private(set) var isCasesUpdateCompleted = true
-    
-    var isHistoryUpdateCompleted: Bool {
-        confirmedHistory.isUpdateCompleted ?? false && deathsHistory.isUpdateCompleted ?? false
-    }
-    
-    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
-        didSet {
-            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
-        }
-    }
-    
-    var selectedCountryPopulation: Int {
-        /// страна если uid < 1000
-        if let pop = population
-            .first(where: { $0.countryRegion == selectedCountry && $0.uid < 1000 })?
-            .population {
-            return pop
-        } else {
-            return 1
-        }
-    }
-    
-    var selectedCountryOutbreak: Outbreak {
-        guard let countryCase = currentCases.first(where: { $0.name == selectedCountry }) else { return Outbreak() }
-        
-        let population = populationOf(country: selectedCountry)
-        
-        return Outbreak(population: population,
-                        confirmed: countryCase.confirmed,
-                        confirmedNew: countryCase.confirmedNew,
-                        confirmedCurrent: countryCase.confirmedCurrent,
-                        recovered: countryCase.recovered,
-                        deaths: countryCase.deaths,
-                        deathsNew: countryCase.deathsNew,
-                        deathsCurrent: countryCase.deathsCurrent)
-    }
-    
-    var countryRegions: [String] { currentCases.map { $0.name }.sorted() }
-    
-    
-    //  MARK: MAP Stuff
-    
-    @Published var mapOptions: MapOptions {
-        didSet {
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(mapOptions) {
-                UserDefaults.standard.set(encoded, forKey: "mapOptions")
-            }
-            
-            processCases()
-        }
-    }
 
-//    var isFiltered = UserDefaults.standard.bool(forKey: "isFiltered") {
-//        didSet {
-//            UserDefaults.standard.set(isFiltered, forKey: "isFiltered")
-//            processCases()
-//        }
-//    }
-//
-//    var filterColor: Color { Color(MapOptions.colorCode(for: mapFilterLowerLimit)) }
-//
-//    var mapFilterLowerLimit = UserDefaults.standard.integer(forKey: "mapFilterLowerLimit") {
-//        didSet {
-//            UserDefaults.standard.set(mapFilterLowerLimit, forKey: "mapFilterLowerLimit")
-//            processCases()
-//        }
-//    }
-    
-    
-    //  MARK: CoronaResponse
-    
-    private var responseCacheByRegion: CoronaResponse
-    private var responseCacheByCountry: CoronaResponse
-    
-    private var responseCache: CoronaResponse {
-        switch caseType {
-        case .byRegion:
-            return responseCacheByRegion
-        case .byCountry:
-            return responseCacheByCountry
-        }
-    }
-    
-    var timeSinceCasesUpdateStr: String { casesModificationDate.hoursMunutesTillNow }
-    
-    private var casesModificationDate: Date = (UserDefaults.standard.object(forKey: "casesModificationDate") as? Date ?? Date.distantPast) {
-        didSet {
-            UserDefaults.standard.set(casesModificationDate, forKey: "casesModificationDate")
-        }
-    }
-    
-    /// __ hours means data is old
-    var isCasesDataOld: Bool { casesModificationDate.distance(to: Date()) > 1 * 60 * 60 }
-    
-    ///
-    var allCountriesCFR: [Int] {
-        let confirmed = confirmedHistory.allCountriesTotals
-        let deaths = deathsHistory.allCountriesTotals
+    /// ex `processCases()`
+    private func countOutbreak() {
         
-        var allCFR = [Int]()
-        for i in 00..<confirmed.count {
-            //  MARK: FINISH THIS
-            //  ГРАФИКЕ СТРОЯТСЯ ПО [Int] нужно переходить к CGFloat
-            let cfr = confirmed[i] == 0 ? 0 : 100 * 100 * deaths[i] / confirmed[i]
-            allCFR.append(cfr)
-        }
-        return allCFR
-    }
-    
-    
-    init() {
-        countriesWithIso2 = population
-            .filter { $0.uid < 1_000 }
-            .reduce(into: [String: String]()) { $0[$1.combinedKey] = $1.iso2 }
+        var totalCases = 0
+        var totalDeaths = 0
+        var totalRecovered = 0
         
-        
-        /// Map Options
-        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
-        if let savedOptions = UserDefaults.standard.object(forKey: "mapOptions") as? Data {
-            if let loadedOptions = try? JSONDecoder().decode(MapOptions.self, from: savedOptions) {
-                mapOptions = loadedOptions
-            } else {
-                mapOptions = MapOptions()
-            }
-        } else {
-            mapOptions = MapOptions()
-        }
-                
-        
-        /// always start with Country, not Region
-        caseType = CaseType.byCountry
-        
-        
-        /// load `Cases` from disk
-        /// Cases by Region
-        if let response: CoronaResponse = loadJSONFromDocDir("byRegion.json") {
-            responseCacheByRegion = response
-            print("corona response by Region loaded from JSON-file on disk")
-        } else {
-            responseCacheByRegion = CoronaResponse(features: [])
-            print("no JSON-file with corona response by Region on disk, set to empty cases")
+        for cases in coronaByCountry.cases {
+            totalCases += cases.confirmed
+            totalDeaths += cases.deaths
+            totalRecovered += cases.recovered
         }
         
-        /// Cases by Country
-        if let response: CoronaResponse = loadJSONFromDocDir("byCountry.json") {
-            responseCacheByCountry = response
-            print("corona response by Country loaded from JSON-file on disk")
-        } else {
-            responseCacheByCountry = CoronaResponse(features: [])
-            print("no JSON-file with corona response by Country on disk, set to empty cases")
-        }
+        //  MARK: count new and current cases is called separately in countNewAndCurrent()
+        outbreak.population = populationOf(country: nil)
+        outbreak.confirmed = totalCases
+        outbreak.recovered = totalRecovered
+        outbreak.deaths = totalDeaths
         
-        
-        
-        ///  https://github.com/CSSEGISandData/COVID-19
-        /// confirmed cases dataset URL
-        let confirmedURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")!
-        /// deaths dataset URL
-        let deathsURL = URL(string: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")!
-        
-        
-        /// initialize `history` data
-        confirmedHistory = History(saveIn: "confirmedHistory.json",
-                                   url: confirmedURL,
-                                   deviationThreshold: 100)
-        deathsHistory = History(saveIn: "deathsHistory.json",
-                                url: deathsURL,
-                                deviationThreshold: 10)
-        
-        /// initialize empty and calc in processCases()
-        outbreak = Outbreak()
-        
-        
-        //  MARK: НЕТ ЛИ ЗДЕСЬ ДВОЙНОГО ЧТЕНИЯ ЗАПИСИ?????
-        /// `load saved` history data
-        confirmedHistory.load()
-        deathsHistory.load()
-        
-        /// update if data is empty or old
-        updateEmptyOrOldStore()
-        
-        processCases()
-    }
-    
-    func updateEmptyOrOldStore() {
-        if currentCases.isEmpty || isCasesDataOld {
-            print("Cases Data empty or old, need to fetch")
-            isCasesUpdateCompleted = false
-            updateCasesData() { _ in
-                self.countNewAndCurrent()
-            }
-        }
-        
-        if confirmedHistory.countryRows.isEmpty || confirmedHistory.isDataOld || deathsHistory.countryRows.isEmpty || deathsHistory.isDataOld {
-            print("History Data empty or old, need to fetch")
-            updateHistoryData() {
-                self.countNewAndCurrent()
-            }
-        }
-    }
-    
-    func updateCasesData(completionHandler: @escaping (_ caseType: CaseType) -> Void) {
-        fetchCoronaCases(caseType: .byCountry, completionHandler: completionHandler)
-        fetchCoronaCases(caseType: .byRegion, completionHandler: completionHandler)
-    }
-    
-    private var storage = [AnyCancellable]()
-    
-    private func fetchCoronaCases(caseType: CaseType, completionHandler: @escaping (_ caseType: CaseType) -> Void) {
-        
-        isCasesUpdateCompleted = false
-        
-        /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/Coronavirus_2019_nCoV_Cases/FeatureServer
-        /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/1
-        /// https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/2
-        
-        var base: String {
-            switch caseType {
-            case .byRegion:
-                return "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query"
-            case .byCountry:
-                return "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/2/query"
-            }
-        }
-        
-        var urlComponents = URLComponents(string: base)!
-        urlComponents.queryItems = [
-            URLQueryItem(name: "f", value: "json"),
-            URLQueryItem(name: "where", value: "Confirmed > 0"),
-            URLQueryItem(name: "geometryType", value: "esriGeometryEnvelope"),
-            URLQueryItem(name: "spatialRef", value: "esriSpatialRelIntersects"),
-            URLQueryItem(name: "outFields", value: "*"),
-            URLQueryItem(name: "orderByFields", value: "Confirmed desc"),
-            URLQueryItem(name: "resultOffset", value: "0"),
-            URLQueryItem(name: "cacheHint", value: "true")
-        ]
-        
-        URLSession.shared.dataTaskPublisher(for: urlComponents.url!)
-            .map{ $0.data }
-            .decode(type: CoronaResponse.self, decoder: JSONDecoder())
-            .eraseToAnyPublisher()
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in }) { response in
-                
-                print("\(caseType.id) data downloaded")
-                
-                switch caseType {
-                case .byRegion:
-                    self.responseCacheByRegion = response
-                    
-                    /// save to local file if data is not empty
-                    if response.features.isNotEmpty {
-                        saveJSONToDocDir(data: response, filename: "byRegion.json")
-                    } else {
-                        //  MARK: FIX THIS
-                        //  сделать переменную-буфер ошибок и выводить её в Settings или как-то еще
-                        print("response is empty")
-                    }
-                case .byCountry:
-                    self.responseCacheByCountry = response
-                    
-                    /// save to local file if data is not empty
-                    if response.features.isNotEmpty {
-                        saveJSONToDocDir(data: response, filename: "byCountry.json")
-                    } else {
-                        //  MARK: FIX THIS
-                        //  сделать переменную-буфер ошибок и выводить её в Settings или как-то еще
-                        print("response is empty")
-                    }
-                }
-                
-                self.processCases()
-                
-                self.casesModificationDate = Date()
-                self.isCasesUpdateCompleted = true
-                
-                completionHandler(caseType)
-        }
-        .store(in: &storage)
+        countNewAndCurrent()
     }
     
     private func countNewAndCurrent() {
@@ -375,9 +282,9 @@ class CoronaStore: ObservableObject {
         var totalDeathsNew = 0
         var totalDeathsCurrent = 0
         
-        for index in currentCases.indices {
+        for index in coronaByCountry.cases.indices {
             
-            let name = currentCases[index].name
+            let name = coronaByCountry.cases[index].name
             
             //  Confirmed Cases
             
@@ -385,10 +292,10 @@ class CoronaStore: ObservableObject {
             let confirmedPrevious = confirmedHistory.previous(for: name)
             
             let confirmedNew = confirmedLast - confirmedPrevious
-            currentCases[index].confirmedNew = confirmedNew
+            coronaByCountry.cases[index].confirmedNew = confirmedNew
             
-            let comfirmedCurrent = currentCases[index].confirmed - confirmedLast
-            currentCases[index].confirmedCurrent = comfirmedCurrent
+            let comfirmedCurrent = coronaByCountry.cases[index].confirmed - confirmedLast
+            coronaByCountry.cases[index].confirmedCurrent = comfirmedCurrent
             
             totalConfirmedNew += confirmedNew
             totalConfirmedCurrent += comfirmedCurrent
@@ -400,10 +307,10 @@ class CoronaStore: ObservableObject {
             let deathsPrevious = deathsHistory.previous(for: name)
             
             let deathsNew = deathsLast - deathsPrevious
-            currentCases[index].deathsNew = deathsNew
+            coronaByCountry.cases[index].deathsNew = deathsNew
             
-            let deathsCurrent = currentCases[index].deaths - deathsLast
-            currentCases[index].deathsCurrent = deathsCurrent
+            let deathsCurrent = coronaByCountry.cases[index].deaths - deathsLast
+            coronaByCountry.cases[index].deathsCurrent = deathsCurrent
             
             totalDeathsNew += deathsNew
             totalDeathsCurrent += deathsCurrent
@@ -420,109 +327,40 @@ class CoronaStore: ObservableObject {
         
         
     }
-    
-    private func processCases() {
-        var caseAnnotations: [CaseAnnotation] = []
-        var caseData: [CaseData] = []
-        
-        var totalCases = 0
-        var totalDeaths = 0
-        var totalRecovered = 0
-        
-        for cases in responseCache.features {
-            
-            let recovered = cases.attributes.recovered ?? 0
-            let confirmed = cases.attributes.confirmed ?? 0
-            let deaths = cases.attributes.deaths ?? 0
-            let cfr = confirmed == 0 ? 0 : Double(deaths) / Double(confirmed)
-            let title = cases.attributes.provinceState ?? cases.attributes.countryRegion ?? ""
-            
-        
-            caseAnnotations.append(
-                CaseAnnotation(
-                    title: title,
-                    confirmed: "Confirmed \(confirmed.formattedGrouped)",
-                    deaths: "\(deaths.formattedGrouped) deaths",
-                    cfr: "CFR \(cfr.formattedPercentageWithDecimals)",
-                    value: confirmed,
-                    coordinate: .init(latitude: cases.attributes.latitude ?? 0.0,
-                                      longitude: cases.attributes.longitude ?? 0.0),
-                    color: MapOptions.colorCode(for: confirmed)))
-            
-            totalCases += confirmed
-            totalDeaths += cases.attributes.deaths ?? 0
-            totalRecovered += cases.attributes.recovered ?? 0
-            
-            caseData.append(
-                CaseData(
-                    name: title,
-                    confirmed: confirmed,
-                    //  MARK: count new and current cases is called separately in countNewAndCurrent()
-                    confirmedNew: 0,
-                    confirmedCurrent: 0,
-                    recovered: recovered,
-                    deaths: deaths,
-                    //  MARK: count new and current cases is called separately in countNewAndCurrent()
-                    deathsNew: 0,
-                    deathsCurrent: 0//,
-            ))
-        }
-        
-        
-        //  MARK: count new and current cases is called separately in countNewAndCurrent()
-        outbreak.population = populationOf(country: nil)
-        outbreak.confirmed = totalCases
-        outbreak.recovered = totalRecovered
-        outbreak.deaths = totalDeaths
-        
-        
-        //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
-        self.caseAnnotations = caseAnnotations.filter { $0.value > (mapOptions.isFiltered ? mapOptions.lowerLimit : 0) }
-        
-
-        //        if isFiltered && caseAnnotations.count > maxBars {
-        //            caseData = Array(caseData.prefix(upTo: maxBars))
-        //        }
-        
-        //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????
-        self.currentCases = caseData.filter { $0.confirmed > (mapOptions.isFiltered ? mapOptions.lowerLimit : 0) }
-        //        self.cases = caseData
-        
-        countNewAndCurrent()
-    }
-    
-    private var confirmedHistoryStorage = [AnyCancellable]()
-    private var deathsHistoryStorage = [AnyCancellable]()
 }
 
 extension CoronaStore {
+    func updateHistory(completion: @escaping () -> Void) {
+           populateHistory() {
+               self.countOutbreak()
+               completion()
+           }
+       }
     
-    func updateHistoryData(completionHandler: @escaping () -> Void) {
+    private func populateHistory(completion: @escaping () -> Void) {
         
         confirmedHistory.isUpdateCompleted = false
         deathsHistory.isUpdateCompleted = false
         
-        URLSession.shared
-            .dataTaskPublisher(for: confirmedHistory.url)
-            .map { String(data: $0.data, encoding: .utf8)! }
-            .eraseToAnyPublisher()
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in }) { history in
-                self.confirmedHistory.update(from: history)
-                completionHandler()
-        }
-        .store(in: &confirmedHistoryStorage)
+        //  MARK: как сделать publisher<Bool, Never> ? и объединить их: countOutbreak() и countNewAndCurrent() нужно считать после загрузки текущих данных (две Corona) и исторических (две History) — это 4(3) ассинхронных действия. Без объединения countOutbreak() и countNewAndCurrent() вызываются 4(3) раза!!
         
-        URLSession.shared
-            .dataTaskPublisher(for: deathsHistory.url)
-            .map { String(data: $0.data, encoding: .utf8)! }
-            .eraseToAnyPublisher()
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in }) { history in
-                self.deathsHistory.update(from: history)
-                completionHandler()
+        /// `confirmed`
+        let confirmedPub = confirmedHistory.fetch()
+        
+        confirmedPub
+            .sink { history in
+                self.confirmedHistory.update(from: history, completion: completion)
         }
-        .store(in: &deathsHistoryStorage)
+        .store(in: &storage)
+        
+        /// `deaths`
+        let deathsPub = deathsHistory.fetch()
+        
+        deathsPub
+            .sink { history in
+                self.deathsHistory.update(from: history, completion: completion)
+        }
+        .store(in: &storage)
     }
 }
 

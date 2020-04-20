@@ -23,7 +23,7 @@ struct SwipeableCasesCharts: View {
     var body: some View {
         VStack {
             
-            if coronaStore.currentCases.isNotEmpty {
+            if coronaStore.coronaByCountry.cases.isNotEmpty {
                 GeometryReader { geo in
                     ScrollView(.horizontal, showsIndicators: false) {
                         VStack(spacing: 0) {

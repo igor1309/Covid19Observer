@@ -27,16 +27,16 @@ struct CaseChart: View {
         
         switch selectedType {
         case .confirmed:
-            maximum = CGFloat(coronaStore.currentCases.map { $0.confirmed }.max() ?? 1)
+            maximum = CGFloat(coronaStore.coronaByCountry.cases.map { $0.confirmed }.max() ?? 1)
         case .new:
-            maximum = CGFloat(coronaStore.currentCases.map { $0.confirmedNew }.max() ?? 1)
+            maximum = CGFloat(coronaStore.coronaByCountry.cases.map { $0.confirmedNew }.max() ?? 1)
         case .current:
-            maximum = CGFloat(coronaStore.currentCases.map { $0.confirmedCurrent }.max() ?? 1)
+            maximum = CGFloat(coronaStore.coronaByCountry.cases.map { $0.confirmedCurrent }.max() ?? 1)
         case .deaths:
-            maximum = CGFloat(coronaStore.currentCases.map { $0.deaths }.max() ?? 1)
+            maximum = CGFloat(coronaStore.coronaByCountry.cases.map { $0.deaths }.max() ?? 1)
         case .cfr:
             //            maximum = 0.15
-            maximum = CGFloat(coronaStore.currentCases
+            maximum = CGFloat(coronaStore.coronaByCountry.cases
                 //  MARK: - FINISH THIS
                 //  move to model
                 //
@@ -63,13 +63,13 @@ struct CaseChart: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    ForEach(0..<self.coronaStore.currentCases.count, id: \.self) { index in
+                    ForEach(0..<self.coronaStore.coronaByCountry.cases.count, id: \.self) { index in
                         
                         CaseBar(selectedType: self.selectedType, index: index, maximum: maximum, width: self.width, barHeight: self.barHeight)
                             
                             .onTapGesture {
                                 if self.isBarsTappable {
-                                    self.selectedCountry = self.coronaStore.currentCases[index].name
+                                    self.selectedCountry = self.coronaStore.coronaByCountry.cases[index].name
                                     self.prepareHistoryData()
                                 }
                         }
@@ -77,7 +77,6 @@ struct CaseChart: View {
                 }
                 .sheet(isPresented: self.$showLineChart) {
                     CasesLineChartView(forAllCountries: false)
-                        .padding(.top, 6)
                         .environmentObject(self.coronaStore)
                         .environmentObject(self.settings)
                 }

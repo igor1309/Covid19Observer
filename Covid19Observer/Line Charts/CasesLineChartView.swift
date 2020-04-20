@@ -67,7 +67,6 @@ struct CasesLineChartView: View {
                     .foregroundColor(.systemOrange)
                     .font(.headline)
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.top)//, 6)
                     .padding(.bottom, 6)
                 
                 settings.chartOptions.dataKind == .cfr
@@ -132,6 +131,7 @@ struct CasesLineChartView: View {
                 
             }
         }
+        .padding(.top)
         .transition(.opacity)
         .padding(.horizontal)
         .padding(.bottom, 12)
