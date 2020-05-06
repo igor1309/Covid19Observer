@@ -138,6 +138,7 @@
 		2AEEC51A2453A4C300BA1AE3 /* URLSession+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEEC5192453A4C300BA1AE3 /* URLSession+Ext.swift */; };
 		2AEEC51C24543F9100BA1AE3 /* JohnHopkinsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEEC51B24543F9100BA1AE3 /* JohnHopkinsAPI.swift */; };
 		2AEF458F2462E766000F0584 /* CountryDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEF458E2462E766000F0584 /* CountryDataTable.swift */; };
+		2AEF45912462FF81000F0584 /* DeviationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEF45902462FF81000F0584 /* DeviationsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -288,6 +289,7 @@
 		2AEEC5192453A4C300BA1AE3 /* URLSession+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Ext.swift"; sourceTree = "<group>"; };
 		2AEEC51B24543F9100BA1AE3 /* JohnHopkinsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JohnHopkinsAPI.swift; sourceTree = "<group>"; };
 		2AEF458E2462E766000F0584 /* CountryDataTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDataTable.swift; sourceTree = "<group>"; };
+		2AEF45902462FF81000F0584 /* DeviationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviationsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -558,6 +560,7 @@
 			children = (
 				2A9974D2244125BB004FF043 /* WhatsNew.swift */,
 				2AD693BC2443B59200F550A0 /* Dashboard.swift */,
+				2AEF45902462FF81000F0584 /* DeviationsView.swift */,
 				2A9974DB2441ABBE004FF043 /* CountryList.swift */,
 			);
 			path = "What's New";
@@ -808,6 +811,7 @@
 				2AE2C50D243723B800CC8476 /* Date+Extensions.swift in Sources */,
 				2A03BF072428C04F0094852B /* CasesTableView.swift in Sources */,
 				2A03BF062428C04F0094852B /* CaseData.swift in Sources */,
+				2AEF45912462FF81000F0584 /* DeviationsView.swift in Sources */,
 				2A025625244A4F2F0081D177 /* SaveRetrieveBounds.swift in Sources */,
 				2AE2C540243B0BEB00CC8476 /* DataKindPicker.swift in Sources */,
 				2A566E7824478BB0006BEA02 /* MagnificationGestureView.swift in Sources */,

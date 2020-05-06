@@ -79,7 +79,7 @@ struct CountryList: View {
                 Spacer()
                 Group {
                     cell(text: "7d avg", col: 220)
-                    cell(text: "laset", col: 221)
+                    cell(text: "last", col: 221)
                     cell(text: "change", col: 222)
                 }
             }
