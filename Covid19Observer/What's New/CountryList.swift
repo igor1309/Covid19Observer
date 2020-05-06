@@ -20,7 +20,7 @@ struct CountryList: View {
     @State private var showCountryDetails = false
     @State private var columnWidths: [Int: CGFloat] = [200:100]
     
-    func deviationRow(deviation: Deviation, kind: DataKind) -> some View {
+    func countryRow(deviation: Deviation, kind: DataKind) -> some View {
         
         var change: Double { deviation.last / deviation.avg - 1 }
         var color: Color {
@@ -66,7 +66,7 @@ struct CountryList: View {
     
     var body: some View {
         VStack(spacing: 6) {
-            VStack {
+            VStack(spacing: 8) {
                 Text("Significant changes in")
                 Text(kind.id)
                     .font(.title)
@@ -90,7 +90,7 @@ struct CountryList: View {
             ScrollView(.vertical) {
                 VStack {
                     ForEach(deviations.indices) { ix in
-                        self.deviationRow(deviation: self.deviations[ix], kind: self.kind)
+                        self.countryRow(deviation: self.deviations[ix], kind: self.kind)
                             .background(ix % 2 == 0 ? Color.secondarySystemBackground : .clear)
                     }
                 }
