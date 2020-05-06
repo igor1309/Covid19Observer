@@ -33,6 +33,7 @@ struct CaseAttributes: Codable {
     let longitude: Double?
     let provinceState: String?
     let recovered: Int?
+//    let testDecoder: Int
     
     enum CodingKeys: String, CodingKey {
         case confirmed = "Confirmed"
@@ -42,5 +43,6 @@ struct CaseAttributes: Codable {
         case longitude = "Long_"
         case provinceState = "Province_State"
         case recovered = "Recovered"
+//        case testDecoder = "test"
     }
 }

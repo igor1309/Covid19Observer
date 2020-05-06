@@ -26,7 +26,7 @@ struct CountryList: View {
         var color: Color {
             change >= 1 ? .systemRed
                 : change >= 0.5 ? .systemOrange
-                : change < 0 ? .systemTeal
+                : change < 0 ? .systemGreen
                 : .secondary
         }
         
@@ -105,7 +105,7 @@ struct CountryList_Previews: PreviewProvider {
         var devs = [Deviation]()
         let countries = ["Russia", "US", "Italy", "Germany", "France", "Finland", "Spain", "China"]
         for country in countries {
-            devs.append(Deviation(country: country, avg: 30, last: 40))
+            devs.append(Deviation(country: country, avg: 30, last: 70))
         }
         return devs
     }

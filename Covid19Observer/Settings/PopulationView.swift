@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 import SwiftPI
 
 struct PopulationView: View {

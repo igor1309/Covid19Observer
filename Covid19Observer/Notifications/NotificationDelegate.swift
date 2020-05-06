@@ -41,6 +41,7 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     
     
     /// https://medium.com/flawless-app-stories/local-notifications-in-swift-5-and-ios-13-with-unusernotificationcenter-190e654a5615
+    /// how to handle a notification that arrived while the app was running in the foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         completionHandler([.alert, .badge, .sound])

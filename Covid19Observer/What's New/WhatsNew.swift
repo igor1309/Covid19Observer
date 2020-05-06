@@ -78,6 +78,7 @@ Divider()
                 : HStack {
                     Image(systemName: "exclamationmark.circle")
                     Text("Significant Deviations")
+                        .font(.headline)
                 }
                 .font(.subheadline)
             
@@ -169,11 +170,13 @@ Divider()
                 VStack {
                     Text("What's New")
                         .font(.title)
+                        .fontWeight(.light)
                         .padding(.top)
                     
                     HStack {
                         Image(systemName: "globe")
                         Text("World")
+                            .font(.headline)
                     }
                     .font(.subheadline)
                     

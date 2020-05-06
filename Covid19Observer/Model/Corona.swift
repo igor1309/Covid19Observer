@@ -12,7 +12,9 @@ import SwiftPI
 
 struct Corona: Codable {
     let caseType: CaseType
-    let filename: String
+    let endPoint: JHEndPoint
+//    let filename: String
+    var filename: String { endPoint.rawValue + ".json" }
     
     var cases = [CaseData]()
     private(set) var caseAnnotations = [CaseAnnotation]()
@@ -20,13 +22,30 @@ struct Corona: Codable {
     private(set) var lastSyncDate: Date
     var isUpdateCompleted: Bool?
     
-    init(_ caseType: CaseType, saveTo filename: String) {
+    init(_ caseType: CaseType, endPoint: JHEndPoint/*, saveTo filename: String*/) {
         self.caseType = caseType
+        self.endPoint = endPoint
         self.lastSyncDate = .distantPast
         self.isUpdateCompleted = nil
-        self.filename = filename
+//        self.filename = filename
         
         loadSavedCorona()
+    }
+}
+
+extension Corona {
+    init(from response: CoronaResponse, caseType: CaseType, endPoint: JHEndPoint) {
+        //  MARK: FINISH THIS
+        var corona = Corona(caseType, endPoint: endPoint)
+        
+        guard response.features.isNotEmpty else {
+            self = corona
+            return
+        }
+        
+        corona.update(with: response, completion: {})
+        
+        self = corona
     }
 }
 
@@ -128,13 +147,6 @@ extension Corona {
             ))
         }
         
-        
-        //  MARK: ВОЗМОЖНО outbreak стоит оставить в CoronaStore — там его считать логичнее, поскольку требуется history…
-        //  MARK: count new and current cases is called separately in countNewAndCurrent()
-        //        outbreak.population = populationOf(country: nil)
-        //        outbreak.confirmed = totalCases
-        //        outbreak.recovered = totalRecovered
-        //        outbreak.deaths = totalDeaths
         
         
         //  MARK: НЕПРАВИЛЬНО ФИЛЬТРОВАТЬ ЗДЕСЬ ?????

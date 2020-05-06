@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Country: Hashable {
+struct Country: Hashable, Codable {
     var name: String
     var iso2: String
 }

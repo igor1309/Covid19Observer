@@ -13,6 +13,23 @@ extension Date {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .brief
         formatter.allowedUnits = [.hour, .minute]
-        return formatter.string(from: self, to: Date())  ?? "n/a"
+        return formatter.string(from: self, to: Date()) ?? "n/a"
+    }
+    
+    public var hoursMunutesTillNowNice: String {
+        let distance = self.distance(to: Date())
+        if distance < 60 {
+            return "just now"
+        } else {
+            let formatter = DateComponentsFormatter()
+            formatter.unitsStyle = .brief
+            formatter.allowedUnits = [.hour, .minute]
+            let f = formatter.string(from: self, to: Date())
+            if f == nil {
+                return "n/a"
+            } else {
+                return f! + " ago"
+            }
+        }
     }
 }

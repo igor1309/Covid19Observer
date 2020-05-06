@@ -14,14 +14,134 @@ import SwiftUI
 import Combine
 import SwiftPI
 
+extension TestingCorona { //CoronaStore {
+    
+    /// Based on https://bestkora.com/IosDeveloper/modern-networking-in-swift-5-with-urlsession-combine-and-codable/
+    ///
+    func load<T: Decodable>(_ nameJSON: String, type: T.Type, decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<T, Error> {
+        //--------------------------------------------------------
+        //  MARK: НУЖНО ПЕРЕПИСАТЬ!!! - Важны ошибки (или нет??)
+        //
+        
+        Just(nameJSON)
+            .flatMap { (nameJSON) -> AnyPublisher<Data, Never> in
+                let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let file = dir.appendingPathComponent(nameJSON)
+                let data = try! Data(contentsOf: file)
+                return Just(data)
+                    .eraseToAnyPublisher()
+        }
+        .decode(type: T.self, decoder: decoder)
+        .receive(on: RunLoop.main)
+        .eraseToAnyPublisher()
+    }
+    
+    
+    func fetch(caseType: CaseType, endpoint: JHEndPoint) -> AnyPublisher<Corona, FetchError> {
+        
+        Future<Corona, FetchError> { [unowned self] promise in
+            URLSession.shared.dataTaskPublisher(for: endpoint.url)
+                .tryMap { (data, response) -> Data in
+                    guard let httpResponse = response as? HTTPURLResponse,
+                        200...299 ~= httpResponse.statusCode else {
+                            throw FetchError.responseError(
+                                ((response as? HTTPURLResponse)?.statusCode ?? 500,
+                                 String(data: data, encoding: .utf8) ?? ""))
+                    }
+                    return data
+            }
+            .decode(type: CoronaResponse.self, decoder: JSONDecoder())
+            .tryMap { (response) -> Corona in
+                if response.features.isNotEmpty {
+                    var corona = Corona(caseType, endPoint: endpoint)
+                    corona.update(with: response, completion: { })
+                    return corona
+                } else {
+                    throw FetchError.emptyResponse
+                }
+            }
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink(
+                receiveCompletion: { (completion) in
+                    //--------------------------------------------------------
+                    //  MARK: FINISH HANDLING ALL ERRORS, MARKERS AND FLAGS!!!
+                    //
+                    if case let .failure(error) = completion {
+                        switch error {
+                        case let urlError as URLError:
+                            promise(.failure(.urlError(urlError)))
+                        case let decodingError as DecodingError:
+                            promise(.failure(.decodingError(decodingError)))
+                        case let apiError as FetchError:
+                            promise(.failure(apiError))
+                        default:
+                            promise(.failure(.genericError))
+                        }
+                    } else {
+                        //------------------------
+                        //  MARK: success is here - write flag!
+                    }
+            },
+                receiveValue: { corona in
+                    promise(.success(corona))
+            })
+                .store(in: &self.cancellables)
+        }
+        .eraseToAnyPublisher()
+    }
+}
+
+
+extension CoronaStore {
+    
+    func load(endpoint: JHEndPoint) -> AnyPublisher<Corona, FetchError> {
+        Future<Corona, FetchError> { [unowned self] promise in
+            
+            FileManager.default.load(endpoint.filename, type: Corona.self)
+                //  MARK: CATCH AND PROCESS ERRORS!!!
+                .receive(on: DispatchQueue.main)
+                .sink(
+                    receiveCompletion: { (completion) in
+                        if case let .failure(error) = completion {
+                            switch error {
+                            case let urlError as URLError:
+                                promise(.failure(.urlError(urlError)))
+                            case let decodingError as DecodingError:
+                                promise(.failure(.decodingError(decodingError)))
+                            case let apiError as FetchError:
+                                promise(.failure(apiError))
+                            default:
+                                promise(.failure(.genericError))
+                            }
+                        }
+                },
+                    receiveValue: {
+//                        promise(.success($0))
+                        switch endpoint {
+                        case .currentByRegion:
+                            self.coronaByRegion = $0
+                        case .currentByCountry:
+                            self.coronaByCountry = $0
+                        default: break
+                        }
+                })
+                .store(in: &self.storage)
+        }
+        .eraseToAnyPublisher()
+    }
+}
+
+
+
 final class CoronaStore: ObservableObject {
     
     @Published var caseType = CaseType.byCountry {
         didSet { countOutbreak() }
     }
     
-    @Published private(set) var coronaByCountry = Corona(.byCountry, saveTo: "coronaByCountry.json")
-    @Published private(set) var coronaByRegion = Corona(.byRegion, saveTo: "coronaByRegion.json")
+    @Published var coronaByCountry = Corona(.byCountry, endPoint: .currentByCountry/*, saveTo: "coronaByCountry.json"*/)
+    @Published var coronaByRegion = Corona(.byRegion, endPoint: .currentByRegion/*, saveTo: "coronaByRegion.json"*/)
     
     @Published private(set) var confirmedHistory = History(
         saveTo: "confirmedHistory.json",
@@ -49,9 +169,9 @@ final class CoronaStore: ObservableObject {
             countOutbreak()
         }
     }
-
+    
     private var storage = [AnyCancellable]()
-
+    
     let population = Bundle.main
         .decode(Population.self, from: "population.json")
         .sorted(by: { $0.combinedKey < $1.combinedKey })
@@ -59,41 +179,77 @@ final class CoronaStore: ObservableObject {
     let countriesWithIso2: [String: String]
     
     init() {
-        
         countriesWithIso2 = population
             .filter { $0.uid < 1_000 }
             .reduce(into: [String: String]()) { $0[$1.combinedKey] = $1.iso2 }
         
         
         /// Map Options
-//        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
-//        if let savedOptions = UserDefaults.standard.object(forKey: "mapOptions") as? Data {
-//            if let loadedOptions = try? JSONDecoder().decode(MapOptions.self, from: savedOptions) {
-//                mapOptions = loadedOptions
-//            } else {
-//                mapOptions = MapOptions()
-//            }
-//        } else {
-//            mapOptions = MapOptions()
-//        }
+        //        /// https://www.hackingwithswift.com/example-code/system/how-to-load-and-save-a-struct-in-userdefaults-using-codable
+        //        if let savedOptions = UserDefaults.standard.object(forKey: "mapOptions") as? Data {
+        //            if let loadedOptions = try? JSONDecoder().decode(MapOptions.self, from: savedOptions) {
+        //                mapOptions = loadedOptions
+        //            } else {
+        //                mapOptions = MapOptions()
+        //            }
+        //        } else {
+        //            mapOptions = MapOptions()
+        //        }
         mapOptions = UserDefaults.standard.getObj(forKey: "mapOptions", /*castTo: MapOptions.self,*/ empty: MapOptions())
         
         
         //  MARK: как сделать publisher<Bool, Never> ? и объединить их: countOutbreak() и countNewAndCurrent() нужно считать после загрузки текущих данных (две Corona) и исторических (две History) — это 4(3) ассинхронных действия. Без объединения countOutbreak() и countNewAndCurrent() вызываются 4(3) раза!!
         populateCorona {
-            self.countOutbreak()
+            //            self.countOutbreak()
         }
         populateHistory {
-            self.countOutbreak()
+            //            self.countOutbreak()
         }
         
         
-        //  MARK: - что-то тут не то
+        //  MARK: - FIX THIS что-то тут не то
         ///  updateEmptyOrOldStore должен содержать  какую-то `closure` ??
         DispatchQueue.main.async {
             /// update if data is empty or old
             self.updateEmptyOrOldStore()
         }
+        
+        
+        
+        
+        let byCountryPub = $coronaByCountry
+            .map { $0.isUpdateCompleted ?? false }
+            .filter { $0 }
+        
+        let byRegionPub = $coronaByRegion
+            .map { $0.isUpdateCompleted ?? false }
+            .filter {
+                print("PUBLISHER coronaByCountry emitted: \($0)")
+                return $0 }
+        //
+        //        let confirmedPub = $confirmedHistory
+        //            .map { $0.isUpdateCompleted ?? false}
+        //            .filter { $0 }
+        //
+        //        let deathPub = $deathsHistory
+        //            .map { $0.isUpdateCompleted ?? false}
+        //            .filter { $0 }
+        
+        //        let corona = Publishers.Zip(byRegionPub, byCountryPub)
+        //        let history = Publishers.Zip(confirmedPub, deathPub)
+        //        let store = Publishers.Zip(corona, history)
+        
+        //                let corona =
+        //        Publishers.Merge4(byCountryPub, byRegionPub, confirmedPub, deathPub)
+        byRegionPub
+            //            .reduce(true, { $0 && $1 })
+            //            .filter { $0 }
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                print(">> published, running countOutbreak() ")
+                self.countOutbreak()
+        }
+        .store(in: &storage)
     }
 }
 
@@ -189,16 +345,16 @@ extension CoronaStore {
         countryPub
             .sink { response in
                 self.coronaByCountry.update(with: response, completion: completion)
-            }
-            .store(in: &storage)
+        }
+        .store(in: &storage)
         
         /// by `Region`
         coronaByRegion
             .fetch()
             .sink { response in
                 self.coronaByRegion.update(with: response, completion: completion)
-            }
-            .store(in: &storage)
+        }
+        .store(in: &storage)
     }
     
     func series(for dataKind: DataKind, appendCurrent: Bool, forAllCountries: Bool = false) -> [Int] {
@@ -250,11 +406,13 @@ extension CoronaStore {
                 return allCountriesCFR
             }
             
-            return series
+            //  MARK: negative values crash charts
+            //
+            return series.filter { $0 >= 0 }
         }
     }
     
-
+    
     /// ex `processCases()`
     private func countOutbreak() {
         
@@ -333,11 +491,11 @@ extension CoronaStore {
 
 extension CoronaStore {
     func updateHistory(completion: @escaping () -> Void) {
-           populateHistory() {
-               self.countOutbreak()
-               completion()
-           }
-       }
+        populateHistory() {
+            self.countOutbreak()
+            completion()
+        }
+    }
     
     private func populateHistory(completion: @escaping () -> Void) {
         

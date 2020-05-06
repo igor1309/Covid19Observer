@@ -17,6 +17,7 @@ struct CasesLineChartView: View {
     var forAllCountries: Bool
     
     @State private var showCountryPickerTable = false
+    @State private var showTable = false
     
     var countryPicker: some View {
         HStack {
@@ -24,13 +25,16 @@ struct CasesLineChartView: View {
                 self.showCountryPickerTable = true
             }) {
                 HStack {
+                    Image(systemName: "chevron.down")
+                    .font(.headline)
+                    
                     Text(coronaStore.selectedCountry)
                         .font(.title)
                         .lineLimit(1)
                         .layoutPriority(1)
                     
-                    Image(systemName: "arrowshape.turn.up.right")
-                        .font(.headline)
+//                    Image(systemName: "arrowshape.turn.up.right")
+//                        .font(.headline)
                 }
             }
             .sheet(isPresented: $showCountryPickerTable) {
@@ -86,20 +90,38 @@ struct CasesLineChartView: View {
                 ZStack(alignment: .topTrailing) {
                     Dashboard(outbreak: coronaStore.selectedCountryOutbreak, forAllCountries: false)
                     
-                    AppendCurrentToggle()
+                    VStack {
+                        AppendCurrentToggle()
+                        
+                        ToolBarButton(systemName: "table") {
+                            self.showTable = true
+                        }
+                        .sheet(isPresented: $showTable) {
+                            CountryDataTable(series: self.series)
+                                .environmentObject(self.coronaStore)
+                        }
+                    }
                 }
             }
         }
     }
     
-    /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
-    var body: some View {
-
-        let series = coronaStore
+    var series: [Int] {
+        coronaStore
             .series(for: settings.chartOptions.dataKind,
                     appendCurrent: settings.chartOptions.appendCurrent,
                     forAllCountries: forAllCountries)
             .filtered(limit: settings.chartOptions.lineChartLimit)
+    }
+    
+    /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
+    var body: some View {
+
+//        let series = coronaStore
+//            .series(for: settings.chartOptions.dataKind,
+//                    appendCurrent: settings.chartOptions.appendCurrent,
+//                    forAllCountries: forAllCountries)
+//            .filtered(limit: settings.chartOptions.lineChartLimit)
         
         return VStack(alignment: .leading, spacing: 8) {
             
@@ -144,12 +166,12 @@ struct CasesLineChartView_Previews: PreviewProvider {
             ZStack {
                 Color.black.edgesIgnoringSafeArea(.all)
                 
-                CasesLineChartView(forAllCountries: true)
+                CasesLineChartView(forAllCountries: false)
             }
             ZStack {
                 Color.black.edgesIgnoringSafeArea(.all)
                 
-                CasesLineChartView(forAllCountries: false)
+                CasesLineChartView(forAllCountries: true)
             }
         }
         .environmentObject(CoronaStore())

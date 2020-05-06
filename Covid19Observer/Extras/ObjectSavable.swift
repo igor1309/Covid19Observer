@@ -60,10 +60,15 @@ extension UserDefaults: ObjectSavable {
         }
     }
     
+    /// аналог getObject
+    /// - Parameters:
+    ///   - forKey: <#forKey description#>
+    ///   - empty: значение по умолчанию, если не удается прочитать сохраненное значение
+    /// - Returns: сохраненное или дефолтное значение
     func getObj<Object>(forKey: String, /*castTo type: Object.Type,*/ empty: Object) -> Object where Object: Decodable {
         
         guard let data = data(forKey: forKey) else {
-            print(ObjectSavableError.noValue)
+//            print(ObjectSavableError.noValue)
             return empty
         }
         

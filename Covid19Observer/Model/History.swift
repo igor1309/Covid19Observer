@@ -373,7 +373,7 @@ extension History {
         
         /// drop last row if empty (реальная ситуация 24.03.2020)
         if rows.count > 1 && rows.last!.isEmpty {
-            print("!! dropped last empty row")
+//            print("!! dropped last empty row")
             rows = rows.dropLast()
         }
         
