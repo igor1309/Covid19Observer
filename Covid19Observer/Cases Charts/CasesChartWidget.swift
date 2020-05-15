@@ -8,33 +8,20 @@
 
 import SwiftUI
 
+/// shows nothing (EmptyView) if `outbreak` is zero
 struct CasesChartWidget: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     @State private var columnWidths: [Int: CGFloat] = [:]
     @State private var showTable = false
     
     let spacing: CGFloat = 16
-    var body: some View {
-        
-        func row(title: String, value: String, color: Color) -> some View {
-            HStack(spacing: spacing) {
-                Text(title)
-                    .fixedSize()
-                    .widthPreference(column: 1)
-                    .frame(width: columnWidths[1], alignment: .leading)
-                Text(value)
-                    .fixedSize()
-                    .widthPreference(column: 2)
-                    .frame(width: columnWidths[2], alignment: .trailing)
-            }
-            .foregroundColor(color)
-        }
-        
-        var outbreak: Outbreak { coronaStore.outbreak }
-        
-        return VStack(alignment: .leading, spacing: 3) {
+    
+    var outbreak: Outbreak { store.outbreak }
+    
+    var widget: some View {
+        VStack(alignment: .leading, spacing: 3) {
             Group {
                 row(title: "Confirmed", value: outbreak.confirmedStr, color: CaseDataType.confirmed.color)
                 
@@ -65,16 +52,41 @@ struct CasesChartWidget: View {
             }
             .sheet(isPresented: $showTable) {
                 CasesTableView()
-                    .environmentObject(self.coronaStore)
+                    .environmentObject(self.store)
                     .environmentObject(self.settings)
             }
         }
         .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
         .font(.system(.caption, design: .monospaced))
-        .padding(.vertical, 8)
+        .padding(.top, 8)
+        .padding(.bottom, 6)
         .padding(.horizontal, 12)
         .roundedBackground(cornerRadius: 8, color: .secondarySystemBackground)
         .padding(.bottom)
+    }
+    
+    var body: some View {
+        Group {
+            if outbreak.confirmed > 0 {
+                widget
+            } else {
+                EmptyView()
+            }
+        }
+    }
+    
+    func row(title: String, value: String, color: Color) -> some View {
+        HStack(spacing: spacing) {
+            Text(title)
+                .fixedSize()
+                .widthPreference(column: 1)
+                .frame(width: columnWidths[1], alignment: .leading)
+            Text(value)
+                .fixedSize()
+                .widthPreference(column: 2)
+                .frame(width: columnWidths[2], alignment: .trailing)
+        }
+        .foregroundColor(color)
     }
 }
 
@@ -85,7 +97,7 @@ struct CasesChartWidget_Previews: PreviewProvider {
             
             CasesChartWidget()
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }
