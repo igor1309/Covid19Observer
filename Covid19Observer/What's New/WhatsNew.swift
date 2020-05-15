@@ -7,34 +7,61 @@
 //
 
 import SwiftUI
-import SwiftPI
+import Combine
 
 struct WhatsNew: View {
     let cardColor: Color = .tertiarySystemFill
     
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
+    @ObservedObject var timers = Timers()
+    
+    @State private var text = ""
+    
     var updated: some View {
-        let casesStr = coronaStore.timeSinceCasesUpdateStr == "0min"
-            ? "Cases updated just now."
-            : "Last update for Cases \(coronaStore.timeSinceCasesUpdateStr) ago."
-        
-        let casesColor: Color = coronaStore.timeSinceCasesUpdateStr == "0min"
-            ? .systemGreen
-            : .secondary
-        
-        let historyStr = coronaStore.confirmedHistory.timeSinceUpdateStr == "0min"
-            ? "History updated just now."
-            : "Last update for History \(coronaStore.confirmedHistory.timeSinceUpdateStr) ago."
-        
-        let historyColor: Color = coronaStore.confirmedHistory.timeSinceUpdateStr == "0min"
-            ? .systemGreen
-            : .secondary
-        
-        return VStack(alignment: .leading, spacing: 6) {
-            Text(casesStr).foregroundColor(casesColor)
-            Text(historyStr).foregroundColor(historyColor)
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 8) {
+                Button(action: {
+                    self.store.fetchCurrent()
+                }) {
+                    Image(systemName: "arrow.2.circlepath")
+                }
+                .frame(width: 32)
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    ZStack(alignment: .leading) {
+                        Text(text)
+                            .hidden()   //  трюк - скрытый вью заставялет по таймеру пересчитывать время после обновления
+                        Text(store.sinceCurrentLastSync)
+                            .foregroundColor(store.syncColor(for: store.currentByCountry.syncDate))
+                    }
+                    Text(store.syncStatusStr(status: store.syncStatus[.current(.byCountry), default: nil]))
+                        .foregroundColor(.tertiary)
+                }
+            }
+            
+            HStack(spacing: 8) {
+                Button(action: {
+                    self.store.fetchHistory()
+                }) {
+                    Image(systemName: "arrow.2.circlepath.circle")
+                }
+                .frame(width: 32)
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(store.sinceHistoryLastSync)
+                        .foregroundColor(store.syncColor(for: store.confirmedHistory.syncDate))
+                    Text(store.syncStatusStr(status: store.syncStatus[.history(.confirmed), default: nil]))
+                        .foregroundColor(.tertiary)
+                }
+            }
+        }
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .font(.caption)
+        .onReceive(Publishers.CombineLatest(timers.$thirtySeconds, store.$currentByCountry)) { _ in
+            self.text = self.store.sinceCurrentLastSync
         }
     }
     
@@ -59,7 +86,7 @@ struct WhatsNew: View {
             }
             .sheet(isPresented: $showLineChart) {
                 CasesLineChartView(forAllCountries: true)
-                    .environmentObject(self.coronaStore)
+                    .environmentObject(self.store)
                     .environmentObject(self.settings)
             }
             
@@ -79,7 +106,7 @@ struct WhatsNew: View {
             }
             .sheet(isPresented: $showTable) {
                 CasesTableView()
-                    .environmentObject(self.coronaStore)
+                    .environmentObject(self.store)
                     .environmentObject(self.settings)
             }
             
@@ -103,15 +130,15 @@ struct WhatsNew: View {
                 }
                 .font(.subheadline)
                 
-                Dashboard(outbreak: coronaStore.outbreak, forAllCountries: true)
+                Dashboard(outbreak: store.outbreak, forAllCountries: true)
                 
                 chartAndTableButtons
                     .padding(.vertical, 8)
                 
-                updated
-                    .font(.caption)
                 
-                DeviationsView()
+                updated
+                
+                VariationsView()
             }
         }
     }
@@ -124,7 +151,7 @@ struct WhatsNew_Previews: PreviewProvider {
             
             WhatsNew()
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
         .previewLayout(.sizeThatFits)
