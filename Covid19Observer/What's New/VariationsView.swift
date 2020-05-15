@@ -1,5 +1,5 @@
 //
-//  DeviationsView.swift
+//  VariationsView.swift
 //  Covid19Observer
 //
 //  Created by Igor Malyarov on 06.05.2020.
@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct DeviationsView: View {
+struct VariationsView: View {
     let cardColor: Color = .tertiarySystemFill
     
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
-    var confirmedDeviations: [Deviation] { coronaStore.confirmedHistory.deviations }
-    var deathsDeviations: [Deviation] { coronaStore.deathsHistory.deviations }
+    var confirmedDeviations: [Deviation] { store.confirmedVariation.deviations }
+    var deathsDeviations: [Deviation] { store.deathsVariation.deviations }
     
     @State private var listToShow: [Deviation] = []
     @State private var showCountryList = false
@@ -104,18 +104,18 @@ struct DeviationsView: View {
         .padding()
         .sheet(isPresented: $showCountryList) {
             CountryList(kind: self.kind, deviations: self.listToShow)
-                .environmentObject(self.coronaStore)
+                .environmentObject(self.store)
                 .environmentObject(self.settings)
         }
     }
 }
 
-struct DeviationsView_Previews: PreviewProvider {
+struct Variationsiews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            DeviationsView()
+            VariationsView()
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }

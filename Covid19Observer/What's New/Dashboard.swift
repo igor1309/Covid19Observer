@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct Dashboard: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     @State private var showChart = false
@@ -103,7 +103,7 @@ struct Dashboard: View {
         .padding(forAllCountries ? .all : .trailing)
         .sheet(isPresented: forAllCountries ? $showChart : .constant(false)) {
             CasesLineChartView(forAllCountries: true)
-                .environmentObject(self.coronaStore)
+                .environmentObject(self.store)
                 .environmentObject(self.settings)
         }
     }
@@ -121,7 +121,7 @@ struct Dashboard_Previews: PreviewProvider {
                 Dashboard(outbreak: coronaStore.selectedCountryOutbreak, forAllCountries: false)
             }
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
         .previewLayout(.sizeThatFits)
