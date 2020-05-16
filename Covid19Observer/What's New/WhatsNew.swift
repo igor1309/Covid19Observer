@@ -20,40 +20,48 @@ struct WhatsNew: View {
     @State private var text = ""
     
     var updated: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 8) {
-                Button(action: {
+        
+        let currentStatus = (store.syncStatus[.current(.byCountry)] ?? .failure).rawValue
+        let historyStatus = (store.syncStatus[.history(.confirmed)] ?? .failure).rawValue
+        
+        let stableState = [SyncStatus.failure, .loaded, .fetched]
+        let currentIsInStableStatus = stableState.contains(store.syncStatus[.current(.byCountry)] ?? .loading)
+        let historyIsInStableStatus = stableState.contains(store.syncStatus[.history(.confirmed)] ?? .loading)
+        
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 16) {
+                SpinningArrowsWithSubscriberButton(
+                    publisher: store.$currentIsUpdating.eraseToAnyPublisher()
+                ) {
                     self.store.fetchCurrent()
-                }) {
-                    Image(systemName: "arrow.2.circlepath")
                 }
-                .frame(width: 32)
                 
-                VStack(alignment: .leading, spacing: 3) {
-                    ZStack(alignment: .leading) {
-                        Text(text)
-                            .hidden()   //  трюк - скрытый вью заставялет по таймеру пересчитывать время после обновления
+                HStack {
+                    Text(currentStatus)
+                        .foregroundColor(.tertiary)
+                    
+                    if currentIsInStableStatus {
                         Text(store.sinceCurrentLastSync)
                             .foregroundColor(store.syncColor(for: store.currentByCountry.syncDate))
                     }
-                    Text(store.syncStatusStr(status: store.syncStatus[.current(.byCountry), default: nil]))
-                        .foregroundColor(.tertiary)
                 }
             }
             
-            HStack(spacing: 8) {
-                Button(action: {
+            HStack(spacing: 16) {
+                SpinningArrowsWithSubscriberButton(
+                    publisher: store.$historyIsUpdating.eraseToAnyPublisher()
+                ) {
                     self.store.fetchHistory()
-                }) {
-                    Image(systemName: "arrow.2.circlepath.circle")
                 }
-                .frame(width: 32)
                 
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(store.sinceHistoryLastSync)
-                        .foregroundColor(store.syncColor(for: store.confirmedHistory.syncDate))
-                    Text(store.syncStatusStr(status: store.syncStatus[.history(.confirmed), default: nil]))
+                HStack {
+                    Text(historyStatus)
                         .foregroundColor(.tertiary)
+                    
+                    if historyIsInStableStatus {
+                        Text(store.sinceHistoryLastSync)
+                            .foregroundColor(store.syncColor(for: store.confirmedHistory.syncDate))
+                    }
                 }
             }
         }
