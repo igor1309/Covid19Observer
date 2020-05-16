@@ -11,7 +11,7 @@ import SwiftPI
 import UserNotifications
 
 struct SettingsView: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     @State private var columnWidths: [Int: CGFloat] = [:]
@@ -32,44 +32,45 @@ struct SettingsView: View {
     
     var doublingSection: some View {
         Section(/*header: Text("Doubling Time".uppercased()),*/
-                footer: Text("Show Doubling Time: time it takes for a population to double in size/value.")) {
-                    Button("Doubling Time") {
-                        self.showDoublingTime = true
-                    }
-                    .sheet(isPresented: $showDoublingTime) {
-                        DoublingTimeView()
-                            .environmentObject(self.settings)
-                    }
+        footer: Text("Show Doubling Time: time it takes for a population to double in size/value.")) {
+            Button("Doubling Time") {
+                self.showDoublingTime = true
+            }
+            .sheet(isPresented: $showDoublingTime) {
+                DoublingTimeView()
+                    .environmentObject(self.settings)
+            }
         }
     }
     
     @State private var showPopulation = false
     var populationSection: some View {
         Section(/*header: Text("Population".uppercased()),*/
-                footer: Text("World population with search and filter.")) {
-                    Button("Population") {
-                        self.showPopulation = true
-                    }
-                    .sheet(isPresented: $showPopulation) {
-                        PopulationView()
-                            .environmentObject(self.coronaStore)
-                            .environmentObject(self.settings)
-                    }
+        footer: Text("World population with search and filter.")) {
+            Button("Population") {
+                self.showPopulation = true
+            }
+            .sheet(isPresented: $showPopulation) {
+                PopulationView2()
+                    .environmentObject(PopulationStore())
+                    .environmentObject(self.store)
+                    .environmentObject(self.settings)
+            }
         }
     }
     
     @State private var showSelectedCountries = false
     var primeCountriesSection: some View {
         Section(/*header: Text("Population".uppercased()),*/
-                footer: Text("Select countries for Line Chart Quick Access.")) {
-                    Button("Prime Countries") {
-                        self.showSelectedCountries = true
-                    }
-                    .sheet(isPresented: $showSelectedCountries) {
-                        SelectedCountriesView()
-                            .environmentObject(self.coronaStore)
-                            .environmentObject(self.settings)
-                    }
+        footer: Text("Select countries for Line Chart Quick Access.")) {
+            Button("Prime Countries") {
+                self.showSelectedCountries = true
+            }
+            .sheet(isPresented: $showSelectedCountries) {
+                SelectedCountriesView()
+                    .environmentObject(self.store)
+                    .environmentObject(self.settings)
+            }
         }
     }
     
@@ -91,7 +92,7 @@ struct SettingsView: View {
                 ) {
                     /// https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data
                     HStack {
-                        Text("Every...")
+                        Text("Every")
                         
                         Picker(selection: .constant(TimePeriod.oneHour), label: Text("Update every")) {
                             ForEach(TimePeriod.allCases, id: \.self) { period in
@@ -104,7 +105,7 @@ struct SettingsView: View {
                 }
                 
                 Section(/*header: Text("Notifications".uppercased()),*/
-                        footer: Text("Regular local notifications to get updated.")
+                    footer: Text("Regular local notifications to get updated.")
                 ) {
                     
                     NavigationLink(destination: NotificationsSettingsView(), isActive: $isShowingNotificationSettingsTESTING
@@ -117,47 +118,45 @@ struct SettingsView: View {
                         footer: Text("Data by John Hopkins.")
                 ) {
                     Button(action: {
-                        self.coronaStore.updateCorona { }
+                        self.store.fetchCurrent()
                     }) {
-                        HStack {
-                            Image(systemName: "arrow.2.circlepath")
-                                .rotationEffect(.degrees(coronaStore.isCasesUpdateCompleted ? -720 : 720))
-                                .animation(.easeInOut(duration: 1.3))
-                                .widthPreference(column: -1)
-                                .frame(width: self.columnWidths[-1], alignment: .leading)
-                                .padding(.trailing, 3)
+                        HStack(spacing: 16) {
+                            SpinningArrowsWithSubscriberButton(
+                                publisher: store.$currentIsUpdating.eraseToAnyPublisher()
+                            ) {
+                                self.store.fetchCurrent()
+                            }
                             
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Update Current Data")
+                            VStack(alignment: .leading, spacing: 6) {
+                                if store.currentByCountrySyncStatusIsStable {
+                                    Text(store.sinceCurrentLastSync)
+                                        .foregroundColor(store.syncColor(for: store.currentByCountry.syncDate))
+                                }
                                 
-                                Text(coronaStore.timeSinceCasesUpdateStr == "0min"
-                                    ? "Updated just now"
-                                    : "Last update \(coronaStore.timeSinceCasesUpdateStr) ago")
-                                    .foregroundColor(.secondary)
-                                    .font(.subheadline)
+                                Text(store.currentByCountrySyncStatus.rawValue)
+                                    .foregroundColor(.tertiary)
                             }
                         }
                     }
                     
                     Button(action: {
-                        self.coronaStore.updateHistory() { }
+                        self.store.fetchHistory()
                     }) {
-                        HStack {
-                            Image(systemName: "arrow.2.circlepath.circle")
-                                .rotationEffect(.degrees(coronaStore.isHistoryUpdateCompleted ? -720 : 720))
-                                .animation(.easeInOut(duration: 1.3))
-                                .widthPreference(column: -1)
-                                .frame(width: self.columnWidths[-1], alignment: .leading)
-                                .padding(.trailing, 3)
+                        HStack(spacing: 16) {
+                            SpinningArrowsWithSubscriberButton(
+                                publisher: store.$historyIsUpdating.eraseToAnyPublisher()
+                            ) {
+                                self.store.fetchHistory()
+                            }
                             
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Update History Data")
+                            VStack(alignment: .leading, spacing: 6) {
+                                if store.confirmedHistorySyncStatusIsStable {
+                                    Text(store.sinceHistoryLastSync)
+                                        .foregroundColor(store.syncColor(for: store.confirmedHistory.syncDate))
+                                }
                                 
-                                Text(coronaStore.confirmedHistory.timeSinceUpdateStr == "0min"
-                                    ? "Updated just now"
-                                    : "Last update \(coronaStore.confirmedHistory.timeSinceUpdateStr) ago")
-                                    .foregroundColor(.secondary)
-                                    .font(.subheadline)
+                                Text(store.confirmedHistorySyncStatus.rawValue)
+                                    .foregroundColor(.tertiary)
                             }
                         }
                     }
@@ -175,7 +174,7 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .environmentObject(CoronaStore())
+            .environmentObject(Store())
             .environmentObject(Settings())
             .environment(\.colorScheme, .dark)
             .previewLayout(.sizeThatFits)

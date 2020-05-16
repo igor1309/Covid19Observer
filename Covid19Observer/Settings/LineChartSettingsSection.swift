@@ -15,10 +15,16 @@ struct LineChartSettingsSection: View {
     @State private var width: CGFloat = 100
     
     var body: some View {
-        Section(header: Text("Line Chart Options".uppercased()), footer: Text("adfgdafgaf")
+        Section(header: Text("Line Chart Options".uppercased()),
+                footer: Text("Set Filter for Line Chart with different settiongs for Confirmed Cases and Deaths.")
         ) {
             Toggle(isOn: $settings.chartOptions.isFiltered) {
-                Text("Filter Line Chart")
+                HStack {
+                    Image(systemName: "line.horizontal.3.decrease")
+                        .foregroundColor(settings.chartOptions.isFiltered ? .systemOrange : .secondary)
+                    
+                    Text("Filter Line Chart")
+                }
             }
             
             if settings.chartOptions.isFiltered {

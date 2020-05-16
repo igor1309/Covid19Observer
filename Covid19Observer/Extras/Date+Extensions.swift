@@ -16,6 +16,13 @@ extension Date {
         return formatter.string(from: self, to: Date()) ?? "n/a"
     }
     
+    public var hoursMunutesSecondsTillNow: String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .brief
+        formatter.allowedUnits = [.hour, .minute, .second]
+        return formatter.string(from: self, to: Date()) ?? "n/a"
+    }
+    
     public var hoursMunutesTillNowNice: String {
         let distance = self.distance(to: Date())
         if distance < 60 {

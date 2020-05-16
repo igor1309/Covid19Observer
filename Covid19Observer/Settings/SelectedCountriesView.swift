@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftPI
 
 struct SelectedCountriesView: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     @Environment(\.editMode) var editMode
     
@@ -42,7 +42,7 @@ struct SelectedCountriesView: View {
                 }
                 .sheet(isPresented: $showPopulation) {
                     PopulationView()
-                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.store)
                         .environmentObject(self.settings)
             })
         }
@@ -64,7 +64,7 @@ struct SelectedCountriesView_Previews: PreviewProvider {
             
             SelectedCountriesView()
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }

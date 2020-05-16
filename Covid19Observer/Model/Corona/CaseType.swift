@@ -11,6 +11,7 @@ enum CaseType: String, CaseIterable, Codable {
     case byRegion = "Region"
     
     var id: String { rawValue }
+    var filename: String { rawValue.lowercased() + ".json" }
     
     var urlBase: String {
         switch self {

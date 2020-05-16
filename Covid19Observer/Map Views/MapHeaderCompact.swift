@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct MapHeaderCompact: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     
     var body: some View {
-        let updated = coronaStore.timeSinceCasesUpdateStr == "0min"
+        let updated = store.currentByCountry.syncDate.hoursMunutesTillNow == "0min"
             ? "just now"
-            : "\(coronaStore.timeSinceCasesUpdateStr) ago"
+            : "\(store.currentByCountry.syncDate.hoursMunutesTillNow) ago"
         
         return VStack {
             HStack(alignment: .firstTextBaseline) {
@@ -45,7 +45,7 @@ struct MapHeaderCompact_Previews: PreviewProvider {
                 Spacer()
             }
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environment(\.sizeCategory, .extraLarge)
         .environment(\.colorScheme, .dark)
     }

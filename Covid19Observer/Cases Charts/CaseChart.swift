@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct CaseChart: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
-    //    @Environment(\.horizontalSizeClass) var sizeClass
     
     let selectedType: CaseDataType
     let isBarsTappable: Bool
@@ -19,75 +18,72 @@ struct CaseChart: View {
     
     @State private var showLineChart = false
     @State private var selectedCountry = ""
+    @State private var selectedIndex: Int?
     
     let barHeight: CGFloat = 28
     
+    
     var body: some View {
-        let maximum: CGFloat
         
-        switch selectedType {
-        case .confirmed:
-            maximum = CGFloat(coronaStore.coronaByCountry.cases.map { $0.confirmed }.max() ?? 1)
-        case .new:
-            maximum = CGFloat(coronaStore.coronaByCountry.cases.map { $0.confirmedNew }.max() ?? 1)
-        case .current:
-            maximum = CGFloat(coronaStore.coronaByCountry.cases.map { $0.confirmedCurrent }.max() ?? 1)
-        case .deaths:
-            maximum = CGFloat(coronaStore.coronaByCountry.cases.map { $0.deaths }.max() ?? 1)
-        case .cfr:
-            //            maximum = 0.15
-            maximum = CGFloat(coronaStore.coronaByCountry.cases
-                //  MARK: - FINISH THIS
-                //  move to model
-                //
-                /// countries with small number of cases can have a huge CFR (Case Fatality Rate) and distort scale
-                //                .filter { $0.confirmed > 50 }
-                .map { $0.cfr }.max() ?? 0.15)//0.15
+        let maximum: CGFloat = { store.maximumForCasesChart(type: selectedType) }()
+        
+        var cfrGridAndAverage: some View {
+            Group {
+                ///  vertical grid lines only for CFR
+                ForEach([0.1, 0.2, 0.3], id: \.self) { step in
+                    LeftVerticalLine()
+                        .stroke(Color.systemGray3, style: StrokeStyle(lineWidth: 0.5, lineCap: .round, lineJoin: .round, dash: [10, 5]))
+                        .offset(x: self.width / maximum * step)
+                }
+                
+                ///  global average CFR line
+                if store.outbreak.cfr > 0 {
+                    Color.systemTeal
+                        .frame(width: 0.5)
+                        .offset(x: width / maximum * CGFloat(store.outbreak.cfr))
+                        .opacity(0.6)
+                }
+            }
         }
-        
         
         return VStack {
             
             ZStack(alignment: .leading) {
-                if self.selectedType == .cfr {
-                    ForEach([0.1, 0.2, 0.3], id: \.self) { step in
-                        LeftVerticalLine()
-                            .stroke(Color.systemGray3, style: StrokeStyle(lineWidth: 0.5, lineCap: .round, lineJoin: .round, dash: [10, 5]))
-                            .offset(x: self.width / maximum * step)
-                    }
-                    
-                    Color.systemTeal
-                        .frame(width: 0.5)
-                        .offset(x: width / maximum * CGFloat(self.coronaStore.outbreak.cfr))
-                        .opacity(0.6)
-                }
+                
+                ///  chart design for cfr is a bit different
+                if self.selectedType == .cfr { cfrGridAndAverage }
                 
                 VStack(alignment: .leading) {
-                    ForEach(0..<self.coronaStore.coronaByCountry.cases.count, id: \.self) { index in
+                    ForEach(0..<self.store.currentByCountry.cases.count, id: \.self) { index in
                         
-                        CaseBar(selectedType: self.selectedType, index: index, maximum: maximum, width: self.width, barHeight: self.barHeight)
-                            
+                        CaseBar(
+                            selectedType: self.selectedType,
+                            index: index,
+                            maximum: maximum,
+                            width: self.width,
+                            barHeight: self.barHeight
+                        )
                             .onTapGesture {
-                                if self.isBarsTappable {
-                                    self.selectedCountry = self.coronaStore.coronaByCountry.cases[index].name
-                                    self.prepareHistoryData()
-                                }
+                                self.selectedIndex = index
+                                self.processTap()
                         }
                     }
                 }
                 .sheet(isPresented: self.$showLineChart) {
                     CasesLineChartView(forAllCountries: false)
-                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.store)
                         .environmentObject(self.settings)
                 }
             }
         }
-        //        .padding(sizeClass == .compact ? 0 : 8)
     }
     
-    func prepareHistoryData() {
-        self.coronaStore.selectedCountry = self.selectedCountry
-        self.showLineChart = true
+    func processTap() {
+        if isBarsTappable && selectedIndex != nil {
+            selectedCountry = store.currentByCountry.cases[selectedIndex!].name
+            store.selectedCountry = selectedCountry
+            showLineChart = true
+        }
     }
 }
 
@@ -102,9 +98,9 @@ struct CaseChart_Previews: PreviewProvider {
             .border(Color.pink)
             .padding(.horizontal)
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
-//        .previewLayout(.sizeThatFits)
+        //        .previewLayout(.sizeThatFits)
     }
 }

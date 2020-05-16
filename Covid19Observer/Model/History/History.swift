@@ -17,7 +17,7 @@ struct History: Codable {
     static let countriesWithRegions = ["Australia", "Canada", "China", "Denmark", "France", "Netherlands", "United Kingdom"]
     
     let filename: String
-    let kind: HistoryKind
+    let type: HistoryType
     
     /// значения на оси X (время как String в формате dd.MM.yyyy)
     private(set) var xTime: [String]
@@ -30,13 +30,13 @@ struct History: Codable {
     var deviations: [Deviation]
     let deviationThreshold: CGFloat
     
-    init(saveTo filename: String, kind: HistoryKind, deviationThreshold: CGFloat) {
+    init(saveTo filename: String, type: HistoryType, deviationThreshold: CGFloat) {
         self.xTime = []
         self.countryRows = []
         self.lastSyncDate = .distantPast
         self.isUpdateCompleted = nil
         self.filename = filename
-        self.kind = kind
+        self.type = type
         self.deviations = []
         self.deviationThreshold = deviationThreshold
         
@@ -166,7 +166,7 @@ extension History {
 
 extension History {
     
-    var url: URL { kind.url }
+    var url: URL { type.url }
     
     var timeSinceUpdateStr: String { lastSyncDate.hoursMunutesTillNow }
     var isDataOld: Bool { lastSyncDate.distance(to: Date()) > 6 * 60 * 60 }
@@ -305,9 +305,20 @@ extension History {
     /// Parse csv and put data from it into `xTime` and `countryRows` arrays
     /// - Parameter casesCsv: downloaded csv
     private mutating func parseCsv(_ casesCsv: String) {
+        /// date as String in format m/d/yy
+        func dateFromStr(_ str: String) -> Date {
+            let strComponents = str.components(separatedBy: "/")
+            let hour = 23
+            let minutes = 59
+            let month = Int(strComponents[0])
+            let day = Int(strComponents[1])
+            let year = 2000 + (Int(strComponents[2]) ?? 0)
+            let timeZone = TimeZone(abbreviation: "UTC")
+            return Calendar.current.date(from: DateComponents(timeZone: timeZone, year: year, month: month, day: day, hour: hour, minute: minutes)) ?? .distantPast
+        }
         
         /// parse to table (array of rows)
-        let table: [[String]] = parseCVStoTable(from: casesCsv)
+        let table: [[String]] = CSVParser.parseCVStoTable(from: casesCsv)
         
         var xTime = [String]()
         var countryRows: [CountryRow] = []
@@ -334,87 +345,6 @@ extension History {
         
         self.xTime = xTime
         self.countryRows = countryRows
-    }
-    
-    private func parseCVStoTable(from csvStr: String) -> [[String]] {
-        
-        /// returns first quoted text and drops this quote from passed string
-        func parseQuotes(stringToParse: inout String) -> [String] {
-            if stringToParse.first == "\"" {
-                let lastIndex = stringToParse.index(before: stringToParse.endIndex)
-                let secondQuoteIndex = String(stringToParse.dropFirst()).firstIndex(of: "\"")!
-                
-                let prefix = String(stringToParse.prefix(through: secondQuoteIndex))
-                stringToParse = String(stringToParse[secondQuoteIndex...lastIndex].dropFirst(3))
-                
-                return [prefix.replacingOccurrences(of: "\"", with: "")]
-            } else {
-                return []
-            }
-        }
-        
-        /// https://stackoverflow.com/questions/43295163/swift-3-1-how-to-get-array-or-dictionary-from-csv
-        func cleanCsv(_ csv: String) -> String {
-            var cleanFile = csv
-            
-            /// remove any special characters in a string
-            cleanFile = csv
-                .components(separatedBy: CharacterSet.symbols)
-                .joined(separator: "")
-            
-            /// unify end of line symbols
-            cleanFile = cleanFile.replacingOccurrences(of: "\r", with: "\n")
-            cleanFile = cleanFile.replacingOccurrences(of: "\n\n", with: "\n")
-            //  cleanFile = cleanFile.replacingOccurrences(of: ";;", with: "")
-            //  cleanFile = cleanFile.replacingOccurrences(of: ";\n", with: "")
-            
-            return cleanFile
-        }
-        
-        
-        var rows = cleanCsv(csvStr).components(separatedBy: "\n")
-        
-        /// drop last row if empty (реальная ситуация 24.03.2020)
-        if rows.count > 1 && rows.last!.isEmpty {
-//            print("!! dropped last empty row")
-            rows = rows.dropLast()
-        }
-        
-        var table = [[String]]()
-        for i in 0..<rows.count {
-            /// remove any special characters in a string
-            var stringToParse = rows[i].components(separatedBy: CharacterSet.symbols).joined(separator: "")
-            
-            var row: [String] = []
-            
-            /// if no Country/Region, create empty string as the first row element
-            if stringToParse.first == "," {
-                row += [""]
-                stringToParse = String(stringToParse.dropFirst())
-            }
-            
-            /// Province/State could be quoted text
-            row += parseQuotes(stringToParse: &stringToParse)
-            /// Country/Region could be quoted text
-            row += parseQuotes(stringToParse: &stringToParse)
-            /// other elements are numbers
-            row += stringToParse.components(separatedBy: ",")
-            
-            table.append(row)
-        }
-        return table
-    }
-    
-    /// date as String in format m/d/yy
-    private func dateFromStr(_ str: String) -> Date {
-        let strComponents = str.components(separatedBy: "/")
-        let hour = 23
-        let minutes = 59
-        let month = Int(strComponents[0])
-        let day = Int(strComponents[1])
-        let year = 2000 + (Int(strComponents[2]) ?? 0)
-        let timeZone = TimeZone(abbreviation: "UTC")
-        return Calendar.current.date(from: DateComponents(timeZone: timeZone, year: year, month: month, day: day, hour: hour, minute: minutes)) ?? .distantPast
     }
 }
 

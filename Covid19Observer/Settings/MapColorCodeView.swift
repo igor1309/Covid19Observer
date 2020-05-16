@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MapColorCodeView: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     
     let lowerLimits: [Int] = [100, 500, 1_000, 5_000, 10_000]
     
@@ -21,23 +21,23 @@ struct MapColorCodeView: View {
                 HStack {
                     ForEach(lowerLimits, id: \.self) { item in
                         Capsule()
-                            //  .foregroundColor(Color(self.coronaStore.colorCode(for: item)))
+                            //  .foregroundColor(Color(self.store.colorCode(for: item)))
                             .foregroundColor(Color(MapOptions.colorCode(for: item)))
-                            .padding(.horizontal, self.coronaStore.mapOptions.lowerLimit == item ? 6 : 8)
-                            .padding(self.coronaStore.mapOptions.lowerLimit == item ? 0 : 3)
+                            .padding(.horizontal, self.store.mapOptions.lowerLimit == item ? 6 : 8)
+                            .padding(self.store.mapOptions.lowerLimit == item ? 0 : 3)
                             .frame(height: 16)
                             .overlay(
                                 Capsule()
-                                    .stroke(self.coronaStore.mapOptions.lowerLimit == item ? Color.primary : .clear, lineWidth: 2)
+                                    .stroke(self.store.mapOptions.lowerLimit == item ? Color.primary : .clear, lineWidth: 2)
                                     .padding(.horizontal, 6)
                         )
                             .onTapGesture {
-                                self.coronaStore.mapOptions.lowerLimit = item
+                                self.store.mapOptions.lowerLimit = item
                         }
                     }
                 }
                 
-                Picker(selection: $coronaStore.mapOptions.lowerLimit, label: Text("Select Top Qty")) {
+                Picker(selection: $store.mapOptions.lowerLimit, label: Text("Select Top Qty")) {
                     ForEach(lowerLimits, id: \.self) { qty in
                         Text("\(qty)").tag(qty)
                     }
@@ -57,7 +57,7 @@ struct MapColorCodeView_Previews: PreviewProvider {
                 MapColorCodeView()
             }
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environment(\.colorScheme, .dark)
         .previewLayout(.sizeThatFits)
     }

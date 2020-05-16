@@ -143,14 +143,12 @@ final class CoronaStore: ObservableObject {
     @Published var coronaByCountry = Corona(.byCountry, endPoint: .currentByCountry/*, saveTo: "coronaByCountry.json"*/)
     @Published var coronaByRegion = Corona(.byRegion, endPoint: .currentByRegion/*, saveTo: "coronaByRegion.json"*/)
     
-    @Published private(set) var confirmedHistory = History(
-        saveTo: "confirmedHistory.json",
-        kind: .confirmed,
-        deviationThreshold: 100)
-    @Published private(set) var deathsHistory = History(
-        saveTo: "deathsHistory.json",
-        kind: .deaths,
-        deviationThreshold: 10)
+    @Published private(set) var confirmedHistory = History(saveTo: "confirmedHistory.json",
+                                                           type: .confirmed,
+                                                           deviationThreshold: 100)
+    @Published private(set) var deathsHistory = History(saveTo: "deathsHistory.json",
+                                                        type: .deaths,
+                                                        deviationThreshold: 10)
     
     @Published private(set) var outbreak = Outbreak()
     

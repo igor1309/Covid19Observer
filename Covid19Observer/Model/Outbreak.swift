@@ -13,31 +13,28 @@ struct Outbreak: Codable {
     
     /// `Population` - world or country
     
-    var population: Int
+    var population: Int = 0
     
     ///  `Confirmed Cases`
     
-    var confirmed: Int
-    var confirmedNew: Int
-    var confirmedCurrent: Int
+    var confirmed: Int = 0
+    var confirmedNew: Int = 0
+    var confirmedCurrent: Int = 0
     
     ///  `Recovered`
     
-    var recovered: Int
+    var recovered: Int = 0
     
     ///  `Deaths`
     
-    var deaths: Int
-    var deathsNew: Int
-    var deathsCurrent: Int
+    var deaths: Int = 0
+    var deathsNew: Int = 0
+    var deathsCurrent: Int = 0
 }
 
-extension Outbreak {
-    init() {
-        self = Outbreak(population: 0, confirmed: 0, confirmedNew: 0, confirmedCurrent: 0, recovered: 0, deaths: 0, deathsNew: 0, deathsCurrent: 0)
-    }
     
-    //  Percentages calculations and properties for Views: …Str: String
+//  MARK: - Percentages calculations and properties for Views: …Str: String
+extension Outbreak {
     
     /// `Population` - world or country
     

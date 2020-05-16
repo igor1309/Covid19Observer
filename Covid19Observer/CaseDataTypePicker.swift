@@ -14,11 +14,20 @@ struct CaseDataTypePicker: View {
     var body: some View {
         Picker(selection: $selection, label: Text("Select Confirmed Cases or Deaths")) {
             ForEach(CaseDataType.allCases, id: \.self) { type in
-                Text(type.short).tag(type)
+                Text(type.abbreviation).tag(type)
             }
         }
         .labelsHidden()
         .pickerStyle(SegmentedPickerStyle())
         .padding(.bottom, 4)
+    }
+}
+
+struct CaseDataTypePicker_Previews: PreviewProvider {
+    @State static var selection: CaseDataType = .confirmed
+    
+    static var previews: some View {
+        CaseDataTypePicker(selection: $selection)
+            .padding()
     }
 }

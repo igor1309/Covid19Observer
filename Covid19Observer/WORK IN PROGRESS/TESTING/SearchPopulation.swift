@@ -57,7 +57,7 @@ final class SearchPopulation: ObservableObject {
     
     private func filterFunc(_ item: PopulationElement) -> Bool {
         let searchCondition = query.count > 2
-            ? item.countryRegion.contains(query)
+            ? item.countryRegion.lowercased().contains(query.lowercased())
             : true
         
         let selection: Bool

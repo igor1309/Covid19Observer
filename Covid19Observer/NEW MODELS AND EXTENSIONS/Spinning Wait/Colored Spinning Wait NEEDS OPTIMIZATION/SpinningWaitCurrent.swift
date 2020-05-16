@@ -10,19 +10,13 @@ import SwiftUI
 
 struct SpinningWaitCurrent: View {
     @EnvironmentObject var store: Store
+    
     @State private var isUpdating = false
     
+    var size: CGFloat = 12
+    
     var body: some View {
-        Circle()
-            .stroke(style: StrokeStyle(lineWidth: 16, dash: [3, 1]))
-            .fill(AngularGradient(
-                gradient: Gradient(colors: [Color.yellow, .pink, .green, .orange]),
-                center: .center))
-            .frame(width: 12, height: 12)
-            .rotationEffect(.degrees(isUpdating ? 360 : 0))
-            .animation(isUpdating
-                ? Animation.linear(duration: 2.1).repeatForever(autoreverses: false)
-                : .default)
+        SpinningWait(isUpdating: $isUpdating, size: size)
             .onReceive(store.$currentIsUpdating) {
                 self.isUpdating = $0
         }

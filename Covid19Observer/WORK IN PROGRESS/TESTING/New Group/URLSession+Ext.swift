@@ -27,10 +27,10 @@ extension URLSession {
                 return data
         }
         .decode(type: T.self, decoder: decoder)
-        .mapError({ (error) -> FetchError in
+        .mapError { (error) -> FetchError in
             print("decoding error")
             return FetchError.decodingError(error as! DecodingError)
-        })
+        }
         .eraseToAnyPublisher()
     }
     

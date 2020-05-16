@@ -11,40 +11,51 @@ import SwiftPI
 
 struct CasesChartView: View {
     @Environment(\.horizontalSizeClass) var sizeClass
-    @EnvironmentObject var coronaStore: CoronaStore
+    
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     @State private var selectedType = CaseDataType.confirmed
     @State private var showTable = false
-        
+    
+    var chartWithWidget: some View {
+        ZStack(alignment: .bottomTrailing) {
+            GeometryReader { geo in
+                ScrollView(.vertical, showsIndicators: false) {
+                    
+                    CaseChart(
+                        selectedType: self.selectedType,
+                        isBarsTappable: true,
+                        width: geo.size.width
+                    )
+                }
+            }
+            .overlay(WidgetOverlay { CasesChartWidget() })
+        }
+    }
+    
+    var callToUpdate: some View {
+        VStack {
+            Text("No data to display")
+            
+            SpinningWaitCurrentButton()
+        }
+    }
+    
     var body: some View {
         Group {
-            if coronaStore.coronaByCountry.cases.isNotEmpty {
+            if store.currentByCountry.cases.isNotEmpty {
                 VStack {
                     CaseDataTypePicker(selection: $selectedType)
                     
-                    ZStack(alignment: .bottomTrailing) {
-                        GeometryReader { geo in
-                            ScrollView(.vertical, showsIndicators: false) {
-                                
-                                CaseChart(
-                                    selectedType: self.selectedType,
-                                    isBarsTappable: true,
-                                    width: geo.size.width
-                                )
-                            }
-                        }
-                        .overlay(WidgetOverlay { CasesChartWidget() })
-                    }
+                    Text(selectedType.rawValue)
+                        .foregroundColor(selectedType.color)
+                        .font(.subheadline)
+                    
+                    chartWithWidget
                 }
-                
             } else {
-                Button(action: {
-                    self.settings.selectedTab = 4
-                }) {
-                    Text("No data to display\nPlease go to Update section in Settings")
-                        .lineSpacing(12)
-                }
+                callToUpdate
             }
         }
     }
@@ -58,7 +69,7 @@ struct CasesChartView_Previews: PreviewProvider {
             CasesChartView()
                 .padding(.horizontal)
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }

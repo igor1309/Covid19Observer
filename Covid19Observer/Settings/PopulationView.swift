@@ -11,7 +11,7 @@ import Combine
 import SwiftPI
 
 struct PopulationView: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     @State private var showLineChart = false
@@ -32,7 +32,7 @@ struct PopulationView: View {
     
     private func filterFunc(_ item: PopulationElement) -> Bool {
         let searchCondition = searchText.count > 2
-            ? item.countryRegion.contains(searchText)
+            ? item.countryRegion.lowercased().contains(searchText.lowercased())
             : true
         
         let selection: Bool
@@ -143,7 +143,7 @@ struct PopulationView: View {
     }
     
     private var header: some View {
-        let worldPopulation = Double(coronaStore.populationOf(country: nil))
+        let worldPopulation = Double(store.populationOf(country: nil))
         
         return HStack(alignment: .firstTextBaseline) {
             Text("Population")
@@ -173,13 +173,13 @@ struct PopulationView: View {
             picker
             
             List {
-                ForEach(coronaStore.population.filter { filterFunc($0) }) { item in
+                ForEach(store.population.filter { filterFunc($0) }) { item in
                     self.row(for: item)
                 }
             }
             .sheet(isPresented: self.$showLineChart) {
                 CasesLineChartView(forAllCountries: false)
-                    .environmentObject(self.coronaStore)
+                    .environmentObject(self.store)
                     .environmentObject(self.settings)
             }
         }
@@ -189,10 +189,10 @@ struct PopulationView: View {
         //  MARK: FINISH THIS FOR TERRITORIES THAT ARE NOT COUNTRIES
         //
         
-        let isThereSmthToShow = self.coronaStore.confirmedHistory.series(for: item.countryRegion).max() ?? 0 > 0
+        let isThereSmthToShow = self.store.confirmedHistory.series(for: item.countryRegion).max() ?? 0 > 0
         
         if isThereSmthToShow {
-            self.coronaStore.selectedCountry = item.countryRegion
+            self.store.selectedCountry = item.countryRegion
             self.showLineChart = true
         }
     }
@@ -205,7 +205,7 @@ struct PopulationView_Previews: PreviewProvider {
             
             PopulationView()
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CasesTableView: View {
     @Environment(\.presentationMode) var presentation
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var coronaStore: Store
     @EnvironmentObject var settings: Settings
     
     @State private var columnWidths: [Int: CGFloat] = [:]
@@ -108,7 +108,7 @@ struct CasesTableView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
 //            self.cases = self.coronaStore.currentCases
-            self.cases = self.coronaStore.coronaByCountry.cases
+            self.cases = self.coronaStore.currentByCountry.cases
         }
     }
     
@@ -117,7 +117,7 @@ struct CasesTableView: View {
     //  маркер по названию или индексу? - что лучше
     //  также используется в FlexibleCasesChart()
     func prepareHistoryData(for index: Int) {
-        self.coronaStore.selectedCountry = self.coronaStore.coronaByCountry.cases[index].name
+        self.coronaStore.selectedCountry = self.coronaStore.currentByCountry.cases[index].name
         self.showLineChart = true
     }
 }
@@ -125,7 +125,7 @@ struct CasesTableView: View {
 struct CasesTableView_Previews: PreviewProvider {
     static var previews: some View {
         CasesTableView()
-            .environmentObject(CoronaStore())
+            .environmentObject(Store())
             .environmentObject(Settings())
             .environment(\.colorScheme, .dark)
     }

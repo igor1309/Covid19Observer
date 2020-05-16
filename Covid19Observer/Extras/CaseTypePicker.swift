@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct CaseTypePicker: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     
     var body: some View {
-        Picker(selection: $coronaStore.caseType, label: Text("Select by Provincee or Country")) {
+        Picker(selection: $store.caseType, label: Text("Select by Provincee or Country")) {
             ForEach(CaseType.allCases, id: \.self) { type in
                 Text(type.id).tag(type)
             }
@@ -28,7 +28,7 @@ struct CaseTypePicker_Previews: PreviewProvider {
             CaseTypePicker()
                 .padding()
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environment(\.colorScheme, .dark)
     }
 }

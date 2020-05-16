@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CaseBar: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     
     let selectedType: CaseDataType
     let index: Int
@@ -24,9 +24,12 @@ struct CaseBar: View {
                 self.selectedType.color
                     .frame(width: width / maximum * self.caseData(self.selectedType, for: index), height: self.barHeight)
                     .cornerRadius(6)
-                    .saturation(self.coronaStore.coronaByCountry.cases[index].name == "China" ? 0.3 : 1)
+                    .opacity(self.store.currentByCountry.cases[index].name == "China"
+                        ? 0.6
+                        : self.store.currentByCountry.cases[index].name == "Russia" ? 1 : 0.8)
+
                 
-                self.textLabel(name: "\(self.coronaStore.coronaByCountry.cases[index].name): \(self.caseDataStr(self.selectedType, for: index))",
+                self.textLabel(name: "\(self.store.currentByCountry.cases[index].name): \(self.caseDataStr(self.selectedType, for: index))",
                     width: width / maximum * self.caseData(self.selectedType, for: index),
                     maxWidth: width)
                 }
@@ -35,7 +38,10 @@ struct CaseBar: View {
     
     func textLabel(name: String, width: CGFloat, maxWidth: CGFloat) -> some View {
         Text(name)
-            .foregroundColor(width > maxWidth / 2 ? .black : .secondary)
+            .foregroundColor(width > maxWidth / 2
+                ? .black
+                : self.store.currentByCountry.cases[index].name == "Russia"
+                ? .primary : .secondary)
             .font(.footnote)
             .frame(width: width > maxWidth / 2 ? width : maxWidth,
                    alignment: width > maxWidth / 2 ? .trailing : .leading)
@@ -45,36 +51,30 @@ struct CaseBar: View {
     private func caseData(_ type: CaseDataType, for index: Int) -> CGFloat {
         switch type {
         case .confirmed:
-            return CGFloat(coronaStore.coronaByCountry.cases[index].confirmed)
+            return CGFloat(store.currentByCountry.cases[index].confirmed)
         case .new:
-            return CGFloat(coronaStore.coronaByCountry.cases[index].confirmedNew)
+            return CGFloat(store.extra.newAndCurrents[index].confirmedNew)
         case .current:
-            return CGFloat(coronaStore.coronaByCountry.cases[index].confirmedCurrent)
+            return CGFloat(store.extra.newAndCurrents[index].confirmedCurrent)
         case .deaths:
-            return CGFloat(coronaStore.coronaByCountry.cases[index].deaths)
+            return CGFloat(store.currentByCountry.cases[index].deaths)
         case .cfr:
-            return CGFloat(coronaStore.coronaByCountry.cases[index].cfr)
+            return CGFloat(store.currentByCountry.cases[index].cfr)
         }
     }
     
     private func caseDataStr(_ type: CaseDataType, for index: Int) -> String {
         switch type {
         case .confirmed:
-            return coronaStore.coronaByCountry.cases[index].confirmedStr
+            return store.currentByCountry.cases[index].confirmedStr
         case .new:
-            return coronaStore.coronaByCountry.cases[index].confirmedNewStr
+            return store.extra.newAndCurrents[index].confirmedNewStr
         case .current:
-            return coronaStore.coronaByCountry.cases[index].confirmedCurrentStr
+            return store.extra.newAndCurrents[index].confirmedCurrentStr
         case .deaths:
-            return coronaStore.coronaByCountry.cases[index].deathsStr
+            return store.currentByCountry.cases[index].deathsStr
         case .cfr:
-            return coronaStore.coronaByCountry.cases[index].cfrStr
+            return store.currentByCountry.cases[index].cfrStr
         }
     }
 }
-
-//struct CaseBar_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CaseBar(selectedType: <#T##CaseDataType#>, index: <#T##Int#>, maximum: <#T##CGFloat#>, width: <#T##CGFloat#>)
-//    }
-//}

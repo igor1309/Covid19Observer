@@ -1,5 +1,5 @@
 //
-//  Current.swift
+//  Present.swift
 //  Covid19Observer
 //
 //  Created by Igor Malyarov on 24.04.2020.
@@ -10,10 +10,10 @@ import Foundation
 import Combine
 import SwiftPI
 
-struct Current {
+struct Present {
     let type: CurrentType
     
-    private(set) var cases = [CaseData]()
+    private(set) var cases = [OldCaseData]()
     private(set) var caseAnnotations = [CaseAnnotation]()
     
     private(set) var lastFetchDate = Date.distantPast
@@ -21,16 +21,17 @@ struct Current {
     var fetchError: FetchError?
 }
 
-extension Current {
+extension Present {
     init(type: CurrentType, response: CoronaResponse) {
-        var current = Current(type: type)
-        #warning("completion here?")
+        var current = Present(type: type)
+        //  MARK: completion here?
+        //
         current.update(with: response) {}
         self = current
     }
 }
 
-extension Current {
+extension Present {
     var isEmpty: Bool { cases.isEmpty }
     var isNotEmpty: Bool { !isEmpty }
     var isOld: Bool { lastFetchDate.distance(to: Date()) > 1 * 60 * 60 }
@@ -40,15 +41,16 @@ extension Current {
     var name: String { type.rawValue }
 }
 
-extension Current: Codable {
+extension Present: Codable {
     private enum CodingKeys: CodingKey {
         case type, cases, caseAnnotations, lastFetchDate, isFetchOK
     }
 }
 
-extension Current {
+extension Present {
     
-    #warning("do you need completion here ?")
+    //  MARK: completion here?
+    //
     mutating func update(with response: CoronaResponse, completion: @escaping () -> Void) {
         
         //  MARK: FINISH THIS
@@ -81,7 +83,7 @@ extension Current {
     
     private mutating func processCases(response: CoronaResponse) {
         var caseAnnotations: [CaseAnnotation] = []
-        var caseData: [CaseData] = []
+        var caseData: [OldCaseData] = []
         
         var totalCases = 0
         var totalDeaths = 0
@@ -111,7 +113,7 @@ extension Current {
             
             #warning("count new and current cases is called separately in countNewAndCurrent()")
             caseData.append(
-                CaseData(
+                OldCaseData(
                     name: title,
                     confirmed: confirmed,
                     //  MARK: count new and current cases is called separately in countNewAndCurrent()
@@ -140,9 +142,8 @@ extension Current {
     }
 }
 
-extension Current {
+extension Present {
     func save(to filename: String) {
-        #warning("правильно ли выбрано DispatchQueue.global().async??")
         DispatchQueue.global().async {
             /// save to local file if data is not empty
             if self.cases.isNotEmpty {
@@ -156,23 +157,19 @@ extension Current {
         }
     }
     
-    static private func empty(type: CurrentType) -> Current {
-        Current(type: type)
-    }
-    
     /// load  from disk if there is saved data and data in not empty, otherwise return empty current
-    static func load(type: CurrentType, from filename: String) -> Current {
+    static func load(type: CurrentType, from filename: String) -> Present {
         guard filename.isNotEmpty else {
             print("filename is empty, can't load data, returning empty current\n")
-            return Current.empty(type: type)
+            return Present(type: type)
         }
         
-        if let current: Current = loadJSONFromDocDir(filename), current.cases.isNotEmpty {
+        if let current: Present = loadJSONFromDocDir(filename), current.cases.isNotEmpty {
             print("load: current \(current.name) data loaded from \(filename) on disk\n")
             return current
         }
         
-        print("current cases from \(filename) are empty, can't load data, returning empty current\n")
-        return Current.empty(type: type)
+        print("current cases from \(filename) are empty, or can't load data, returning empty current\n")
+        return Present(type: type)
     }
 }

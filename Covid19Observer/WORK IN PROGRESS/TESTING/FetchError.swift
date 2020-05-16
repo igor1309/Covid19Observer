@@ -16,6 +16,8 @@ enum FetchError: Error, LocalizedError, Identifiable {
     case decodingError(DecodingError)
     case emptyResponse
     case genericError
+    case parsingError
+    case dataFromFileError(messega: String)
     
     var localizedDescription: String {
         switch self {
@@ -45,13 +47,19 @@ enum FetchError: Error, LocalizedError, Identifiable {
             @unknown default:
                 break
             }
-            return  errorToReport
+            return errorToReport
             
         case .emptyResponse:
             return "Response is empty"
             
+        case .parsingError:
+            return "Error parsing"
+            
         case .genericError:
             return "An unknown error has been occured"
+            
+        case .dataFromFileError(messega: let message):
+            return message
         }
     }
 }

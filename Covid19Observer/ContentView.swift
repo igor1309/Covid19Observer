@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.horizontalSizeClass) var sizeClass
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     var barChart: some View {
@@ -88,11 +88,12 @@ struct ContentView: View {
         }
         .onAppear {
             DispatchQueue.main.async {
-                self.coronaStore.updateEmptyOrOldStore()
+                print("TBD: updateEmptyOrOldStore")
+//                self.store.updateEmptyOrOldStore()
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            self.coronaStore.updateEmptyOrOldStore()
+//            self.store.updateEmptyOrOldStore()
         }
     }
 }
@@ -101,7 +102,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(CoronaStore())
+            .environmentObject(Store())
             .environmentObject(Settings())
             .environment(\.colorScheme, .dark)
     }

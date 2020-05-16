@@ -8,12 +8,17 @@
 
 import SwiftUI
 
+struct Variation: Codable, Hashable {
+    var type: HistoryType
+    var deviations: [Deviation]
+}
+
 struct Deviation: Codable, Hashable {
-    var id = UUID()
-    
-    var country: String
-    var avg, last: Double
-    
+var id = UUID()
+
+var country: String
+var avg, last: Double
+
 //    var changePercentage: Double {
 //        guard avg == 0 else { return 0 }
 //        

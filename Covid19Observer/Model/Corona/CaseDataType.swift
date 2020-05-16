@@ -10,14 +10,14 @@ import SwiftUI
 
 enum CaseDataType: String, CaseIterable {
     case confirmed = "Confirmed Cases"
-    case new = "New Confirmed"
-    case current = "Current Confirmed"
+    case new = "New Confirmed Cases"
+    case current = "Current Confirmed Cases"
     case deaths = "Deaths"
     case cfr = "Case Fatality Rate"//"CFR"
     
     var id: String { rawValue }
     
-    var short: String {
+    var abbreviation: String {
         switch self {
         case .confirmed:
             return "Conf."

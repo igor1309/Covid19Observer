@@ -20,15 +20,7 @@ struct WhatsNew: View {
     @State private var text = ""
     
     var updated: some View {
-        
-        let currentStatus = (store.syncStatus[.current(.byCountry)] ?? .failure).rawValue
-        let historyStatus = (store.syncStatus[.history(.confirmed)] ?? .failure).rawValue
-        
-        let stableState = [SyncStatus.failure, .loaded, .fetched]
-        let currentIsInStableStatus = stableState.contains(store.syncStatus[.current(.byCountry)] ?? .loading)
-        let historyIsInStableStatus = stableState.contains(store.syncStatus[.history(.confirmed)] ?? .loading)
-        
-        return VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 16) {
                 SpinningArrowsWithSubscriberButton(
                     publisher: store.$currentIsUpdating.eraseToAnyPublisher()
@@ -37,10 +29,10 @@ struct WhatsNew: View {
                 }
                 
                 HStack {
-                    Text(currentStatus)
+                    Text(store.currentByCountrySyncStatus.rawValue)
                         .foregroundColor(.tertiary)
                     
-                    if currentIsInStableStatus {
+                    if store.currentByCountrySyncStatusIsStable {
                         Text(store.sinceCurrentLastSync)
                             .foregroundColor(store.syncColor(for: store.currentByCountry.syncDate))
                     }
@@ -55,10 +47,11 @@ struct WhatsNew: View {
                 }
                 
                 HStack {
-                    Text(historyStatus)
+                    Text(store.confirmedHistorySyncStatus.rawValue)
                         .foregroundColor(.tertiary)
                     
-                    if historyIsInStableStatus {
+                    if store.confirmedHistorySyncStatusIsStable {
+                        //                    if store.confirmedHistoryIsInStableStatus {
                         Text(store.sinceHistoryLastSync)
                             .foregroundColor(store.syncColor(for: store.confirmedHistory.syncDate))
                     }

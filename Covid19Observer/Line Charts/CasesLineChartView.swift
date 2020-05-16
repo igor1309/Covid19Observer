@@ -11,7 +11,7 @@ import SwiftPI
 
 struct CasesLineChartView: View {
     @Environment(\.presentationMode) var presentation
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     var forAllCountries: Bool
@@ -26,20 +26,17 @@ struct CasesLineChartView: View {
             }) {
                 HStack {
                     Image(systemName: "chevron.down")
-                    .font(.headline)
+                        .font(.headline)
                     
-                    Text(coronaStore.selectedCountry)
+                    Text(store.selectedCountry)
                         .font(.title)
                         .lineLimit(1)
                         .layoutPriority(1)
-                    
-//                    Image(systemName: "arrowshape.turn.up.right")
-//                        .font(.headline)
                 }
             }
             .sheet(isPresented: $showCountryPickerTable) {
                 CountryPicker()
-                    .environmentObject(self.coronaStore)
+                    .environmentObject(self.store)
                     .environmentObject(self.settings)
             }
             .layoutPriority(1)
@@ -49,21 +46,21 @@ struct CasesLineChartView: View {
     }
     
     var primeCountryToggle: some View {
-        let isInSelected = settings.primeCountries.map { $0.name }.contains(coronaStore.selectedCountry)
+        let isInSelected = settings.primeCountries.map { $0.name }.contains(store.selectedCountry)
         
         return ToolBarButton(systemName: isInSelected ? "star.fill" : "star") {
             if isInSelected {
-                let index = self.settings.primeCountries.firstIndex { $0.name == self.coronaStore.selectedCountry }!
+                let index = self.settings.primeCountries.firstIndex { $0.name == self.store.selectedCountry }!
                 self.settings.primeCountries.remove(at: index)
             } else {
-                let iso2 = self.coronaStore.countriesWithIso2[self.coronaStore.selectedCountry]!
-                self.settings.primeCountries.append(Country(name: self.coronaStore.selectedCountry, iso2: iso2))
+                let iso2 = self.store.countriesWithIso2[self.store.selectedCountry]!
+                self.settings.primeCountries.append(Country(name: self.store.selectedCountry, iso2: iso2))
             }
         }
         .foregroundColor(isInSelected ? .systemOrange : .secondary)
         .font(.subheadline)
     }
-        
+    
     var header: some View {
         return Group {
             if forAllCountries {
@@ -78,9 +75,9 @@ struct CasesLineChartView: View {
                         .foregroundColor(.red)
                         .font(.title)
                     : nil
-
+                
             } else {
-                PrimeCountryPicker(selection: $coronaStore.selectedCountry)
+                PrimeCountryPicker(selection: $store.selectedCountry)
                 
                 ZStack(alignment: .trailing) {
                     countryPicker
@@ -88,7 +85,7 @@ struct CasesLineChartView: View {
                 }
                 
                 ZStack(alignment: .topTrailing) {
-                    Dashboard(outbreak: coronaStore.selectedCountryOutbreak, forAllCountries: false)
+                    Dashboard(outbreak: store.selectedCountryOutbreak, forAllCountries: false)
                     
                     VStack {
                         AppendCurrentToggle()
@@ -98,7 +95,7 @@ struct CasesLineChartView: View {
                         }
                         .sheet(isPresented: $showTable) {
                             CountryDataTable(series: self.series)
-                                .environmentObject(self.coronaStore)
+                                .environmentObject(self.store)
                         }
                     }
                 }
@@ -107,23 +104,38 @@ struct CasesLineChartView: View {
     }
     
     var series: [Int] {
-        coronaStore
+        store
             .series(for: settings.chartOptions.dataKind,
                     appendCurrent: settings.chartOptions.appendCurrent,
                     forAllCountries: forAllCountries)
             .filtered(limit: settings.chartOptions.lineChartLimit)
     }
     
+    var callToUpdate: some View {
+        ZStack {
+            Color.quaternarySystemFill
+            
+            VStack {
+                Text ("No Data to display.")
+                    .foregroundColor(.secondary)
+                    .font(.headline)
+                
+                if self.settings.chartOptions.isFiltered {
+                    Text ("Please check the filter.")
+                        .foregroundColor(.secondary)
+                        .font(.headline)
+                    
+                    LineChartFilterToggle()
+                }
+                
+                SpinningWaitHistoryButton()
+            }
+        }
+    }
+    
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
-
-//        let series = coronaStore
-//            .series(for: settings.chartOptions.dataKind,
-//                    appendCurrent: settings.chartOptions.appendCurrent,
-//                    forAllCountries: forAllCountries)
-//            .filtered(limit: settings.chartOptions.lineChartLimit)
-        
-        return VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 8) {
             
             header
             
@@ -132,25 +144,20 @@ struct CasesLineChartView: View {
                 DataKindPicker(selectedDataKind: $settings.chartOptions.dataKind)
                     .padding(.vertical, 6)
                 
+                Text(settings.chartOptions.dataKind.rawValue)
+                    .foregroundColor(settings.chartOptions.dataKind.color)
+                    .font(.footnote)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(series: series)
                     
-                    //LineChartFilterToggle()
-                    //    .padding(.top, 6)
+                    //    LineChartFilterToggle()
+                    //        .padding(.top, 6)
                 }
                 
             } else {
-                ZStack {
-                    Color.quaternarySystemFill
-                    VStack {
-                        Text ("No Data to display.\nPlease update the Dataset.")
-                            .foregroundColor(.secondary)
-                            .font(.headline)
-                        
-                        LineChartFilterToggle()
-                    }
-                }
-                
+                callToUpdate
             }
         }
         .padding(.top)
@@ -174,7 +181,7 @@ struct CasesLineChartView_Previews: PreviewProvider {
                 CasesLineChartView(forAllCountries: true)
             }
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }

@@ -13,11 +13,11 @@ final class TestingCorona: ObservableObject {
     
     let johnHopkinsAPI = JohnHopkinsAPI.shared
     
-    let currentByCountryFilename: String
-    let currentByRegionFilename: String
+    let currentByCountryFilename = "current-country.json"
+    let currentByRegionFilename = "current-region.json"
     
-    @Published var currentByCountry: Current
-    @Published var currentByRegion: Current
+    @Published var currentByCountry: Present
+    @Published var currentByRegion: Present
     
     @Published var currentByCountryLastUpdated: String = ""
     
@@ -38,17 +38,14 @@ final class TestingCorona: ObservableObject {
     
     init() {
         
-        currentByCountryFilename = "current-country.json"
-        currentByRegionFilename  = "current-region.json"
-        
-        currentByCountry = Current.load(type: .byCountry, from: currentByCountryFilename)
-        currentByRegion  = Current.load(type: .byRegion, from: currentByRegionFilename)
+        currentByCountry = Present.load(type: .byCountry, from: currentByCountryFilename)
+        currentByRegion  = Present.load(type: .byRegion, from: currentByRegionFilename)
         
         currentByCountryLastUpdated = currentByCountry.lastFetchDate.hoursMunutesTillNowNice
         
         createSubs()
         
-        #warning("count new and current cases is called separately in countNewAndCurrent()")
+        #warning("count new and current cases is called separately in countNewAndPresent()")
     }
     
     func createSubs() {
@@ -97,7 +94,7 @@ final class TestingCorona: ObservableObject {
                 }},
             receiveValue: { [unowned self] in
                 print("from Country SUB: non-empty CoronaResponse recieved")
-                let current = Current(type: .byCountry, response: $0)
+                let current = Present(type: .byCountry, response: $0)
                 self.currentByCountry = current
                 print("from Country SUB: update completed, cases count: \(self.currentByCountry.cases.count)")
                 self.currentByCountryLastUpdated = self.currentByCountry.lastFetchDate.hoursMunutesTillNowNice
@@ -123,7 +120,7 @@ final class TestingCorona: ObservableObject {
                 }},
             receiveValue: { [unowned self] in
                 print("from Region SUB: non-empty CoronaResponse recieved")
-                let current = Current(type: .byRegion, response: $0)
+                let current = Present(type: .byRegion, response: $0)
                 self.currentByRegion = current
                 print("from Region SUB: update completed, cases count: \(self.currentByRegion.cases.count)")
                 self.currentByRegion.save(to: self.currentByRegionFilename)

@@ -6,6 +6,8 @@
 //  Copyright © 2020 Igor Malyarov. All rights reserved.
 //
 
+import SwiftUI
+
 enum DataKind: String, CaseIterable, Codable {
     case confirmedTotal = "Confirmed Cases"
     case confirmedDaily = "Confirmed Cases Daily"
@@ -20,13 +22,28 @@ enum DataKind: String, CaseIterable, Codable {
         case .confirmedTotal:
             return "Conf."
         case .confirmedDaily:
-            return "Conf.D"
+            return "C.Dly"
         case .deathsTotal:
             return "Deaths"
         case .deathsDaily:
-            return "Deaths.D"
+            return "D.Dly"
         case .cfr:
             return "CFR"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .confirmedTotal:
+            return .confirmed//.systemYellow
+        case .confirmedDaily:
+            return .confirmed//.systemYellow
+        case .deathsTotal:
+            return .deaths//.systemRed
+        case .deathsDaily:
+            return .deaths//.systemRed
+        case .cfr:
+            return .cfr//.systemTeal
         }
     }
 }

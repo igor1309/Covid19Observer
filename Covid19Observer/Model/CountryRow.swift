@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CountryRow: Codable, Identifiable {
+struct CountryRow: Codable, Identifiable, Hashable {
     var id: String { provinceState + "/" + countryRegion }
     
     var name: String {

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct PrimeCountryPicker: View {
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     @Binding var selection: String
@@ -17,7 +17,7 @@ struct PrimeCountryPicker: View {
     var body: some View {
         let country = Binding<Country>(
             get: {
-                let iso2 = self.coronaStore.countriesWithIso2[self.selection]!
+                let iso2 = self.store.countriesWithIso2[self.selection]!
                 return Country(name: self.selection, iso2: iso2)
         },
             set: {
@@ -41,7 +41,7 @@ struct PrimeCountryPicker_Previews: PreviewProvider {
         NavigationView {
             PrimeCountryPicker(selection: $selection)
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }

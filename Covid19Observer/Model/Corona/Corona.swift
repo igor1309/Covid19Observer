@@ -14,9 +14,9 @@ struct Corona: Codable {
     let caseType: CaseType
     let endPoint: JHEndPoint
 //    let filename: String
-    var filename: String { endPoint.rawValue + ".json" }
+    var filename: String { endPoint.rawValue.lowercased() + ".json" }
     
-    var cases = [CaseData]()
+    var cases = [OldCaseData]()
     private(set) var caseAnnotations = [CaseAnnotation]()
     
     private(set) var lastSyncDate: Date
@@ -103,7 +103,7 @@ extension Corona {
         
     private mutating func processCases(response: CoronaResponse) {
         var caseAnnotations: [CaseAnnotation] = []
-        var caseData: [CaseData] = []
+        var caseData: [OldCaseData] = []
         
         var totalCases = 0
         var totalDeaths = 0
@@ -133,7 +133,7 @@ extension Corona {
             totalRecovered += cases.attributes.recovered ?? 0
             
             caseData.append(
-                CaseData(
+                OldCaseData(
                     name: title,
                     confirmed: confirmed,
                     //  MARK: count new and current cases is called separately in countNewAndCurrent()

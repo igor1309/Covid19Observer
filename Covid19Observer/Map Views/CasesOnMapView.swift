@@ -12,7 +12,7 @@ import SwiftPI
 
 struct CasesOnMapView: View {
     @Environment(\.horizontalSizeClass) var sizeClass
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     @State private var centerCoordinate = CLLocationCoordinate2D()
@@ -40,9 +40,9 @@ struct CasesOnMapView: View {
     
     var filterButton: some View {
         ToolBarButton(systemName: "line.horizontal.3.decrease") {
-            self.coronaStore.mapOptions.isFiltered.toggle()
+            self.store.mapOptions.isFiltered.toggle()
         }
-        .foregroundColor(coronaStore.mapOptions.isFiltered ? coronaStore.mapOptions.filterColor : .secondary)
+        .foregroundColor(store.mapOptions.isFiltered ? store.mapOptions.filterColor : .secondary)
     }
     
     var updateButton: some View {
@@ -55,10 +55,7 @@ struct CasesOnMapView: View {
                         buttons: [
                             .cancel(),
                             .destructive(Text("Yes, reload")) {
-                                //  MARK: FINISH THIS
-                                //
-                                self.coronaStore.updateCorona() { }
-                                print("to be done")
+                                self.store.fetchCurrent()
                             }]
             )
         }
@@ -88,7 +85,7 @@ struct CasesOnMapView: View {
                 }
                 .sheet(isPresented: $showLineChart) {
                     CasesLineChartView(forAllCountries: false)
-                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.store)
                         .environmentObject(self.settings)
                 }
                 
@@ -100,7 +97,7 @@ struct CasesOnMapView: View {
                 .sheet(isPresented: $showCasesChart) {
                     CasesChartView()
                         .padding()
-                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.store)
                 }
                 
                 Spacer()
@@ -113,7 +110,7 @@ struct CasesOnMapView: View {
                 .sheet(isPresented: $showTable) {
                     CasesTableView()
                         .padding()
-                        .environmentObject(self.coronaStore)
+                        .environmentObject(self.store)
                         .environmentObject(self.settings)
                 }
                 
@@ -140,16 +137,16 @@ struct CasesOnMapView: View {
     
     var mapView: some View {
         MapView(
-            caseAnnotations: coronaStore.coronaByCountry.caseAnnotations,
+            caseAnnotations: store.caseAnnotations,
             centerCoordinate: $centerCoordinate,
             selectedPlace: $selectedPlace,
-            selectedCountry: $coronaStore.selectedCountry,
-            showingPlaceDetails: $showPlaceDetails)
-            
+            selectedCountry: $store.selectedCountry,
+            showingPlaceDetails: $showPlaceDetails
+        )
             .edgesIgnoringSafeArea(.all)
             .sheet(isPresented: $showPlaceDetails) {
                 CasesLineChartView(forAllCountries: false)
-                    .environmentObject(self.coronaStore)
+                    .environmentObject(self.store)
                     .environmentObject(self.settings)
         }
     }
@@ -172,7 +169,7 @@ struct CasesOnMapView: View {
 struct CasesOnMapView_Previews: PreviewProvider {
     static var previews: some View {
         CasesOnMapView()
-            .environmentObject(CoronaStore())
+            .environmentObject(Store())
             .environmentObject(Settings())
             .environment(\.colorScheme, .dark)
     }
