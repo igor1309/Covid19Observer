@@ -14,6 +14,7 @@ struct HeatedLineChart: View {
     
     let series: [Int]
     let lineWidth: CGFloat = 4
+    let dotDiameter: CGFloat = 2
     
     //  MARK: FINISH THIS CHANGE TO FALSE FOR ANIMATION
     @State private var animated = false
@@ -68,7 +69,7 @@ struct HeatedLineChart: View {
                                     style: StrokeStyle(lineWidth: 3,
                                                        lineCap: .round,
                                                        lineJoin: .round))
-                            .opacity(0.5)
+//                            .opacity(0.75)
                         
                         LineChart(points: points, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
@@ -78,10 +79,10 @@ struct HeatedLineChart: View {
                                                        lineJoin: .round))
                             .opacity(0.3)
                         
-                        DotChart(points: points, plotArea: plotArea)
+                        DotChart(points: points, diameter: dotDiameter, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
                             .stroke(heatGradient,
-                                    style: StrokeStyle(lineWidth: lineWidth,
+                                    style: StrokeStyle(lineWidth: dotDiameter,
                                                        lineCap: .round,
                                                        lineJoin: .round))
                         

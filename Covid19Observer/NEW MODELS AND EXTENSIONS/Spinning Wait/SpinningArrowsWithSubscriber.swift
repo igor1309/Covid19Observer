@@ -10,13 +10,20 @@ import SwiftUI
 import Combine
 
 struct SpinningArrowsWithSubscriberButton: View {
-    var publisher: AnyPublisher<Bool, Never>
-    var scale: Image.Scale = .medium
-    var action: () -> ()
+    var title: String? = nil
+    let publisher: AnyPublisher<Bool, Never>
+    let scale: Image.Scale = .medium
+    let action: () -> ()
 
     var body: some View {
         Button(action: action) {
-            SpinningArrowsWithSubscriber(publisher: publisher, scale: scale)
+            HStack {
+                SpinningArrowsWithSubscriber(publisher: publisher, scale: scale)
+                
+                if title != nil {
+                    Text(title!)
+                }
+            }
         }
     }
 }
@@ -54,6 +61,8 @@ private struct SpinningArrowsTesting: View {
             }) {
                 SpinningArrows(isUpdating: $isUpdating)
             }
+            
+            SpinningArrowsWithSubscriberButton(title: "Current", publisher: publisher) {}
             
             SpinningArrowsWithSubscriber(publisher: publisher)
             SpinningArrowsWithSubscriber(publisher: publisher, scale: .large)

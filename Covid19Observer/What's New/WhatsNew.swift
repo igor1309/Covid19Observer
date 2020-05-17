@@ -21,40 +21,23 @@ struct WhatsNew: View {
     
     var updated: some View {
         VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 16) {
-                SpinningArrowsWithSubscriberButton(
-                    publisher: store.$currentIsUpdating.eraseToAnyPublisher()
-                ) {
-                    self.store.fetchCurrent()
-                }
+            HStack {
+                Text(store.currentSyncInfo.text)
+                    .foregroundColor(store.currentSyncInfo.color)
                 
-                HStack {
-                    Text(store.currentSyncInfo.text)
-                        .foregroundColor(store.currentSyncInfo.color)
-                    
-                    Text(store.currentSyncInfo.status)
-                        .foregroundColor(.tertiary)
-                }
+                Text(store.currentSyncInfo.status)
+                    .foregroundColor(.tertiary)
             }
             
-            HStack(spacing: 16) {
-                SpinningArrowsWithSubscriberButton(
-                    publisher: store.$historyIsUpdating.eraseToAnyPublisher()
-                ) {
-                    self.store.fetchHistory()
-                }
+            HStack {
+                Text(store.historySyncInfo.text)
+                    .foregroundColor(store.historySyncInfo.color)
                 
-                HStack {
-                    Text(store.historySyncInfo.text)
-                        .foregroundColor(store.historySyncInfo.color)
-                    
-                    Text(store.historySyncInfo.status)
-                        .foregroundColor(.tertiary)
-                }
+                Text(store.historySyncInfo.status)
+                    .foregroundColor(.tertiary)
             }
         }
         .padding(.horizontal)
-        .frame(maxWidth: .infinity, alignment: .leading)
         .font(.caption)
         .onReceive(
             Publishers.CombineLatest(
@@ -63,6 +46,38 @@ struct WhatsNew: View {
         ) { _ in
             self.text = self.store.currentSyncInfo.text
         }
+    }
+    
+    var updateButtons: some View {
+        HStack {
+            Spacer()
+            
+            SpinningArrowsWithSubscriberButton(
+                title: "Current",
+                publisher: store.$currentIsUpdating.eraseToAnyPublisher()
+            ) {
+                self.store.fetchCurrent()
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .roundedBackground(cornerRadius: 8, color: cardColor)
+            
+            Spacer()
+            
+            SpinningArrowsWithSubscriberButton(
+                title: "History",
+                publisher: store.$historyIsUpdating.eraseToAnyPublisher()
+            ) {
+                self.store.fetchHistory()
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .roundedBackground(cornerRadius: 8, color: cardColor)
+            
+            Spacer()
+        }
+        .padding(.horizontal)
+        .font(.subheadline)
     }
     
     @State private var showLineChart = false
@@ -135,10 +150,12 @@ struct WhatsNew: View {
                 chartAndTableButtons
                     .padding(.vertical, 8)
                 
-                
                 updated
                 
                 VariationsView()
+                
+                updateButtons
+                    .padding(.bottom, 64)
             }
         }
     }

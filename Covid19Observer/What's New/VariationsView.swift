@@ -85,6 +85,7 @@ struct VariationsView: View {
                 ? Text("No significant changes in confirmed cases or deaths")
                     .foregroundColor(.systemGreen)
                     .font(.subheadline)
+                    .opacity(0.5)
                 : nil
             
             VStack(alignment: .leading) {
@@ -97,9 +98,11 @@ struct VariationsView: View {
                         }
                     : nil
             }
-            .padding(.vertical, 8)
             .foregroundColor(.secondary)
             .font(.caption)
+            .padding(.leading, 3)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.vertical, 8)
         }
         .padding()
         .sheet(isPresented: $showCountryList) {

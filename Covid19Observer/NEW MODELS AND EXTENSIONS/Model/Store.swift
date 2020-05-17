@@ -552,12 +552,19 @@ extension Store {
     
     //  MARK: Uppdate if Old (or loaded with failure)
     
-    func updateIfOld() {
-        if currentByCountry.syncDate.isDataOld(threshold: currentThreshold) {
-            fetchCurrent()
+    func updateStoreIfDataIsOld() {
+        //  data needs some time to load first!
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            if self.currentByCountry.syncDate.isDataOld(threshold: self.currentThreshold) {
+                self.fetchCurrent()
+            }
         }
-        if confirmedHistory.syncDate.isDataOld(threshold: historyThreshold) {
-            fetchHistory()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            if self.confirmedHistory.syncDate.isDataOld(threshold: self.historyThreshold) {
+                self.fetchHistory()
+            }
         }
     }
     

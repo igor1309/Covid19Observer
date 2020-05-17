@@ -87,9 +87,7 @@ struct Home: View {
             .tag(4)
         }
         .onAppear {
-            DispatchQueue.main.async {
-                self.store.updateIfOld()
-            }
+            self.store.updateStoreIfDataIsOld()
         }
     }
 }

@@ -10,11 +10,13 @@ import SwiftUI
 
 struct DotChart: Shape {
     var points: [CGPoint]
+    let diameter: CGFloat
     
     let minX, maxX, minY, maxY: CGFloat
     
-    init(points: [CGPoint], plotArea: CGRect? = nil) {
+    init(points: [CGPoint], diameter: CGFloat = 4, plotArea: CGRect? = nil) {
         self.points = points
+        self.diameter = diameter
         if plotArea == nil {
             self.minX = points.map { $0.x }.min() ?? 0
             self.minY = points.map { $0.y }.min() ?? 0
@@ -41,7 +43,7 @@ struct DotChart: Shape {
         }
         
         func ellipseRect(for point: CGPoint) -> CGRect {
-            let radius: CGFloat = 2
+            let radius: CGFloat = diameter / 2
             
             return CGRect(x: point.x - radius,
                           y: point.y - radius,

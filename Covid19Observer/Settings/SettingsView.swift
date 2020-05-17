@@ -122,7 +122,7 @@ struct SettingsView: View {
                     }) {
                         HStack(spacing: 16) {
                             SpinningArrowsWithSubscriberButton(
-                                publisher: store.$currentIsUpdating.eraseToAnyPublisher()
+                                title: nil, publisher: store.$currentIsUpdating.eraseToAnyPublisher()
                             ) {
                                 self.store.fetchCurrent()
                             }
@@ -142,7 +142,7 @@ struct SettingsView: View {
                     }) {
                         HStack(spacing: 16) {
                             SpinningArrowsWithSubscriberButton(
-                                publisher: store.$historyIsUpdating.eraseToAnyPublisher()
+                                title: nil, publisher: store.$historyIsUpdating.eraseToAnyPublisher()
                             ) {
                                 self.store.fetchHistory()
                             }
