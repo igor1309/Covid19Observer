@@ -15,12 +15,7 @@ struct TestingHistoricalView: View {
     let country = "Russia"
     
     var body: some View {
-        
-        let currentStatus = (store.syncStatus[.current(.byCountry)] ?? .failure).rawValue
-        let historyStatus = (store.syncStatus[.history(.confirmed)] ?? .failure).rawValue
-        
-
-       return ZStack {
+        ZStack {
             VStack {
                 HStack {
                     Spacer()
@@ -73,10 +68,10 @@ struct TestingHistoricalView: View {
                                     .font(.caption)
                                 Text("xLabels (count: \(history.xLabels.count.formattedGrouped)) \(ListFormatter.localizedString(byJoining: history.xLabels.suffix(5)))")
                                     .font(.footnote)
-                                Text("last fetch result: \(currentStatus)")
-                                    .foregroundColor(.secondary)
+                                Text(self.store.historySyncInfo.text)
+                                    .foregroundColor(self.store.historySyncInfo.color)
                                     .font(.footnote)
-                                Text("last update: \(self.store.sinceHistoryLastSync)")
+                                Text("last update: \(self.store.historySyncInfo.text)")
                                     .foregroundColor(.secondary)
                                     .font(.footnote)
                             }

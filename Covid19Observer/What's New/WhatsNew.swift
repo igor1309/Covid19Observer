@@ -29,13 +29,11 @@ struct WhatsNew: View {
                 }
                 
                 HStack {
-                    Text(store.currentByCountrySyncStatus.rawValue)
-                        .foregroundColor(.tertiary)
+                    Text(store.currentSyncInfo.text)
+                        .foregroundColor(store.currentSyncInfo.color)
                     
-                    if store.currentByCountrySyncStatusIsStable {
-                        Text(store.sinceCurrentLastSync)
-                            .foregroundColor(store.syncColor(for: store.currentByCountry.syncDate))
-                    }
+                    Text(store.currentSyncInfo.status)
+                        .foregroundColor(.tertiary)
                 }
             }
             
@@ -47,22 +45,23 @@ struct WhatsNew: View {
                 }
                 
                 HStack {
-                    Text(store.confirmedHistorySyncStatus.rawValue)
-                        .foregroundColor(.tertiary)
+                    Text(store.historySyncInfo.text)
+                        .foregroundColor(store.historySyncInfo.color)
                     
-                    if store.confirmedHistorySyncStatusIsStable {
-                        //                    if store.confirmedHistoryIsInStableStatus {
-                        Text(store.sinceHistoryLastSync)
-                            .foregroundColor(store.syncColor(for: store.confirmedHistory.syncDate))
-                    }
+                    Text(store.historySyncInfo.status)
+                        .foregroundColor(.tertiary)
                 }
             }
         }
         .padding(.horizontal)
         .frame(maxWidth: .infinity, alignment: .leading)
         .font(.caption)
-        .onReceive(Publishers.CombineLatest(timers.$thirtySeconds, store.$currentByCountry)) { _ in
-            self.text = self.store.sinceCurrentLastSync
+        .onReceive(
+            Publishers.CombineLatest(
+                timers.$thirtySeconds,
+                store.$currentByCountry)
+        ) { _ in
+            self.text = self.store.currentSyncInfo.text
         }
     }
     

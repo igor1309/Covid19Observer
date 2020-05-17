@@ -11,7 +11,7 @@ import SwiftPI
 
 struct CountryList: View {
     
-    @EnvironmentObject var coronaStore: CoronaStore
+    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     var kind: DataKind
@@ -45,13 +45,13 @@ struct CountryList: View {
         .padding(.horizontal)
         .contentShape(Rectangle())
         .onTapGesture {
-            self.coronaStore.selectedCountry = deviation.country
+            self.store.selectedCountry = deviation.country
             self.settings.chartOptions.dataKind = kind
             self.showCountryDetails = true
         }
         .sheet(isPresented: self.$showCountryDetails) {
             CasesLineChartView(forAllCountries: false)
-                .environmentObject(self.coronaStore)
+                .environmentObject(self.store)
                 .environmentObject(self.settings)
         }
     }
@@ -114,7 +114,7 @@ struct CountryList_Previews: PreviewProvider {
         NavigationView {
             CountryList(kind: .confirmedDaily, deviations: deviations)
         }
-        .environmentObject(CoronaStore())
+        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
     }

@@ -21,28 +21,69 @@ extension Store {
     }
 }
 
+extension Date {
+    func isDataOld(threshold: DateComponents) -> Bool {
+        let calendar = Calendar.autoupdatingCurrent
+        let thresholdDate = calendar.date(byAdding: threshold, to: Date())!
+        let compare = calendar.compare(thresholdDate, to: self, toGranularity: .minute)
+        return compare == .orderedDescending
+    }
+}
+
 enum SyncStatus: String {
-    case failure = "⚠️"
+    case loadFailure = "⚠️ load failed"
+    case fetchFailure = "⚠️ fetch failed"
     case loading, loaded, fetching, fetched
     
-    private var isStable: Bool {
+    private var isNotUpdating: Bool {
         switch self {
-        case .failure, .loaded, .fetched:
+        case .fetchFailure, .loadFailure, .loaded, .fetched:
             return true
         case .loading, .fetching:
             return false
         }
     }
     
-//    func syncStatusStr(status: SyncStatus) -> String {
-//        if status == nil {
-//            return "…"
-//        } else if status! {
-//            return "data fetch ok" // "current data of \(type.rawValue) updated ok"
-//        } else {
-//            return "data fetch error ⚠️"//"⚠️ error loading/updating current of \(type.rawValue)"
-//        }
-//    }
+    var isUpdating: Bool {
+        switch self {
+        case .fetchFailure, .loadFailure, .loaded, .fetched:
+            return false
+        case .loading, .fetching:
+            return true
+        }
+    }
+    
+    func syncText(kind: String, for syncDate: Date, threshold: DateComponents) -> String {
+        
+        guard self.isNotUpdating else {
+            return "…"
+        }
+        
+        if syncDate == .distantPast {
+            return "\(kind) data is missing"
+        } else if syncDate.hoursMunutesTillNow == "0min" {
+            return "\(kind) updated just now."
+        } else if syncDate.isDataOld(threshold: threshold) {
+            return "\(kind) is old (more than \(syncDate.hoursMunutesTillNowNice))."
+        } else {
+            return "Last update for \(kind) \(syncDate.hoursMunutesTillNowNice)."
+        }
+    }
+    
+    func syncColor(for syncDate: Date, threshold: DateComponents) -> Color {
+        
+        guard self.isNotUpdating else {
+            return .secondary
+        }
+        
+        if syncDate.hoursMunutesTillNow == "0min" {
+            return .systemGreen
+        } else if syncDate.isDataOld(threshold: threshold) {
+            return .systemRed
+        } else {
+            return .secondary
+        }
+    }
 }
 
 
@@ -77,6 +118,7 @@ final class Store: ObservableObject {
         }
     }
     //  ================================================================
+    //  ================================================================
 
     
     //  MARK: - API
@@ -85,7 +127,8 @@ final class Store: ObservableObject {
     
     //  MARK: - Constants
     
-    let upToDateThreshold: TimeInterval = 2 * 60 * 60
+    let currentThreshold = DateComponents(hour: -1)
+    let historyThreshold = DateComponents(hour: -6)
     let confirmedDeviationThreshold: CGFloat = 100
     let deathsDeviationThreshold: CGFloat = 10
     
@@ -222,7 +265,7 @@ extension Store {
                     switch completion {
                     case let .failure(error):
                         print(error)
-                        self?.syncStatus[.history(history.type)] = .failure
+                        self?.syncStatus[.history(history.type)] = .loadFailure
                     case .finished:
                         print("JSON loaded from \(history.type.filename) OK")
                         self?.syncStatus[.history(history.type)] = .loaded
@@ -250,7 +293,7 @@ extension Store {
                     switch completion {
                     case let .failure(error):
                         print(error)
-                        self?.syncStatus[.current(current.type)] = .failure
+                        self?.syncStatus[.current(current.type)] = .loadFailure
                     case .finished:
                         print("JSON loaded from \(current.type.filename) OK")
                         self?.syncStatus[.current(current.type)] = .loaded
@@ -288,7 +331,7 @@ extension Store {
                 case .finished:
                     print("updating \(history.type.rawValue) history OK")
                 }
-                self?.syncStatus[.history(history.type)] = .failure
+                self?.syncStatus[.history(history.type)] = .fetchFailure
                 }, receiveValue: {
                     [weak self] in
                     switch history.type {
@@ -318,7 +361,7 @@ extension Store {
                 case .finished:
                     print("updating current of \(current.type.rawValue) OK")
                 }
-                self?.syncStatus[.current(current.type)] = .failure
+                self?.syncStatus[.current(current.type)] = .fetchFailure
                 }, receiveValue: {
                     [weak self] in
                     switch current.type {
@@ -426,29 +469,17 @@ extension Store {
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                
-                switch $0 {
-                case .failure, .loaded, .fetched:
-                    self?.historyIsUpdating = false
-                case .loading, .fetching:
-                    self?.historyIsUpdating = true
-                }
+                self?.historyIsUpdating = $0.isUpdating
         }
-            
         .store(in: &cancellables)
+        
         //  Current
         $syncStatus
             .compactMap { $0[.current(.byCountry)] }
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                
-                switch $0 {
-                case .failure, .loaded, .fetched:
-                    self?.currentIsUpdating = false
-                case .loading, .fetching:
-                    self?.currentIsUpdating = true
-                }
+                self?.currentIsUpdating = $0.isUpdating
         }
         .store(in: &cancellables)
     }
@@ -516,73 +547,50 @@ extension Store {
     //  -------------------------------------------------------------
 }
 
-
 //  MARK: - Sync View Model Helpers
 extension Store {
     
-    //  MARK: Status
+    //  MARK: Uppdate if Old (or loaded with failure)
+    
+    func updateIfOld() {
+        if currentByCountry.syncDate.isDataOld(threshold: currentThreshold) {
+            fetchCurrent()
+        }
+        if confirmedHistory.syncDate.isDataOld(threshold: historyThreshold) {
+            fetchHistory()
+        }
+    }
+    
+    //  MARK: Status and Sync Info
+    
     //  status should be always set (starting in init),
     //  if it's nil than it's a program error
     //  so it's safe to force unwrap
     
-    var currentByCountrySyncStatus: SyncStatus {
-        syncStatus[.current(.byCountry)]!// ?? .failure
-    }
-    var confirmedHistorySyncStatus: SyncStatus {
-        syncStatus[.history(.confirmed)]!// ?? .failure
-    }
-
-    //  Stable if failed, loaded or fetched)
-    
-    var currentByCountrySyncStatusIsStable: Bool {
-        isStable(status: syncStatus[.current(.byCountry)])
-    }
-    var confirmedHistorySyncStatusIsStable: Bool {
-        isStable(status: syncStatus[.history(.confirmed)])
-    }
-    private func isStable(status: SyncStatus?) -> Bool {
-        switch status {
-        case .failure, .loaded, .fetched:
-            return true
-        case .loading, .fetching:
-            return false
-        case nil:
-            return false
-        }
-    }
+    var currentSyncInfo: (status: String, text: String, color: Color) {
+        let kind = "Current"
+        let status = syncStatus[.current(.byCountry)]!
+        let date = currentByCountry.syncDate
+        let threshold = currentThreshold
         
-    //  MARK: Last Sync
-    
-    var sinceCurrentLastSync: String {
-        syncText(kind: "Current", for: currentByCountry.syncDate)
+        return (
+            status: status.rawValue,
+            text: status.syncText(kind: kind, for: date, threshold: threshold),
+            color: status.syncColor(for: date, threshold: threshold)
+        )
     }
     
-    var sinceHistoryLastSync: String {
-        syncText(kind: "History", for: confirmedHistory.syncDate)
-    }
-    
-    //  MARK: Helpers
-    
-    private func syncText(kind: String, for syncDate: Date) -> String {
-        if syncDate == .distantPast {
-            return "\(kind) data is missing"
-        } else if syncDate.hoursMunutesTillNow == "0min" {
-            return "\(kind) updated just now."
-        } else if syncDate.distance(to: Date()) > upToDateThreshold {
-            return "\(kind) is old (more than \(upToDateThreshold.hours))."
-        } else {
-            return "Last update for \(kind) \(syncDate.hoursMunutesTillNowNice)."
-        }
-    }
-    
-    func syncColor(for syncDate: Date) -> Color {
-        if syncDate.hoursMunutesTillNow == "0min" {
-            return .systemGreen
-        } else if syncDate.distance(to: Date()) > upToDateThreshold {
-            return .systemRed
-        } else {
-            return .secondary
-        }
+    var historySyncInfo: (status: String, text: String, color: Color) {
+        let kind = "History"
+        let status = syncStatus[.history(.confirmed)]!
+        let date = confirmedHistory.syncDate
+        let threshold = historyThreshold
+        
+        return (
+            status: status.rawValue,
+            text: status.syncText(kind: kind, for: date, threshold: threshold),
+            color: status.syncColor(for: date, threshold: threshold)
+        )
     }
 }
 

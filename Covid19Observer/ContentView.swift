@@ -9,94 +9,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.horizontalSizeClass) var sizeClass
-    @EnvironmentObject var store: Store
-    @EnvironmentObject var settings: Settings
-    
-    var barChart: some View {
-        Group {
-            if sizeClass == .compact {
-                CasesChartView()
-            } else {
-                CasesChartsIPad()
-            }
-        }
-    }
-    
-    var lineChart: some View {
-        Group {
-            if sizeClass == .compact {
-                CasesLineChartView(forAllCountries: false)
-            } else {
-                MapWithLineChartView()
-            }
-        }
-    }
-    
     var body: some View {
-        TabView(selection: $settings.selectedTab) {
+        Home()
             
-            WhatsNew()
-                .tabItem {
-                    Image(systemName: "rectangle.3.offgrid")
-                    Text("Dashboard")
-            }
-            .tag(0)
+            .environmentObject(Store())
+            .environmentObject(Settings())
+            .environmentObject(NotificationsSettings())
             
-            barChart
-                .padding(.horizontal)
-                .tabItem {
-                    Image(systemName: "text.alignleft")
-                    Text("World")
-            }
-            .tag(1)
-            
-            lineChart
-                .tabItem {
-                    Image(systemName: "waveform.path.ecg")
-                    Text("Country")
-            }
-            .tag(2)
-            
-            CasesOnMapView()
-                .tabItem {
-                    Image(systemName: "map")
-                    Text("Map")
-            }
-            .tag(3)
-            
-            //            CasesTableView()
-            //                .tabItem {
-            //                    Image(systemName: "table")
-            //                    Text("Table")
-            //            }
-            //            .tag(2)
-            
-//            DoublingTimeView()
-//                .tabItem {
-//                    Image(systemName: "rectangle.on.rectangle.angled")
-//                    Text("Doubling")
-//            }
-//            .tag(3)
-            
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text("Settings")
-            }
-            .tag(4)
-        }
-        .onAppear {
-            DispatchQueue.main.async {
-                print("TBD: updateEmptyOrOldStore")
-//                self.store.updateEmptyOrOldStore()
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-//            self.store.updateEmptyOrOldStore()
+            .onReceive(NotificationCenter.default
+                .publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                    //  MARK: ???
+                    //
         }
     }
 }
+
 
 
 struct ContentView_Previews: PreviewProvider {

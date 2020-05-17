@@ -17,7 +17,7 @@ struct PrimeCountryPicker: View {
     var body: some View {
         let country = Binding<Country>(
             get: {
-                let iso2 = self.store.countriesWithIso2[self.selection]!
+                guard let iso2 = self.store.countriesWithIso2[self.selection] else { return Country(name: self.selection, iso2: "") }
                 return Country(name: self.selection, iso2: iso2)
         },
             set: {

@@ -128,12 +128,10 @@ struct SettingsView: View {
                             }
                             
                             VStack(alignment: .leading, spacing: 6) {
-                                if store.currentByCountrySyncStatusIsStable {
-                                    Text(store.sinceCurrentLastSync)
-                                        .foregroundColor(store.syncColor(for: store.currentByCountry.syncDate))
-                                }
+                                Text(store.currentSyncInfo.text)
+                                    .foregroundColor(store.currentSyncInfo.color)
                                 
-                                Text(store.currentByCountrySyncStatus.rawValue)
+                                Text(store.currentSyncInfo.status)
                                     .foregroundColor(.tertiary)
                             }
                         }
@@ -150,12 +148,10 @@ struct SettingsView: View {
                             }
                             
                             VStack(alignment: .leading, spacing: 6) {
-                                if store.confirmedHistorySyncStatusIsStable {
-                                    Text(store.sinceHistoryLastSync)
-                                        .foregroundColor(store.syncColor(for: store.confirmedHistory.syncDate))
-                                }
+                                Text(store.historySyncInfo.text)
+                                    .foregroundColor(store.historySyncInfo.color)
                                 
-                                Text(store.confirmedHistorySyncStatus.rawValue)
+                                Text(store.historySyncInfo.status)
                                     .foregroundColor(.tertiary)
                             }
                         }
