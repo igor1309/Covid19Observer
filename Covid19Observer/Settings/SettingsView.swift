@@ -114,51 +114,9 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("Update".uppercased()),
-                        footer: Text("Data by John Hopkins.")
-                ) {
-                    Button(action: {
-                        self.store.fetchCurrent()
-                    }) {
-                        HStack(spacing: 16) {
-                            SpinningArrowsWithSubscriberButton(
-                                title: nil, publisher: store.$currentIsUpdating.eraseToAnyPublisher()
-                            ) {
-                                self.store.fetchCurrent()
-                            }
-                            
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text(store.currentSyncInfo.text)
-                                    .foregroundColor(store.currentSyncInfo.color)
-                                
-                                Text(store.currentSyncInfo.status)
-                                    .foregroundColor(.tertiary)
-                            }
-                        }
-                    }
-                    
-                    Button(action: {
-                        self.store.fetchHistory()
-                    }) {
-                        HStack(spacing: 16) {
-                            SpinningArrowsWithSubscriberButton(
-                                title: nil, publisher: store.$historyIsUpdating.eraseToAnyPublisher()
-                            ) {
-                                self.store.fetchHistory()
-                            }
-                            
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text(store.historySyncInfo.text)
-                                    .foregroundColor(store.historySyncInfo.color)
-                                
-                                Text(store.historySyncInfo.status)
-                                    .foregroundColor(.tertiary)
-                            }
-                        }
-                    }
-                }
+                UpdateSection()
                 
-                MapColorCodeView()
+                MapColorCodeSection()
             }
             .onPreferenceChange(WidthPreference.self) { self.columnWidths = $0 }
             .navigationBarTitle("Settings")

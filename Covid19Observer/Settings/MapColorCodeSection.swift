@@ -1,5 +1,5 @@
 //
-//  MapColorCodeView.swift
+//  MapColorCodeSection.swift
 //  Covid19Observer
 //
 //  Created by Igor Malyarov on 11.04.2020.
@@ -8,10 +8,24 @@
 
 import SwiftUI
 
-struct MapColorCodeView: View {
+struct MapColorCodeSection: View {
     @EnvironmentObject var store: Store
+    @EnvironmentObject var settings: Settings
     
     let lowerLimits: [Int] = [100, 500, 1_000, 5_000, 10_000]
+    
+    func colorCapsule(item: Int) -> some View {
+        Capsule()
+            .foregroundColor(Color(MapOptions.colorCode(for: item)))
+            .padding(.horizontal, self.settings.mapOptions.lowerLimit == item ? 6 : 8)
+            .padding(self.settings.mapOptions.lowerLimit == item ? 0 : 3)
+            .frame(height: 16)
+            .overlay(
+                Capsule()
+                    .stroke(self.settings.mapOptions.lowerLimit == item ? Color.primary : .clear, lineWidth: 2)
+                    .padding(.horizontal, 6)
+        )
+    }
     
     var body: some View {
         Section(header: Text("Lower Limit for Map Filter".uppercased()),
@@ -20,24 +34,15 @@ struct MapColorCodeView: View {
             Group {
                 HStack {
                     ForEach(lowerLimits, id: \.self) { item in
-                        Capsule()
-                            //  .foregroundColor(Color(self.store.colorCode(for: item)))
-                            .foregroundColor(Color(MapOptions.colorCode(for: item)))
-                            .padding(.horizontal, self.store.mapOptions.lowerLimit == item ? 6 : 8)
-                            .padding(self.store.mapOptions.lowerLimit == item ? 0 : 3)
-                            .frame(height: 16)
-                            .overlay(
-                                Capsule()
-                                    .stroke(self.store.mapOptions.lowerLimit == item ? Color.primary : .clear, lineWidth: 2)
-                                    .padding(.horizontal, 6)
-                        )
+                        self.colorCapsule(item: item)
                             .onTapGesture {
-                                self.store.mapOptions.lowerLimit = item
+                                self.settings.mapOptions.lowerLimit = item
                         }
                     }
                 }
                 
-                Picker(selection: $store.mapOptions.lowerLimit, label: Text("Select Top Qty")) {
+                Picker(selection: $settings.mapOptions.lowerLimit, label: Text("Lower Limit")
+                ) {
                     ForEach(lowerLimits, id: \.self) { qty in
                         Text("\(qty)").tag(qty)
                     }
@@ -50,14 +55,15 @@ struct MapColorCodeView: View {
     }
 }
 
-struct MapColorCodeView_Previews: PreviewProvider {
+struct MapColorCodeSection_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             Form {
-                MapColorCodeView()
+                MapColorCodeSection()
             }
         }
         .environmentObject(Store())
+        .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
         .previewLayout(.sizeThatFits)
     }

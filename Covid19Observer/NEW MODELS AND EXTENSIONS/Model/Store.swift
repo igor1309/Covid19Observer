@@ -90,36 +90,7 @@ enum SyncStatus: String {
 
 final class Store: ObservableObject {
     
-    //  ================================================================
-    //  MARK: - COUNTING OUTBREAK IS CALLED HERE
-    //  WHAT PUBLISHERS SHOULD BE CREATED????
-    
     @Published var caseType = CaseType.byCountry
-//        {
-//        didSet { countOutbreak() }
-//    }
-
-    var caseAnnotations: [CaseAnnotation] {
-        switch caseType {
-        case .byCountry:
-            return currentByCountry.caseAnnotations
-        case .byRegion:
-            return currentByRegion.caseAnnotations
-        }
-    }
-    
-    @Published var mapOptions = MapOptions() {
-        didSet {
-            if let encoded = try? JSONEncoder().encode(mapOptions) {
-                UserDefaults.standard.set(encoded, forKey: "mapOptions")
-            }
-            
-//            countOutbreak()
-        }
-    }
-    //  ================================================================
-    //  ================================================================
-
     
     //  MARK: - API
     
@@ -601,7 +572,23 @@ extension Store {
     }
 }
 
-//MARK: Other View Model Helpers
+//  MARK: Case Annotation (for map)
+extension Store {
+    func caseAnnotations(filterValue: Int) -> [CaseAnnotation] {
+        let annotations: [CaseAnnotation]
+        
+        switch caseType {
+        case .byCountry:
+            annotations = currentByCountry.caseAnnotations
+        case .byRegion:
+            annotations = currentByRegion.caseAnnotations
+        }
+        
+        return annotations.filter { $0.value > filterValue }
+    }
+}
+
+//  MARK: Other View Model Helpers
 extension Store {
     func maximumForCasesChart(type: CaseDataType) -> CGFloat {
         let maximum: CGFloat

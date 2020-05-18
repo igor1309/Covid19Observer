@@ -25,6 +25,14 @@ final class Settings: ObservableObject {
         }
     }
     
+    @Published var mapOptions = MapOptions() {
+        didSet {
+            if let encoded = try? JSONEncoder().encode(mapOptions) {
+                UserDefaults.standard.set(encoded, forKey: "mapOptions")
+            }
+        }
+    }
+    
     //  MARK: SWIFTUI/COMBINE BUG/FEATURE?? preventing @Published array changes to fire didSet
     /// solution via subscriber in init()
     @Published var primeCountries: [Country] {

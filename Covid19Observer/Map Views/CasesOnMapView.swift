@@ -40,9 +40,9 @@ struct CasesOnMapView: View {
     
     var filterButton: some View {
         ToolBarButton(systemName: "line.horizontal.3.decrease") {
-            self.store.mapOptions.isFiltered.toggle()
+            self.settings.mapOptions.isFiltered.toggle()
         }
-        .foregroundColor(store.mapOptions.isFiltered ? store.mapOptions.filterColor : .secondary)
+        .foregroundColor(settings.mapOptions.isFiltered ? settings.mapOptions.filterColor : .secondary)
     }
     
     var updateButton: some View {
@@ -136,8 +136,10 @@ struct CasesOnMapView: View {
     }
     
     var mapView: some View {
-        MapView(
-            caseAnnotations: store.caseAnnotations,
+        let annotations: [CaseAnnotation] = store.caseAnnotations(filterValue: settings.mapOptions.isFiltered ? settings.mapOptions.lowerLimit : 0)
+        
+        return MapView(
+            caseAnnotations: annotations,
             centerCoordinate: $centerCoordinate,
             selectedPlace: $selectedPlace,
             selectedCountry: $store.selectedCountry,

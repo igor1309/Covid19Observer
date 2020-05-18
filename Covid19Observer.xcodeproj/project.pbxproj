@@ -76,6 +76,7 @@
 		2A74F0C82428CE7B00137694 /* CountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0C42428CE7B00137694 /* CountryPicker.swift */; };
 		2A74F0CC2428FB3A00137694 /* CasesLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */; };
 		2A799DEF2471E2E200151270 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A799DEE2471E2E200151270 /* Home.swift */; };
+		2A799DF1247276CA00151270 /* UpdateSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A799DF0247276CA00151270 /* UpdateSection.swift */; };
 		2A8A50EE246AE86900047BED /* Ext+URLSession+fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8A50ED246AE86900047BED /* Ext+URLSession+fetch.swift */; };
 		2A8A50F0246AEF8100047BED /* Ext+JohnHopkinsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8A50EF246AEF8100047BED /* Ext+JohnHopkinsAPI.swift */; };
 		2A8A50F2246B2B9E00047BED /* Ext+FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8A50F1246B2B9E00047BED /* Ext+FileManager.swift */; };
@@ -86,7 +87,7 @@
 		2A96535424335810002A93A7 /* NotificationsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96535324335810002A93A7 /* NotificationsSettingsView.swift */; };
 		2A965356243360A4002A93A7 /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A965355243360A4002A93A7 /* NotificationDelegate.swift */; };
 		2A9974D3244125BB004FF043 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D2244125BB004FF043 /* WhatsNew.swift */; };
-		2A9974D6244126CF004FF043 /* MapColorCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D5244126CF004FF043 /* MapColorCodeView.swift */; };
+		2A9974D6244126CF004FF043 /* MapColorCodeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D5244126CF004FF043 /* MapColorCodeSection.swift */; };
 		2A9974D824419E54004FF043 /* Deviation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D724419E54004FF043 /* Deviation.swift */; };
 		2A9974DA24419EAB004FF043 /* CountryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974D924419EAB004FF043 /* CountryRow.swift */; };
 		2A9974DC2441ABBE004FF043 /* CountryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9974DB2441ABBE004FF043 /* CountryList.swift */; };
@@ -256,6 +257,7 @@
 		2A74F0C42428CE7B00137694 /* CountryPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryPicker.swift; sourceTree = "<group>"; };
 		2A74F0CB2428FB3A00137694 /* CasesLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesLineChartView.swift; sourceTree = "<group>"; };
 		2A799DEE2471E2E200151270 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		2A799DF0247276CA00151270 /* UpdateSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSection.swift; sourceTree = "<group>"; };
 		2A8A50ED246AE86900047BED /* Ext+URLSession+fetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+URLSession+fetch.swift"; sourceTree = "<group>"; };
 		2A8A50EF246AEF8100047BED /* Ext+JohnHopkinsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+JohnHopkinsAPI.swift"; sourceTree = "<group>"; };
 		2A8A50F1246B2B9E00047BED /* Ext+FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+FileManager.swift"; sourceTree = "<group>"; };
@@ -268,7 +270,7 @@
 		2A96535D24336208002A93A7 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		2A96535F24336208002A93A7 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		2A9974D2244125BB004FF043 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
-		2A9974D5244126CF004FF043 /* MapColorCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapColorCodeView.swift; sourceTree = "<group>"; };
+		2A9974D5244126CF004FF043 /* MapColorCodeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapColorCodeSection.swift; sourceTree = "<group>"; };
 		2A9974D724419E54004FF043 /* Deviation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deviation.swift; sourceTree = "<group>"; };
 		2A9974D924419EAB004FF043 /* CountryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryRow.swift; sourceTree = "<group>"; };
 		2A9974DB2441ABBE004FF043 /* CountryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryList.swift; sourceTree = "<group>"; };
@@ -675,10 +677,11 @@
 			isa = PBXGroup;
 			children = (
 				2AAAC6EE242A384000C03E5B /* SettingsView.swift */,
+				2A799DF0247276CA00151270 /* UpdateSection.swift */,
 				2AE2C5142437446700CC8476 /* LineChartSettingsSection.swift */,
 				2AD39F0D244C3A2100E9B4F8 /* LineChartSettingsView.swift */,
 				2A96535324335810002A93A7 /* NotificationsSettingsView.swift */,
-				2A9974D5244126CF004FF043 /* MapColorCodeView.swift */,
+				2A9974D5244126CF004FF043 /* MapColorCodeSection.swift */,
 				2A9974E92442720B004FF043 /* PopulationView.swift */,
 				2A28BB1B24654EF50041EDD5 /* PopulationView2.swift */,
 				2A566E7524472415006BEA02 /* SelectedCountriesView.swift */,
@@ -958,7 +961,7 @@
 				2A03BF052428C04F0094852B /* CoronaStore.swift in Sources */,
 				2AD39F16244C988100E9B4F8 /* CaseType.swift in Sources */,
 				2A03BF0D2428C04F0094852B /* MapViewsOLD.swift in Sources */,
-				2A9974D6244126CF004FF043 /* MapColorCodeView.swift in Sources */,
+				2A9974D6244126CF004FF043 /* MapColorCodeSection.swift in Sources */,
 				2AE2C5382439DA8A00CC8476 /* Chart.swift in Sources */,
 				2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */,
 				2A8A50FB246B501700047BED /* Store.swift in Sources */,
@@ -1045,6 +1048,7 @@
 				2A03BF022428C04F0094852B /* CaseAnnotations.swift in Sources */,
 				2ADDD2B1246D48B500C37108 /* Ext+Array.swift in Sources */,
 				2ACF1C6E2430A7830045C531 /* CaseDataTypePicker.swift in Sources */,
+				2A799DF1247276CA00151270 /* UpdateSection.swift in Sources */,
 				2AD39F04244B2ACF00E9B4F8 /* MapHeaderCompact.swift in Sources */,
 				2A61A5F2246C200300C2C19F /* Convertor.swift in Sources */,
 				2A24A412243C6BC10097C3EB /* CG+Extensions.swift in Sources */,
