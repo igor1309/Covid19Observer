@@ -19,6 +19,7 @@ struct CasesOnMapView: View {
     @State private var selectedPlace: CaseAnnotation?
     @State private var showPlaceDetails = false
     
+    @State private var showFilterSettings = false
     @State private var showTable = false
     @State private var showDoublingTime = false
     @State private var showCasesChart = false
@@ -45,6 +46,21 @@ struct CasesOnMapView: View {
         .foregroundColor(settings.mapOptions.isFiltered ? settings.mapOptions.filterColor : .secondary)
     }
     
+    var filterSettingsButton: some View {
+        ToolBarButton(systemName: "gear") {
+            self.showFilterSettings = true
+        }
+        .sheet(isPresented: $showFilterSettings) {
+            NavigationView {
+                Form {
+                    MapColorCodeSection()
+                }
+            .navigationBarTitle("Map Filter Settings")
+            }
+            .environmentObject(self.settings)
+        }
+    }
+    
     var updateButton: some View {
         ToolBarButton(systemName: "arrow.2.circlepath") {
             self.showAlert = true
@@ -67,7 +83,8 @@ struct CasesOnMapView: View {
             
             Spacer()
             
-            updateButton
+            //updateButton
+            filterSettingsButton
         }
         .padding(.horizontal)
         .padding(.bottom, 32)

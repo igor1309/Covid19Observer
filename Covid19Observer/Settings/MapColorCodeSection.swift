@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct MapColorCodeSection: View {
-    @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
     let lowerLimits: [Int] = [100, 500, 1_000, 5_000, 10_000]
@@ -62,7 +61,6 @@ struct MapColorCodeSection_Previews: PreviewProvider {
                 MapColorCodeSection()
             }
         }
-        .environmentObject(Store())
         .environmentObject(Settings())
         .environment(\.colorScheme, .dark)
         .previewLayout(.sizeThatFits)
