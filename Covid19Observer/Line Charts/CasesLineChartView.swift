@@ -18,50 +18,51 @@ struct CasesLineChartView: View {
     
     @State private var showCountryPickerTable = false
     @State private var showTable = false
-    
-    var countryPicker: some View {
-        HStack {
-            Button(action: {
-                self.showCountryPickerTable = true
-            }) {
-                HStack {
-                    Image(systemName: "chevron.down")
-                        .font(.headline)
-                    
-                    Text(store.selectedCountry)
-                        .font(.title)
-                        .lineLimit(1)
-                        .layoutPriority(1)
+
+    var header: some View {
+        
+        var countryPicker: some View {
+            HStack {
+                Button(action: {
+                    self.showCountryPickerTable = true
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.down")
+                            .font(.headline)
+                        
+                        Text(store.selectedCountry)
+                            .font(.title)
+                            .lineLimit(1)
+                            .layoutPriority(1)
+                    }
+                }
+                .sheet(isPresented: $showCountryPickerTable) {
+                    CountryPicker()
+                        .environmentObject(self.store)
+                        .environmentObject(self.settings)
+                }
+                .layoutPriority(1)
+                
+                Spacer()
+            }
+        }
+        
+        var primeCountryToggle: some View {
+            let isInSelected = settings.primeCountries.map { $0.name }.contains(store.selectedCountry)
+            
+            return ToolBarButton(systemName: isInSelected ? "star.fill" : "star") {
+                if isInSelected {
+                    let index = self.settings.primeCountries.firstIndex { $0.name == self.store.selectedCountry }!
+                    self.settings.primeCountries.remove(at: index)
+                } else {
+                    let iso2 = self.store.countriesWithIso2[self.store.selectedCountry]!
+                    self.settings.primeCountries.append(Country(name: self.store.selectedCountry, iso2: iso2))
                 }
             }
-            .sheet(isPresented: $showCountryPickerTable) {
-                CountryPicker()
-                    .environmentObject(self.store)
-                    .environmentObject(self.settings)
-            }
-            .layoutPriority(1)
-            
-            Spacer()
+            .foregroundColor(isInSelected ? .systemOrange : .secondary)
+            .font(.subheadline)
         }
-    }
-    
-    var primeCountryToggle: some View {
-        let isInSelected = settings.primeCountries.map { $0.name }.contains(store.selectedCountry)
         
-        return ToolBarButton(systemName: isInSelected ? "star.fill" : "star") {
-            if isInSelected {
-                let index = self.settings.primeCountries.firstIndex { $0.name == self.store.selectedCountry }!
-                self.settings.primeCountries.remove(at: index)
-            } else {
-                let iso2 = self.store.countriesWithIso2[self.store.selectedCountry]!
-                self.settings.primeCountries.append(Country(name: self.store.selectedCountry, iso2: iso2))
-            }
-        }
-        .foregroundColor(isInSelected ? .systemOrange : .secondary)
-        .font(.subheadline)
-    }
-    
-    var header: some View {
         return Group {
             if forAllCountries {
                 Text("All Countries \(settings.chartOptions.dataKind.id)")
@@ -111,28 +112,6 @@ struct CasesLineChartView: View {
             .filtered(limit: settings.chartOptions.lineChartLimit)
     }
     
-    var callToUpdate: some View {
-        ZStack {
-            Color.quaternarySystemFill
-            
-            VStack {
-                Text ("No Data to display.")
-                    .foregroundColor(.secondary)
-                    .font(.headline)
-                
-                if self.settings.chartOptions.isFiltered {
-                    Text ("Please check the filter.")
-                        .foregroundColor(.secondary)
-                        .font(.headline)
-                    
-                    LineChartFilterToggle()
-                }
-                
-                SpinningWaitHistoryButton()
-            }
-        }
-    }
-    
     /// https://www.raywenderlich.com/6398124-swiftui-tutorial-for-ios-creating-charts
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -148,16 +127,20 @@ struct CasesLineChartView: View {
                     .foregroundColor(settings.chartOptions.dataKind.color)
                     .font(.footnote)
                     .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom, 3)
                 
                 ZStack(alignment: .topLeading) {
-                    HeatedLineChart(series: series)
+                    HeatedLineChart(
+                        xLabels: [],
+                        series: series
+                    )
                     
                     //    LineChartFilterToggle()
                     //        .padding(.top, 6)
                 }
                 
             } else {
-                callToUpdate
+                CallToUpdateView()
             }
         }
         .padding(.top)
@@ -186,4 +169,3 @@ struct CasesLineChartView_Previews: PreviewProvider {
         .environment(\.colorScheme, .dark)
     }
 }
-
