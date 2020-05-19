@@ -21,76 +21,19 @@ extension Store {
     }
 }
 
-extension Date {
-    func isDataOld(threshold: DateComponents) -> Bool {
-        let calendar = Calendar.autoupdatingCurrent
-        let thresholdDate = calendar.date(byAdding: threshold, to: Date())!
-        let compare = calendar.compare(thresholdDate, to: self, toGranularity: .minute)
-        return compare == .orderedDescending
-    }
-}
-
-enum SyncStatus: String {
-    case loadFailure = "⚠️ load failed"
-    case fetchFailure = "⚠️ fetch failed"
-    case loading, loaded, fetching, fetched
-    
-    private var isNotUpdating: Bool {
-        switch self {
-        case .fetchFailure, .loadFailure, .loaded, .fetched:
-            return true
-        case .loading, .fetching:
-            return false
-        }
-    }
-    
-    var isUpdating: Bool {
-        switch self {
-        case .fetchFailure, .loadFailure, .loaded, .fetched:
-            return false
-        case .loading, .fetching:
-            return true
-        }
-    }
-    
-    func syncText(kind: String, for syncDate: Date, threshold: DateComponents) -> String {
-        
-        guard self.isNotUpdating else {
-            return "…"
-        }
-        
-        if syncDate == .distantPast {
-            return "\(kind) data is missing"
-        } else if syncDate.hoursMunutesTillNow == "0min" {
-            return "\(kind) updated just now."
-        } else if syncDate.isDataOld(threshold: threshold) {
-            return "\(kind) is old (more than \(syncDate.hoursMunutesTillNowNice))."
-        } else {
-            return "Last update for \(kind) \(syncDate.hoursMunutesTillNowNice)."
-        }
-    }
-    
-    func syncColor(for syncDate: Date, threshold: DateComponents) -> Color {
-        
-        guard self.isNotUpdating else {
-            return .secondary
-        }
-        
-        if syncDate.hoursMunutesTillNow == "0min" {
-            return .systemGreen
-        } else if syncDate.isDataOld(threshold: threshold) {
-            return .systemRed
-        } else {
-            return .secondary
-        }
-    }
-}
 
 
 
 final class Store: ObservableObject {
     
     @Published var caseType = CaseType.byCountry
+    
+    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
+        didSet {
+            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
+        }
+    }
+    
     
     //  MARK: - API
     
@@ -124,48 +67,27 @@ final class Store: ObservableObject {
     //  MARK: - Extra
     
     @Published private(set) var extra = Extra(newAndCurrents: [])
+    
     //  MARK: - Outbreak
     
     @Published private(set) var outbreak = Outbreak()
-    
-    var selectedCountryOutbreak: Outbreak {
-        guard let countryCase = currentByCountry.cases.first(where: { $0.name == selectedCountry }) else { return Outbreak() }
-        guard let newAndCurrent = extra.newAndCurrents.first(where: { $0.name == selectedCountry }) else { return Outbreak() }
-        
-        let population = populationOf(country: selectedCountry)
-        
-        return Outbreak(population: population,
-                        confirmed: countryCase.confirmed,
-                        confirmedNew: newAndCurrent.confirmedNew,
-                        confirmedCurrent: newAndCurrent.confirmedCurrent,
-                        recovered: countryCase.recovered,
-                        deaths: countryCase.deaths,
-                        deathsNew: newAndCurrent.deathsNew,
-                        deathsCurrent: newAndCurrent.deathsCurrent)
-    }
     
     //  MARK: - Variations
     
     @Published var confirmedVariation = Variation(type: .confirmed, deviations: [])
     @Published var deathsVariation = Variation(type: .deaths, deviations: [])
     
-    @Published var selectedCountry: String = UserDefaults.standard.string(forKey: "selectedCountry") ?? "Russia" {
-        didSet {
-            UserDefaults.standard.set(selectedCountry, forKey: "selectedCountry")
-        }
-    }
-    
     //  MARK: - Fetch Triggers, Status and Flags
     
-    private let currentUpdateRequested = PassthroughSubject<String, Never>()
-    private let historyUpdateRequested = PassthroughSubject<String, Never>()
+    private let currentUpdateRequested = PassthroughSubject<Void, Never>()
+    private let historyUpdateRequested = PassthroughSubject<Void, Never>()
     
     enum Corona: Hashable {
         case current(CurrentType)
         case history(HistoryType)
     }
     @Published var syncStatus = [Corona: SyncStatus]()
-
+    
     @Published private(set) var currentIsUpdating = false
     @Published private(set) var historyIsUpdating = false
     
@@ -208,17 +130,21 @@ final class Store: ObservableObject {
 extension Store {
     
     //  MARK: - Fetch
+    
+    //  Current
     func fetchCurrent() {
         currentIsUpdating = true
         syncStatus[.current(.byCountry)] = .fetching
         syncStatus[.current(.byRegion)] = .fetching
-        currentUpdateRequested.send("update")
+        currentUpdateRequested.send()
     }
+    
+    //  History
     func fetchHistory() {
         historyIsUpdating = true
         syncStatus[.history(.confirmed)] = .fetching
         syncStatus[.history(.deaths)] = .fetching
-        historyUpdateRequested.send("update")
+        historyUpdateRequested.send()
     }
     
     //  MARK: - Create Subscriptions
@@ -241,15 +167,15 @@ extension Store {
                         print("JSON loaded from \(history.type.filename) OK")
                         self?.syncStatus[.history(history.type)] = .loaded
                     }
-                }, receiveValue:  {
-                    [weak self] in
-                    switch history.type {
-                    case .confirmed:
-                        self?.confirmedHistory = $0
-                    case .deaths:
-                        self?.deathsHistory = $0
-                    }
-                    self?.syncStatus[.history(history.type)] = .loaded
+                    }, receiveValue:  {
+                        [weak self] in
+                        switch history.type {
+                        case .confirmed:
+                            self?.confirmedHistory = $0
+                        case .deaths:
+                            self?.deathsHistory = $0
+                        }
+                        self?.syncStatus[.history(history.type)] = .loaded
                 })
                 .store(in: &cancellables)
         }
@@ -269,15 +195,15 @@ extension Store {
                         print("JSON loaded from \(current.type.filename) OK")
                         self?.syncStatus[.current(current.type)] = .loaded
                     }
-                }, receiveValue:  {
-                    [weak self] in
-                    switch current.type {
-                    case .byCountry:
-                        self?.currentByCountry = $0
-                    case .byRegion:
-                        self?.currentByRegion = $0
-                    }
-                    self?.syncStatus[.current(current.type)] = .loaded
+                    }, receiveValue:  {
+                        [weak self] in
+                        switch current.type {
+                        case .byCountry:
+                            self?.currentByCountry = $0
+                        case .byRegion:
+                            self?.currentByRegion = $0
+                        }
+                        self?.syncStatus[.current(current.type)] = .loaded
                 })
                 .store(in: &cancellables)
         }
@@ -290,29 +216,27 @@ extension Store {
         for history in [confirmedHistory, deathsHistory] {
             historyUpdateRequested
                 .setFailureType(to: Error.self)
-                .flatMap { _ in
-                    self.coronaAPI.fetchHistorical(type: history.type)
-            }
-            .subscribe(on: DispatchQueue.global())
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                switch completion {
-                case let .failure(error):
-                    print("\(history.type.rawValue) history fetching error: \(error)")
-                case .finished:
-                    print("updating \(history.type.rawValue) history OK")
-                }
-                self?.syncStatus[.history(history.type)] = .fetchFailure
-                }, receiveValue: {
-                    [weak self] in
-                    switch history.type {
-                    case .confirmed:
-                        self?.confirmedHistory = $0
-                    case .deaths:
-                        self?.deathsHistory = $0
+                .flatMap { self.coronaAPI.fetchHistorical(type: history.type) }
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { [weak self] completion in
+                    switch completion {
+                    case let .failure(error):
+                        print("\(history.type.rawValue) history fetching error: \(error)")
+                    case .finished:
+                        print("updating \(history.type.rawValue) history OK")
                     }
-                    self?.syncStatus[.history(history.type)] = .fetched
-            })
+                    self?.syncStatus[.history(history.type)] = .fetchFailure
+                    }, receiveValue: {
+                        [weak self] in
+                        switch history.type {
+                        case .confirmed:
+                            self?.confirmedHistory = $0
+                        case .deaths:
+                            self?.deathsHistory = $0
+                        }
+                        self?.syncStatus[.history(history.type)] = .fetched
+                })
                 .store(in: &cancellables)
         }
         
@@ -320,30 +244,28 @@ extension Store {
         for current in [currentByCountry, currentByRegion] {
             currentUpdateRequested
                 .setFailureType(to: Error.self)
-                .flatMap { _ in
-                    self.coronaAPI.fetchCurrent(type: current.type)
-            }
-            .subscribe(on: DispatchQueue.global())
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                switch completion {
-                case let .failure(error):
-                    print("current \(current.type.rawValue) fetching error: \(error)")
-                case .finished:
-                    print("updating current of \(current.type.rawValue) OK")
-                }
-                self?.syncStatus[.current(current.type)] = .fetchFailure
-                }, receiveValue: {
-                    [weak self] in
-                    switch current.type {
-                    case .byCountry:
-                        self?.currentByCountry = $0
-                    case .byRegion:
-                        self?.currentByRegion = $0
+                .flatMap {  self.coronaAPI.fetchCurrent(type: current.type) }
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { [weak self] completion in
+                    switch completion {
+                    case let .failure(error):
+                        print("current \(current.type.rawValue) fetching error: \(error)")
+                    case .finished:
+                        print("updating current of \(current.type.rawValue) OK")
                     }
-                    self?.syncStatus[.current(current.type)] = .fetched
-                    self?.currentIsUpdating = false
-            })
+                    self?.syncStatus[.current(current.type)] = .fetchFailure
+                    }, receiveValue: {
+                        [weak self] in
+                        switch current.type {
+                        case .byCountry:
+                            self?.currentByCountry = $0
+                        case .byRegion:
+                            self?.currentByRegion = $0
+                        }
+                        self?.syncStatus[.current(current.type)] = .fetched
+                        self?.currentIsUpdating = false
+                })
                 .store(in: &cancellables)
         }
         
@@ -434,6 +356,7 @@ extension Store {
         .store(in: &cancellables)
         
         //  MARK: Status isUpdating
+        
         //  History
         $syncStatus
             .compactMap { $0[.history(.confirmed)] }
@@ -487,15 +410,21 @@ extension Store {
 }
 
 extension Store {
-    var selectedCountryPopulation: Int {
-        /// страна если uid < 1000
-        if let pop = population
-            .first(where: { $0.countryRegion == selectedCountry && $0.uid < 1000 })?
-            .population {
-            return pop
-        } else {
-            return 1
-        }
+    
+    var selectedCountryOutbreak: Outbreak {
+        guard let countryCase = currentByCountry.cases.first(where: { $0.name == selectedCountry }) else { return Outbreak() }
+        guard let newAndCurrent = extra.newAndCurrents.first(where: { $0.name == selectedCountry }) else { return Outbreak() }
+        
+        let population = populationOf(country: selectedCountry)
+        
+        return Outbreak(population: population,
+                        confirmed: countryCase.confirmed,
+                        confirmedNew: newAndCurrent.confirmedNew,
+                        confirmedCurrent: newAndCurrent.confirmedCurrent,
+                        recovered: countryCase.recovered,
+                        deaths: countryCase.deaths,
+                        deathsNew: newAndCurrent.deathsNew,
+                        deathsCurrent: newAndCurrent.deathsCurrent)
     }
     
     /// Return population for the country and for the world if country is nil. `Regions and territories are not yet supported`.

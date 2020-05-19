@@ -12,8 +12,12 @@ extension Store {
         let confirmed = confirmedHistory.allCountriesTotals
         let deaths = deathsHistory.allCountriesTotals
         
+        guard confirmed.isNotEmpty else {
+            return []
+        }
+        
         var allCFR = [Int]()
-        for i in 00..<confirmed.count {
+        for i in 0..<confirmed.count {
             //  MARK: FINISH THIS
             //  ГРАФИКЕ СТРОЯТСЯ ПО [Int] нужно переходить к CGFloat
             let cfr = confirmed[i] == 0 ? 0 : 100 * 100 * deaths[i] / confirmed[i]

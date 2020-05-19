@@ -26,7 +26,7 @@ struct Home: View {
     var lineChart: some View {
         Group {
             if sizeClass == .compact {
-                CasesLineChartView(forAllCountries: false)
+                CountryLineChartView()
             } else {
                 MapWithLineChartView()
             }

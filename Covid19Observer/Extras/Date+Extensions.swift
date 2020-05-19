@@ -9,6 +9,14 @@
 import Foundation
 
 extension Date {
+    
+    public func isDataOld(threshold: DateComponents) -> Bool {
+        let calendar = Calendar.autoupdatingCurrent
+        let thresholdDate = calendar.date(byAdding: threshold, to: Date())!
+        let compare = calendar.compare(thresholdDate, to: self, toGranularity: .minute)
+        return compare == .orderedDescending
+    }
+    
     public var hoursMunutesTillNow: String {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .brief

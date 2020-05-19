@@ -12,6 +12,7 @@ import SwiftPI
 struct HeatedLineChart: View {
     @EnvironmentObject var settings: Settings
     
+    let xLabels: [String]
     let series: [Int]
     let lineWidth: CGFloat = 4
     let dotDiameter: CGFloat = 2
@@ -30,7 +31,6 @@ struct HeatedLineChart: View {
         return pointSeries
     }
     
-    
     var movingAvgPoints: [CGPoint] {
         guard points.isNotEmpty else { return [] }
         
@@ -43,7 +43,6 @@ struct HeatedLineChart: View {
         }
         return maPoints
     }
-    
     
     let heatGradient = LinearGradient(gradient: Gradient.temperetureGradient,
                                       startPoint: .bottom,
@@ -69,7 +68,7 @@ struct HeatedLineChart: View {
                                     style: StrokeStyle(lineWidth: 3,
                                                        lineCap: .round,
                                                        lineJoin: .round))
-//                            .opacity(0.75)
+                        //      .opacity(0.75)
                         
                         LineChart(points: points, plotArea: plotArea)
                             .trim(to: animated ? 1 : 0)
@@ -109,16 +108,7 @@ struct HeatedLineChart: View {
                     }
                 }
             } else {
-                ZStack {
-                    Color.quaternarySystemFill
-                    VStack {
-                        Text("No Data to display.\nPlease check the Filter.")
-                            .foregroundColor(.secondary)
-                            .font(.headline)
-                        
-                        LineChartFilterToggle()
-                    }
-                }
+                CallToUpdateView()
             }
         }
     }
@@ -129,7 +119,10 @@ struct HeatedLineChart_Previews: PreviewProvider {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
             
-            HeatedLineChart(series:            [833,977,1261,1766,2337,3150,3736,4335,5186,5621,6088,6593,7041,7314,7478,7513,7755,7869,7979,8086,8162,8236])
+            HeatedLineChart(
+                xLabels: [],
+                series:            [833,977,1261,1766,2337,3150,3736,4335,5186,5621,6088,6593,7041,7314,7478,7513,7755,7869,7979,8086,8162,8236]
+            )
                 //            .border(Color.pink)
                 .padding()
         }

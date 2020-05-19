@@ -148,7 +148,7 @@ struct PopulationView2: View {
                 }
             }
             .sheet(isPresented: self.$showLineChart) {
-                CasesLineChartView(forAllCountries: false)
+                CountryLineChartSheet()
                     .environmentObject(self.coronaStore)
                     .environmentObject(self.settings)
             }

@@ -100,7 +100,7 @@ struct WhatsNew: View {
                 .roundedBackground(cornerRadius: 8, color: cardColor)
             }
             .sheet(isPresented: $showLineChart) {
-                CasesLineChartView(forAllCountries: true)
+                AllCountriesLineChartView()
                     .environmentObject(self.store)
                     .environmentObject(self.settings)
             }

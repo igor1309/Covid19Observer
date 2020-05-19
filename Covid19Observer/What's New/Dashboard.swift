@@ -102,7 +102,7 @@ struct Dashboard: View {
         }
         .padding(forAllCountries ? .all : .trailing)
         .sheet(isPresented: forAllCountries ? $showChart : .constant(false)) {
-            CasesLineChartView(forAllCountries: true)
+            AllCountriesLineChartView()
                 .environmentObject(self.store)
                 .environmentObject(self.settings)
         }
