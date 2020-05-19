@@ -40,8 +40,11 @@ struct CallToUpdateView_Previews: PreviewProvider {
             Color.black.edgesIgnoringSafeArea(.all)
             
             CallToUpdateView()
+                
+                .padding()
         }
         .environmentObject(Settings())
+        .environmentObject(Store())
         .environment(\.colorScheme, .dark)
     }
 }

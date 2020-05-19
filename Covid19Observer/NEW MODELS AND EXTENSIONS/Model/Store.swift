@@ -34,6 +34,7 @@ final class Store: ObservableObject {
         }
     }
     
+    @Published var selectedCountryDataSet = DataSet()
     
     //  MARK: - API
     
@@ -374,6 +375,21 @@ extension Store {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.currentIsUpdating = $0.isUpdating
+        }
+        .store(in: &cancellables)
+        
+        //  MARK: Update selectedCountryDataSet Subscription
+        Publishers.CombineLatest3(
+            $selectedCountry,
+            $confirmedHistory,
+            $deathsHistory
+        )
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (country, confirmed, deaths) in
+                self?.selectedCountryDataSet = DataSet(
+                    country: country, confirmed: confirmed, deaths: deaths
+                )
         }
         .store(in: &cancellables)
     }

@@ -22,6 +22,16 @@ struct CountryLineChartView: View {
     @State private var showCountryPickerTable = false
     @State private var showTable = false
     
+    var dataSet: DataSet {
+        store
+            .selectedCountryDataSet
+        
+//        DataSet(name: "some country",
+//                xLabels: [],
+//                series: [settings.chartOptions.dataKind: series]
+//        )
+    }
+    
     var series: [Int] {
         store
             .series(for: settings.chartOptions.dataKind,
@@ -104,15 +114,8 @@ struct CountryLineChartView: View {
             
             header
             
-            LineChartWithDataKindPicker(
-                dataKind: $settings.chartOptions.dataKind,
-                dataSet: DataSet(name: "some country",
-                                 xLabels: [],
-                                 series: [settings.chartOptions.dataKind: series]
-                )
-            )
+            LineChartWithDataKindPicker(dataKind: $settings.chartOptions.dataKind, dataSet: dataSet)
         }
-//        .padding(.top)
         .padding(.horizontal)
     }
 }
