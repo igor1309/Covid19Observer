@@ -14,11 +14,22 @@ struct TestingTapPointerWithHeatedLineChart: View {
     @EnvironmentObject var settings: Settings
     
     @State private var selectedData = "change"
+    
     var series: [Int] {
+        let limit = Int(settings.chartOptions.lineChartLimit)
+        
         if selectedData == "change" {
-            return coronaStore.confirmedHistory.dailyChange(for: coronaStore.selectedCountry).filtered(limit: settings.chartOptions.isFiltered ? settings.chartOptions.confirmedLimit : 0)
+            return Array(
+                coronaStore.confirmedHistory
+                    .dailyChange(for: coronaStore.selectedCountry)
+                    .drop(while: { $0 < limit })
+            )
         } else {
-            return coronaStore.confirmedHistory.series(for: coronaStore.selectedCountry).filtered(limit: settings.chartOptions.isFiltered ? settings.chartOptions.confirmedLimit : 0)
+            return Array(
+                coronaStore.confirmedHistory
+                    .series(for: coronaStore.selectedCountry)
+                    .drop(while: { $0 < limit })
+            )
         }
     }
     

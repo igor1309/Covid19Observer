@@ -306,7 +306,7 @@ struct NotificationSettingsSection: View {
             }
         case .notDetermined:
             self.status = .notDetermined
-        case .denied:
+        case .denied, .ephemeral:
             self.status = .denied
         @unknown default:
             self.status = .denied

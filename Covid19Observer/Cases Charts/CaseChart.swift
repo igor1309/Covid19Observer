@@ -33,7 +33,7 @@ struct CaseChart: View {
                 ForEach([0.1, 0.2, 0.3], id: \.self) { step in
                     LeftVerticalLine()
                         .stroke(Color.systemGray3, style: StrokeStyle(lineWidth: 0.5, lineCap: .round, lineJoin: .round, dash: [10, 5]))
-                        .offset(x: self.width / maximum * step)
+                        .offset(x: self.width / maximum * CGFloat(step))
                 }
                 
                 ///  global average CFR line

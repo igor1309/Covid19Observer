@@ -36,9 +36,9 @@ struct PopulationView2: View {
                 .imageScale(.small)
                 .foregroundColor(.tertiary)
             
-            TextField("Type to search", text: $populationStore.query) {
+            TextField("Type to search", text: $populationStore.query, onCommit:  {
                 print(self.$populationStore.query)
-            }
+            })
             
             populationStore.query.isNotEmpty
                 ? Button(action: {

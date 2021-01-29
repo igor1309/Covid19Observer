@@ -13,7 +13,7 @@ struct HeatedLineChart: View {
     @EnvironmentObject var settings: Settings
     
     let xLabels: [String]
-    let series: [Int]
+    let series: [CGFloat]
     let lineWidth: CGFloat = 4
     let dotDiameter: CGFloat = 2
     

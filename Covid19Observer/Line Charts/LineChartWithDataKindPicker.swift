@@ -13,8 +13,10 @@ struct LineChartWithDataKindPicker: View {
     
     var dataSet: DataSet
     
+    let limitFirstBy: CGFloat
+    
     var body: some View {
-        let series = dataSet.series[dataKind] ?? []
+        let series = Array((dataSet.series[dataKind] ?? []).drop(while: { $0 < limitFirstBy }))
         
         return VStack(alignment: .leading, spacing: 8) {
             if series.isNotEmpty {
@@ -28,8 +30,8 @@ struct LineChartWithDataKindPicker: View {
                 
                 ZStack(alignment: .topLeading) {
                     HeatedLineChart(
-                        xLabels: dataSet.xLabels,
-                        series: series
+                        xLabels: dataSet.chartSource(for: dataKind, limitFirstBy: limitFirstBy).xLabels,
+                        series: dataSet.chartSource(for: dataKind, limitFirstBy: limitFirstBy).yValues
                     )
                     
                     ///  MARK: old version used special filter toggle button
@@ -54,7 +56,8 @@ struct LineChartWithDataKindPickerTester: View {
             dataKind: $dataKind,
             dataSet: DataSet(name: "some country",
                              xLabels: [],
-                             series: [.confirmedDaily: [200,300,500,700,1200,900, 1300, 800, 500]])
+                             series: [.confirmedDaily: [200,300,500,700,1200,900, 1300, 800, 500]]),
+            limitFirstBy: 400
         )
             .padding(.horizontal)
             .environmentObject(Store())

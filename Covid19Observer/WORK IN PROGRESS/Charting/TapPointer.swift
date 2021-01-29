@@ -97,9 +97,13 @@ struct TapPointer: View {
         }
         
         var legend: some View {
-            VStack(alignment: .leading) {
+            let yStr = nearestPoint.y < 10
+            ? Double(nearestPoint.y).formattedPercentageWithDecimals
+            : Double(nearestPoint.y).formattedGrouped
+            
+           return VStack(alignment: .leading) {
                 Text("x: " + Double(nearestPoint.x).formattedGrouped)
-                Text("y: " + Double(nearestPoint.y).formattedGrouped)
+                Text("y: " + yStr)
             }
             .contentShape(Rectangle())
             .foregroundColor(.secondary)

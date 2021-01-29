@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct ChartOptions: Codable {
     var dataKind: DataKind = .confirmedDaily
@@ -14,13 +15,14 @@ struct ChartOptions: Codable {
     var appendCurrent: Bool = false
     
     var isFiltered: Bool = false
-    var confirmedLimit: Int = 50
-    var deathsLimit: Int = 10
+    var confirmedLimit: CGFloat = 50
+    var deathsLimit: CGFloat = 10
+    var cfrLimit: CGFloat = 1 / 100 / 100
     
-    var lineChartLimit: Int {
+    var lineChartLimit: CGFloat {
         switch dataKind {
         case .cfr:
-            return 0
+            return isFiltered ? cfrLimit : 0
         case .deathsTotal, .deathsDaily:
             return isFiltered ? deathsLimit : 0
         default:

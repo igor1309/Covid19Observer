@@ -150,7 +150,6 @@
 		2AE2C4BD2435E26500CC8476 /* SwipeableCasesCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */; };
 		2AE2C50B243721A900CC8476 /* NotificationsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */; };
 		2AE2C50D243723B800CC8476 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C50C243723B800CC8476 /* Date+Extensions.swift */; };
-		2AE2C5132437417E00CC8476 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5122437417E00CC8476 /* Array+Extension.swift */; };
 		2AE2C5152437446700CC8476 /* LineChartSettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5142437446700CC8476 /* LineChartSettingsSection.swift */; };
 		2AE2C5292438762500CC8476 /* LeftVerticalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C5282438762500CC8476 /* LeftVerticalLine.swift */; };
 		2AE2C52D24389DC100CC8476 /* MovingCrossHair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */; };
@@ -338,7 +337,6 @@
 		2AE2C4BC2435E26500CC8476 /* SwipeableCasesCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCasesCharts.swift; sourceTree = "<group>"; };
 		2AE2C50A243721A900CC8476 /* NotificationsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettings.swift; sourceTree = "<group>"; };
 		2AE2C50C243723B800CC8476 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
-		2AE2C5122437417E00CC8476 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		2AE2C5142437446700CC8476 /* LineChartSettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartSettingsSection.swift; sourceTree = "<group>"; };
 		2AE2C5282438762500CC8476 /* LeftVerticalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftVerticalLine.swift; sourceTree = "<group>"; };
 		2AE2C52C24389DC100CC8476 /* MovingCrossHair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingCrossHair.swift; sourceTree = "<group>"; };
@@ -480,7 +478,6 @@
 				2A03BEF92428C04F0094852B /* PreferenceKeys.swift */,
 				2A03BEFA2428C04F0094852B /* Extension+View.swift */,
 				2AE2C50C243723B800CC8476 /* Date+Extensions.swift */,
-				2AE2C5122437417E00CC8476 /* Array+Extension.swift */,
 				2A9974E7244270FC004FF043 /* Bundle+Extension.swift */,
 				2AD39F1D244DC54900E9B4F8 /* ObjectSavable.swift */,
 			);
@@ -913,7 +910,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Igor Malyarov";
 				TargetAttributes = {
 					2A03BED52428BC6F0094852B = {
@@ -1002,7 +999,6 @@
 				2AD39F12244C6A8C00E9B4F8 /* DataKind.swift in Sources */,
 				2AC7EB93243E634E00454FFA /* Axis.swift in Sources */,
 				2AD39F08244B95FA00E9B4F8 /* CasesChartWidget.swift in Sources */,
-				2AE2C5132437417E00CC8476 /* Array+Extension.swift in Sources */,
 				2AD39F9D244F32CA00E9B4F8 /* TestLocalJSONPublisher.swift in Sources */,
 				2AD9C915246FE6EF00E8C16D /* SpinningWaitHistoryButton.swift in Sources */,
 				2AC7EB8F243DCEC900454FFA /* Gradient+Extension.swift in Sources */,
@@ -1165,6 +1161,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1189,7 +1186,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1225,6 +1222,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1243,7 +1241,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1268,7 +1266,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;
@@ -1291,7 +1289,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.Covid19Observer;
 				PRODUCT_NAME = "C19 Observer";
 				SWIFT_VERSION = 5.0;

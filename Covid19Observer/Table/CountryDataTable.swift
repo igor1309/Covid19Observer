@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SwiftPI
 
 extension Collection {
     func enumeratedArray() -> Array<(offset: Int, element: Self.Element)> {
@@ -17,7 +18,7 @@ extension Collection {
 struct CountryDataTable: View {
     @EnvironmentObject var store: Store
     
-    var series: [Int]
+    var series: [CGFloat]
     
     var body: some View {
         let count = series.count

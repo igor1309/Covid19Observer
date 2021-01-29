@@ -55,9 +55,9 @@ struct PopulationView: View {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.tertiary)
             
-            TextField("Type to search", text: $searchText) {
+            TextField("Type to search", text: $searchText, onCommit:  {
                 print(self.$searchText)
-            }
+            })
             
             searchText.isNotEmpty
                 ? Button(action: {

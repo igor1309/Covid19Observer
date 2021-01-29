@@ -6,6 +6,8 @@
 //  Copyright © 2020 Igor Malyarov. All rights reserved.
 //
 
+import SwiftUI
+
 extension Store {
     
     var allCountriesCFR: [Int] {
@@ -20,26 +22,26 @@ extension Store {
         for i in 0..<confirmed.count {
             //  MARK: FINISH THIS
             //  ГРАФИКЕ СТРОЯТСЯ ПО [Int] нужно переходить к CGFloat
-            let cfr = confirmed[i] == 0 ? 0 : 100 * 100 * deaths[i] / confirmed[i]
+            let cfr = confirmed[i] == 0 ? 0 : 100 * deaths[i] / confirmed[i]
             allCFR.append(cfr)
         }
         return allCFR
     }
     
-    func series(for dataKind: DataKind, appendCurrent: Bool, forAllCountries: Bool = false) -> [Int] {
+    func series(for dataKind: DataKind, appendCurrent: Bool, forAllCountries: Bool = false) -> [CGFloat] {
         
         if forAllCountries {
             switch dataKind {
             case .confirmedTotal:
-                return confirmedHistory.allCountriesTotals
+                return confirmedHistory.allCountriesTotals.map { CGFloat($0) }
             case .confirmedDaily:
-                return confirmedHistory.allCountriesDailyChange
+                return confirmedHistory.allCountriesDailyChange.map { CGFloat($0) }
             case .deathsTotal:
-                return deathsHistory.allCountriesTotals
+                return deathsHistory.allCountriesTotals.map { CGFloat($0) }
             case .deathsDaily:
-                return deathsHistory.allCountriesDailyChange
+                return deathsHistory.allCountriesDailyChange.map { CGFloat($0) }
             case .cfr:
-                return allCountriesCFR
+                return zip(confirmedHistory.allCountriesTotals, deathsHistory.allCountriesTotals).map { $0 == 0 ? 0 : CGFloat($1) / CGFloat($0) }
             }
         } else {
             var series: [Int]
@@ -72,12 +74,12 @@ extension Store {
             case .cfr:
                 //  MARK: FIX THIS
                 //
-                return allCountriesCFR
+                return allCountriesCFR.map { CGFloat($0) }
             }
             
             //  MARK: negative values crash charts
             //
-            return series.filter { $0 >= 0 }
+            return series.filter { $0 >= 0 }.map { CGFloat($0) }
         }
     }
     

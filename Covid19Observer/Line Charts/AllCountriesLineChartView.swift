@@ -12,12 +12,14 @@ struct AllCountriesLineChartView: View {
     @EnvironmentObject var store: Store
     @EnvironmentObject var settings: Settings
     
-    var series: [Int] {
-        store
-            .series(for: settings.chartOptions.dataKind,
-                    appendCurrent: settings.chartOptions.appendCurrent,
-                    forAllCountries: true)
-            .filtered(limit: settings.chartOptions.lineChartLimit)
+    var series: [CGFloat] {
+        Array(
+            store
+                .series(for: settings.chartOptions.dataKind,
+                        appendCurrent: settings.chartOptions.appendCurrent,
+                        forAllCountries: true)
+                .drop(while: { $0 < settings.chartOptions.lineChartLimit })
+        )
     }
     
     var header: some View {
@@ -46,7 +48,8 @@ struct AllCountriesLineChartView: View {
                 dataSet: DataSet(name: "some country",
                                  xLabels: [],
                                  series: [settings.chartOptions.dataKind: series]
-                )
+                ),
+                limitFirstBy: settings.chartOptions.lineChartLimit
             )
         }
         .padding(.top)

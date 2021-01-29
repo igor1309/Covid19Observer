@@ -46,7 +46,7 @@ struct Table: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 VStack(spacing: 0) {
-                    ForEach(cells.indices, id: \.self) { row in
+                    ForEach(cells.indices) { row in
                         HStack(spacing: 0) {
                             ForEach(self.cells[row].indices, id: \.self) { col in
                                 self.cellFor(row: row, col: col)

@@ -22,22 +22,16 @@ struct CountryLineChartView: View {
     @State private var showCountryPickerTable = false
     @State private var showTable = false
     
-    var dataSet: DataSet {
-        store
-            .selectedCountryDataSet
-        
-//        DataSet(name: "some country",
-//                xLabels: [],
-//                series: [settings.chartOptions.dataKind: series]
-//        )
-    }
+    var dataSet: DataSet { store.selectedCountryDataSet }
     
-    var series: [Int] {
-        store
-            .series(for: settings.chartOptions.dataKind,
-                    appendCurrent: settings.chartOptions.appendCurrent,
-                    forAllCountries: false)
-            .filtered(limit: settings.chartOptions.lineChartLimit)
+    var series: [CGFloat] {
+        Array(
+            store
+                .series(for: settings.chartOptions.dataKind,
+                        appendCurrent: settings.chartOptions.appendCurrent,
+                        forAllCountries: false)
+                .drop(while: { $0 < settings.chartOptions.lineChartLimit })
+        )
     }
     
     var countryPicker: some View {
@@ -114,7 +108,7 @@ struct CountryLineChartView: View {
             
             header
             
-            LineChartWithDataKindPicker(dataKind: $settings.chartOptions.dataKind, dataSet: dataSet)
+            LineChartWithDataKindPicker(dataKind: $settings.chartOptions.dataKind, dataSet: dataSet, limitFirstBy: settings.chartOptions.lineChartLimit)
         }
         .padding(.horizontal)
     }
